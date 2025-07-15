@@ -1059,6 +1059,18 @@
       <Project>{9bf019d8-625f-d918-8b8d-715ee6ebabfc}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="AssetUsageDetector.Editor.csproj">
+      <Project>{66a12c40-62be-6045-71e7-4f9c0cf928c1}</Project>
+      <Name>AssetUsageDetector.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="IngameDebugConsole.Runtime.csproj">
+      <Project>{8c2609a4-8d20-f8a7-c8b3-fc131c9f191c}</Project>
+      <Name>IngameDebugConsole.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="IngameDebugConsole.Editor.csproj">
+      <Project>{f2960eb0-ccee-b8af-a8e5-e5a22ef404ad}</Project>
+      <Name>IngameDebugConsole.Editor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
