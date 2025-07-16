@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-namespace Player
+namespace Movement
 {
     public class MovementController : MonoBehaviour
     {
         [Range(0, 100)]
         public float _mouseSensitivity = 15f;
         [Range(0f, 200f)]
-        private float _snappiness = 100f;
+        public float _snappiness = 100f;
         [Range(0f, 20f)]
         public float _walkSpeed = 10f;
         [Range(0f, 30f)]
