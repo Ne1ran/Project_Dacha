@@ -1,4 +1,4 @@
-﻿namespace Utils
+﻿namespace Game.Utils
 {
     public static class VectorUtils
     {

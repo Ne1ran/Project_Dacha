@@ -1,4 +1,4 @@
-﻿namespace Player
+﻿namespace Game.Player
 {
     public class PlayerController
     {

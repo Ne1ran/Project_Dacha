@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core.Utils
+namespace Game.Utils
 {
     public static class MonoBehaviourUtils
     {

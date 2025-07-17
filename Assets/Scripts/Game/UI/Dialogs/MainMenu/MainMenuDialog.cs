@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-namespace UI.Dialogs.MainMenu
+namespace Game.UI.Dialogs.MainMenu
 {
     [PrefabPath("UI/Dialogs/MainMenu/MainMenuDialog")]
     public class MainMenuDialog : MonoBehaviour

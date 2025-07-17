@@ -1,7 +1,7 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 
-namespace UI.Components
+namespace Game.UI.Components
 {
     public class EndlessRotationComponent : MonoBehaviour
     {
