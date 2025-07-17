@@ -8,7 +8,7 @@ using VContainer;
 
 namespace UI.Dialogs.MainMenu
 {
-    [PrefabPath("UI/Dialogs/MainMenuDialog")]
+    [PrefabPath("UI/Dialogs/MainMenu/MainMenuDialog")]
     public class MainMenuDialog : MonoBehaviour
     {
         [ComponentBinding("PlayButton")]
@@ -37,24 +37,18 @@ namespace UI.Dialogs.MainMenu
 
         private void OnStartClicked()
         {
-            StartGame().Forget();
-
-            async UniTask StartGame()
-            {
-                _playButton.interactable = false;
-                await _sceneService.LoadSceneAsync(SceneUtils.COUNTRY_HOUSE_SCENE);
-                _playButton.interactable = true;
-            }
+            _playButton.interactable = false;
+            _sceneService.LoadSceneAsync(SceneUtils.DACHA_SCENE).Forget();
         }
 
         private void OnSettingsClicked()
         {
-            Debug.Log("Settings");
+            Debug.Log("You want to much for now... Pressed Settings");
         }
 
         private void OnExitClicked()
         {
-            Debug.Log("Exit");
+            Debug.Log("There is no escape from dacha. Only compost. Pressed Exit");
         }
     }
 }

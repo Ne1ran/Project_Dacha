@@ -6,13 +6,13 @@ namespace Core.Resources.Service
     public class AddressablesResourceService : IResourceService
     {
         public T Instantiate<T>(Transform parent = null)
-                where T : MonoBehaviour
+                where T : Component
         {
             throw new System.NotImplementedException();
         }
 
         public UniTask<T> LoadObjectAsync<T>(Transform parent = null)
-                where T : MonoBehaviour
+                where T : Component
         {
             throw new System.NotImplementedException();
         }
@@ -23,7 +23,7 @@ namespace Core.Resources.Service
         }
 
         public void Release<T>(T obj)
-                where T : MonoBehaviour
+                where T : Component
         {
             throw new System.NotImplementedException();
         }

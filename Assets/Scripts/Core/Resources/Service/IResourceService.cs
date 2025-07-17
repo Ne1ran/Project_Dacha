@@ -6,14 +6,14 @@ namespace Core.Resources.Service
     public interface IResourceService
     {
         T Instantiate<T>(Transform parent = null)
-                where T : MonoBehaviour;
+                where T : Component;
 
         UniTask<T> LoadObjectAsync<T>(Transform parent = null)
-                where T : MonoBehaviour;
+                where T : Component;
 
         void Release(GameObject obj);
 
         void Release<T>(T obj)
-                where T : MonoBehaviour;
+                where T : Component;
     }
 }

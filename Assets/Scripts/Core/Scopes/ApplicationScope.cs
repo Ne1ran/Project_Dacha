@@ -1,5 +1,5 @@
-﻿using Core.Resources.Service;
-using Core.Scene;
+﻿using Core.EntryPoints;
+using Core.Resources.Service;
 using Core.Scene.Service;
 using Core.UI.Service;
 using MessagePipe;
@@ -12,11 +12,14 @@ namespace Core.Scopes
     {
         protected override void Configure(IContainerBuilder builder)
         {
+            AppContext.ApplicationScope = this;
+            AppContext.CurrentScope = this;
+            
             builder.Register<IResourceService, ResourceService>(Lifetime.Singleton);
             builder.Register<SceneService>(Lifetime.Singleton);
-            builder.RegisterComponentInHierarchy<GameApplication>();
             builder.RegisterMessagePipe();
             builder.Register<UIService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.RegisterComponentInHierarchy<GameApplicationEntryPoint>();
         }
-    }
+    } 
 }

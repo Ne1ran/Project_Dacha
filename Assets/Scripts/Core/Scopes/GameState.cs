@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Core.Scopes
 {
     public enum GameState
     {
@@ -6,5 +6,7 @@
         RUNNING = 1,
         RESTARTING = 2,
         QUITING = 3
+        
+        // todo neiran impl if needed
     }
 }

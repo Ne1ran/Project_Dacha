@@ -5,9 +5,9 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 
-namespace Core
+namespace Core.EntryPoints
 {
-    public class GameApplication : MonoBehaviour
+    public class GameApplicationEntryPoint : MonoBehaviour
     {
         [Inject]
         private SceneService _sceneService = null!;
@@ -15,9 +15,7 @@ namespace Core
         private void Awake()
         {
             Debug.Log("Starting Game Application");
-            
             DontDestroyOnLoad(this);
-            
             InitializeAsync(destroyCancellationToken).Forget();
         }
 

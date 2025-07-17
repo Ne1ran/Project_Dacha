@@ -1,7 +1,15 @@
-﻿namespace Core.Scopes
+﻿using Core.EntryPoints;
+using VContainer;
+using VContainer.Unity;
+
+namespace Core.Scopes
 {
-    public class RailRoadScope
+    public class RailRoadScope : LifetimeScope
     {
-        
+        protected override void Configure(IContainerBuilder builder)
+        {
+            AppContext.CurrentScope = this;
+            builder.RegisterComponentInHierarchy<RailRoadEntryPoint>();
+        }
     }
 }

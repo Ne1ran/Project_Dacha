@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Core.Attributes;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Binding.Binding;
 using Cysharp.Threading.Tasks;
@@ -12,6 +13,7 @@ using Object = UnityEngine.Object;
 
 namespace Core.Resources.Service
 {
+    [Service]
     public class ResourceService : IResourceService
     {
         private readonly IObjectResolver _objectResolver;
@@ -36,7 +38,7 @@ namespace Core.Resources.Service
         }
 
         public T Instantiate<T>([CanBeNull] Transform parent = null)
-                where T : MonoBehaviour
+                where T : Component
         {
             string prefabPath = GetPrefabPath(typeof(T));
             if (string.IsNullOrEmpty(prefabPath)) {
@@ -44,11 +46,14 @@ namespace Core.Resources.Service
             }
 
             GameObject prefab = UnityEngine.Resources.Load<GameObject>(prefabPath);
+            if (prefab == null) {
+                throw new InvalidOperationException($"Prefab not found with path={prefabPath}");
+            }
             return DoBind<T>(prefab, parent);
         }
 
         public UniTask<T> LoadObjectAsync<T>([CanBeNull] Transform parent = null)
-                where T : MonoBehaviour
+                where T : Component
         {
             return UniTask.FromResult(Instantiate<T>(parent));
         }
@@ -59,13 +64,13 @@ namespace Core.Resources.Service
         }
 
         public void Release<T>(T obj)
-                where T : MonoBehaviour
+                where T : Component
         {
             Object.Destroy(obj);
         }
 
         public T DoBind<T>(GameObject prefab, [CanBeNull] Transform parent = null)
-                where T : MonoBehaviour
+                where T : Component
         {
             bool activeSelf = prefab.activeSelf;
             prefab.SetActive(false);
