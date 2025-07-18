@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4181357990884295050}
   - component: {fileID: 984301935134330415}
   - component: {fileID: 3047817837922597605}
-  - component: {fileID: 8528560768081515166}
   m_Layer: 0
   m_Name: Hoe1
   m_TagString: Untagged
@@ -88,25 +87,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8528560768081515166
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3552489482485111600}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7625642800717388127, guid: cac02654c83b2c94faf8ee2dfcaab1d9, type: 3}

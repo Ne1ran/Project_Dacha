@@ -1,4 +1,5 @@
-﻿using Game.Inventory.Event;
+﻿using Core.Attributes;
+using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Repo;
 using MessagePipe;
@@ -8,6 +9,7 @@ using VContainer;
 
 namespace Game.Inventory.Service
 {
+    [UsedImplicitly]
     public class InventoryService : IInitializable
     {
         private readonly IPublisher<string, InventoryChangedEvent> _publisher;
@@ -38,6 +40,7 @@ namespace Game.Inventory.Service
             
             _publisher.Publish(InventoryChangedEvent.ADDED, new(inventoryItem));
             _inventoryRepo.Save(inventoryModel);
+            Debug.Log($"Added item to inventory: {inventoryItem.Name}");
         }
 
         // todo neiran добавить логирование при провале + constService
@@ -51,6 +54,7 @@ namespace Game.Inventory.Service
             }
             _publisher.Publish(InventoryChangedEvent.REMOVED, new(inventoryItem));
             _inventoryRepo.Save(inventoryModel);
+            Debug.Log($"Removed item from inventory: {inventoryItem.Name}");
         }
     }
 }
