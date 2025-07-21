@@ -1,11 +1,11 @@
-﻿using Core.Attributes;
+﻿using System.Collections.Generic;
+using Core.Attributes;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Repo;
 using MessagePipe;
-using Unity.VisualScripting;
 using UnityEngine;
-using VContainer;
+using VContainer.Unity;
 
 namespace Game.Inventory.Service
 {
@@ -26,21 +26,32 @@ namespace Game.Inventory.Service
             if (_inventoryRepo.Exists()) {
                 return;
             }
+        
+            List<InventorySlot> inventory = new(Constants.Constants.INVENTORY_SLOTS);
+            for (int i = 0; i < Constants.Constants.INVENTORY_SLOTS; i++) {
+                inventory.Add(new());
+            }
             
-            _inventoryRepo.Save(new());
+            _inventoryRepo.Save(new(inventory));
         }
         
-        public void AddToInventory(InventoryItem inventoryItem)
+        public bool TryAddToInventory(InventoryItem inventoryItem)
         {
             InventoryModel inventoryModel = _inventoryRepo.Require();
+            if (!inventoryModel.HasFreeSpace) {
+                Debug.LogWarning("Max slots reached");
+                return false;
+            }
+            
             if (!inventoryModel.AddItem(inventoryItem)) {
                 Debug.LogWarning($"Failed to add item to inventory: {inventoryItem.Name}");
-                return;
+                return false;
             }
             
             _publisher.Publish(InventoryChangedEvent.ADDED, new(inventoryItem));
             _inventoryRepo.Save(inventoryModel);
             Debug.Log($"Added item to inventory: {inventoryItem.Name}");
+            return true;
         }
 
         // todo neiran добавить логирование при провале + constService
@@ -52,9 +63,27 @@ namespace Game.Inventory.Service
                 Debug.LogWarning($"Failed to remove item from inventory: {inventoryItem.Name}");
                 return;
             }
+            
             _publisher.Publish(InventoryChangedEvent.REMOVED, new(inventoryItem));
             _inventoryRepo.Save(inventoryModel);
             Debug.Log($"Removed item from inventory: {inventoryItem.Name}");
+        }
+
+        public bool HasFreeHotkeys()
+        {
+            InventoryModel inventoryModel = _inventoryRepo.Require();
+            int hotkeysCounter = 0;
+            foreach (InventorySlot inventorySlot in inventoryModel.InventorySlots) {
+                if (inventorySlot.InventoryItem == null) {
+                    continue;
+                }
+                
+                if (inventorySlot.InventoryItem.IsHotkey) {
+                    hotkeysCounter++;
+                }
+            }
+            
+            return hotkeysCounter < Constants.Constants.HOT_KEY_SLOTS;
         }
     }
 }

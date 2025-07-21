@@ -4,8 +4,10 @@ using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Descriptors;
+using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Tools.Component;
+using Game.Utils;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -36,12 +38,24 @@ namespace Game.Tools.Service
 
             ToolController toolController = await _resourceService.LoadObjectAsync<ToolController>(toolsDescriptorModel.ToolPrefab);
             toolController.transform.position = position;
+            toolController.name = toolsDescriptorModel.ToolId;
             return toolController;
         }
 
         public void PickUpTool(ToolController toolController)
         {
-            // ???
+            string toolId = toolController.GetName;
+            ToolsDescriptor toolsDescriptor = _descriptorService.LoadDescriptorAsync<ToolsDescriptor>();
+            List<ToolsDescriptorModel> tools = toolsDescriptor.ToolsDescriptors;
+            ToolsDescriptorModel toolsDescriptorModel = tools.Find(tool => tool.ToolId == toolId);
+            if (toolsDescriptorModel == null) {
+                throw new ArgumentException($"Tool not found with id={toolId}");
+            }
+
+            bool isHotkey = _inventoryService.HasFreeHotkeys();
+            if (_inventoryService.TryAddToInventory(new(toolId, toolId, ItemType.TOOL, isHotkey))) {
+                toolController.gameObject.DestroyObject();
+            }
         }
     }
 }

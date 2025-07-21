@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Descriptors
 {
@@ -10,5 +11,7 @@ namespace Game.Descriptors
         public string ToolId { get; set; } = null!;
         [field: SerializeField]
         public string ToolPrefab { get; set; } = null!;
+        [field: SerializeField]
+        public Image ToolIcon { get; set; } = null!;
     }
 }
