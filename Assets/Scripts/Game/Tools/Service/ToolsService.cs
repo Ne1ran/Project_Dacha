@@ -1,6 +1,13 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using Core.Descriptors.Service;
+using Core.Resources.Service;
+using Cysharp.Threading.Tasks;
+using Game.Descriptors;
 using Game.Inventory.Service;
+using Game.Tools.Component;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Game.Tools.Service
 {
@@ -8,15 +15,33 @@ namespace Game.Tools.Service
     public class ToolsService
     {
         private readonly InventoryService _inventoryService;
+        private readonly IResourceService _resourceService;
+        private readonly IDescriptorService _descriptorService;
 
-        public ToolsService(InventoryService inventoryService)
+        public ToolsService(InventoryService inventoryService, IDescriptorService descriptorService, IResourceService resourceService)
         {
             _inventoryService = inventoryService;
+            _descriptorService = descriptorService;
+            _resourceService = resourceService;
         }
 
-        public UniTask CreateTool()
+        public async UniTask<ToolController> CreateTool(string toolId, Vector3 position)
         {
-            return UniTask.CompletedTask;
+            ToolsDescriptor toolsDescriptor = _descriptorService.LoadDescriptorAsync<ToolsDescriptor>();
+            List<ToolsDescriptorModel> tools = toolsDescriptor.ToolsDescriptors;
+            ToolsDescriptorModel toolsDescriptorModel = tools.Find(tool => tool.ToolId == toolId);
+            if (toolsDescriptorModel == null) {
+                throw new ArgumentException($"Tool not found with id={toolId}");
+            }
+
+            ToolController toolController = await _resourceService.LoadObjectAsync<ToolController>(toolsDescriptorModel.ToolPrefab);
+            toolController.transform.position = position;
+            return toolController;
+        }
+
+        public void PickUpTool(ToolController toolController)
+        {
+            // ???
         }
     }
 }

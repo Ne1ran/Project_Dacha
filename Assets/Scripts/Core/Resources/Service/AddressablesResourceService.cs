@@ -11,7 +11,19 @@ namespace Core.Resources.Service
             throw new System.NotImplementedException();
         }
 
+        public T Instantiate<T>(string prefabPath, Transform parent = null)
+                where T : Component
+        {
+            throw new System.NotImplementedException();
+        }
+
         public UniTask<T> LoadObjectAsync<T>(Transform parent = null)
+                where T : Component
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public UniTask<T> LoadObjectAsync<T>(string path, Transform parent = null)
                 where T : Component
         {
             throw new System.NotImplementedException();

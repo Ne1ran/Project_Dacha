@@ -9,15 +9,19 @@ namespace Game.Player.Service
     public class PlayerService
     {
         private readonly IResourceService _resourceService;
+        
+        public PlayerController Player { get; private set; }
 
         public PlayerService(IResourceService resourceService)
         {
             _resourceService = resourceService;
         }
 
-        public UniTask<PlayerController> CreatePlayerAsync()
+        public async UniTask<PlayerController> CreatePlayerAsync()
         {
-            return _resourceService.LoadObjectAsync<PlayerController>();
+            PlayerController playerController = await _resourceService.LoadObjectAsync<PlayerController>();
+            Player = playerController;
+            return playerController;
         }
     }
 }

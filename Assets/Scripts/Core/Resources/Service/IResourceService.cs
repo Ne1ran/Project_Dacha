@@ -8,7 +8,13 @@ namespace Core.Resources.Service
         T Instantiate<T>(Transform parent = null)
                 where T : Component;
 
+        T Instantiate<T>(string prefabPath, Transform parent = null)
+                where T : Component;
+
         UniTask<T> LoadObjectAsync<T>(Transform parent = null)
+                where T : Component;
+
+        UniTask<T> LoadObjectAsync<T>(string path, Transform parent = null)
                 where T : Component;
 
         void Release(GameObject obj);
