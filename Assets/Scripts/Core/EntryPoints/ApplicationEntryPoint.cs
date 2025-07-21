@@ -23,8 +23,7 @@ namespace Core.EntryPoints
         {
             InitializeAddressables();
             InitializeLocalization();
-            await UniTask.Yield();
-            await UniTask.Delay(5000, cancellationToken: token);
+            await UniTask.Yield(token);
             InitializeMainMenu();
         }
 

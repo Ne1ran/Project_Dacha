@@ -2,6 +2,8 @@
 using Game.Inventory.Repo;
 using Game.Inventory.Service;
 using Game.Player.Service;
+using Game.PlayMode.Service;
+using Game.Tools.Service;
 using Unity.VisualScripting;
 using VContainer;
 using VContainer.Unity;
@@ -17,6 +19,8 @@ namespace Core.Scopes
             builder.Register<InventoryRepo>(Lifetime.Singleton);
             builder.Register<InventoryService>(Lifetime.Singleton);
             builder.Register<PlayerService>(Lifetime.Singleton);
+            builder.Register<PlayModeService>(Lifetime.Singleton);
+            builder.Register<ToolsService>(Lifetime.Singleton);
             
             DachaEntryPoint entryPoint = this.AddComponent<DachaEntryPoint>();
             builder.RegisterComponent(entryPoint);

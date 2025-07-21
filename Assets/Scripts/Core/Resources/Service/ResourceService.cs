@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using AppContext = Core.Scopes.AppContext;
 using Object = UnityEngine.Object;
 
 namespace Core.Resources.Service
@@ -16,13 +17,6 @@ namespace Core.Resources.Service
     [Service]
     public class ResourceService : IResourceService
     {
-        private readonly IObjectResolver _objectResolver;
-
-        public ResourceService(IObjectResolver objectResolver)
-        {
-            _objectResolver = objectResolver;
-        }
-
         private readonly Dictionary<Type, PrefabBinding> _binders = new();
 
         [NotNull]
@@ -75,8 +69,7 @@ namespace Core.Resources.Service
             bool activeSelf = prefab.activeSelf;
             prefab.SetActive(false);
             GameObject instantiated = Object.Instantiate(prefab, parent);
-            _objectResolver.InjectGameObject(instantiated);
-
+            AppContext.CurrentScope.Container.InjectGameObject(instantiated); // todo neiran temporary workaround. redo!
             if (!Binders.TryGetValue(typeof(T), out PrefabBinding binding)) {
                 throw new ArgumentException($"Not found type '{typeof(T)}' for prefab binding.");
             }
