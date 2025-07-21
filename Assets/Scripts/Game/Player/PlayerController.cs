@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Game.Player
 {
+    // todo create playerservice to create player and add components if needed
     public class PlayerController : MonoBehaviour
     {
         private float _raycastLength = 1.5f;
