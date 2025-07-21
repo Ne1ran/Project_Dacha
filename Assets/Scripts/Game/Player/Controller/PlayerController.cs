@@ -20,13 +20,13 @@ namespace Game.Player.Controller
 
         private bool _cursorEnabled = true;
 
-        private Transform _head = null!;
+        private Transform _headCamera = null!;
 
         private LayerMask _layerMask;
 
         private void Awake()
         {
-            _head = this.RequireComponentInChildren<Transform>("Head");
+            _headCamera = this.RequireComponentInChildren<Camera>().transform;
             _pickUpComponent = this.AddComponent<PickUpComponent>();
 
             _pickUpComponent.OnLook += OnPickUpStarted;
@@ -58,7 +58,7 @@ namespace Game.Player.Controller
 
         public void Initialize()
         {
-            _pickUpComponent.Init(_head);
+            _pickUpComponent.Init(_headCamera);
         }
 
         private void Update()

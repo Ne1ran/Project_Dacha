@@ -8,7 +8,7 @@ namespace Game.Player.Controller
 {
     public class PickUpComponent : MonoBehaviour
     {
-        private float _raycastLength = 1.5f;
+        public float _raycastLength = 2.75f;
 
         private Transform _head = null!;
         private LayerMask _layerMask;

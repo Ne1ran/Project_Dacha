@@ -81,7 +81,6 @@ namespace Core.Resources.Service
         public T DoBind<T>(GameObject prefab, [CanBeNull] Transform parent = null)
                 where T : Component
         {
-            bool activeSelf = prefab.activeSelf;
             prefab.SetActive(false);
             GameObject instantiated = Object.Instantiate(prefab, parent);
             AppContext.CurrentScope.Container.InjectGameObject(instantiated); // todo neiran temporary workaround. redo!
@@ -89,7 +88,7 @@ namespace Core.Resources.Service
                 binding.Bind(instantiated);
             }
 
-            instantiated.SetActive(activeSelf);
+            instantiated.SetActive(true);
             return instantiated.GetComponent<T>();
         }
 
