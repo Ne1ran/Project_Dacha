@@ -1,6 +1,6 @@
 ﻿using Core.UI.Service;
 using Cysharp.Threading.Tasks;
-using UI.Dialogs.MainMenu;
+using Game.UI.Dialogs.MainMenu;
 using UnityEngine;
 using VContainer;
 

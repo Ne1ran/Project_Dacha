@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Resources.Service;
-using Core.Scene.Event;
-using Core.Scene.Service;
+using Core.SceneManagement.Event;
+using Core.SceneManagement.Service;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using MessagePipe;
