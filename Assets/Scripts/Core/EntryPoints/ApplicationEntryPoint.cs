@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Core.Console.Service;
 using Core.SceneManagement;
 using Core.SceneManagement.Service;
 using Cysharp.Threading.Tasks;
@@ -11,7 +12,9 @@ namespace Core.EntryPoints
     {
         [Inject]
         private SceneService _sceneService = null!;
-        
+        [Inject]
+        private ConsoleService _consoleService = null!;
+
         private void Awake()
         {
             Debug.Log("Starting Game Application");
@@ -21,10 +24,16 @@ namespace Core.EntryPoints
 
         private async UniTask InitializeAsync(CancellationToken token)
         {
+            await InitializeConsole();
             InitializeAddressables();
             InitializeLocalization();
             await UniTask.Yield(token);
             InitializeMainMenu();
+        }
+
+        private async UniTask InitializeConsole()
+        {
+            await _consoleService.InitializeAsync();
         }
 
         private void InitializeAddressables()
@@ -41,7 +50,7 @@ namespace Core.EntryPoints
         {
             Debug.Log("Need to implement localization");
         }
-        
+
         // private void Awake()
         // {
         //     LifetimeScope appScope = LifetimeScope.Create(ConfigureAppScope);

@@ -1,4 +1,5 @@
-﻿using Core.EntryPoints;
+﻿using Core.Console.Service;
+using Core.EntryPoints;
 using Core.Resources.Service;
 using Core.SceneManagement.Service;
 using Core.UI.Service;
@@ -17,6 +18,7 @@ namespace Core.Scopes
             
             builder.Register<IResourceService, ResourceService>(Lifetime.Singleton);
             builder.Register<SceneService>(Lifetime.Singleton);
+            builder.Register<ConsoleService>(Lifetime.Singleton);
             builder.RegisterMessagePipe();
             builder.Register<UIService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.RegisterComponentInHierarchy<ApplicationEntryPoint>();
