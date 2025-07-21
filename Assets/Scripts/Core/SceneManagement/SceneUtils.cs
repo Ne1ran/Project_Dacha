@@ -1,4 +1,4 @@
-﻿namespace Core.Scene
+﻿namespace Core.SceneManagement
 {
     public static class SceneUtils
     {

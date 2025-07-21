@@ -1,10 +1,12 @@
-﻿using Game.Tools.Component;
+﻿using Core.Resources.Binding.Attributes;
+using Game.Spawn;
+using Game.Tools.Component;
 using Game.Utils;
 using UnityEngine;
 
-namespace Game.Player
+namespace Game.Player.Component
 {
-    // todo create playerservice to create player and add components if needed
+    [PrefabPath("Prefabs/Player/Player")]
     public class PlayerController : MonoBehaviour
     {
         private float _raycastLength = 1.5f;
@@ -38,6 +40,16 @@ namespace Game.Player
 
             Debug.Log("Watching at a tool now. Wanna press E");
             // todo neiran add to inventory
+        }
+
+        public void SetPosition(PlayerSpawnPoint spawnPoint)
+        {
+            SetPosition(spawnPoint.Position);
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            transform.position = position;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Core.Resources.Binding.Attributes;
-using Core.Scene;
-using Core.Scene.Service;
+using Core.SceneManagement;
+using Core.SceneManagement.Service;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;

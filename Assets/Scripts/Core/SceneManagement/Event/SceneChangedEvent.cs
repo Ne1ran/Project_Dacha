@@ -1,4 +1,4 @@
-﻿namespace Core.Scene.Event
+﻿namespace Core.SceneManagement.Event
 {
     public class SceneChangedEvent
     {

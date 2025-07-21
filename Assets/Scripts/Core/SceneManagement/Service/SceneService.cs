@@ -1,4 +1,4 @@
-﻿using Core.Scene.Event;
+﻿using Core.SceneManagement.Event;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using MessagePipe;
@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 
-namespace Core.Scene.Service
+namespace Core.SceneManagement.Service
 {
     [UsedImplicitly]
     public class SceneService

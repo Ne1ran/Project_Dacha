@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks.Triggers;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -529,6 +530,37 @@ namespace Game.Utils
         #endregion
 
         #region Other
+
+        public static T? GetSceneRootObjectByName<T>(this Scene scene, string name)
+                where T : Component
+        {
+            return scene.GetSceneRootObjectByName(name)?.GetComponent<T>();
+        }
+
+        public static GameObject GetSceneRootObjectByName(this Scene scene, string name)
+        {
+            GameObject[] rootGameObjects = scene.GetRootGameObjects();
+            foreach (GameObject gameObject in rootGameObjects) {
+                if (gameObject.name == name) {
+                    return gameObject;
+                }
+            }
+
+            return null;
+        }
+
+        public static T GetSceneRootObjectByType<T>(this Scene scene) where T : Component
+        {
+            GameObject[] rootGameObjects = scene.GetRootGameObjects();
+            foreach (GameObject gameObject in rootGameObjects) {
+                T component = gameObject.GetComponent<T>();
+                if (component != null) {
+                    return component;
+                }
+            }
+
+            return null;
+        }
 
         public static T? AsNullable<T>(this T? reference)
                 where T : class

@@ -1,6 +1,6 @@
 ﻿using Core.EntryPoints;
 using Core.Resources.Service;
-using Core.Scene.Service;
+using Core.SceneManagement.Service;
 using Core.UI.Service;
 using MessagePipe;
 using VContainer;
@@ -19,7 +19,7 @@ namespace Core.Scopes
             builder.Register<SceneService>(Lifetime.Singleton);
             builder.RegisterMessagePipe();
             builder.Register<UIService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-            builder.RegisterComponentInHierarchy<GameApplicationEntryPoint>();
+            builder.RegisterComponentInHierarchy<ApplicationEntryPoint>();
         }
     } 
 }
