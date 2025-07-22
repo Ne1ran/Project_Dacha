@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Core.Descriptors.Service
 {
     public interface IDescriptorService
     {
-        T LoadDescriptorAsync<T>() where T : ScriptableObject;
+        UniTask InitializeAsync();
+        
+        T Require<T>() where T : ScriptableObject;
     }
 }

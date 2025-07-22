@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Core.Console.Service;
+using Core.Descriptors.Service;
 using Core.SceneManagement;
 using Core.SceneManagement.Service;
 using Cysharp.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace Core.EntryPoints
         private SceneService _sceneService = null!;
         [Inject]
         private ConsoleService _consoleService = null!;
+        [Inject]
+        private IDescriptorService _descriptorService = null!;
 
         private void Awake()
         {
@@ -24,8 +27,10 @@ namespace Core.EntryPoints
 
         private async UniTask InitializeAsync(CancellationToken token)
         {
+            // todo neiran implement runner?
             await InitializeConsole();
             InitializeAddressables();
+            await InitializeDescriptors();
             InitializeLocalization();
             await UniTask.Yield(token);
             InitializeMainMenu();
@@ -39,6 +44,11 @@ namespace Core.EntryPoints
         private void InitializeAddressables()
         {
             Debug.Log("Need to implement addressables");
+        }
+
+        private async UniTask InitializeDescriptors()
+        {
+            await _descriptorService.InitializeAsync();
         }
 
         private void InitializeMainMenu()

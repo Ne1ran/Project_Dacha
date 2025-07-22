@@ -29,7 +29,7 @@ namespace Game.Tools.Service
 
         public async UniTask<ToolController> CreateTool(string toolId, Vector3 position)
         {
-            ToolsDescriptor toolsDescriptor = _descriptorService.LoadDescriptorAsync<ToolsDescriptor>();
+            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
             List<ToolsDescriptorModel> tools = toolsDescriptor.ToolsDescriptors;
             ToolsDescriptorModel toolsDescriptorModel = tools.Find(tool => tool.ToolId == toolId);
             if (toolsDescriptorModel == null) {
@@ -45,7 +45,7 @@ namespace Game.Tools.Service
         public void PickUpTool(ToolController toolController)
         {
             string toolId = toolController.GetName;
-            ToolsDescriptor toolsDescriptor = _descriptorService.LoadDescriptorAsync<ToolsDescriptor>();
+            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
             List<ToolsDescriptorModel> tools = toolsDescriptor.ToolsDescriptors;
             ToolsDescriptorModel toolsDescriptorModel = tools.Find(tool => tool.ToolId == toolId);
             if (toolsDescriptorModel == null) {
