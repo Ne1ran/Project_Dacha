@@ -18,6 +18,7 @@ namespace Core.Scopes
             
             builder.Register<InventoryRepo>(Lifetime.Singleton);
             builder.Register<InventoryService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<InventoryMediator>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<PlayerService>(Lifetime.Singleton);
             builder.Register<PlayModeService>(Lifetime.Singleton);
             builder.Register<ToolsService>(Lifetime.Singleton);

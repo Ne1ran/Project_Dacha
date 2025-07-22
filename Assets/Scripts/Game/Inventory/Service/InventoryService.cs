@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using Core.Attributes;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Repo;
+using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
 
 namespace Game.Inventory.Service
 {
-    [UsedImplicitly]
+    [Core.Attributes.UsedImplicitly]
     public class InventoryService : IInitializable
     {
         private readonly IPublisher<string, InventoryChangedEvent> _publisher;
@@ -34,10 +34,21 @@ namespace Game.Inventory.Service
             
             _inventoryRepo.Save(new(inventory));
         }
+
+        public bool TryAddToolToInventory(string toolId)
+        {
+            InventoryItem inventoryItem = new(toolId, toolId, ItemType.TOOL, TryAutoHotkeyItem());
+            return TryAddToInventory(inventoryItem);
+        }
+
+        private int? TryAutoHotkeyItem()
+        {
+            return null;
+        }
         
         public bool TryAddToInventory(InventoryItem inventoryItem)
         {
-            InventoryModel inventoryModel = _inventoryRepo.Require();
+            InventoryModel inventoryModel = Inventory;
             if (!inventoryModel.HasFreeSpace) {
                 Debug.LogWarning("Max slots reached");
                 return false;
@@ -58,7 +69,7 @@ namespace Game.Inventory.Service
         
         public void RemoveFromInventory(InventoryItem inventoryItem)
         {
-            InventoryModel inventoryModel = _inventoryRepo.Require();
+            InventoryModel inventoryModel = Inventory;
             if (!inventoryModel.RemoveItem(inventoryItem)) {
                 Debug.LogWarning($"Failed to remove item from inventory: {inventoryItem.Name}");
                 return;
@@ -69,21 +80,36 @@ namespace Game.Inventory.Service
             Debug.Log($"Removed item from inventory: {inventoryItem.Name}");
         }
 
-        public bool HasFreeHotkeys()
-        {
-            InventoryModel inventoryModel = _inventoryRepo.Require();
-            int hotkeysCounter = 0;
-            foreach (InventorySlot inventorySlot in inventoryModel.InventorySlots) {
-                if (inventorySlot.InventoryItem == null) {
-                    continue;
-                }
-                
-                if (inventorySlot.InventoryItem.IsHotkey) {
-                    hotkeysCounter++;
-                }
-            }
-            
-            return hotkeysCounter < Constants.Constants.HOT_KEY_SLOTS;
-        }
+        // public bool HasFreeHotkeys()
+        // {
+        //     InventoryModel inventoryModel = _inventoryRepo.Require();
+        //     int hotkeysCounter = 0;
+        //     foreach (InventorySlot inventorySlot in inventoryModel.InventorySlots) {
+        //         if (inventorySlot.InventoryItem == null) {
+        //             continue;
+        //         }
+        //         
+        //         if (inventorySlot.InventoryItem.IsHotkey) {
+        //             hotkeysCounter++;
+        //         }
+        //     }
+        //     
+        //     return hotkeysCounter < Constants.Constants.HOT_KEY_SLOTS;
+        // }
+        //
+        // public int GetFirstPossibleHotkey()
+        // {
+        //     InventoryModel inventoryModel = _inventoryRepo.Require();
+        //     List<int> allHotkeys = new() {
+        //             1, 2, 3
+        //     };
+        //     
+        //     foreach (InventorySlot slot in inventoryModel.InventorySlots) {
+        //         if (slot.InventoryItem == null) {
+        //             continue;
+        //         }
+        //     }
+        // }
+        public InventoryModel Inventory => _inventoryRepo.Require();
     }
 }

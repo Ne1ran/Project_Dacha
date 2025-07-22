@@ -52,8 +52,7 @@ namespace Game.Tools.Service
                 throw new ArgumentException($"Tool not found with id={toolId}");
             }
 
-            bool isHotkey = _inventoryService.HasFreeHotkeys();
-            if (_inventoryService.TryAddToInventory(new(toolId, toolId, ItemType.TOOL, isHotkey))) {
+            if (_inventoryService.TryAddToolToInventory(toolId)) {
                 toolController.gameObject.DestroyObject();
             }
         }

@@ -1,5 +1,4 @@
 ﻿using Core.SceneManagement.Service;
-using Core.UI.Service;
 using Cysharp.Threading.Tasks;
 using Game.Player.Controller;
 using Game.Player.Service;

@@ -1,9 +1,12 @@
 ﻿using Core.Resources.Binding.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
+using Game.Inventory.Event;
+using Game.Movement;
 using Game.PlayMode.Service;
 using Game.Spawn;
 using Game.Utils;
+using MessagePipe;
 using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
@@ -15,10 +18,14 @@ namespace Game.Player.Controller
     {
         [Inject]
         private PlayModeService _playModeService;
-        
+        [Inject]
+        private IPublisher<string, InventoryStatusEvent> _inventoryStatusPublisher;
+
         private PickUpComponent _pickUpComponent = null!;
+        private MovementController _movementController = null!;
 
         private bool _cursorEnabled = true;
+        private bool _inventoryEnabled = true;
 
         private Transform _headCamera = null!;
 
@@ -28,6 +35,7 @@ namespace Game.Player.Controller
         {
             _headCamera = this.RequireComponentInChildren<Camera>().transform;
             _pickUpComponent = this.AddComponent<PickUpComponent>();
+            _movementController = this.RequireComponent<MovementController>();
 
             _pickUpComponent.OnLook += OnPickUpStarted;
             _pickUpComponent.OnUnlook += OnPickUpFinished;
@@ -61,10 +69,22 @@ namespace Game.Player.Controller
             _pickUpComponent.Init(_headCamera);
         }
 
+        public void ChangeMovementActive(bool active)
+        {
+            _movementController.SetActive(active);
+        }
+
         private void Update()
         {
             if (_cursorEnabled) {
                 _pickUpComponent.Tick();
+            }
+
+            if (_inventoryEnabled) {
+                // todo neiran take to another component
+                if (Input.GetKeyDown(KeyCode.I)) {
+                    _inventoryStatusPublisher.Publish(InventoryStatusEvent.INVENTORY_CHANGED, new());
+                }
             }
         }
 

@@ -51,18 +51,18 @@ namespace Core.UI.Service
                 Debug.LogWarning("Scene changed, but no scene was found!");
                 return;
             }
-        
+
             UnityEngine.SceneManagement.Scene scene = evt.Scene.Value;
             GameObject[] rootGameObjects = scene.GetRootGameObjects();
             foreach (GameObject rgo in rootGameObjects) {
                 if (!rgo.TryGetComponent(out Canvas canvas)) {
                     continue;
                 }
-                
+
                 _currentCanvas = canvas;
                 return;
             }
-            
+
             Debug.LogWarning($"Canvas not found on scene. SceneName = {evt.SceneName}");
         }
 
@@ -91,14 +91,12 @@ namespace Core.UI.Service
             if (_currentCanvas == null) {
                 Debug.LogWarning("Canvas already destroyed, no need to hide dialog!");
                 return UniTask.CompletedTask;
-                ;
             }
 
             Type dialogType = typeof(T);
             if (!_dialogs.TryGetValue(dialogType, out GameObject dialog)) {
                 Debug.LogWarning($"Dialog with type={dialogType.Name} not found!");
                 return UniTask.CompletedTask;
-                ;
             }
 
             _resourceService.Release(dialog);

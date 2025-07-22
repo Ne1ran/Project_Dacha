@@ -1,6 +1,5 @@
 ﻿using System;
 using Game.Common.Controller;
-using Game.Tools.Component;
 using JetBrains.Annotations;
 using UnityEngine;
 
