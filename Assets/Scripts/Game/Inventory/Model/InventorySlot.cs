@@ -1,10 +1,7 @@
-﻿using JetBrains.Annotations;
-
-namespace Game.Inventory.Model
+﻿namespace Game.Inventory.Model
 {
     public class InventorySlot
     {
-        [CanBeNull]
-        public InventoryItem InventoryItem { get; set; }
+        public InventoryItem? InventoryItem { get; set; }
     }
 }

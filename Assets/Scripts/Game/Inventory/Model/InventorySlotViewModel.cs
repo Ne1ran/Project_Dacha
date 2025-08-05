@@ -1,15 +1,12 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Inventory.Model
 {
     public class InventorySlotViewModel
     {
-        [CanBeNull]
-        public string ItemId { get; }
+        public string? ItemId { get; }
         public ItemType ItemType { get; }
-        [CanBeNull]
-        public Sprite Image { get; }
+        public Sprite? Image { get; }
         public int HotkeyNumber { get; }
 
         public InventorySlotViewModel(string itemId, ItemType itemType, Sprite image, int hotkeyNumber)

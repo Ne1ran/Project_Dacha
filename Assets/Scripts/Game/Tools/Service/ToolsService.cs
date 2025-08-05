@@ -4,7 +4,6 @@ using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Descriptors;
-using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Tools.Component;
 using Game.Utils;

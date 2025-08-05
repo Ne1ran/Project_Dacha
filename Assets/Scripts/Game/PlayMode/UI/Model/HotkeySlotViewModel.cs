@@ -1,16 +1,13 @@
 ﻿using Game.Inventory.Model;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Game.PlayMode.UI.Model
 {
     public class HotkeySlotViewModel
     {
-        [CanBeNull]
-        public string ItemId { get; }
+        public string? ItemId { get; }
         public ItemType ItemType { get; }
-        [CanBeNull]
-        public Sprite Image { get; }
+        public Sprite? Image { get; }
         public int HotkeyNumber { get; }
 
         public HotkeySlotViewModel(string itemId, ItemType itemType, Sprite image, int hotkeyNumber)

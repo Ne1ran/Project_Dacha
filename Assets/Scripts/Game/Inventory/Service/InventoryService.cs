@@ -2,7 +2,6 @@
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Repo;
-using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
@@ -62,15 +61,15 @@ namespace Game.Inventory.Service
             return true;
         }
 
-        [NotNull]
         public List<InventoryItem> GetHotkeyItems()
         {
             List<InventoryItem> hotkeyItems = new();
 
             InventoryModel inventory = Inventory;
             inventory.InventorySlots.ForEach(slot => {
-                if (slot.InventoryItem?.HotkeyNumber != 0) {
-                    hotkeyItems.Add(slot.InventoryItem);
+                InventoryItem? inventoryItem = slot.InventoryItem;
+                if (inventoryItem != null && inventoryItem.HotkeyNumber != 0) {
+                    hotkeyItems.Add(inventoryItem);
                 }
             });
 

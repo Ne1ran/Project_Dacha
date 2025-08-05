@@ -10,9 +10,9 @@ namespace Game.Inventory.UI
     public class InventorySlotView : MonoBehaviour
     {
         [ComponentBinding("ItemSlot")]
-        private Image _itemSlotImage;
+        private Image _itemSlotImage = null!;
         [ComponentBinding("HotkeySlot")]
-        private TextMeshProUGUI _hotkeySlotText;
+        private TextMeshProUGUI _hotkeySlotText = null!;
 
         private void Awake()
         {
@@ -22,12 +22,12 @@ namespace Game.Inventory.UI
         public void Initialize(InventorySlotViewModel viewModel)
         {
             Image = viewModel.Image;
-            Visible = true;
+            ImageVisible = viewModel.Image != null;
             int hotkeyNumber = viewModel.HotkeyNumber;
             if (hotkeyNumber == 0) {
                 return;
             }
-            
+
             HotkeySlotActive = true;
             HotkeyText = hotkeyNumber.ToString();
         }
@@ -42,12 +42,12 @@ namespace Game.Inventory.UI
             set => _hotkeySlotText.gameObject.SetActive(value);
         }
 
-        private Sprite Image
+        private Sprite? Image
         {
             set => _itemSlotImage.sprite = value;
         }
 
-        private bool Visible
+        private bool ImageVisible
         {
             set => _itemSlotImage.color = value ? Color.white : Color.clear;
         }

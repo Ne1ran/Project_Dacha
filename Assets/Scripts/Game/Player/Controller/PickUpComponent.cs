@@ -1,6 +1,5 @@
 ﻿using System;
 using Game.Common.Controller;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Game.Player.Controller
@@ -16,8 +15,7 @@ namespace Game.Player.Controller
         public event Action OnUnlook;
         public event Action<IInteractableComponent> OnInteract;
 
-        [CanBeNull]
-        private IInteractableComponent _currentLook;
+        private IInteractableComponent? _currentLook;
 
         public void Init(Transform head)
         {

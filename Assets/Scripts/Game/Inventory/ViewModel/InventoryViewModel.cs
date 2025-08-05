@@ -3,7 +3,6 @@ using Core.Descriptors.Service;
 using Game.Descriptors;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
-using JetBrains.Annotations;
 
 namespace Game.Inventory.ViewModel
 {
@@ -18,7 +17,6 @@ namespace Game.Inventory.ViewModel
             _descriptorService = descriptorService;
         }
 
-        [NotNull]
         public List<InventorySlotViewModel> GetCurrentSlotsViewModels()
         {
             List<InventorySlotViewModel> list = new();
@@ -45,7 +43,6 @@ namespace Game.Inventory.ViewModel
             return list;
         }
 
-        [NotNull]
         private InventorySlotViewModel CreateToolSlotViewModel(string toolId, int hotkeyNumber)
         {
             ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();

@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Reflection;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Core.Resources.Binding.Binding
@@ -27,8 +26,7 @@ namespace Core.Resources.Binding.Binding
             (MemberInfo as PropertyInfo)?.SetValue(component, value, null);
         }
 
-        [CanBeNull]
-        protected GameObject GetChildByName(GameObject gameObject, string name)
+        protected GameObject? GetChildByName(GameObject gameObject, string name)
         {
             return gameObject.GetComponentsInChildren<Transform>(true)
                              .Where(c => c.gameObject != gameObject)

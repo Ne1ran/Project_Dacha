@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Descriptors.Service;
+using Core.Reactive;
 using Game.Descriptors;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.PlayMode.UI.Model;
-using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 
@@ -17,10 +17,9 @@ namespace Game.PlayMode.UI.ViewModel
         private readonly InventoryService _inventoryService;
         private readonly IDescriptorService _descriptorService;
 
-        [CanBeNull]
-        private IDisposable _disposable;
-
-        public event Action<int> OnHotkeyChanged; 
+        private IDisposable? _disposable;
+        
+        public ReactiveCollection<HotkeySlotViewModel> Hotkeys { get; } = new(Constants.Constants.HOT_KEY_SLOTS);
 
         public PlayModeScreenViewModel(InventoryService inventoryService,
                                        IDescriptorService descriptorService,
@@ -37,14 +36,32 @@ namespace Game.PlayMode.UI.ViewModel
             _disposable = bag.Build();
         }
 
+        public void Initialize()
+        {
+            List<HotkeySlotViewModel> hotkeyItems = GetCurrentHotkeyItems();
+
+            foreach (HotkeySlotViewModel hotkeySlotViewModel in hotkeyItems) {
+                Hotkeys.Add(hotkeySlotViewModel);
+            }
+        }
+
         public void Dispose()
         {
             _disposable?.Dispose();
             _disposable = null;
         }
 
-        [NotNull]
-        public List<HotkeySlotViewModel> GetCurrentSlotsViewModels()
+        public List<HotkeySlotViewModel> GetBaseHotkeysViewModels()
+        {
+            List<HotkeySlotViewModel> list = new();
+            for (int i = 1; i < Constants.Constants.HOT_KEY_SLOTS + 1; i++) {
+                list.Add(new(i));
+            }
+
+            return list;
+        }
+
+        public List<HotkeySlotViewModel> GetCurrentHotkeyItems()
         {
             List<HotkeySlotViewModel> list = new();
 
@@ -78,15 +95,16 @@ namespace Game.PlayMode.UI.ViewModel
 
         private void OnHotkeyBinded(HotkeyChangedEvent evt)
         {
-            OnHotkeyChanged?.Invoke(evt.NewHotkey);
+            int hotkeyNumber = evt.NewHotkey - 1;
+            Hotkeys[hotkeyNumber] = CreateToolSlotViewModel(evt.Item.Id, hotkeyNumber);
         }
 
         private void OnHotkeyRemoved(HotkeyChangedEvent evt)
         {
-            OnHotkeyChanged?.Invoke(evt.OldHotkey);
+            int hotkeyNumber = evt.OldHotkey - 1;
+            Hotkeys[hotkeyNumber] = new(hotkeyNumber);
         }
 
-        [NotNull]
         private HotkeySlotViewModel CreateToolSlotViewModel(string toolId, int hotkeyNumber)
         {
             ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();

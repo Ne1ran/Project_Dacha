@@ -17,8 +17,7 @@ namespace Game.Inventory.Service
         private readonly UIService _uiService;
         private readonly PlayerService _playerService;
 
-        [CanBeNull]
-        private IDisposable _disposable;
+        private IDisposable? _disposable;
 
         private bool _ignore;
         private bool _inventoryOpened;

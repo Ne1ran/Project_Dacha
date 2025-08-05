@@ -1,5 +1,4 @@
 ﻿using Core.Resources.Binding.Attributes;
-using Game.Inventory.Model;
 using Game.PlayMode.UI.Model;
 using TMPro;
 using UnityEngine;
@@ -11,20 +10,21 @@ namespace Game.PlayMode.UI.Component
     public class HotkeySlotView : MonoBehaviour
     {
         [ComponentBinding("ItemSlot")]
-        private Image _itemSlotImage;
+        private Image _itemSlotImage = null!;
         [ComponentBinding("HotkeySlot")]
-        private TextMeshProUGUI _hotkeySlotText;
+        private TextMeshProUGUI _hotkeySlotText = null!;
 
         private void Awake()
         {
             HotkeySlotActive = false;
         }
 
-        public void Initialize(HotkeySlotViewModel viewModel)
+        public void Initialize(int hotkeyNumber)
         {
-            Image = viewModel.Image;
-            Visible = true;
+            Image = null;
+            ImageVisible = false;
             HotkeySlotActive = true;
+            HotkeyText = hotkeyNumber.ToString();
         }
 
         private string HotkeyText
@@ -37,12 +37,16 @@ namespace Game.PlayMode.UI.Component
             set => _hotkeySlotText.gameObject.SetActive(value);
         }
 
-        private Sprite Image
+        public Sprite? Image
         {
-            set => _itemSlotImage.sprite = value;
+            set
+            {
+                _itemSlotImage.sprite = value;
+                ImageVisible = value != null;
+            }
         }
 
-        private bool Visible
+        private bool ImageVisible
         {
             set => _itemSlotImage.color = value ? Color.white : Color.clear;
         }

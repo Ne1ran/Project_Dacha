@@ -10,7 +10,6 @@ using Game.PlayMode.UI.Component;
 using Game.PlayMode.UI.Model;
 using Game.PlayMode.UI.ViewModel;
 using Game.Utils;
-using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,82 +21,97 @@ namespace Game.PlayMode.UI.Screen
     public class PlayModeScreen : MonoBehaviour
     {
         [ComponentBinding("Crosshair")]
-        private CrosshairController _crosshairController;
+        private CrosshairController _crosshairController = null!;
         [ComponentBinding("HotkeyPanel")]
-        private HorizontalLayoutGroup _hotkeyPanel;
+        private HorizontalLayoutGroup _hotkeyPanel = null!;
 
         [Inject]
-        private IResourceService _resourceService;
+        private IResourceService _resourceService = null!;
         [Inject]
-        private IDescriptorService _descriptorService;
+        private IDescriptorService _descriptorService = null!;
         [Inject]
-        private InventoryService _inventoryService;
+        private InventoryService _inventoryService = null!;
         [Inject]
-        private ISubscriber<string, HotkeyChangedEvent> _hotkeyChangedSubscriber;
-        
-        [CanBeNull]
-        private PlayModeScreenViewModel _viewModel;
-        
+        private ISubscriber<string, HotkeyChangedEvent> _hotkeyChangedSubscriber = null!;
+
+        private PlayModeScreenViewModel? _viewModel;
+
         private List<HotkeySlotView> _hotkeySlotViews = new(Constants.Constants.HOT_KEY_SLOTS);
 
-        
         public async UniTask InitializeAsync()
         {
             FadeCrosshair(true).Forget();
             _viewModel = new(_inventoryService, _descriptorService, _hotkeyChangedSubscriber);
-            _viewModel.OnHotkeyChanged += OnHotkeyChanged;
-            await CreateHotkeysAsync();
+            await CreateBaseHotkeysAsync();
+
+            _viewModel.Hotkeys.ItemAdded += OnHotkeyAdded;
+            _viewModel.Hotkeys.ItemReplaced += OnHotkeyReplaced;
+            _viewModel.Hotkeys.ItemRemoved += OnHotkeyRemoved;
+            _viewModel.Initialize();
         }
 
         private void OnDestroy()
         {
             if (_viewModel != null) {
-                _viewModel.OnHotkeyChanged -= OnHotkeyChanged;
+                _viewModel.Hotkeys.ItemAdded -= OnHotkeyAdded;
+                _viewModel.Hotkeys.ItemReplaced -= OnHotkeyReplaced;
+                _viewModel.Hotkeys.ItemRemoved -= OnHotkeyRemoved;
             }
 
             _viewModel?.Dispose();
             _viewModel = null;
         }
 
-        private async UniTask CreateHotkeysAsync()
+        private async UniTask CreateBaseHotkeysAsync()
         {
-            foreach (HotkeySlotView hotkeySlotView in _hotkeySlotViews) {
-                hotkeySlotView.DestroyObject();
+            Transform hotkeyPanel = _hotkeyPanel.transform;
+            for (int i = 0; i < hotkeyPanel.childCount; i++) {
+                hotkeyPanel.GetChild(i).DestroyObject();
             }
-            
+
             _hotkeySlotViews.Clear();
-            
-            List<HotkeySlotViewModel> slots = _viewModel!.GetCurrentSlotsViewModels();
-            List<UniTask<HotkeySlotView>> loadTasks = new(slots.Count);
-            for (int i = 0; i < slots.Count; i++) {
+
+            List<HotkeySlotViewModel> hotkeyViewModel = _viewModel!.GetBaseHotkeysViewModels();
+            List<UniTask<HotkeySlotView>> loadTasks = new(hotkeyViewModel.Count);
+            for (int i = 0; i < hotkeyViewModel.Count; i++) {
                 loadTasks.Add(_resourceService.LoadObjectAsync<HotkeySlotView>());
             }
 
             Transform panelTransform = _hotkeyPanel.transform;
             _hotkeySlotViews = (await UniTask.WhenAll(loadTasks)).ToList();
-            for (int i = 0; i < slots.Count; i++) {
-                HotkeySlotViewModel slotViewModel = slots[i];
+            for (int i = 0; i < hotkeyViewModel.Count; i++) {
+                HotkeySlotViewModel slotViewModel = hotkeyViewModel[i];
                 HotkeySlotView view = _hotkeySlotViews[i];
-                view.Initialize(slotViewModel);
+                view.Initialize(slotViewModel.HotkeyNumber);
                 view.transform.SetParent(panelTransform, false);
             }
         }
 
-        private void OnHotkeyChanged(int hotkey)
+        private void OnHotkeyAdded(HotkeySlotViewModel newItem, int index)
         {
-            CreateHotkeysAsync().Forget(); // todo neiran remove after tests, temp workaround 
+            _hotkeySlotViews[index].Image = newItem.Image;
         }
-        
+
+        private void OnHotkeyReplaced(HotkeySlotViewModel oldItem, HotkeySlotViewModel newItem, int index)
+        {
+            _hotkeySlotViews[index].Image = newItem.Image;
+        }
+
+        private void OnHotkeyRemoved(HotkeySlotViewModel oldItem, int index)
+        {
+            _hotkeySlotViews[index].Image = null;
+        }
+
         public UniTask ShowCrosshair(bool instantly = false)
         {
             return _crosshairController.Show(true);
         }
-        
+
         public UniTask FadeCrosshair(bool instantly = false)
         {
             return _crosshairController.Fade(true);
         }
-        
+
         public void SetColor(Color color)
         {
             _crosshairController.ChangeColor(color);

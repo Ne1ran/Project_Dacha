@@ -4,7 +4,6 @@ using Core.Resources.Service;
 using Core.SceneManagement.Event;
 using Core.SceneManagement.Service;
 using Cysharp.Threading.Tasks;
-using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 using VContainer;
@@ -21,15 +20,13 @@ namespace Core.UI.Service
         [Inject]
         private SceneService _sceneService;
 
-        [CanBeNull]
-        private Canvas _currentCanvas;
+        private Canvas? _currentCanvas;
 
         //todo neiran add priority with dialogs
 
         private readonly Dictionary<Type, GameObject> _dialogs = new();
 
-        [CanBeNull]
-        private IDisposable _disposable;
+        private IDisposable? _disposable;
 
         public void Initialize()
         {
