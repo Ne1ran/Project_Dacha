@@ -1,9 +1,10 @@
-﻿using JetBrains.Annotations;
+﻿using Game.Inventory.Model;
+using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Game.Inventory.Model
+namespace Game.PlayMode.UI.Model
 {
-    public class InventorySlotViewModel
+    public class HotkeySlotViewModel
     {
         [CanBeNull]
         public string ItemId { get; }
@@ -12,7 +13,7 @@ namespace Game.Inventory.Model
         public Sprite Image { get; }
         public int HotkeyNumber { get; }
 
-        public InventorySlotViewModel(string itemId, ItemType itemType, Sprite image, int hotkeyNumber)
+        public HotkeySlotViewModel(string itemId, ItemType itemType, Sprite image, int hotkeyNumber)
         {
             ItemId = itemId;
             ItemType = itemType;
@@ -20,8 +21,9 @@ namespace Game.Inventory.Model
             HotkeyNumber = hotkeyNumber;
         }
 
-        public InventorySlotViewModel()
+        public HotkeySlotViewModel(int hotkeyNumber)
         {
+            HotkeyNumber = hotkeyNumber;
         }
     }
 }

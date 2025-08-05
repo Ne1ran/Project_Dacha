@@ -1,13 +1,14 @@
 ﻿using Core.Resources.Binding.Attributes;
 using Game.Inventory.Model;
+using Game.PlayMode.UI.Model;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Inventory.UI
+namespace Game.PlayMode.UI.Component
 {
-    [PrefabPath("UI/Dialogs/Inventory/InventorySlot")]
-    public class InventorySlotView : MonoBehaviour
+    [PrefabPath("UI/Dialogs/PlayMode/HotkeySlot")]
+    public class HotkeySlotView : MonoBehaviour
     {
         [ComponentBinding("ItemSlot")]
         private Image _itemSlotImage;
@@ -19,17 +20,11 @@ namespace Game.Inventory.UI
             HotkeySlotActive = false;
         }
 
-        public void Initialize(InventorySlotViewModel viewModel)
+        public void Initialize(HotkeySlotViewModel viewModel)
         {
             Image = viewModel.Image;
             Visible = true;
-            int hotkeyNumber = viewModel.HotkeyNumber;
-            if (hotkeyNumber == 0) {
-                return;
-            }
-            
             HotkeySlotActive = true;
-            HotkeyText = hotkeyNumber.ToString();
         }
 
         private string HotkeyText

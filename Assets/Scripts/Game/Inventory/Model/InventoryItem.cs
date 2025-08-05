@@ -6,16 +6,14 @@
         public string Name { get; }
         public ItemType ItemType { get; }
         
-        public int? HotkeyNumber { get; set; }
+        public int HotkeyNumber { get; }
 
-        public InventoryItem(string id, string name, ItemType itemType, int? hotkeyNumber)
+        public InventoryItem(string id, string name, ItemType itemType, int hotkeyNumber = 0)
         {
             Id = id;
             Name = name;
             ItemType = itemType;
             HotkeyNumber = hotkeyNumber;
         }
-
-        public bool IsHotkey => HotkeyNumber != null;
     }
 }

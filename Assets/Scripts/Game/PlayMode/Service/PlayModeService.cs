@@ -20,7 +20,7 @@ namespace Game.PlayMode.Service
         public async UniTask<PlayModeScreen> CreatePlayModeScreen()
         {
             PlayModeScreen playModeScreen = await _uiService.ShowDialogAsync<PlayModeScreen>();
-            playModeScreen.FadeCrosshair(true);
+            await playModeScreen.InitializeAsync();
             PlayModeScreen = playModeScreen;
             return playModeScreen;
         }

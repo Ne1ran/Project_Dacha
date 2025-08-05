@@ -36,7 +36,7 @@ namespace Game.Inventory.ViewModel
                         list.Add(CreateToolSlotViewModel(inventoryItem.Id, inventoryItem.HotkeyNumber));
                         break;
                     default:
-                        // todo neiran add for future items
+                        // todo neiran add for future item types
                         list.Add(new());
                         break;
                 }
@@ -46,11 +46,11 @@ namespace Game.Inventory.ViewModel
         }
 
         [NotNull]
-        private InventorySlotViewModel CreateToolSlotViewModel(string toolId, int? hotkeyNumber)
+        private InventorySlotViewModel CreateToolSlotViewModel(string toolId, int hotkeyNumber)
         {
             ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
             ToolsDescriptorModel toolDescriptor = toolsDescriptor.ToolsDescriptors.Find(tool => tool.ToolId == toolId);
-            return new(toolId, ItemType.HARVEST, toolDescriptor.ToolIcon, hotkeyNumber);
+            return new(toolId, ItemType.TOOL, toolDescriptor.ToolIcon, hotkeyNumber);
         }
     }
 }
