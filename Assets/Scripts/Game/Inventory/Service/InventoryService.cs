@@ -55,9 +55,36 @@ namespace Game.Inventory.Service
             return result;
         }
 
-        public bool TryChangeHotkey(string itemId, int newHotkey)
+        public bool TryChangeHotkey(int slotIndex, int newHotkey)
         {
-            // todo neiran finalize
+            InventoryModel inventory = Inventory;
+
+            InventorySlot slotForBind = inventory.InventorySlots[slotIndex];
+            InventorySlot? currentBindedSlot = inventory.InventorySlots.Find(slot => slot.InventoryItem?.HotkeyNumber == newHotkey);
+
+            InventoryItem? inventoryItem = slotForBind.InventoryItem;
+            if (inventoryItem == null) {
+                Debug.LogWarning($"Can't change hotkey to slot without any items. SlotIndex={slotIndex}");
+                return false;
+            }
+
+            int currentHotkey = inventoryItem.HotkeyNumber;
+            if (!inventoryItem.TryRebindHotkey(newHotkey)) {
+                Debug.Log("Hotkey double binded which means we remove it.");
+                _inventoryRepo.Save(inventory);
+                _hotkeyChangedPublisher.Publish(HotkeyChangedEvent.REMOVED, new(inventoryItem, currentHotkey, 0));
+                return false;
+            }
+
+            if (currentBindedSlot != null) {
+                InventoryItem oldBindedItem = currentBindedSlot.InventoryItem!;
+                int oldHotkey = oldBindedItem.HotkeyNumber;
+                oldBindedItem.TryRebindHotkey(0);
+                _hotkeyChangedPublisher.Publish(HotkeyChangedEvent.REMOVED, new(inventoryItem, oldHotkey, 0));
+            }
+            
+            _hotkeyChangedPublisher.Publish(HotkeyChangedEvent.BINDED, new(inventoryItem, currentHotkey, newHotkey));
+            _inventoryRepo.Save(inventory);
             return true;
         }
 
@@ -115,6 +142,28 @@ namespace Game.Inventory.Service
         }
 
         // todo neiran добавить логирование при провале + constService
+
+        public bool TryRemoveFromSlot(int slotIndex)
+        {
+            InventoryModel inventory = Inventory;
+            InventorySlot? inventorySlot = inventory.InventorySlots[slotIndex];
+            if (inventorySlot == null) {
+                Debug.LogWarning($"Failed to remove item from inventory. Slot not found slotId={slotIndex}");
+                return false;
+            }
+
+            InventoryItem? inventoryItem = inventorySlot.InventoryItem;
+            if (inventoryItem == null) {
+                Debug.Log($"Item was already null when remove from slot={slotIndex}");
+                return false;
+            }
+            
+            inventorySlot.InventoryItem = null;
+            _inventoryChangedPublisher.Publish(InventoryChangedEvent.REMOVED, new(inventoryItem));
+            _inventoryRepo.Save(inventory);
+            Debug.Log($"Removed item from inventory: {inventoryItem.Name}");
+            return true;
+        }
 
         public void RemoveFromInventory(InventoryItem inventoryItem)
         {

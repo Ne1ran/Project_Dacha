@@ -4,6 +4,7 @@ using Core.Descriptors.Service;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
+using Game.Equipment.Service;
 using Game.Inventory.Event;
 using Game.Inventory.Service;
 using Game.PlayMode.UI.Component;
@@ -32,7 +33,13 @@ namespace Game.PlayMode.UI.Screen
         [Inject]
         private InventoryService _inventoryService = null!;
         [Inject]
+        private InventoryMediator _inventoryMediator = null!;
+        [Inject]
+        private EquipmentService _equipmentService = null!;
+        [Inject]
         private ISubscriber<string, HotkeyChangedEvent> _hotkeyChangedSubscriber = null!;
+        [Inject]
+        private ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber = null!;
 
         private PlayModeScreenViewModel? _viewModel;
 
@@ -41,12 +48,13 @@ namespace Game.PlayMode.UI.Screen
         public async UniTask InitializeAsync()
         {
             FadeCrosshair(true).Forget();
-            _viewModel = new(_inventoryService, _descriptorService, _hotkeyChangedSubscriber);
+            _viewModel = new(_inventoryService, _descriptorService, _equipmentService, _inventoryChangedSubscriber, _hotkeyChangedSubscriber);
             await CreateBaseHotkeysAsync();
 
             _viewModel.Hotkeys.ItemAdded += OnHotkeyAdded;
             _viewModel.Hotkeys.ItemReplaced += OnHotkeyReplaced;
             _viewModel.Hotkeys.ItemRemoved += OnHotkeyRemoved;
+            _viewModel.HighlightedHotkey.Changed += OnHotkeyHighlighted;
             _viewModel.Initialize();
         }
 
@@ -56,10 +64,38 @@ namespace Game.PlayMode.UI.Screen
                 _viewModel.Hotkeys.ItemAdded -= OnHotkeyAdded;
                 _viewModel.Hotkeys.ItemReplaced -= OnHotkeyReplaced;
                 _viewModel.Hotkeys.ItemRemoved -= OnHotkeyRemoved;
+                _viewModel.HighlightedHotkey.Changed -= OnHotkeyHighlighted;
             }
 
             _viewModel?.Dispose();
             _viewModel = null;
+        }
+
+        private void Update()
+        {
+            if (_inventoryMediator.InventoryOpened) {
+                return;
+            }
+            
+            string input = Input.inputString;
+            if (string.IsNullOrEmpty(input)) {
+                return;
+            }
+
+            if (input.Length != 1) {
+                return;
+            }
+
+            char currentInputChar = input[0];
+            if (!int.TryParse(currentInputChar.ToString(), out int result)) {
+                return;
+            }
+
+            if (result is <= 0 or > Constants.Constants.HOT_KEY_SLOTS) {
+                return;
+            }
+
+            _viewModel!.SelectItemFromHotkey(result);
         }
 
         private async UniTask CreateBaseHotkeysAsync()
@@ -100,6 +136,14 @@ namespace Game.PlayMode.UI.Screen
         private void OnHotkeyRemoved(HotkeySlotViewModel oldItem, int index)
         {
             _hotkeySlotViews[index].Image = null;
+        }
+
+        private void OnHotkeyHighlighted(int oldIndex, int newIndex)
+        {
+            for (int i = 0; i < _hotkeySlotViews.Count; i++) {
+                HotkeySlotView hotkeySlot = _hotkeySlotViews[i];
+                hotkeySlot.Highlighted = i == newIndex;
+            }
         }
 
         public UniTask ShowCrosshair(bool instantly = false)

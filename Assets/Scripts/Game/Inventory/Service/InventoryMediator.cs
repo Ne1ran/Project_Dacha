@@ -73,5 +73,7 @@ namespace Game.Inventory.Service
             _inventoryOpened = false;
             _ignore = false;
         }
+        
+        public bool InventoryOpened => _inventoryOpened;
     }
 }

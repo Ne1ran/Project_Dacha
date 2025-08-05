@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Core.Descriptors.Service;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
@@ -34,6 +35,8 @@ namespace Game.Inventory.UI
         [Inject]
         private IPublisher<string, InventoryStatusEvent> _inventoryPublisher = null!;
 
+        private List<InventorySlotView> _inventorySlots = new();
+
         private void Awake()
         {
             _closeButton.onClick.AddListener(OnCloseTriggered);
@@ -56,12 +59,35 @@ namespace Game.Inventory.UI
                 loadTasks.Add(_resourceService.LoadObjectAsync<InventorySlotView>());
             }
 
-            InventorySlotView[] inventorySlotViews = await UniTask.WhenAll(loadTasks);
+            _inventorySlots = (await UniTask.WhenAll(loadTasks)).ToList();
             for (int i = 0; i < slots.Count; i++) {
                 InventorySlotViewModel slotViewModel = slots[i];
-                InventorySlotView view = inventorySlotViews[i];
-                view.Initialize(slotViewModel);
+                InventorySlotView view = _inventorySlots[i];
+                view.Initialize(slotViewModel, i);
+                view.Dropped += OnItemDropped;
+                view.Binded += OnItemBinded;
                 view.transform.SetParent(_mainPanel, false);
+            }
+        }
+
+        private void OnItemDropped(int slotIndex)
+        {
+            if (_inventoryService.TryRemoveFromSlot(slotIndex)) {
+                _inventorySlots[slotIndex].Clear();
+            }
+        }
+
+        private void OnItemBinded(int slotIndex, int hotkeyNumber)
+        {
+            if (_inventoryService.TryChangeHotkey(slotIndex, hotkeyNumber)) {
+                InventorySlotView? slotView = _inventorySlots.Find(slot => slot.CurrentHotkey == hotkeyNumber);
+                if (slotView != null) {
+                    slotView.UpdateHotkey(0);    
+                }
+                
+                _inventorySlots[slotIndex].UpdateHotkey(hotkeyNumber);
+            } else {
+                _inventorySlots[slotIndex].UpdateHotkey(0);
             }
         }
 

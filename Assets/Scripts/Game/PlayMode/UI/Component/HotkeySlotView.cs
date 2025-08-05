@@ -1,5 +1,5 @@
 ﻿using Core.Resources.Binding.Attributes;
-using Game.PlayMode.UI.Model;
+using Game.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,9 +11,13 @@ namespace Game.PlayMode.UI.Component
     {
         [ComponentBinding("ItemSlot")]
         private Image _itemSlotImage = null!;
+        [ComponentBinding("Highlight")]
+        private Image _hotkeyHighlight = null!;
         [ComponentBinding("HotkeySlot")]
         private TextMeshProUGUI _hotkeySlotText = null!;
 
+        public int HotkeyNumber { get; private set; }
+        
         private void Awake()
         {
             HotkeySlotActive = false;
@@ -25,6 +29,8 @@ namespace Game.PlayMode.UI.Component
             ImageVisible = false;
             HotkeySlotActive = true;
             HotkeyText = hotkeyNumber.ToString();
+            Highlighted = false;
+            HotkeyNumber = hotkeyNumber;
         }
 
         private string HotkeyText
@@ -49,6 +55,11 @@ namespace Game.PlayMode.UI.Component
         private bool ImageVisible
         {
             set => _itemSlotImage.color = value ? Color.white : Color.clear;
+        }
+
+        public bool Highlighted
+        {
+            set => _hotkeyHighlight.SetActive(value);   
         }
     }
 }
