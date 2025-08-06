@@ -1,6 +1,9 @@
-﻿using Core.EntryPoints;
+﻿using Core.Console.Service;
+using Core.Descriptors.Service;
+using Core.EntryPoints;
 using Core.Resources.Service;
 using Core.SceneManagement.Service;
+using Core.Serialization;
 using Core.UI.Service;
 using MessagePipe;
 using VContainer;
@@ -17,8 +20,11 @@ namespace Core.Scopes
             
             builder.Register<IResourceService, ResourceService>(Lifetime.Singleton);
             builder.Register<SceneService>(Lifetime.Singleton);
+            builder.Register<ConsoleService>(Lifetime.Singleton);
+            builder.Register<IDescriptorService, ResourcesDescriptorsService>(Lifetime.Singleton);
             builder.RegisterMessagePipe();
             builder.Register<UIService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<ISerializer, JsonSerializer>(Lifetime.Singleton);
             builder.RegisterComponentInHierarchy<ApplicationEntryPoint>();
         }
     } 

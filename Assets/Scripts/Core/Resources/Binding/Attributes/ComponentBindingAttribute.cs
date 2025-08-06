@@ -8,8 +8,7 @@ namespace Core.Resources.Binding.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class ComponentBindingAttribute : Attribute
     {
-        [CanBeNull] 
-        public string ComponentName { get; }
+        public string? ComponentName { get; }
         
         public ComponentBindingAttribute(string componentName) => ComponentName = componentName;
 

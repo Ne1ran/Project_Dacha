@@ -1,6 +1,5 @@
 ﻿using System;
 using Core.Serialization;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Core.Repository
@@ -8,7 +7,6 @@ namespace Core.Repository
     public abstract class SingleEntityPrefsRepository<TEntity> : ISingleEntityRepository<TEntity>
             where TEntity : class
     {
-        [NotNull]
         protected abstract string Key { get; }
         
         private readonly ISerializer _deserializer;

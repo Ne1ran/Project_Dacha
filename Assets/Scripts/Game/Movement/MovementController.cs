@@ -115,5 +115,13 @@ namespace Game.Movement
             Cursor.lockState = newVisibility ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = newVisibility;
         }
+
+        // Нужно для отключения мувмента при открытии инвентаря и не только. В будущем переделать, что падать и т.п. мы можем, только не можем двигаться и вертется
+        // todo neiran
+        public void SetActive(bool state)
+        {
+            _moveEnabled = state;
+            _lookEnabled = state;
+        }
     }
 }

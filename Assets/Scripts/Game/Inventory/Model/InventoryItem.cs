@@ -2,10 +2,29 @@
 {
     public class InventoryItem
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Icon { get; set; }
-        public ItemType ItemType { get; set; }
-        public bool IsHotkey { get; set; }
+        public string Id { get; }
+        public string Name { get; }
+        public ItemType ItemType { get; }
+
+        public int HotkeyNumber { get; private set; }
+
+        public InventoryItem(string id, string name, ItemType itemType, int hotkeyNumber = 0)
+        {
+            Id = id;
+            Name = name;
+            ItemType = itemType;
+            HotkeyNumber = hotkeyNumber;
+        }
+
+        public bool TryRebindHotkey(int newHotkey)
+        {
+            if (HotkeyNumber == newHotkey) {
+                HotkeyNumber = 0;
+                return false;
+            }
+            
+            HotkeyNumber = newHotkey;
+            return true;
+        }
     }
 }

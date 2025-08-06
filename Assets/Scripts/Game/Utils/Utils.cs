@@ -253,7 +253,7 @@ namespace Game.Utils
                     return child.GetComponent<T>();
                 }
 
-                T found = GetComponentInChild<T>(child, childName, includeInactive);
+                T? found = GetComponentInChild<T>(child, childName, includeInactive);
                 if (found) {
                     return found;
                 }

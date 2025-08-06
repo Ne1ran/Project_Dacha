@@ -1,21 +1,27 @@
 ﻿using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
-using Game.Player.Component;
+using Game.Player.Controller;
+using JetBrains.Annotations;
 
 namespace Game.Player.Service
 {
+    [UsedImplicitly]
     public class PlayerService
     {
         private readonly IResourceService _resourceService;
+        
+        public PlayerController Player { get; private set; }
 
         public PlayerService(IResourceService resourceService)
         {
             _resourceService = resourceService;
         }
 
-        public UniTask<PlayerController> CreatePlayerAsync()
+        public async UniTask<PlayerController> CreatePlayerAsync()
         {
-            return _resourceService.LoadObjectAsync<PlayerController>();
+            PlayerController playerController = await _resourceService.LoadObjectAsync<PlayerController>();
+            Player = playerController;
+            return playerController;
         }
     }
 }
