@@ -1,4 +1,11 @@
-﻿using Core.Attributes;
+﻿using System;
+using Core.Attributes;
+using Core.Descriptors.Service;
+using Game.Equipment.Event;
+using Game.Equipment.Repo;
+using Game.Items.Descriptors;
+using Game.Items.Model;
+using MessagePipe;
 using UnityEngine;
 
 namespace Game.Equipment.Service
@@ -6,19 +13,49 @@ namespace Game.Equipment.Service
     [UsedImplicitly]
     public class EquipmentService
     {
-        private string? _equippedTool; // todo neiran redo to repo
-        
-        public bool TryEquip(string toolId)
+        private readonly EquipmentRepo _equipmentRepo;
+        private readonly IDescriptorService _descriptorService;
+        private readonly IPublisher<string, EquipmentChangedEvent> _equipmentChangedPublisher;
+
+        public EquipmentService(IDescriptorService descriptorService, IPublisher<string, EquipmentChangedEvent> equipmentChangedPublisher, EquipmentRepo equipmentRepo)
         {
-            if (_equippedTool == toolId) {
-                Debug.Log($"Unequipped tool={toolId}");
-                _equippedTool = null;
+            _descriptorService = descriptorService;
+            _equipmentChangedPublisher = equipmentChangedPublisher;
+            _equipmentRepo = equipmentRepo;
+        }
+
+        public bool TryEquipItem(string itemId)
+        {
+            if (string.IsNullOrEmpty(itemId)) {
+                throw new ArgumentException("Can't equip item with empty id!");
+            }
+
+            ItemModel? equippedItem = _equipmentRepo.Get();
+
+            if (equippedItem?.ItemId == itemId) {
+                Debug.Log($"Unequipped tool={itemId}");
+                Unequip();
                 return false;
             }
-            
-            _equippedTool = toolId;
-            Debug.Log($"Equipped tool={toolId}");
+
+            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
+            ItemDescriptorModel? descriptorModel = itemsDescriptor.ItemDescriptors.Find(descriptor => descriptor.ItemId == itemId);
+            if (descriptorModel == null) {
+                throw new ArgumentException($"Descriptor for item not found! ItemId={itemId}");
+            }
+
+            ItemModel newItem = new(descriptorModel.ItemId, descriptorModel.ItemPrefab, descriptorModel.ItemType, descriptorModel.Stackable,
+                                    descriptorModel.ShowInHand, descriptorModel.MaxStack);
+            _equipmentChangedPublisher.Publish(EquipmentChangedEvent.EQUIPMENT_CHANGED, new(equippedItem, newItem));
+            _equipmentRepo.Save(newItem);
+            Debug.Log($"Equipped tool={itemId}");
             return true;
+        }
+
+        private void Unequip()
+        {
+            _equipmentChangedPublisher.Publish(EquipmentChangedEvent.EQUIPMENT_DROPPED, new(_equipmentRepo.Get()));
+            _equipmentRepo.Clear();
         }
     }
 }

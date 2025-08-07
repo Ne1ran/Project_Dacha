@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Core.Descriptors.Service;
-using Game.Descriptors;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
+using Game.Tools.Descriptors;
 
 namespace Game.Inventory.ViewModel
 {

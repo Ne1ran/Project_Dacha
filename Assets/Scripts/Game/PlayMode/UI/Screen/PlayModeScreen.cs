@@ -41,6 +41,7 @@ namespace Game.PlayMode.UI.Screen
         [Inject]
         private ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber = null!;
 
+        // todo neiran make it into hotkey panel, take all methods from here and plug it into new panel
         private PlayModeScreenViewModel? _viewModel;
 
         private List<HotkeySlotView> _hotkeySlotViews = new(Constants.Constants.HOT_KEY_SLOTS);
