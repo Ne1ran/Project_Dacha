@@ -1,4 +1,5 @@
 ﻿using Core.EntryPoints;
+using Game.Drop.Service;
 using Game.Equipment.Repo;
 using Game.Equipment.Service;
 using Game.Inventory.Repo;
@@ -24,8 +25,9 @@ namespace Core.Scopes
             builder.Register<PlayerService>(Lifetime.Singleton);
             builder.Register<PlayModeService>(Lifetime.Singleton);
             builder.Register<ToolsService>(Lifetime.Singleton);
+            builder.Register<DropService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EquipmentRepo>(Lifetime.Singleton);
-            builder.Register<WorldEquipmentManager>(Lifetime.Singleton);
+            builder.Register<WorldEquipmentManager>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EquipmentService>(Lifetime.Singleton);
             
             DachaEntryPoint entryPoint = this.AddComponent<DachaEntryPoint>();

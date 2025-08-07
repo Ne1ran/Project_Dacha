@@ -17,13 +17,17 @@ namespace Game.Equipment.Service
         private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, EquipmentChangedEvent> _equipmentChangedPublisher;
 
-        public EquipmentService(IDescriptorService descriptorService, IPublisher<string, EquipmentChangedEvent> equipmentChangedPublisher, EquipmentRepo equipmentRepo)
+        private IDisposable? _disposable;
+        
+        public EquipmentService(IDescriptorService descriptorService,
+                                IPublisher<string, EquipmentChangedEvent> equipmentChangedPublisher,
+                                EquipmentRepo equipmentRepo)
         {
             _descriptorService = descriptorService;
             _equipmentChangedPublisher = equipmentChangedPublisher;
             _equipmentRepo = equipmentRepo;
         }
-
+        
         public bool TryEquipItem(string itemId)
         {
             if (string.IsNullOrEmpty(itemId)) {
@@ -44,18 +48,20 @@ namespace Game.Equipment.Service
                 throw new ArgumentException($"Descriptor for item not found! ItemId={itemId}");
             }
 
-            ItemModel newItem = new(descriptorModel.ItemId, descriptorModel.ItemPrefab, descriptorModel.ItemType, descriptorModel.Stackable,
-                                    descriptorModel.ShowInHand, descriptorModel.MaxStack);
+            ItemModel newItem = new(descriptorModel.ItemId, descriptorModel.ItemPrefab, descriptorModel.ItemType, descriptorModel.DropOffsetMultiplier,
+                                    descriptorModel.Stackable, descriptorModel.ShowInHand, descriptorModel.MaxStack);
             _equipmentChangedPublisher.Publish(EquipmentChangedEvent.EQUIPMENT_CHANGED, new(equippedItem, newItem));
             _equipmentRepo.Save(newItem);
             Debug.Log($"Equipped tool={itemId}");
             return true;
         }
 
-        private void Unequip()
+        public void Unequip()
         {
-            _equipmentChangedPublisher.Publish(EquipmentChangedEvent.EQUIPMENT_DROPPED, new(_equipmentRepo.Get()));
+            _equipmentChangedPublisher.Publish(EquipmentChangedEvent.EQUIPMENT_CHANGED, new(_equipmentRepo.Get()));
             _equipmentRepo.Clear();
         }
+
+        public ItemModel? CurrentlyEquippedItem => _equipmentRepo.Get();
     }
 }

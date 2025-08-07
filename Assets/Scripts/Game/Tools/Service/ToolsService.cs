@@ -41,6 +41,21 @@ namespace Game.Tools.Service
             return toolController;
         }
 
+        public async UniTask<ToolController> CreateTool(string toolId, Transform parent)
+        {
+            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
+            List<ToolsDescriptorModel> tools = toolsDescriptor.ToolsDescriptors;
+            ToolsDescriptorModel toolsDescriptorModel = tools.Find(tool => tool.ToolId == toolId);
+            if (toolsDescriptorModel == null) {
+                throw new ArgumentException($"Tool not found with id={toolId}");
+            }
+
+            ToolController toolController = await _resourceService.LoadObjectAsync<ToolController>(toolsDescriptorModel.ToolPrefab);
+            toolController.transform.SetParent(parent);
+            toolController.name = toolsDescriptorModel.ToolId;
+            return toolController;
+        }
+
         public void PickUpTool(ToolController toolController)
         {
             string toolId = toolController.GetName;

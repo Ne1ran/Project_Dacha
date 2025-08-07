@@ -112,6 +112,7 @@ namespace Game.PlayMode.UI.ViewModel
             int hotkeyIndex = GetHotkeyIndex(hotkeyNumber);
             HotkeySlotViewModel item = Hotkeys.Collection[hotkeyIndex];
             if (string.IsNullOrEmpty(item.ItemId)) {
+                _equipmentService.Unequip();
                 HighlightedHotkey.Value = -1;
                 return;
             }

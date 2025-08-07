@@ -15,6 +15,8 @@ namespace Game.Items.Descriptors
         [field: SerializeField]
         public ItemType ItemType { get; set; }
         [field: SerializeField]
+        public float DropOffsetMultiplier { get; set; } = 2.5f;
+        [field: SerializeField]
         public bool Stackable { get; set; } = false;
         [field: SerializeField]
         public bool ShowInHand { get; set; } = false;

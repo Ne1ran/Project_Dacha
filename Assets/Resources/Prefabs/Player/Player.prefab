@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 3257534338133523548}
   - component: {fileID: 8315342127082268395}
   - component: {fileID: -7499732974278749224}
+  - component: {fileID: -9113507981868212196}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -191,6 +192,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83d4bf7d88534feabbc9dbf51bc13200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-9113507981868212196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3538436487867819959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89b71f1322442d4867aae553154f5e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5290337999090088499
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5799461379688711152}
   m_Layer: 0
-  m_Name: LeftArm
+  m_Name: LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -216,7 +229,7 @@ Transform:
   m_GameObject: {fileID: 5290337999090088499}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.15, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0.15, z: 0.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -400,7 +413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4768607843009654842}
   m_Layer: 0
-  m_Name: RightArm
+  m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -415,7 +428,7 @@ Transform:
   m_GameObject: {fileID: 8735691544334886346}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.15, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.15, z: 0.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

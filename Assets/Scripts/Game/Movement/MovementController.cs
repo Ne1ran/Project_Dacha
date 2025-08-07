@@ -42,7 +42,7 @@ namespace Game.Movement
         private float _currentFov;
         private float _fovVelocity;
         private float _gravity;
-
+        
         private void Awake()
         {
             _gravity = 9.81f;
@@ -116,12 +116,14 @@ namespace Game.Movement
             Cursor.visible = newVisibility;
         }
 
-        // Нужно для отключения мувмента при открытии инвентаря и не только. В будущем переделать, что падать и т.п. мы можем, только не можем двигаться и вертется
+        // Нужно для отключения мувмента при открытии инвентаря и не только. В будущем переделать, что падать и т.п. мы можем, только не можем двигаться и вертеться
         // todo neiran
         public void SetActive(bool state)
         {
             _moveEnabled = state;
             _lookEnabled = state;
         }
+        
+        public Vector3 Forward => _playerCamera.forward;
     }
 }
