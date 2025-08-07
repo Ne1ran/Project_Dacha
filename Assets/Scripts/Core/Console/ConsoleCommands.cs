@@ -1,8 +1,8 @@
 ﻿using Core.Descriptors.Service;
 using Core.Scopes;
 using Cysharp.Threading.Tasks;
-using Game.Descriptors;
 using Game.Player.Service;
+using Game.Tools.Descriptors;
 using Game.Tools.Service;
 using IngameDebugConsole;
 using JetBrains.Annotations;

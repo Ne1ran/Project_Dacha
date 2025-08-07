@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Game.Descriptors
+namespace Game.Tools.Descriptors
 {
     [Serializable]
     public class ToolsDescriptorModel

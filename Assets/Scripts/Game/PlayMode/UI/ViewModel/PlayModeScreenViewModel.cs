@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Core.Descriptors.Service;
 using Core.Reactive;
-using Game.Descriptors;
 using Game.Equipment.Service;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.PlayMode.UI.Model;
+using Game.Tools.Descriptors;
 using Game.Utils;
 using MessagePipe;
 using UnityEngine;
@@ -112,11 +112,12 @@ namespace Game.PlayMode.UI.ViewModel
             int hotkeyIndex = GetHotkeyIndex(hotkeyNumber);
             HotkeySlotViewModel item = Hotkeys.Collection[hotkeyIndex];
             if (string.IsNullOrEmpty(item.ItemId)) {
+                _equipmentService.Unequip();
                 HighlightedHotkey.Value = -1;
                 return;
             }
 
-            if (_equipmentService.TryEquip(item.ItemId)) {
+            if (_equipmentService.TryEquipItem(item.ItemId)) {
                 HighlightedHotkey.Value = Hotkeys.Collection.IndexOf(item);
             } else {
                 HighlightedHotkey.Value = -1;

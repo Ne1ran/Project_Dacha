@@ -9,8 +9,8 @@ namespace Game.Player.Service
     public class PlayerService
     {
         private readonly IResourceService _resourceService;
-        
-        public PlayerController Player { get; private set; }
+
+        public PlayerController Player { get; private set; } = null!;
 
         public PlayerService(IResourceService resourceService)
         {

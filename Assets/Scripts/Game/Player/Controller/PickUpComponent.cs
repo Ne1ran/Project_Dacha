@@ -11,9 +11,9 @@ namespace Game.Player.Controller
         private Transform _head = null!;
         private LayerMask _layerMask;
 
-        public event Action OnLook;
-        public event Action OnUnlook;
-        public event Action<IInteractableComponent> OnInteract;
+        public event Action? OnLook;
+        public event Action? OnUnlook;
+        public event Action<IInteractableComponent>? OnInteract;
 
         private IInteractableComponent? _currentLook;
 

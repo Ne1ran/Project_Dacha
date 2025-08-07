@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
-using Game.Descriptors;
 using Game.Inventory.Service;
 using Game.Tools.Component;
+using Game.Tools.Descriptors;
 using Game.Utils;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -37,6 +37,21 @@ namespace Game.Tools.Service
 
             ToolController toolController = await _resourceService.LoadObjectAsync<ToolController>(toolsDescriptorModel.ToolPrefab);
             toolController.transform.position = position;
+            toolController.name = toolsDescriptorModel.ToolId;
+            return toolController;
+        }
+
+        public async UniTask<ToolController> CreateTool(string toolId, Transform parent)
+        {
+            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
+            List<ToolsDescriptorModel> tools = toolsDescriptor.ToolsDescriptors;
+            ToolsDescriptorModel toolsDescriptorModel = tools.Find(tool => tool.ToolId == toolId);
+            if (toolsDescriptorModel == null) {
+                throw new ArgumentException($"Tool not found with id={toolId}");
+            }
+
+            ToolController toolController = await _resourceService.LoadObjectAsync<ToolController>(toolsDescriptorModel.ToolPrefab);
+            toolController.transform.SetParent(parent);
             toolController.name = toolsDescriptorModel.ToolId;
             return toolController;
         }

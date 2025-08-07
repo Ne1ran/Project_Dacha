@@ -18,5 +18,10 @@
         {
             _entity = entity;
         }
+
+        public void Clear()
+        {
+            _entity = default!;
+        }
     }
 }
