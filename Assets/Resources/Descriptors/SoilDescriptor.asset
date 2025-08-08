@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863b2d7ec31d44ce87832950143fd0fb, type: 3}
+  m_Name: SoilDescriptor
+  m_EditorClassIdentifier: 
+  <ItemDescriptors>k__BackingField:
+  - <SoilType>k__BackingField: 0
+    <Ph>k__BackingField: 0
+    <Salinity>k__BackingField: 0
+    <Breathability>k__BackingField: 0
+    <Humus>k__BackingField: 30000
+  - <SoilType>k__BackingField: 1
+    <Ph>k__BackingField: 0
+    <Salinity>k__BackingField: 0
+    <Breathability>k__BackingField: 0
+    <Humus>k__BackingField: 30000
+  - <SoilType>k__BackingField: 2
+    <Ph>k__BackingField: 0
+    <Salinity>k__BackingField: 0
+    <Breathability>k__BackingField: 0
+    <Humus>k__BackingField: 30000
+  - <SoilType>k__BackingField: 3
+    <Ph>k__BackingField: 0
+    <Salinity>k__BackingField: 0
+    <Breathability>k__BackingField: 0
+    <Humus>k__BackingField: 30000
+  - <SoilType>k__BackingField: 4
+    <Ph>k__BackingField: 0
+    <Salinity>k__BackingField: 0
+    <Breathability>k__BackingField: 0
+    <Humus>k__BackingField: 30000
+  - <SoilType>k__BackingField: 5
+    <Ph>k__BackingField: 0
+    <Salinity>k__BackingField: 0
+    <Breathability>k__BackingField: 0
+    <Humus>k__BackingField: 30000
+  - <SoilType>k__BackingField: 6
+    <Ph>k__BackingField: 0
+    <Salinity>k__BackingField: 0
+    <Breathability>k__BackingField: 0
+    <Humus>k__BackingField: 30000
