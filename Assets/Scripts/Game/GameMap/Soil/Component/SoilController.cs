@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Soil.Component
+namespace Game.GameMap.Soil.Component
 {
     public class SoilController : MonoBehaviour
     {

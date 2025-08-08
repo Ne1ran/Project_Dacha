@@ -1,4 +1,4 @@
-﻿namespace Game.Soil.Model
+﻿namespace Game.GameMap.Soil.Model
 {
     public enum SoilType
     {

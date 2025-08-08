@@ -1,4 +1,4 @@
-﻿namespace Game.Soil.Service
+﻿namespace Game.GameMap.Soil.Service
 {
     public class SoilService
     {

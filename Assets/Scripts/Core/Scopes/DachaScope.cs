@@ -2,13 +2,14 @@
 using Game.Drop.Service;
 using Game.Equipment.Repo;
 using Game.Equipment.Service;
+using Game.GameMap.Map.Service;
+using Game.GameMap.Soil.Service;
+using Game.GameMap.Tiles.Repo;
+using Game.GameMap.Tiles.Service;
 using Game.Inventory.Repo;
 using Game.Inventory.Service;
 using Game.Player.Service;
 using Game.PlayMode.Service;
-using Game.Soil.Service;
-using Game.Tiles.Repo;
-using Game.Tiles.Service;
 using Game.TimeMove.Repo;
 using Game.TimeMove.Service;
 using Game.Tools.Service;
@@ -35,9 +36,11 @@ namespace Core.Scopes
             builder.Register<WorldEquipmentManager>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EquipmentService>(Lifetime.Singleton);
             builder.Register<TileRepo>(Lifetime.Singleton);
-            builder.Register<TileService>(Lifetime.Singleton);
+            builder.Register<TileService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<SoilService>(Lifetime.Singleton);
             builder.Register<TimeRepo>(Lifetime.Singleton);
+            builder.Register<WorldTileService>(Lifetime.Singleton);
+            builder.Register<MapService>(Lifetime.Singleton);
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             

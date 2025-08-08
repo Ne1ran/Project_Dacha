@@ -1,9 +1,10 @@
 ﻿using Core.SceneManagement.Service;
 using Cysharp.Threading.Tasks;
+using Game.GameMap.Map.Service;
+using Game.GameMap.Spawn;
 using Game.Player.Controller;
 using Game.Player.Service;
 using Game.PlayMode.Service;
-using Game.Spawn;
 using Game.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,12 +15,14 @@ namespace Core.EntryPoints
     public class DachaEntryPoint : MonoBehaviour
     {
         [Inject]
-        private PlayerService _playerService;
+        private PlayerService _playerService = null!;
         [Inject]
-        private SceneService _sceneService;
+        private SceneService _sceneService = null!;
         [Inject]
-        private PlayModeService _playModeService;
-        
+        private PlayModeService _playModeService = null!;
+        [Inject]
+        private MapService _mapService = null!;
+
         private void Start()
         {
             Debug.Log("Starting Dacha");
@@ -29,6 +32,8 @@ namespace Core.EntryPoints
 
         private async UniTask StartGameAsync()
         {
+            await _mapService.InitializeMapAsync();
+
             PlayerController playerController = await _playerService.CreatePlayerAsync();
 
             Scene scene = _sceneService.Scene!.Value;
