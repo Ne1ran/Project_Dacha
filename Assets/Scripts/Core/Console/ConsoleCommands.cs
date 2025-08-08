@@ -2,6 +2,7 @@
 using Core.Scopes;
 using Cysharp.Threading.Tasks;
 using Game.Player.Service;
+using Game.TimeMove.Service;
 using Game.Tools.Descriptors;
 using Game.Tools.Service;
 using IngameDebugConsole;
@@ -40,6 +41,13 @@ namespace Core.Console
             foreach (ToolsDescriptorModel descriptor in toolsDescriptor.ToolsDescriptors) {
                 toolsService.CreateTool(descriptor.ToolId, spawnPosition).Forget();
             }
+        }
+
+        [ConsoleMethod("timePass", "Passes time for N minutes")]
+        public static void PassTime(int minutes)
+        {
+            TimeService timeService = Container.Resolve<TimeService>();
+            timeService.TryPassTime(minutes);
         }
         
         private static IObjectResolver Container => AppContext.CurrentScope.Container;

@@ -6,6 +6,11 @@ using Game.Inventory.Repo;
 using Game.Inventory.Service;
 using Game.Player.Service;
 using Game.PlayMode.Service;
+using Game.Soil.Service;
+using Game.Tiles.Repo;
+using Game.Tiles.Service;
+using Game.TimeMove.Repo;
+using Game.TimeMove.Service;
 using Game.Tools.Service;
 using Unity.VisualScripting;
 using VContainer;
@@ -29,6 +34,12 @@ namespace Core.Scopes
             builder.Register<EquipmentRepo>(Lifetime.Singleton);
             builder.Register<WorldEquipmentManager>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EquipmentService>(Lifetime.Singleton);
+            builder.Register<TileRepo>(Lifetime.Singleton);
+            builder.Register<TileService>(Lifetime.Singleton);
+            builder.Register<SoilService>(Lifetime.Singleton);
+            builder.Register<TimeRepo>(Lifetime.Singleton);
+            builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             
             DachaEntryPoint entryPoint = this.AddComponent<DachaEntryPoint>();
             builder.RegisterComponent(entryPoint);

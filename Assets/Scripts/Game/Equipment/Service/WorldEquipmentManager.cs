@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Equipment.Event;
 using Game.Inventory.Event;
@@ -9,6 +8,7 @@ using Game.Items.Model;
 using Game.Player.Controller;
 using Game.Player.Service;
 using Game.Tools.Service;
+using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;

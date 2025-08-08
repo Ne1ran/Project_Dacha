@@ -2,13 +2,14 @@
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Repo;
+using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
 
 namespace Game.Inventory.Service
 {
-    [Core.Attributes.UsedImplicitly]
+    [UsedImplicitly]
     public class InventoryService : IInitializable
     {
         private readonly IPublisher<string, InventoryChangedEvent> _inventoryChangedPublisher;

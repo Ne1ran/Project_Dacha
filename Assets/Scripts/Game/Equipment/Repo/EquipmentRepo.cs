@@ -1,6 +1,6 @@
-﻿using Core.Attributes;
-using Core.Repository;
+﻿using Core.Repository;
 using Game.Items.Model;
+using JetBrains.Annotations;
 
 namespace Game.Equipment.Repo
 {
