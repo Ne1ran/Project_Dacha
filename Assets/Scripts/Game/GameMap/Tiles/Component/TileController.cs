@@ -9,7 +9,7 @@ namespace Game.GameMap.Tiles.Component
     {
         public void Initialize(SingleTileModel model)
         {
-            
+            // todo neiran do smth according to skin? maybe create everything sooner?
         }
     }
 }

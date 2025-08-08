@@ -1,4 +1,5 @@
 ﻿using Core.EntryPoints;
+using Core.GameWorld.Service;
 using Game.Drop.Service;
 using Game.Equipment.Repo;
 using Game.Equipment.Service;
@@ -40,6 +41,7 @@ namespace Core.Scopes
             builder.Register<SoilService>(Lifetime.Singleton);
             builder.Register<TimeRepo>(Lifetime.Singleton);
             builder.Register<WorldTileService>(Lifetime.Singleton);
+            builder.Register<GameWorldService>(Lifetime.Singleton);
             builder.Register<MapService>(Lifetime.Singleton);
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
