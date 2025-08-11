@@ -1,186 +1,147 @@
-using Simple_Pie_Menu.Scripts.CustomAttributes.OnValueChangeAttribute;
-using Simple_Pie_Menu.Scripts.CustomAttributes.ReadonlyAttribute;
 using Simple_Pie_Menu.Scripts.Others;
 using Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Menu_Toggler;
-using Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Settings_Handlers;
-using Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Settings_Handlers.Info_Panel_Settings_Handler;
-using Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Singleton;
 using Simple_Pie_Menu.Scripts.Pie_Menu;
+using Simple_Pie_Menu.Scripts.Pie_Menu.Settings;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Simple_Pie_Menu.Scripts.Menu_Item
 {
-    [ExecuteInEditMode]
     public class PieMenuItem : MonoBehaviour
     {
-        [SerializeField] PieMenu pieMenu;
+        [Header("Menu Item")]
+        [ReadOnly]
+        [SerializeField]
+        private int _id;
 
-        public PieMenu PieMenu
+        public int Id => _id;
+
+        [SerializeField]
+        private string _header = null!;
+
+        public string Header => _header;
+
+        [HideInInspector]
+        [SerializeField]
+        private string _details;
+
+        public string Details => _details;
+
+        public AudioSource HoverAudioSource { get; private set; } = null!;
+
+        private Animator _animator = null!;
+        private IMenuItemClickHandler _clickHandler = null!;
+
+        private bool _idAssigned;
+        private bool _mouseOverButton;
+        private readonly string _mouseEnterTrigger = "MouseEnter";
+        private readonly string _mouseExitTrigger = "MouseExit";
+
+        private PieMenuGeneralSettings _generalSettings = null!;
+        private PieMenuToggler _pieMenuToggler = null!;
+
+        private RectTransform _pieRectTransform = null!;
+        private PieMenuMain _pieMenuMain = null!;
+
+        public float SizeDeltaX => _pieRectTransform.sizeDelta.x;
+
+        private void Awake()
         {
-            get { return pieMenu; }
+            _pieRectTransform = GetComponent<RectTransform>();
         }
 
-
-        [Header("Menu Item")] [Readonly] [SerializeField]
-        int id;
-
-        public int Id
+        // todo
+        public void Initialize(PieMenuMain pieMenuMain)
         {
-            get { return id; }
-        }
+            if (PrefabIsolationModeHelper.IsInPrefabIsolationMode()) {
+                return;
+            }
 
-        [OnValueChange(nameof(DisplayHeader))] [SerializeField]
-        string header;
+            _pieMenuMain = pieMenuMain;
 
-        public string Header
-        {
-            get { return header; }
-        }
+            HoverAudioSource = GetComponent<AudioSource>();
+            _animator = GetComponent<Animator>();
+            _clickHandler = GetComponent<IMenuItemClickHandler>();
 
-        [HideInInspector] [SerializeField] string details;
-
-        public string Details
-        {
-            get { return details; }
-        }
-
-
-        public AudioSource HoverAudioSource { get; private set; }
-
-        private Animator animator;
-        private IMenuItemClickHandler clickHandler;
-
-        private bool idAssigned;
-        private bool mouseOverButton;
-        private readonly string mouseEnterTrigger = "MouseEnter";
-        private readonly string mouseExitTrigger = "MouseExit";
-
-        private PieMenuInfoPanelSettingsHandler infoPanelHandler;
-        private PieMenuAudioSettingsHandler audioHandler;
-        private PieMenuToggler pieMenuToggler;
-
-        private void OnEnable()
-        {
-            if (PrefabIsolationModeHelper.IsInPrefabIsolationMode()) return;
-
-            GetPieMenuScript();
-            InitializeComponents();
-            InitializePlaymodeComponents();
+            PieMenuSettingsModel settingsModel = pieMenuMain.PieMenuSettingsModel;
+            _generalSettings = settingsModel.GeneralSettings;
+            _pieMenuToggler = settingsModel.PieMenuToggler;
         }
 
         public void SetId(int newId)
         {
-            if (idAssigned) return;
-            else
-            {
-                id = newId;
-                idAssigned = true;
+            if (_idAssigned) {
+                return;
             }
+
+            _id = newId;
+            _idAssigned = true;
         }
 
         public void SetHeader(string newHeader)
         {
-            header = newHeader;
+            _header = newHeader;
         }
 
         public void SetDetails(string newDetails)
         {
-            details = newDetails;
+            _details = newDetails;
         }
 
         public void DisplayHeader()
         {
-            if (infoPanelHandler != null)
-                infoPanelHandler.ModifyHeader(PieMenu, header);
+            if (_generalSettings != null) {
+                _generalSettings.ModifyHeader(_pieMenuMain, _header);
+            }
         }
 
         public void DisplayDetails()
         {
-            if (infoPanelHandler != null)
-                infoPanelHandler.ModifyDetails(PieMenu, details);
+            if (_generalSettings != null) {
+                _generalSettings.ModifyDetails(_pieMenuMain, _details);
+            }
         }
 
         public void OnPointerEnter()
         {
-            if (mouseOverButton) return;
+            if (_mouseOverButton) {
+                return;
+            }
 
-            mouseOverButton = true;
+            _mouseOverButton = true;
 
-            audioHandler.PlayAudio(HoverAudioSource);
-            animator.SetTrigger(mouseEnterTrigger);
+            // can play sound here
+            _animator.SetTrigger(_mouseEnterTrigger);
 
             DisplayHeader();
             DisplayDetails();
-
         }
 
         public void BeforePointerExit()
         {
-            mouseOverButton = false;
+            _mouseOverButton = false;
         }
 
         public void OnPointerExit()
         {
-            if (mouseOverButton) return;
-            animator.SetTrigger(mouseExitTrigger);
+            if (_mouseOverButton) {
+                return;
+            }
+            
+            _animator.SetTrigger(_mouseExitTrigger);
         }
 
         public void OnClick()
         {
-            if (clickHandler != null)
-            {
+            if (_clickHandler != null) {
                 BeforePointerExit();
-
-                clickHandler.Handle();
-            }
-            else
-            {
-                Debug.Log("To handle clicks, you need to create a new script in which you implement the IMenuItemClickHandler interface." +
-                    " Then, attach it to the appropriate Menu Item. Check the documentation to learn more.");
+                _clickHandler.Handle();
+            } else {
+                Debug.Log("To handle clicks, you need to create a new script in which you implement the IMenuItemClickHandler interface."
+                          + " Then, attach it to the appropriate Menu Item. Check the documentation to learn more.");
             }
 
-            pieMenuToggler.SetActive(PieMenu, false);
-        }
-
-        private void GetPieMenuScript()
-        {
-            if (pieMenu == null)
-            {
-                pieMenu = GetComponentInParent<PieMenu>();
-            }
-        }
-
-        private void InitializeComponents()
-        {
-            if (PieMenuShared.Instance != null)
-            {
-                GetPieMenuItemComponents();
-            }
-            else if (pieMenu != null)
-            {
-                PieMenu.OnComponentsInitialized += GetPieMenuItemComponents;
-            }
-        }
-
-        private void GetPieMenuItemComponents()
-        {
-            HoverAudioSource = GetComponent<AudioSource>();
-
-            PieMenuSharedReferences references = PieMenuShared.References;
-            infoPanelHandler = references.InfoPanelSettingsHandler;
-            audioHandler = references.AudioSettingsHandler;
-            pieMenuToggler = references.PieMenuToggler;
-
-            PieMenu.OnComponentsInitialized -= GetPieMenuItemComponents;
-        }
-
-        private void InitializePlaymodeComponents()
-        {
-            if (Application.isPlaying)
-            {
-                animator = GetComponent<Animator>();
-                clickHandler = GetComponent<IMenuItemClickHandler>();
-            }
+            _pieMenuToggler.SetActive(_pieMenuMain, false);
         }
     }
 }

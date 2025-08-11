@@ -1,53 +1,52 @@
-using Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Settings_Handlers.General_Settings_Handler;
-using Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Singleton;
 using Simple_Pie_Menu.Scripts.Pie_Menu;
 using Simple_Pie_Menu.Scripts.Pie_Menu.References;
+using Simple_Pie_Menu.Scripts.Pie_Menu.Settings;
 using UnityEngine;
 
 namespace Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Menu_Items_Manager
 {
     public class PieMenuDrawer : MonoBehaviour
     {
-        PieMenuGeneralSettingsHandler settingsHandler;
-        PieMenuInfo pieMenuInfo;
-        int menuItemCount;
-        int menuItemSpacing;
+        private PieMenuModel _pieMenuModel = null!;
+        private int _menuItemCount;
+        private int _menuItemSpacing;
+        private PieMenuGeneralSettings _generalSettings = null!;
 
-        public void Redraw(PieMenu pieMenu)
+        public void Redraw(PieMenuMain pieMenu)
         {
             Transform menuItemsDir = pieMenu.PieMenuElements.MenuItemsDir;
 
-            settingsHandler = PieMenuShared.References.GeneralSettingsHandler;
-            pieMenuInfo = pieMenu.PieMenuInfo;
-            menuItemCount = menuItemsDir.childCount;
-            menuItemSpacing = pieMenuInfo.MenuItemSpacing;
-            int rotation = pieMenuInfo.Rotation;
+            _generalSettings = pieMenu.PieMenuSettingsModel.GeneralSettings;
+            _pieMenuModel = pieMenu.PieMenuModel;
+            _menuItemCount = menuItemsDir.childCount;
+            _menuItemSpacing = _pieMenuModel.MenuItemSpacing;
+            int rotation = _pieMenuModel.Rotation;
 
-            settingsHandler.HandleRotationChange(pieMenu, 0);
+            _generalSettings.HandleRotationChange(pieMenu, 0);
 
             pieMenu.MenuItemsTracker.Initialize(menuItemsDir);
 
-            settingsHandler.UpdateButtons(pieMenu, menuItemCount, menuItemSpacing);
+            _generalSettings.UpdateButtons(pieMenu, _menuItemCount, _menuItemSpacing);
 
             ManageMenuItemSpacing(pieMenu);
-            settingsHandler.HandleRotationChange(pieMenu, rotation);
+            _generalSettings.HandleRotationChange(pieMenu, rotation);
         }
 
-        private void ManageMenuItemSpacing(PieMenu pieMenu)
+        private void ManageMenuItemSpacing(PieMenuMain pieMenu)
         {
-            int preservedSpacing = pieMenuInfo.MenuItemPreservedSpacing;
+            int preservedSpacing = _pieMenuModel.MenuItemPreservedSpacing;
             int newSpacing;
-            if (menuItemCount == 1)
+            if (_menuItemCount == 1)
             {
-                pieMenuInfo.SetPreservedSpacing(menuItemSpacing);
+                _pieMenuModel.SetPreservedSpacing(_menuItemSpacing);
                 newSpacing = 0;
-                settingsHandler.HandleButtonSpacingChange(pieMenu, menuItemCount, newSpacing);
+                _generalSettings.HandleButtonSpacingChange(pieMenu, _menuItemCount, newSpacing);
             }
             else if (preservedSpacing != -1)
             {
                 newSpacing = preservedSpacing;
-                pieMenuInfo.SetPreservedSpacing(-1);
-                settingsHandler.HandleButtonSpacingChange(pieMenu, menuItemCount, newSpacing);
+                _pieMenuModel.SetPreservedSpacing(-1);
+                _generalSettings.HandleButtonSpacingChange(pieMenu, _menuItemCount, newSpacing);
             }
         }
     }

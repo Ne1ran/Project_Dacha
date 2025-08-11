@@ -101,12 +101,12 @@ namespace Core.Reactive
 
         public ReactiveCollection()
         {
-            _collection = new List<TItem>();
+            _collection = new();
         }
 
         public ReactiveCollection(int initialCapacity)
         {
-            _collection = new List<TItem>(initialCapacity);
+            _collection = new(initialCapacity);
         }
     }
 }

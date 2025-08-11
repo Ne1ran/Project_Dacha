@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Simple_Pie_Menu.Scripts.Menu_Item;
 using Simple_Pie_Menu.Scripts.Pie_Menu;
+using Simple_Pie_Menu.Scripts.Pie_Menu.Menu_Item_Selection;
 using Simple_Pie_Menu.Scripts.Pie_Menu.References;
 using UnityEngine;
 
@@ -20,49 +20,44 @@ namespace Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Menu_Items_Manager
             menuItemRestorer = GetComponent<MenuItemRestorer>();
         }
 
-        public void Hide(PieMenu pieMenu, List<int> menuItemIds)
+        public void Hide(PieMenuMain pieMenu, List<int> menuItemIds)
         {
-            pieMenu.SelectionHandler.ToggleSelection(false);
-
+            MenuItemSelector selectionHandler = pieMenu.PieMenuSettingsModel.MenuItemSelector;
+            selectionHandler.ToggleSelection(false);
             HideMenuItems(pieMenu, menuItemIds);
             drawer.Redraw(pieMenu);
-
-            pieMenu.SelectionHandler.ToggleSelection(true);
+            selectionHandler.ToggleSelection(true);
         }
 
-        public void Restore(PieMenu pieMenu, List<int> menuItemIds = null)
+        public void Restore(PieMenuMain pieMenu, List<int> menuItemIds = null)
         {
-            pieMenu.SelectionHandler.ToggleSelection(false);
-
+            MenuItemSelector selectionHandler = pieMenu.PieMenuSettingsModel.MenuItemSelector;
+            selectionHandler.ToggleSelection(false);
             menuItemRestorer.RestoreMenuItems(pieMenu, menuItemIds);
-
             drawer.Redraw(pieMenu);
-
-            pieMenu.SelectionHandler.ToggleSelection(true);
+            selectionHandler.ToggleSelection(true);
         }
 
-        private void HideMenuItems(PieMenu pieMenu, List<int> menuItemIds)
+        private void HideMenuItems(PieMenuMain pieMenu, List<int> menuItemIds)
         {
-            foreach (int id in menuItemIds)
-            {
+            foreach (int id in menuItemIds) {
                 MenuItemsTracker tracker = pieMenu.MenuItemsTracker;
 
                 PieMenuItem menuItem = tracker.GetMenuItem(id);
 
-                if (menuItem == null)
+                if (menuItem == null) {
                     Debug.Log("Could not find menu item with given id");
-                else
-                {
-                    if (tracker.HiddenMenuItems.ContainsKey(id)) continue;
+                } else {
+                    if (tracker.HiddenMenuItems.ContainsKey(id)) {
+                        continue;
+                    }
 
-                    if (pieMenu.MenuItemsTracker.PieMenuItems.Count != 1)
-                    {
+                    if (pieMenu.MenuItemsTracker.PieMenuItems.Count != 1) {
                         tracker.HiddenMenuItems.Add(id, menuItem);
                         menuItem.transform.SetParent(pieMenu.PieMenuElements.HiddenMenuItemsDir);
+                    } else {
+                        throw new($"You are trying to hide the last Menu Item. This is not allowed as one must always remain.");
                     }
-                    else
-                        throw new Exception(
-                            $"You are trying to hide the last Menu Item. This is not allowed as one must always remain.");
                 }
             }
         }

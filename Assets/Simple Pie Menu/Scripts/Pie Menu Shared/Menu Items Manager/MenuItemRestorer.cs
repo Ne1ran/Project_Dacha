@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Simple_Pie_Menu.Scripts.Menu_Item;
 using Simple_Pie_Menu.Scripts.Pie_Menu;
@@ -15,7 +14,7 @@ namespace Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Menu_Items_Manager
 
         Dictionary<int, PieMenuItem> menuItems;
 
-        public void RestoreMenuItems(PieMenu pieMenu, List<int> menuItemIds = null)
+        public void RestoreMenuItems(PieMenuMain pieMenu, List<int> menuItemIds = null)
         {
             restoredMenuItems.Clear();
             GetComponents(pieMenu);
@@ -24,26 +23,19 @@ namespace Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Menu_Items_Manager
             Dictionary<int, PieMenuItem> hiddenMenuItems = tracker.HiddenMenuItems;
             int menuItemsCount = menuItems.Count + hiddenMenuItems.Count;
 
-            if (menuItemIds == null)
-            {
+            if (menuItemIds == null) {
                 RestoreAllHiddenMenuItems(hiddenMenuItems, menuItemsCount);
-            }
-            else
-            {
+            } else {
                 RestoreSomeHiddenMenuItems(hiddenMenuItems, menuItemsCount, menuItemIds);
             }
         }
 
         private void RestoreAllHiddenMenuItems(Dictionary<int, PieMenuItem> hiddenMenuItems, int menuItemsCount)
         {
-            for (int i = 0; i < menuItemsCount; i++)
-            {
-                if (hiddenMenuItems.ContainsKey(i))
-                {
+            for (int i = 0; i < menuItemsCount; i++) {
+                if (hiddenMenuItems.ContainsKey(i)) {
                     Restore(hiddenMenuItems, i);
-                }
-                else
-                {
+                } else {
                     restoredMenuItems.Add(i, tracker.GetMenuItem(i));
                 }
             }
@@ -51,27 +43,23 @@ namespace Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Menu_Items_Manager
             MoveMenuItems(restoredMenuItems, pieMenuElements.MenuItemsDir);
         }
 
-        private void RestoreSomeHiddenMenuItems(Dictionary<int, PieMenuItem> hiddenMenuItems, int menuItemsCount,
-            List<int> menuItemIds)
+        private void RestoreSomeHiddenMenuItems(Dictionary<int, PieMenuItem> hiddenMenuItems, int menuItemsCount, List<int> menuItemIds)
         {
             ValidateMenuItemIds(hiddenMenuItems, menuItemIds);
             menuItemIds.Sort();
 
             int menuItemIdsCurrentIndex = 0;
-            for (int i = 0; i < menuItemsCount; i++)
-            {
+            for (int i = 0; i < menuItemsCount; i++) {
                 // This condition checks if the current 'i' value matches one of the 'menuItemIds'
                 // and ensures that 'menuItemIdsCurrentIndex' is within a valid range to avoid errors.
-                if (menuItemIdsCurrentIndex < menuItemIds.Count && i == menuItemIds[menuItemIdsCurrentIndex])
-                {
+                if (menuItemIdsCurrentIndex < menuItemIds.Count && i == menuItemIds[menuItemIdsCurrentIndex]) {
                     Restore(hiddenMenuItems, i);
                     menuItemIdsCurrentIndex++;
-                }
-                else
-                {
+                } else {
                     PieMenuItem menuItem = tracker.GetMenuItem(i);
-                    if (menuItem != null)
+                    if (menuItem != null) {
                         restoredMenuItems.Add(i, menuItem);
+                    }
                 }
             }
 
@@ -80,33 +68,29 @@ namespace Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Menu_Items_Manager
 
         private void ValidateMenuItemIds(Dictionary<int, PieMenuItem> hiddenMenuItems, List<int> menuItemIds)
         {
-            if (menuItemIds.Count > hiddenMenuItems.Count)
-            {
-                throw new Exception(
-                    "The list of Menu Items to restore you provided is longer than the actual number of hidden Menu Items.");
+            if (menuItemIds.Count > hiddenMenuItems.Count) {
+                throw new("The list of Menu Items to restore you provided is longer than the actual number of hidden Menu Items.");
             }
         }
 
         private void Restore(Dictionary<int, PieMenuItem> hiddenMenuItems, int index)
         {
-            if (hiddenMenuItems.ContainsKey(index))
-            {
+            if (hiddenMenuItems.ContainsKey(index)) {
                 restoredMenuItems.Add(index, hiddenMenuItems[index]);
                 hiddenMenuItems.Remove(index);
+            } else {
+                throw new($"The Menu Item with id: {index} is not hidden.");
             }
-            else
-                throw new Exception($"The Menu Item with id: {index} is not hidden.");
         }
 
         private void MoveMenuItems(Dictionary<int, PieMenuItem> menuItems, Transform newParent)
         {
-            foreach (var menuItem in menuItems)
-            {
+            foreach (KeyValuePair<int, PieMenuItem> menuItem in menuItems) {
                 menuItem.Value.transform.SetParent(newParent);
             }
         }
 
-        private void GetComponents(PieMenu pieMenu)
+        private void GetComponents(PieMenuMain pieMenu)
         {
             pieMenuElements = pieMenu.PieMenuElements;
             tracker = pieMenu.MenuItemsTracker;

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 namespace Simple_Pie_Menu.Scripts.Pie_Menu.References
 {
-    [ExecuteInEditMode]
     public class MenuItemsTracker : MonoBehaviour
     {
         public Dictionary<int, Button> ButtonComponents { get; private set; } = new();
@@ -21,8 +20,7 @@ namespace Simple_Pie_Menu.Scripts.Pie_Menu.References
 
             int childCount = menuItemsDir.childCount;
 
-            for (int i = 0; i < childCount; i++)
-            {
+            for (int i = 0; i < childCount; i++) {
                 Transform menuItem = menuItemsDir.GetChild(i);
                 InitializeMenuItem(menuItem, i);
             }
@@ -45,41 +43,27 @@ namespace Simple_Pie_Menu.Scripts.Pie_Menu.References
             PieMenuItems.Remove(itemIndex);
             ButtonComponents.Remove(itemIndex);
 
-            if (Application.isPlaying)
-            {
+            if (Application.isPlaying) {
                 Destroy(menuItem);
-            }
-            else
-            {
+            } else {
                 DestroyImmediate(menuItem.gameObject);
             }
         }
 
         public PieMenuItem GetMenuItem(int id)
         {
-            if (PieMenuItems != null && PieMenuItems.ContainsKey(id))
-            {
-                if (PieMenuItems[id].Id == id)
-                    return PieMenuItems[id];
-                else return SearchForMenuItem(id);
+            if (PieMenuItems.ContainsKey(id)) {
+                return PieMenuItems[id].Id == id ? PieMenuItems[id] : SearchForMenuItem(id);
             }
-            else
-            {
-                return SearchForMenuItem(id);
-            }
-
+            
+            return SearchForMenuItem(id);
         }
 
         private PieMenuItem SearchForMenuItem(int id)
         {
             // this code may be executed after using Hide Menu Item functionality, where dict index and Menu Item Id can be shifted.
-            var pair = PieMenuItems.FirstOrDefault(item => item.Value.Id == id);
-
-            if (pair.Value == null)
-            {
-                return null;
-            }
-            else return pair.Value;
+            KeyValuePair<int, PieMenuItem> pair = PieMenuItems.FirstOrDefault(item => item.Value.Id == id);
+            return pair.Value == null ? null : pair.Value;
         }
     }
 }

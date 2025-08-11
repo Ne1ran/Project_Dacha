@@ -7,8 +7,9 @@ namespace Simple_Pie_Menu.Scripts.Others
         public static bool IsInPrefabIsolationMode()
         {
 #if UNITY_EDITOR
-            if (UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null)
+            if (UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null) {
                 return true;
+            }
 #endif
 
             return false;

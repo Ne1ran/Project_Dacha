@@ -15,14 +15,13 @@ namespace Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Menu_Items_Manager
             drawer = GetComponent<PieMenuDrawer>();
         }
 
-        public void Add(PieMenu pieMenu, List<GameObject> menuItems)
+        public void Add(PieMenuMain pieMenu, List<GameObject> menuItems)
         {
-            MenuItemSelectionHandler selectionHandler = pieMenu.SelectionHandler;
+            MenuItemSelector selectionHandler = pieMenu.PieMenuSettingsModel.MenuItemSelector;
 
             selectionHandler.ToggleSelection(false);
 
-            foreach (GameObject item in menuItems)
-            {
+            foreach (GameObject item in menuItems) {
                 Transform menuItemsDir = pieMenu.PieMenuElements.MenuItemsDir;
                 Instantiate(item, menuItemsDir);
                 pieMenu.MenuItemsTracker.Initialize(menuItemsDir);

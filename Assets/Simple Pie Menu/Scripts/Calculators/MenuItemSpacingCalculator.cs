@@ -1,21 +1,21 @@
-
 using UnityEngine;
 
 namespace Simple_Pie_Menu.Scripts.Calculators
 {
     public class MenuItemSpacingCalculator : MonoBehaviour
     {
+        private const float CircleDegrees = 360;
+
         public static int CalculateTotalSpacing(int menuItemCount, int menuItemSpacing)
         {
             int totalSpacing = menuItemCount * menuItemSpacing;
             return totalSpacing;
         }
 
-        public static float CalculatTotalSpacingPercentage(int menuItemCount, int menuItemSpacing)
+        public static float CalculateTotalSpacingPercentage(int menuItemCount, int menuItemSpacing)
         {
-            float circleDegrees = 360f;
             float totalSpacing = CalculateTotalSpacing(menuItemCount, menuItemSpacing);
-            float totalSpacingToPercentage = totalSpacing / circleDegrees;
+            float totalSpacingToPercentage = totalSpacing / CircleDegrees;
             return totalSpacingToPercentage;
         }
     }

@@ -1,13 +1,10 @@
 ﻿using Core.Resources.Binding.Attributes;
-using Core.Resources.Service;
-using Core.UI.Service;
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;
-using Game.Interactable.UI;
+using Game.Interactable.PieMenu.Service;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using VContainer;
 
 namespace Game.GameMap.Tiles.Component
@@ -18,7 +15,7 @@ namespace Game.GameMap.Tiles.Component
         [Inject]
         private TileService _tileService = null!;
         [Inject]
-        private UIService _uiService = null!;
+        private PieMenuService _pieMenuService = null!;
 
         public void Initialize(SingleTileModel model)
         {
@@ -26,7 +23,7 @@ namespace Game.GameMap.Tiles.Component
 
         public async UniTask Interact()
         {
-            await _uiService.ShowDialogAsync<PieMenuController>();
+            await _pieMenuService.CreatePieMenuAsync();
         }
     }
 }

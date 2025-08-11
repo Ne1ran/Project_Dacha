@@ -1,0 +1,74 @@
+using System;
+using Simple_Pie_Menu.Scripts.Others;
+using Simple_Pie_Menu.Scripts.Pie_Menu.Menu_Item_Selection.Input_Devices.New_Input_System;
+using Simple_Pie_Menu.Scripts.Pie_Menu.Menu_Item_Selection.Input_Devices.Old_Input_System;
+using Simple_Pie_Menu.Scripts.Pie_Menu.Model;
+using UnityEngine;
+
+namespace Simple_Pie_Menu.Scripts.Pie_Menu.Menu_Item_Selection.Input_Devices
+{
+    public class InputDeviceGetter : MonoBehaviour
+    {
+        public IInputDevice InputDevice { get; private set; } = null!;
+        private bool _isOldInputSystemEnabled;
+        private bool _isNewInputSystemEnabled;
+
+        private void Awake()
+        {
+            DetectInputSystem();
+            HandleInputDevicePreferences();
+        }
+
+        private void DetectInputSystem()
+        {
+#if ENABLE_INPUT_SYSTEM
+            // New input system backends are enabled.
+            _isNewInputSystemEnabled = true;
+#endif
+
+#if ENABLE_LEGACY_INPUT_MANAGER
+            // Old input backends are enabled.
+            _isOldInputSystemEnabled = true;
+#endif
+        }
+
+        private void HandleInputDevicePreferences()
+        {
+            int defaultValue = -1;
+            int inputDeviceId = PlayerPrefs.GetInt(PieMenuPlayerPrefs.InputDevice, defaultValue);
+
+            if (_isOldInputSystemEnabled) {
+                if (inputDeviceId == (int) AvailableInputDevices.MouseAndKeyboard_OLD_INPUT_SYSTEM) {
+                    SetInputDevice<MouseAndKeyboard_OLD_INPUT_SYSTEM>();
+                } else {
+                    SetDefault();
+                }
+            } else if (_isNewInputSystemEnabled) {
+                if (inputDeviceId == (int) AvailableInputDevices.MouseAndKeyboard_NEW_INPUT_SYSTEM) {
+                    SetInputDevice<MouseAndKeyboard_NEW_INPUT_SYSTEM>();
+                } else {
+                    SetDefault();
+                }
+            }
+        }
+
+        private void SetDefault()
+        {
+            if (_isOldInputSystemEnabled) {
+                SetInputDevice<MouseAndKeyboard_OLD_INPUT_SYSTEM>();
+            } else if (_isNewInputSystemEnabled) {
+                SetInputDevice<MouseAndKeyboard_NEW_INPUT_SYSTEM>();
+            }
+        }
+
+        private void SetInputDevice<T>()
+                where T : MonoBehaviour, IInputDevice
+        {
+            if (typeof(IInputDevice).IsAssignableFrom(typeof(T))) {
+                InputDevice = gameObject.AddComponent<T>();
+            } else {
+                throw new InvalidOperationException($"Type {typeof(T)} must derive from MonoBehaviour and implement IInputDevice interface.");
+            }
+        }
+    }
+}

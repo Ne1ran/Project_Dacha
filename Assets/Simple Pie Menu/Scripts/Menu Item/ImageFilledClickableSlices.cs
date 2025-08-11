@@ -15,13 +15,11 @@ namespace Simple_Pie_Menu.Scripts.Menu_Item
         public override bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
         {
             bool result = base.IsRaycastLocationValid(screenPoint, eventCamera);
-            if (!result)
-            {
+            if (!result) {
                 return false;
             }
 
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, eventCamera,
-                out Vector2 localPoint);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPoint, eventCamera, out Vector2 localPoint);
 
             float clickAngle = Vector2.SignedAngle(localPoint, Vector2.left);
             ;

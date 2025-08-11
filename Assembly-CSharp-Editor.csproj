@@ -46,14 +46,6 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.1.11f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Simple Pie Menu\Scripts\Menu Item\Editor\PieMenuItemEditor.cs" />
-    <Compile Include="Assets\Simple Pie Menu\Scripts\Pie Menu\Editor\PieMenuContextMenuExtension.cs" />
-    <Compile Include="Assets\Simple Pie Menu\Scripts\Pie Menu\Settings\Position Settings\Editor\PieMenuPositionSettingsEditor.cs" />
-    <Compile Include="Assets\Simple Pie Menu\Scripts\CustomAttributes\OnValueChangeAttribute\Editor\OnValueChangeAttributeDrawer.cs" />
-    <Compile Include="Assets\Simple Pie Menu\Scripts\Pie Menu\Settings\Shape Settings\Editor\PieMenuShapeSettingsEditor.cs" />
-    <Compile Include="Assets\Simple Pie Menu\Scripts\Pie Menu\Settings\Audio Settings\Editor\PieMenuAudioSettingsEditor.cs" />
-    <Compile Include="Assets\Simple Pie Menu\Scripts\Pie Menu\Settings\Animation Settings\Editor\PieMenuAnimationsSettingsEditor.cs" />
-    <Compile Include="Assets\Simple Pie Menu\Scripts\CustomAttributes\ReadonlyAttribute\Editor\ReadonlyDrawer.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.1.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -1121,6 +1113,9 @@
       <Project>{f2960eb0-ccee-b8af-a8e5-e5a22ef404ad}</Project>
       <Name>IngameDebugConsole.Editor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Simple Pie Menu\Scripts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

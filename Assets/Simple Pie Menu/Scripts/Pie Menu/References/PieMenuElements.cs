@@ -4,79 +4,46 @@ using UnityEngine.UI;
 
 namespace Simple_Pie_Menu.Scripts.Pie_Menu.References
 {
-    [ExecuteInEditMode]
     public class PieMenuElements : MonoBehaviour
     {
-        [SerializeField] Transform pieMenuCanvas;
+        [SerializeField]
+        private Transform menuItemsDir = null!;
 
-        public Transform PieMenu
-        {
-            get { return pieMenuCanvas; }
-        }
+        [SerializeField]
+        private Transform hiddenMenuItemsDir = null!;
 
+        [SerializeField]
+        private Image background = null!;
 
-        [SerializeField] Transform menuItemsDir;
+        [SerializeField]
+        private Transform infoPanel = null!;
 
-        public Transform MenuItemsDir
-        {
-            get { return menuItemsDir; }
-        }
+        [SerializeField]
+        private TextMeshProUGUI header = null!;
 
+        [SerializeField]
+        private TextMeshProUGUI details = null!;
 
-        [SerializeField] Transform hiddenMenuItemsDir;
+        [SerializeField]
+        private Animator animator = null!;
 
-        public Transform HiddenMenuItemsDir
-        {
-            get { return hiddenMenuItemsDir; }
-        }
+        [SerializeField]
+        private AudioSource mouseClickAudioSource = null!;
 
+        public Transform MenuItemsDir => menuItemsDir;
 
-        [SerializeField] Image background;
+        public Transform HiddenMenuItemsDir => hiddenMenuItemsDir;
 
-        public Image Background
-        {
-            get { return background; }
-        }
+        public Image Background => background;
 
+        public Transform InfoPanel => infoPanel;
 
-        [SerializeField] Transform infoPanel;
+        public TextMeshProUGUI Header => header;
 
-        public Transform InfoPanel
-        {
-            get { return infoPanel; }
-        }
+        public TextMeshProUGUI Details => details;
 
+        public Animator Animator => animator;
 
-        [SerializeField] TextMeshProUGUI header;
-
-        public TextMeshProUGUI Header
-        {
-            get { return header; }
-        }
-
-
-        [SerializeField] TextMeshProUGUI details;
-
-        public TextMeshProUGUI Details
-        {
-            get { return details; }
-        }
-
-
-        [SerializeField] Animator animator;
-
-        public Animator Animator
-        {
-            get { return animator; }
-        }
-
-
-        [SerializeField] AudioSource mouseClickAudioSource;
-
-        public AudioSource MouseClickAudioSource
-        {
-            get { return mouseClickAudioSource; }
-        }
-
+        public AudioSource MouseClickAudioSource => mouseClickAudioSource;
     }
 }
