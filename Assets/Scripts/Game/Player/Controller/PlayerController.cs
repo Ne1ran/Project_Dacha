@@ -28,7 +28,7 @@ namespace Game.Player.Controller
         [Inject]
         private IPublisher<string, InventoryStatusEvent> _inventoryStatusPublisher = null!;
 
-        private PickUpComponent _pickUpComponent = null!;
+        private LockAtInteractableComponent _lockAtInteractableComponent = null!;
         private MovementController _movementController = null!;
         private EquipmentController _equipmentController = null!;
         private Transform _headCamera = null!;
@@ -39,28 +39,28 @@ namespace Game.Player.Controller
         private void Awake()
         {
             _headCamera = this.RequireComponentInChildren<Camera>().transform;
-            _pickUpComponent = this.AddComponent<PickUpComponent>();
+            _lockAtInteractableComponent = this.AddComponent<LockAtInteractableComponent>();
             _movementController = this.RequireComponent<MovementController>();
             _equipmentController = this.RequireComponent<EquipmentController>();
 
-            _pickUpComponent.OnLook += OnPickUpStarted;
-            _pickUpComponent.OnUnlook += OnPickUpFinished;
-            _pickUpComponent.OnInteract += OnInteract;
+            _lockAtInteractableComponent.OnLook += OnLockAtInteractableStarted;
+            _lockAtInteractableComponent.OnUnlook += OnLockAtInteractableFinished;
+            _lockAtInteractableComponent.OnInteract += OnInteract;
         }
 
         private void OnDestroy()
         {
-            _pickUpComponent.OnLook -= OnPickUpStarted;
-            _pickUpComponent.OnUnlook -= OnPickUpFinished;
-            _pickUpComponent.OnInteract -= OnInteract;
+            _lockAtInteractableComponent.OnLook -= OnLockAtInteractableStarted;
+            _lockAtInteractableComponent.OnUnlook -= OnLockAtInteractableFinished;
+            _lockAtInteractableComponent.OnInteract -= OnInteract;
         }
 
-        private void OnPickUpStarted()
+        private void OnLockAtInteractableStarted()
         {
             _playModeService.PlayModeScreen.ShowCrosshair(true);
         }
 
-        private void OnPickUpFinished()
+        private void OnLockAtInteractableFinished()
         {
             _playModeService.PlayModeScreen.FadeCrosshair(true);
         }
@@ -72,7 +72,7 @@ namespace Game.Player.Controller
 
         public void Initialize()
         {
-            _pickUpComponent.Init(_headCamera);
+            _lockAtInteractableComponent.Init(_headCamera);
             _equipmentController.Init(_rightHand, _leftHand);
         }
 
@@ -84,7 +84,7 @@ namespace Game.Player.Controller
         private void Update()
         {
             if (_cursorEnabled) {
-                _pickUpComponent.Tick();
+                _lockAtInteractableComponent.Tick();
             }
 
             if (!_inventoryEnabled) {

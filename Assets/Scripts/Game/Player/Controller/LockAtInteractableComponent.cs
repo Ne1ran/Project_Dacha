@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Game.Player.Controller
 {
-    public class PickUpComponent : MonoBehaviour
+    public class LockAtInteractableComponent : MonoBehaviour
     {
         public float _raycastLength = 2.75f;
 
         private Transform _head = null!;
-        private LayerMask _layerMask;
+        private LayerMask _lookLayerMask;
 
         public event Action? OnLook;
         public event Action? OnUnlook;
@@ -20,7 +20,7 @@ namespace Game.Player.Controller
         public void Init(Transform head)
         {
             _head = head;
-            _layerMask = LayerMask.GetMask("Tool"); // todo neiran to combined layer mask to workaround
+            _lookLayerMask = LayerMask.GetMask("Tool", "Tile"); // todo neiran to combined layer mask to workaround
         }
 
         public void Tick()
@@ -31,7 +31,7 @@ namespace Game.Player.Controller
 
         private void RunLook()
         {
-            bool result = Physics.Raycast(_head.position, _head.forward, out RaycastHit hit, _raycastLength, _layerMask);
+            bool result = Physics.Raycast(_head.position, _head.forward, out RaycastHit hit, _raycastLength, _lookLayerMask);
             if (!result) {
                 TryResetLook();
                 return;
@@ -56,7 +56,7 @@ namespace Game.Player.Controller
             if (_currentLook == null) {
                 return;
             }
-
+            
             if (Input.GetKeyDown(KeyCode.E)) {
                 OnInteract?.Invoke(_currentLook);
             }
