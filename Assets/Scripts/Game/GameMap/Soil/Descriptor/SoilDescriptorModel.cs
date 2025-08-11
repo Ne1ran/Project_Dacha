@@ -19,5 +19,7 @@ namespace Game.GameMap.Soil.Descriptor
         public float Humus { get; set; } = 10f;
         [field: SerializeField, Tooltip("Soil mass in kilograms. Need for soil parameters calculations.")]
         public float Mass { get; set; } = 1000f;
+        [field: SerializeField, Tooltip("Time for soil to recover to its starting values. If we remove half of its humus or salinity and won't change anything soil will recover to its starting values.")]
+        public int RecoveryDays { get; set; } = 180;
     }
 }

@@ -2,6 +2,7 @@
 using Core.Descriptors.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Map.Descriptor;
+using Game.GameMap.Tiles.Component;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;
 using JetBrains.Annotations;
@@ -15,6 +16,8 @@ namespace Game.GameMap.Map.Service
         private readonly TileService _tileService;
         private readonly WorldTileService _worldTileService;
         private readonly IDescriptorService _descriptorService;
+        
+        public List<TileController> _mapTiles = new();
 
         public MapService(TileService tileService, WorldTileService worldTileService, IDescriptorService descriptorService)
         {
@@ -33,10 +36,10 @@ namespace Game.GameMap.Map.Service
                 tiles = _tileService.CreateTiles(mapTilesPositions);
             }
 
-            await _worldTileService.CreateTilesInWorldAsync(tiles);
+            _mapTiles = await _worldTileService.CreateTilesInWorldAsync(tiles);
         }
 
-        public List<Vector3> CreateMapTilesPositions(Vector3 centerPosition, float step, int length, int width)
+        private List<Vector3> CreateMapTilesPositions(Vector3 centerPosition, float step, int length, int width)
         {
             List<Vector3> result = new();
 
