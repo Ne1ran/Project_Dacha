@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1464470952333423797}
   - component: {fileID: 3769412571738311295}
   - component: {fileID: 2293549144573598411}
+  - component: {fileID: -649329199354052970}
   m_Layer: 5
   m_Name: pfPieMenuItem
   m_TagString: Untagged
@@ -54,10 +55,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd1196a3ed46864dad9d406a6eca66d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieMenu: {fileID: 0}
-  id: 0
-  header: Test
-  details: Text base
+  _id: 0
+  _header: 
+  _details: 
 --- !u!222 &299283572901184253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -271,3 +271,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-649329199354052970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299283572901184224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9239730171eb4def967b5d8331bcd149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,4 +1,5 @@
-﻿using Core.UI.Service;
+﻿using System.Collections.Generic;
+using Core.UI.Service;
 using Cysharp.Threading.Tasks;
 using Game.Interactable.PieMenu.UI;
 using JetBrains.Annotations;
@@ -20,7 +21,7 @@ namespace Game.Interactable.PieMenu.Service
             PieMenuController pieMenu = await _uiService.ShowDialogAsync<PieMenuController>();
             pieMenu.transform.parent.gameObject.SetActive(true);
             pieMenu.gameObject.SetActive(true);
-            pieMenu.Initialize();
+            pieMenu.Initialize(new());
             return pieMenu;
         }
     }

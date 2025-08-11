@@ -1,11 +1,12 @@
-﻿using Core.Resources.Binding.Attributes;
-using Simple_Pie_Menu.Scripts.Menu_Item;
-using Simple_Pie_Menu.Scripts.Pie_Menu_Shared.Menu_Toggler;
-using Simple_Pie_Menu.Scripts.Pie_Menu;
-using Simple_Pie_Menu.Scripts.Pie_Menu.Menu_Item_Selection;
-using Simple_Pie_Menu.Scripts.Pie_Menu.Menu_Item_Selection.Input_Devices;
-using Simple_Pie_Menu.Scripts.Pie_Menu.References;
-using Simple_Pie_Menu.Scripts.Pie_Menu.Settings;
+﻿using System.Collections.Generic;
+using Core.Resources.Binding.Attributes;
+using Game.Interactable.PieMenu.Input_Devices;
+using Game.Interactable.PieMenu.Menu_Item_Selection;
+using Game.Interactable.PieMenu.Menu_Item;
+using Game.Interactable.PieMenu.Menu_Toggler;
+using Game.Interactable.PieMenu.References;
+using Game.Interactable.PieMenu.Settings;
+using Game.Interactable.ViewModel;
 using UnityEngine;
 
 namespace Game.Interactable.PieMenu.UI
@@ -16,6 +17,7 @@ namespace Game.Interactable.PieMenu.UI
         private const string SETTINGS_NAME = "Settings";
 
         private PieMenuSettingsModel _settingsModel = null!;
+        private PieMenuDrawer _drawer = new();
 
         [ComponentBinding]
         private PieMenuMain _pieMenu = null!;
@@ -36,12 +38,16 @@ namespace Game.Interactable.PieMenu.UI
         private InputDeviceGetter _inputDeviceGetter = null!;
         [ComponentBinding(SETTINGS_NAME)]
         private PieMenuGeneralSettings _generalSettings = null!;
+        
 
-        public void Initialize()
+        public void Initialize(List<PieMenuItemController> items)
         {
             _settingsModel = new(_menuItemTemplate, _pieMenuModel, _pieMenuElements, _pieMenuItemsTracker, _pieMenuItemSelector, _pieMenuToggler,
                                  _inputDeviceGetter, _generalSettings);
             _pieMenu.Initialize(_settingsModel);
+            _drawer.Initialize(_settingsModel);
+            
+            _drawer.Add(_pieMenu, items);
         }
     }
 }

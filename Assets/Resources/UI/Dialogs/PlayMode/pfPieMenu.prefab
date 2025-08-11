@@ -202,7 +202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32125815aa9e67242991b65e51468a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieMenuCanvas: {fileID: 0}
   menuItemsDir: {fileID: 7293434501763601136}
   hiddenMenuItemsDir: {fileID: 7511074534174085931}
   background: {fileID: 2022830101496020880}
