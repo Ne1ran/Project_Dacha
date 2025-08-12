@@ -9,11 +9,9 @@ using Game.PieMenu.Model;
 using Game.PieMenu.Service;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
-using Game.PieMenu.Utils;
 using Game.Player.Service;
 using Game.Utils;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 
 namespace Game.PieMenu.UI
@@ -82,7 +80,8 @@ namespace Game.PieMenu.UI
         public async UniTask AddItemsAsync(List<PieMenuItemModel> items)
         {
             await ViewModel.AddAsync(items, _itemsHolder, destroyCancellationToken);
-            _pieMenuItemSelector.Initialize();
+            _pieMenuItemSelector.Initialize(PieMenuSettingsModel);
+            ActivateMenuAsync(true).Forget();
         }
 
         public void RemoveItems()
@@ -98,24 +97,19 @@ namespace Game.PieMenu.UI
         private void InitializePieMenu()
         {
             _inputDeviceGetter.Initialize(gameObject);
-            _pieMenuItemSelector.Initialize(PieMenuSettingsModel);
             _generalSettings.Initialize(this);
             ReadDataAndInfoFields();
-            ActivateMenuAsync(true).Forget();
+            _itemsHolder.rotation = Quaternion.Euler(0f, 0f, PieMenuModel.Rotation);
         }
 
         private void ReadDataAndInfoFields()
         {
-            PieMenuModel.SetFillAmount(_menuItemControllerTemplate.GetComponent<Image>().fillAmount);
-
-            float menuItemInitialSize = _menuItemControllerTemplate.SizeDeltaX;
-            PieMenuModel.SetMenuItemInitialSize((int) menuItemInitialSize);
-
-            float menuItemSize = _menuItemControllerTemplate.GetComponent<RectTransform>().sizeDelta.x;
-            PieMenuModel.SetMenuItemSize((int) menuItemSize);
-            float scale = PieMenuUtils.CalculatePieMenuScale(PieMenuModel.MenuItemInitialSize, (int) menuItemSize);
-            PieMenuModel.SetScale(scale);
-            PieMenuModel.SetRotation(0);
+            PieMenuModel.SetFillAmount(1f);
+            PieMenuModel.SetMenuItemInitialSize(_generalSettings.ItemSize);
+            PieMenuModel.SetMenuItemSize(_generalSettings.ItemSize);
+            PieMenuModel.SetScale(_generalSettings.Scale);
+            PieMenuModel.SetSpacing(_generalSettings.MenuItemSpacing);
+            PieMenuModel.SetRotation(_generalSettings.GlobalRotation);
             
             Vector2 anchoredPosition = _rectTransform.anchoredPosition;
             float difference = (float) Screen.width / Screen.currentResolution.width;
@@ -158,17 +152,17 @@ namespace Game.PieMenu.UI
         {
             this.SetActive(true);
             _generalSettings.PlayAnimation(PieMenuGeneralSettings.TriggerActiveTrue);
-            await WaitForAudioAndAnimationToFinishPlaying(true, token);
+            await WaitForAnimationFinish(true, token);
         }
 
         private async UniTask HidePieMenu(CancellationToken token)
         {
             _pieMenuItemSelector.ToggleSelection(false);
             _generalSettings.PlayAnimation(PieMenuGeneralSettings.TriggerActiveFalse);
-            await WaitForAudioAndAnimationToFinishPlaying(false, token);
+            await WaitForAnimationFinish(false, token);
         }
 
-        private async UniTask WaitForAudioAndAnimationToFinishPlaying(bool isActive, CancellationToken cancellationToken)
+        private async UniTask WaitForAnimationFinish(bool isActive, CancellationToken cancellationToken)
         {
             float timeToWait = CalculateTimeToWait(this);
             await UniTask.WaitForSeconds(timeToWait, cancellationToken: cancellationToken);

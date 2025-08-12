@@ -6,6 +6,7 @@ using Game.PieMenu.Utils;
 using Game.Utils;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Game.PieMenu.UI
@@ -19,65 +20,28 @@ namespace Game.PieMenu.UI
         [SerializeField]
         private bool _infoPanelEnabled;
 
-        [SerializeField]
-        private Color _headerColor;
-
-        [SerializeField]
-        private Color _detailsColor;
-
-        [Range(0f, MaxInfoPanelScale)]
-        [SerializeField]
-        private float _scale;
-
-        [SerializeField]
-        private AvailableInputDevices _inputDevice;
-
-        [Header("Left/Right")]
-        [Range(-1000, 1000)]
-        [SerializeField]
-        private int _horizontalPositionOffset;
-
-        [Header("Up/Down")]
-        [Range(1000, -1000)]
-        [SerializeField]
-        private int _verticalPositionOffset;
-
         [Tooltip("This option disables selection in the center of your Pie Menu. "
                  + "This can be especially useful when you have a large number of options, "
-                 + "where even slight mouse movements can easily change the selection. ")]
-        [SerializeField]
+                 + "where even slight mouse movements can easily change the selection. "), SerializeField]
         private bool _selectionConstrained;
 
-        [Range(0, 100)]
-        [SerializeField]
+        [Range(0f, MaxInfoPanelScale), SerializeField]
+        private float _scale;
+
+        [Range(0, 100), SerializeField]
         private int _menuItemSpacing;
 
-        [Range(0, 360)]
-        [SerializeField]
-        private int _rotation;
+        [FormerlySerializedAs("_rotation"),Range(0, 360), SerializeField]
+        private int _globalRotation;
 
-        [Range(250, 1000)]
-        [SerializeField]
-        private int _size;
+        [FormerlySerializedAs("_size"),Range(250, 1000), SerializeField]
+        private int _itemSize;
 
-        [Range(-500f, 0f)]
-        [SerializeField]
+        [Range(-500f, 0f), SerializeField]
         private int _offsetFromCenter;
 
         [SerializeField]
-        private Color _normalColor;
-
-        [SerializeField]
-        private Color _selectedColor;
-
-        [SerializeField]
-        private Color _disabledColor;
-
-        [SerializeField]
-        private List<AnimatorOverrideController> _animatorOverrideControllers = new();
-        
-        [SerializeField]
-        private Image _background = null!;
+        private AvailableInputDevices _inputDevice;
 
         [SerializeField]
         private Transform _infoPanel = null!;
@@ -91,7 +55,23 @@ namespace Game.PieMenu.UI
         [SerializeField]
         private Animator _animator = null!;
 
-        public Image Background => _background;
+        [SerializeField]
+        private Color _normalColor;
+
+        [SerializeField]
+        private Color _selectedColor;
+
+        [SerializeField]
+        private Color _disabledColor;
+
+        [SerializeField]
+        private Color _headerColor;
+
+        [SerializeField]
+        private Color _detailsColor;
+
+        [SerializeField]
+        private List<AnimatorOverrideController> _animatorOverrideControllers = new();
 
         public Transform InfoPanel => _infoPanel;
 
@@ -109,30 +89,21 @@ namespace Game.PieMenu.UI
         public int AnimationDropdownList { get; private set; }
         public List<string> AnimationNames { get; private set; } = new();
 
-        private AnimationClip _clip = null!;
         private double _previewStartTime;
 
         public void Initialize(PieMenuController pieMenuController)
         {
             _pieMenuController = pieMenuController;
             _pieMenuModel = pieMenuController.PieMenuSettingsModel.PieMenuModel;
-            
-            InitSizeAndSpacing();
+
             ConstraintSelection(_selectionConstrained);
             InitializeAnimationsSettings();
-            InitializeInfoPanelSettings();
         }
-
-        private void InitSizeAndSpacing()
-        {
-            _size = _pieMenuModel.MenuItemSize;
-            _pieMenuModel.SetSpacing(_menuItemSpacing);
-        }
-
+        
         private void RestoreRotationToDefault()
         {
-            _rotation = 0;
-            ChangeRotation(_rotation);
+            _globalRotation = 0;
+            ChangeRotation(_globalRotation);
         }
 
         public void UpdateButtons(int menuItemCount, int menuItemSpacing)
@@ -141,7 +112,6 @@ namespace Game.PieMenu.UI
                 return;
             }
 
-            _pieMenuModel.SetSpacing(menuItemSpacing);
             UpdateFillAmount(menuItemCount, menuItemSpacing);
             _pieMenuModel.SetMenuItemAngle(PieMenuUtils.CalculateItemAngle(menuItemCount, menuItemSpacing));
         }
@@ -154,7 +124,6 @@ namespace Game.PieMenu.UI
         public void UpdateFillAmount(int menuItemCount, int menuItemSpacing)
         {
             float fillAmount = CalculateMenuItemFillAmount(menuItemCount, menuItemSpacing);
-
             _pieMenuModel.SetFillAmount(fillAmount);
             ModifyFillAmount(_pieMenuController.GetMenuItems(), fillAmount, menuItemSpacing);
         }
@@ -162,12 +131,11 @@ namespace Game.PieMenu.UI
         public void ModifyFillAmount(Dictionary<int, PieMenuItemController> menuItems, float fillAmount, float menuItemSpacing)
         {
             int iteration = 0;
-            foreach (KeyValuePair<int, PieMenuItemController> item in menuItems) {
-                Image image = item.Value.GetComponent<Image>();
-                image.fillAmount = fillAmount;
+            foreach (PieMenuItemController? item in menuItems.Values) {
+                item.ChangeFillAmount(fillAmount);
 
                 float zAxisRotation = (fillAmount * iteration * PieMenuUtils.CircleDegreesF) + (menuItemSpacing * iteration);
-                item.Value.transform.rotation = Quaternion.Euler(0, 0, zAxisRotation);
+                item.ChangeRotation(new(0, 0, zAxisRotation));
                 iteration++;
             }
         }
@@ -209,10 +177,10 @@ namespace Game.PieMenu.UI
         public void Rotate(Dictionary<int, PieMenuItemController> menuItems, Quaternion iconDirRotation)
         {
             //The first element in the list of icons requires a different mathematical pattern than the rest.
-            PieMenuUtils.RotateFirstElement(menuItems[0].transform, iconDirRotation);
-            PieMenuUtils.RotateOtherElements(menuItems, iconDirRotation);
+            // PieMenuUtils.RotateFirstElement(menuItems[0].transform, iconDirRotation);
+            // PieMenuUtils.RotateOtherElements(menuItems, iconDirRotation);
         }
-        
+
         public void Resize(float newScale)
         {
             if (!_pieMenuModel.InfoPanelEnabled) {
@@ -244,11 +212,6 @@ namespace Game.PieMenu.UI
 
             float newOffset = (initialOffset / initialSize) * currentSize;
             return Mathf.RoundToInt(newOffset);
-        }
-
-        public void SwapAnimations()
-        {
-            SwapAnimationControllers(AnimationDropdownList);
         }
 
         private void InitializeAnimationsSettings()
@@ -284,18 +247,6 @@ namespace Game.PieMenu.UI
             _pieMenuModel.SetAnimation(animationClip);
         }
 
-        public void SwapAnimationControllers(int controllerIndex)
-        {
-            AnimatorOverrideController overrideController = GetAnimator(controllerIndex);
-            Animator.runtimeAnimatorController = overrideController;
-            _pieMenuModel.SetAnimation(GetAnimation(overrideController));
-        }
-
-        public AnimatorOverrideController GetAnimator(int controllerIndex)
-        {
-            return _animatorOverrideControllers[controllerIndex];
-        }
-
         public AnimationClip GetAnimation(RuntimeAnimatorController runtimeController)
         {
             return runtimeController.animationClips[0];
@@ -309,18 +260,6 @@ namespace Game.PieMenu.UI
         public void SetScale(float scale)
         {
             _scale = scale;
-        }
-
-        private void InitializeInfoPanelSettings()
-        {
-            _pieMenuModel.SetInfoPanelEnabled(_infoPanelEnabled);
-        }
-        
-        public void HandleEnableValueChange(bool isEnabled)
-        {
-            _pieMenuModel.SetInfoPanelEnabled(isEnabled);
-            Resize(_pieMenuModel.Scale);
-            SetActiveInfoPanel(isEnabled);
         }
 
         public void SetActiveInfoPanel(bool isActive)
@@ -361,27 +300,6 @@ namespace Game.PieMenu.UI
             ModifyDetailsText(placeholderDetailsText);
         }
 
-        public void ResetPosition()
-        {
-            _horizontalPositionOffset = 0;
-            _verticalPositionOffset = 0;
-            HandlePosition(0, 0);
-        }
-
-        public void HandlePosition(int horizontalPosition, int verticalPosition)
-        {
-            RectTransform rectTransform = _pieMenuController.RectTransform;
-            Vector2 anchoredPosition = rectTransform.anchoredPosition;
-
-            anchoredPosition.Set(horizontalPosition, verticalPosition);
-            rectTransform.anchoredPosition = anchoredPosition;
-            
-            float difference = (float) Screen.width / Screen.currentResolution.width;
-            anchoredPosition = new(anchoredPosition.x * difference, anchoredPosition.y * difference);
-            
-            _pieMenuModel.SetAnchoredPosition(anchoredPosition);
-        }
-
         public void ConstraintSelection(bool selectionConstrained)
         {
             _pieMenuModel.SetSelectionConstraintState(selectionConstrained);
@@ -401,5 +319,11 @@ namespace Game.PieMenu.UI
         {
             return pieMenu.PieMenuModel.MenuItemSize * 0.10f;
         }
+        
+        public float Scale => _scale;
+        public int MenuItemSpacing => _menuItemSpacing;
+        public int GlobalRotation => _globalRotation;
+        public int ItemSize => _itemSize;
+        public int OffsetFromCenter => _offsetFromCenter;
     }
 }

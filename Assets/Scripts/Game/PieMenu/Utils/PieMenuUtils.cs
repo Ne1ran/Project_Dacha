@@ -32,8 +32,7 @@ namespace Game.PieMenu.Utils
         
         public static int CalculateTotalSpacing(int menuItemCount, int menuItemSpacing)
         {
-            int totalSpacing = menuItemCount * menuItemSpacing;
-            return totalSpacing;
+            return menuItemCount * menuItemSpacing;
         }
 
         public static float CalculateTotalSpacingPercentage(int menuItemCount, int menuItemSpacing)
@@ -62,23 +61,23 @@ namespace Game.PieMenu.Utils
             return (float) size / initialSize;
         }
 
-        public static void RotateFirstElement(Transform menuItem, Quaternion iconDirRotation)
-        {
-            Quaternion firstIconRotation = Quaternion.Euler(0f, 0f, Mathf.Abs(iconDirRotation.z));
-            Transform firstIconDir = menuItem.GetChild(0).transform;
-            Transform firstIcon = firstIconDir.GetChild(0).transform;
-            firstIcon.rotation = firstIconRotation;
-        }
-
-        public static void RotateOtherElements(Dictionary<int, PieMenuItemController> menuItems, Quaternion iconDirRotation)
-        {
-            foreach (KeyValuePair<int, PieMenuItemController> menuItem in menuItems) {
-                float menuItemRotationZ = menuItem.Value.transform.rotation.z;
-                float iconRotationZ = -(menuItemRotationZ - iconDirRotation.z);
-                Transform iconDir = menuItem.Value.transform.GetChild(0).transform;
-                Transform icon = iconDir.GetChild(0).transform;
-                icon.rotation = Quaternion.Euler(0f, 0f, iconRotationZ);
-            }
-        }
+        // public static void RotateFirstElement(Transform menuItem, Quaternion iconDirRotation)
+        // {
+        //     Quaternion firstIconRotation = Quaternion.Euler(0f, 0f, Mathf.Abs(iconDirRotation.z));
+        //     Transform firstIconDir = menuItem.GetChild(0).transform;
+        //     Transform firstIcon = firstIconDir.GetChild(0).transform;
+        //     firstIcon.rotation = firstIconRotation;
+        // }
+        //
+        // public static void RotateOtherElements(Dictionary<int, PieMenuItemController> menuItems, Quaternion iconDirRotation)
+        // {
+        //     foreach (KeyValuePair<int, PieMenuItemController> menuItem in menuItems) {
+        //         float menuItemRotationZ = menuItem.Value.transform.rotation.z;
+        //         float iconRotationZ = -(menuItemRotationZ - iconDirRotation.z);
+        //         Transform iconDir = menuItem.Value.transform.GetChild(0).transform;
+        //         Transform icon = iconDir.GetChild(0).transform;
+        //         icon.rotation = Quaternion.Euler(0f, 0f, iconRotationZ);
+        //     }
+        // }
     }
 }

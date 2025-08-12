@@ -20,6 +20,8 @@ namespace Game.PieMenu.UI
         private Button _button = null!;
         [ComponentBinding]
         private Animator _animator = null!;
+        [ComponentBinding]
+        private Image _itemImage = null!;
 
         [Header("Menu Item")]
         [ReadOnly]
@@ -135,6 +137,16 @@ namespace Game.PieMenu.UI
             colors.disabledColor = newColors.disabledColor;
 
             _button.colors = colors;
+        }
+
+        public void ChangeFillAmount(float fillAmount)
+        {
+            _itemImage.fillAmount = fillAmount;
+        }
+
+        public void ChangeRotation(Vector3 rotation)
+        {
+            transform.Rotate(rotation);
         }
 
         public void ChangeShape(Sprite shape)

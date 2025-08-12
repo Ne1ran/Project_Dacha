@@ -20,7 +20,6 @@ namespace Game.PieMenu.UI.Common
         public bool SelectionEnabled { get; private set; }
         public bool CanBeClicked { get; private set; }
 
-
         private PieMenuModel _pieMenuModel = null!;
         private PieMenuViewModel _pieMenuViewModel = null!;
 
@@ -32,19 +31,36 @@ namespace Game.PieMenu.UI.Common
         private bool _isChecking;
         private bool _initialized;
 
-        public void Initialize()
+        public void Initialize(PieMenuSettingsModel settingsModel)
         {
+            InputDeviceGetter = settingsModel.InputDeviceGetter;
+            _pieMenuModel = settingsModel.PieMenuModel;
+            _pieMenuViewModel = settingsModel.PieMenuViewModel;
+            PieMenuItemsReference = _pieMenuViewModel.PieMenuItems;
             _initialized = true;
+        }
+
+        private void Update()
+        {
+            if (!_initialized) {
+                return;
+            }
+            
+            // todo neiran check afterwards. temporary disabled
+            // if (SelectionEnabled) {
+            //     if (!_isChecking) {
+            //         TryHandleSelectionAsync().Forget();
+            //     }
+            //
+            //     DetectClick();
+            // } else {
+            //     UnselectPreviousMenuItem();
+            // }
         }
         
         public void ResetPreviousSelection()
         {
             _previousSelection = -1;
-        }
-
-        public void RegisterMenuItems(Dictionary<int, PieMenuItemController> pieMenuItems)
-        {
-            PieMenuItemsReference = pieMenuItems;
         }
 
         public void SelectMenuItem(int selection)
@@ -176,31 +192,6 @@ namespace Game.PieMenu.UI.Common
             }
 
             return selection; // No adjustment needed
-        }
-
-        public void Initialize(PieMenuSettingsModel settingsModel)
-        {
-            InputDeviceGetter = settingsModel.InputDeviceGetter;
-            _pieMenuModel = settingsModel.PieMenuModel;
-            _pieMenuViewModel = settingsModel.PieMenuViewModel;
-            RegisterMenuItems(_pieMenuViewModel.PieMenuItems);
-        }
-
-        private void Update()
-        {
-            if (!_initialized) {
-                return;
-            }
-            
-            if (SelectionEnabled) {
-                if (!_isChecking) {
-                    TryHandleSelectionAsync().Forget();
-                }
-
-                DetectClick();
-            } else {
-                UnselectPreviousMenuItem();
-            }
         }
 
         public void ToggleSelection(bool isEnabled)

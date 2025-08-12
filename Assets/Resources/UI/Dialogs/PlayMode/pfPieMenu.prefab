@@ -58,35 +58,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _infoPanelEnabled: 1
-  _headerColor: {r: 1, g: 1, b: 1, a: 0}
-  _detailsColor: {r: 1, g: 0.8820755, b: 0.8820755, a: 0}
-  _scale: 1
-  _inputDevice: 0
-  _horizontalPositionOffset: 0
-  _verticalPositionOffset: 0
   _selectionConstrained: 0
-  _menuItemSpacing: 20
-  _rotation: 90
-  _size: 800
+  _scale: 1
+  _menuItemSpacing: 10
+  _globalRotation: 90
+  _itemSize: 800
   _offsetFromCenter: 0
-  _normalColor: {r: 1, g: 1, b: 1, a: 0}
-  _selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  _disabledColor: {r: 0.8627452, g: 0.07843138, b: 0.2352941, a: 1}
-  _animatorOverrideControllers:
-  - {fileID: 22100000, guid: 3cd44b2b5aeb19443bfedc2494e1eb21, type: 2}
-  - {fileID: 22100000, guid: 44969b8da7067f24e897ca7a26774180, type: 2}
-  - {fileID: 22100000, guid: acb51b5d25e4911478fa3e994425ffc6, type: 2}
-  - {fileID: 22100000, guid: 4038822b7cf324949b67dc22b9029933, type: 2}
-  - {fileID: 22100000, guid: be4905673b9a03f4e9fd8ad2a63ed36a, type: 2}
-  - {fileID: 22100000, guid: 06122babdb8558841b8502ba3ee4ec87, type: 2}
-  - {fileID: 22100000, guid: 8281f3938af21c148ac6ffc4a7f5649d, type: 2}
-  - {fileID: 22100000, guid: d2255d2950fd27d4182a838daba8c817, type: 2}
-  _background: {fileID: 2022830101496020880}
+  _inputDevice: 0
   _infoPanel: {fileID: 615534387678541856}
   _header: {fileID: 887402441295827442}
   _details: {fileID: 5415400330752554688}
   _animator: {fileID: 8618203642297443890}
-  _mouseClickAudioSource: {fileID: 0}
+  _normalColor: {r: 1, g: 1, b: 1, a: 0}
+  _selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _disabledColor: {r: 0.8627452, g: 0.07843138, b: 0.2352941, a: 1}
+  _headerColor: {r: 1, g: 1, b: 1, a: 0}
+  _detailsColor: {r: 1, g: 0.8820755, b: 0.8820755, a: 0}
+  _animatorOverrideControllers:
+  - {fileID: 22100000, guid: 3cd44b2b5aeb19443bfedc2494e1eb21, type: 2}
 --- !u!1 &4872883021044227912
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +139,7 @@ Animator:
   m_GameObject: {fileID: 4872883021044227912}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c29cdf51802f86342986479a4f692514, type: 2}
+  m_Controller: {fileID: 22100000, guid: 3cd44b2b5aeb19443bfedc2494e1eb21, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
