@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Resources.Service;
+using Game.GameMap.Soil.Model;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Repo;
 using JetBrains.Annotations;
@@ -52,6 +53,19 @@ namespace Game.GameMap.Tiles.Service
             tilesModel.AddTileRange(newTiles);
             _tileRepo.Save(tilesModel);
             return newTiles;
+        }
+
+        public void UpdateSoil(string guid, SoilModel soilModel)
+        {
+            TilesModel tilesModel = _tileRepo.Require();
+            SingleTileModel tileModel = tilesModel.Tiles.Find(tile => tile.Id == guid);
+            if (tileModel == null) {
+                Debug.LogWarning($"Tile not found with guid={guid}");
+                return;
+            }
+            
+            tileModel.Soil = soilModel;
+            _tileRepo.Save(tilesModel);
         }
 
         public void RemoveTile(string guid)

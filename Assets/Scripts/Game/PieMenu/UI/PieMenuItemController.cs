@@ -4,6 +4,7 @@ using Game.PieMenu.Settings;
 using Game.PieMenu.UI.Common;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.PieMenu.UI
 {
@@ -14,6 +15,9 @@ namespace Game.PieMenu.UI
         private static readonly int _mouseEnter = Animator.StringToHash(MouseEnterTrigger);
         private const string MouseEnterTrigger = "MouseEnter";
         private const string MouseExitTrigger = "MouseExit";
+        
+        [ComponentBinding]
+        private Button _button = null!;
 
         [Header("Menu Item")]
         [ReadOnly]
@@ -97,7 +101,8 @@ namespace Game.PieMenu.UI
             if (_mouseOverButton) {
                 return;
             }
-
+            
+            _button.Select();
             _mouseOverButton = true;
 
             // can play sound here
@@ -133,6 +138,20 @@ namespace Game.PieMenu.UI
 
             _pieMenuToggler.SetActive(_pieMenuController, false);
         }
+        
+        public void Change(ColorBlock newColors)
+        {
+            ColorBlock colors = _button.colors;
+
+            colors.normalColor = newColors.normalColor;
+            colors.highlightedColor = newColors.highlightedColor;
+            colors.selectedColor = newColors.selectedColor;
+            colors.disabledColor = newColors.disabledColor;
+
+            _button.colors = colors;
+        }
+        
+        public bool Interactable => _button.interactable;
 
         public int Id => _id;
 

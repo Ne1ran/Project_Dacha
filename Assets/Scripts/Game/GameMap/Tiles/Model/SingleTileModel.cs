@@ -8,7 +8,7 @@ namespace Game.GameMap.Tiles.Model
     {
         public string Id { get; }
         public SimpleVector3 Position { get; }
-        public SoilModel? Soil { get; }
+        public SoilModel? Soil { get; set; }
 
         public SingleTileModel(string id, Vector3 position, SoilModel? soil = null)
         {

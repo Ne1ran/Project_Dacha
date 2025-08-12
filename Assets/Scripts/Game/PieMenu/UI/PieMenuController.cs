@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Game.Interactable.ViewModel;
 using Game.PieMenu.InputDevices;
 using Game.PieMenu.Model;
+using Game.PieMenu.Service;
 using Game.PieMenu.Settings;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
@@ -49,10 +50,12 @@ namespace Game.PieMenu.UI
 
         [Inject]
         private readonly IResourceService _resourceService = null!;
+        [Inject]
+        private readonly PieMenuService _pieMenuService = null!;
 
         private readonly PieMenuViewModel _viewModel = new();
 
-        public async UniTask InitializeAsync(List<PieMenuItemModel> items)
+        public void Initialize()
         {
             PieMenuSettingsModel = new(_menuItemControllerTemplate, _pieMenuModel, _pieMenuElements, _pieMenuItemSelector, _pieMenuToggler,
                                        _inputDeviceGetter, _generalSettings, _viewModel);
@@ -67,9 +70,17 @@ namespace Game.PieMenu.UI
             PieMenuToggler = PieMenuSettingsModel.PieMenuToggler;
             InitializePieMenu();
 
-            _viewModel.Initialize(PieMenuSettingsModel, _resourceService);
+            _viewModel.Initialize(_resourceService);
+        }
 
+        public async UniTask AddItemsAsync(List<PieMenuItemModel> items)
+        {
             await _viewModel.AddAsync(_pieMenu, items, destroyCancellationToken);
+        }
+
+        public void RemoveItems()
+        {
+            _viewModel.RemoveItems(this);
         }
 
         public Dictionary<int, PieMenuItemController> GetMenuItems()
@@ -103,6 +114,12 @@ namespace Game.PieMenu.UI
 
             RectTransform rectTransform = GetComponent<RectTransform>();
             PieMenuModel.SetAnchoredPosition(rectTransform);
+        }
+
+        // todo neiran check for button pressed. If no or escape = close!
+        private void RemovePieMenu()
+        {
+            _pieMenuService.RemovePieMenuAsync().Forget();
         }
     }
 }

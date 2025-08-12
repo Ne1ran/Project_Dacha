@@ -28,7 +28,7 @@ namespace Game.Player.Controller
         [Inject]
         private IPublisher<string, InventoryStatusEvent> _inventoryStatusPublisher = null!;
 
-        private LockAtInteractableComponent _lockAtInteractableComponent = null!;
+        private LookAtInteractableComponent _lookAtInteractableComponent = null!;
         private MovementController _movementController = null!;
         private EquipmentController _equipmentController = null!;
         private Transform _headCamera = null!;
@@ -39,28 +39,28 @@ namespace Game.Player.Controller
         private void Awake()
         {
             _headCamera = this.RequireComponentInChildren<Camera>().transform;
-            _lockAtInteractableComponent = this.AddComponent<LockAtInteractableComponent>();
+            _lookAtInteractableComponent = this.AddComponent<LookAtInteractableComponent>();
             _movementController = this.RequireComponent<MovementController>();
             _equipmentController = this.RequireComponent<EquipmentController>();
 
-            _lockAtInteractableComponent.OnLook += OnLockAtInteractableStarted;
-            _lockAtInteractableComponent.OnUnlook += OnLockAtInteractableFinished;
-            _lockAtInteractableComponent.OnInteract += OnInteract;
+            _lookAtInteractableComponent.OnLook += OnLookAtInteractableStarted;
+            _lookAtInteractableComponent.OnUnlook += OnLookAtInteractableFinished;
+            _lookAtInteractableComponent.OnInteract += OnInteract;
         }
 
         private void OnDestroy()
         {
-            _lockAtInteractableComponent.OnLook -= OnLockAtInteractableStarted;
-            _lockAtInteractableComponent.OnUnlook -= OnLockAtInteractableFinished;
-            _lockAtInteractableComponent.OnInteract -= OnInteract;
+            _lookAtInteractableComponent.OnLook -= OnLookAtInteractableStarted;
+            _lookAtInteractableComponent.OnUnlook -= OnLookAtInteractableFinished;
+            _lookAtInteractableComponent.OnInteract -= OnInteract;
         }
 
-        private void OnLockAtInteractableStarted()
+        private void OnLookAtInteractableStarted()
         {
             _playModeService.PlayModeScreen.ShowCrosshair(true);
         }
 
-        private void OnLockAtInteractableFinished()
+        private void OnLookAtInteractableFinished()
         {
             _playModeService.PlayModeScreen.FadeCrosshair(true);
         }
@@ -72,7 +72,7 @@ namespace Game.Player.Controller
 
         public void Initialize()
         {
-            _lockAtInteractableComponent.Init(_headCamera);
+            _lookAtInteractableComponent.Init(_headCamera);
             _equipmentController.Init(_rightHand, _leftHand);
         }
 
@@ -84,7 +84,7 @@ namespace Game.Player.Controller
         private void Update()
         {
             if (_cursorEnabled) {
-                _lockAtInteractableComponent.Tick();
+                _lookAtInteractableComponent.Tick();
             }
 
             if (!_inventoryEnabled) {

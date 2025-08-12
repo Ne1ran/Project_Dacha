@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Player.Controller
 {
-    public class LockAtInteractableComponent : MonoBehaviour
+    public class LookAtInteractableComponent : MonoBehaviour
     {
         public float _raycastLength = 2.75f;
 
@@ -20,7 +20,7 @@ namespace Game.Player.Controller
         public void Init(Transform head)
         {
             _head = head;
-            _lookLayerMask = LayerMask.GetMask("Tool", "Tile"); // todo neiran to combined layer mask to workaround
+            _lookLayerMask = LayerMask.GetMask("Tool", "Tile"); // todo neiran to combined layer mask to workaround or make descriptor
         }
 
         public void Tick()

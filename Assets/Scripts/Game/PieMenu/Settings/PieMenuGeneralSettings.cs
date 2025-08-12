@@ -13,6 +13,7 @@ namespace Game.PieMenu.Settings
     public class PieMenuGeneralSettings : MonoBehaviour
     {
         public const float MaxInfoPanelScale = 2f;
+        private const float CircleDegrees = 360f;
 
         [SerializeField]
         private bool _infoPanelEnabled;
@@ -100,7 +101,7 @@ namespace Game.PieMenu.Settings
         public List<Sprite> _shapes = new();
 
         [SerializeField]
-        private List<AnimatorOverrideController> _animatorOverrideControllers;
+        private List<AnimatorOverrideController> _animatorOverrideControllers = new();
 
         public GameObject IconDir => _iconDir;
 
@@ -122,23 +123,23 @@ namespace Game.PieMenu.Settings
         private AnimationClip _clip = null!;
         private double _previewStartTime;
 
-        public void OnCountChange()
-        {
-            RestoreRotationToDeafault();
-            ValidateFields();
-            HandleMenuItemCountChange(_pieMenuController, _menuItemCount, _menuItemSpacing);
-            _rotation = CalculateNewRotation(_menuItemCount, _menuItemSpacing);
-            HandleRotationChange(_pieMenuController, _rotation);
-        }
-
-        public void OnSpacingChange()
-        {
-            RestoreRotationToDeafault();
-            ValidateFields();
-            HandleButtonSpacingChange(_pieMenuController, _menuItemCount, _menuItemSpacing);
-            _rotation = _rotation = CalculateNewRotation(_menuItemCount, _menuItemSpacing);
-            HandleRotationChange(_pieMenuController, _rotation);
-        }
+        // public void OnCountChange()
+        // {
+        //     RestoreRotationToDefault();
+        //     ValidateFields();
+        //     HandleMenuItemCountChange(_pieMenuController, _menuItemCount, _menuItemSpacing);
+        //     _rotation = CalculateNewRotation(_menuItemCount, _menuItemSpacing);
+        //     HandleRotationChange(_pieMenuController, _rotation);
+        // }
+        //
+        // public void OnSpacingChange()
+        // {
+        //     RestoreRotationToDefault();
+        //     ValidateFields();
+        //     HandleButtonSpacingChange(_pieMenuController, _menuItemCount, _menuItemSpacing);
+        //     _rotation = _rotation = CalculateNewRotation(_menuItemCount, _menuItemSpacing);
+        //     HandleRotationChange(_pieMenuController, _rotation);
+        // }
 
         public void OnRotationChange()
         {
@@ -150,7 +151,7 @@ namespace Game.PieMenu.Settings
             HandleSizeChange(_pieMenuController, _size);
         }
 
-        private void RestoreRotationToDeafault()
+        private void RestoreRotationToDefault()
         {
             _rotation = 0;
             OnRotationChange();
@@ -169,8 +170,6 @@ namespace Game.PieMenu.Settings
             }
         }
 
-        private const string Name = "Menu Item ";
-
         public static int CalculateNewRotation(int menuItemCount, int menuItemSpacing)
         {
             // The following method calculates a new rotation to ensure symmetry based on the provided number of Menu Items
@@ -187,7 +186,7 @@ namespace Game.PieMenu.Settings
 
         public void HandleMenuItemCountChange(PieMenuController pieMenu, int menuItemCount, int menuItemSpacing)
         {
-            HandleButtonCountChange(pieMenu, menuItemCount);
+            // HandleButtonCountChange(pieMenu, menuItemCount);
             UpdateButtons(pieMenu, menuItemCount, menuItemSpacing);
         }
 
@@ -217,7 +216,6 @@ namespace Game.PieMenu.Settings
             PieMenuUtils.CalculateItemAngle(pieMenu);
             bool iconsEnabled = pieMenu.PieMenuModel.IconsEnabled;
             HandleRotation(pieMenu, iconsEnabled);
-            Change(pieMenu.GetMenuItems());
         }
 
         public void HandleRotationChanged(PieMenuController pieMenu, int rotation)
@@ -290,26 +288,17 @@ namespace Game.PieMenu.Settings
             rectTransform.sizeDelta = new(size, size);
         }
 
-        public void Change(Dictionary<int, PieMenuItemController> menuItems)
-        {
-            int iteration = 0;
-            foreach (KeyValuePair<int, PieMenuItemController> item in menuItems) {
-                item.Value.transform.name = Name + iteration;
-                iteration++;
-            }
-        }
-
-        public void HandleButtonCountChange(PieMenuController pieMenu, int newMenuItemCount)
-        {
-            Transform menuItemsDir = pieMenu.PieMenuElements.MenuItemsDir;
-            int currentMenuItemsCount = menuItemsDir.childCount;
-
-            if (currentMenuItemsCount > newMenuItemCount) {
-                Remove(pieMenu, newMenuItemCount);
-            } else if (currentMenuItemsCount < newMenuItemCount) {
-                Create(pieMenu, pieMenu.MenuItemControllerTemplate.gameObject, newMenuItemCount);
-            }
-        }
+        // public void HandleButtonCountChange(PieMenuController pieMenu, int newMenuItemCount)
+        // {
+        //     Transform menuItemsDir = pieMenu.PieMenuElements.MenuItemsDir;
+        //     int currentMenuItemsCount = menuItemsDir.childCount;
+        //
+        //     if (currentMenuItemsCount > newMenuItemCount) {
+        //         Remove(pieMenu, newMenuItemCount);
+        //     } else if (currentMenuItemsCount < newMenuItemCount) {
+        //         Create(pieMenu, pieMenu.MenuItemControllerTemplate.gameObject, newMenuItemCount);
+        //     }
+        // }
 
         public void UpdateFillAmount(PieMenuController pieMenu, int menuItemCount, int menuItemSpacing)
         {
@@ -330,23 +319,6 @@ namespace Game.PieMenu.Settings
                 lastItemIndex--;
             }
         }
-
-        public void Create(PieMenuController pieMenu, GameObject templateObj, int newMenuItemsCount)
-        {
-            Dictionary<int, PieMenuItemController> menuItems = pieMenu.ViewModel.PieMenuItems;
-
-            int menuItemsToCreate = newMenuItemsCount - menuItems.Count;
-
-            Transform menuItemsDir = pieMenu.PieMenuElements.MenuItemsDir;
-
-            for (int i = 0; i < menuItemsToCreate; i++) {
-                GameObject newMenuItem = Instantiate(templateObj, menuItemsDir);
-                int menuItemIndex = menuItems.Count;
-                pieMenu.ViewModel.InitializeMenuItem(newMenuItem.transform, menuItemIndex);
-            }
-        }
-
-        private const float CircleDegrees = 360f;
 
         public void ModifyFillAmount(Dictionary<int, PieMenuItemController> menuItems, float fillAmount, float menuItemSpacing)
         {
@@ -419,21 +391,9 @@ namespace Game.PieMenu.Settings
 
         private void ChangeMenuItemsColors(PieMenuController pieMenu, ColorBlock newColors)
         {
-            foreach (KeyValuePair<int, Button> button in pieMenu.ViewModel.ButtonComponents) {
-                Change(button.Value, newColors);
+            foreach (PieMenuItemController pieMenuItem in pieMenu.ViewModel.PieMenuItems.Values) {
+                pieMenuItem.Change(newColors);
             }
-        }
-
-        private void Change(Button button, ColorBlock newColors)
-        {
-            ColorBlock colors = button.colors;
-
-            colors.normalColor = newColors.normalColor;
-            colors.highlightedColor = newColors.highlightedColor;
-            colors.selectedColor = newColors.selectedColor;
-            colors.disabledColor = newColors.disabledColor;
-
-            button.colors = colors;
         }
 
         public void OnEnableSettingChange()

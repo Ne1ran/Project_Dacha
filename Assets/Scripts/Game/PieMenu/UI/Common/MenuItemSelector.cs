@@ -26,7 +26,6 @@ namespace Game.PieMenu.UI.Common
 
         private PieMenuController _pieMenu = null!;
 
-        public Dictionary<int, Button> ButtonComponentsReference { get; private set; } = null!;
         public Dictionary<int, PieMenuItemController> PieMenuItemsReference { get; private set; } = null!;
 
         private int _previousSelection;
@@ -39,9 +38,8 @@ namespace Game.PieMenu.UI.Common
             _previousSelection = -1;
         }
 
-        public void RegisterMenuItems(Dictionary<int, Button> buttonComponents, Dictionary<int, PieMenuItemController> pieMenuItems)
+        public void RegisterMenuItems(Dictionary<int, PieMenuItemController> pieMenuItems)
         {
-            ButtonComponentsReference = buttonComponents;
             PieMenuItemsReference = pieMenuItems;
         }
 
@@ -57,7 +55,6 @@ namespace Game.PieMenu.UI.Common
             }
 
             UnselectPreviousMenuItem();
-            ButtonComponentsReference[selection].Select();
             PieMenuItemsReference[selection].OnPointerEnter();
             _previousSelection = selection;
         }
@@ -240,7 +237,7 @@ namespace Game.PieMenu.UI.Common
                 return;
             }
 
-            bool menuItemDisabled = !ButtonComponentsReference[_selection].interactable;
+            bool menuItemDisabled = !PieMenuItemsReference[_selection].Interactable;
             if (menuItemDisabled) {
                 return;
             }
@@ -251,8 +248,7 @@ namespace Game.PieMenu.UI.Common
 
         private void SaveReferencesToMenuItems()
         {
-            PieMenuViewModel viewModel = _pieMenu.ViewModel;
-            RegisterMenuItems(viewModel.ButtonComponents, viewModel.PieMenuItems);
+            RegisterMenuItems(_pieMenu.ViewModel.PieMenuItems);
         }
     }
 }

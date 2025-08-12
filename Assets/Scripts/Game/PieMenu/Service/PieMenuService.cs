@@ -29,11 +29,31 @@ namespace Game.PieMenu.Service
         {
             List<PieMenuItemModel> pieMenuItemModels = CreateItemModels(interactableType);
             PieMenuController pieMenu = await _uiService.ShowDialogAsync<PieMenuController>();
-            pieMenu.transform.parent.gameObject.SetActive(true);
             pieMenu.gameObject.SetActive(true);
-            await pieMenu.InitializeAsync(pieMenuItemModels);
+            pieMenu.Initialize();
             _currentPieMenu = pieMenu;
+            await pieMenu.AddItemsAsync(pieMenuItemModels);
             return pieMenu;
+        }
+
+        public void RemoveCurrentItems()
+        {
+            if (_currentPieMenu == null) {
+                return;
+            }
+
+            _currentPieMenu.RemoveItems();
+        }
+
+        public async UniTask ChangeItemsAsync(InteractableType interactableType)
+        {
+            if (_currentPieMenu == null) {
+                Debug.LogWarning("Can't change items if pie menu is null");
+                return;
+            }
+            
+            _currentPieMenu.RemoveItems();
+            await _currentPieMenu.AddItemsAsync(CreateItemModels(interactableType));
         }
 
         public async UniTask RemovePieMenuAsync()
@@ -53,6 +73,9 @@ namespace Game.PieMenu.Service
 
             InteractionDescriptor interactionDescriptor = _descriptorService.Require<InteractionDescriptor>();
             InteractionDescriptorModel interactionDescriptorModel = interactionDescriptor.RequireByType(interactableType);
+
+            // todo neiran also add checker or descriptor to check if item persists or so! For now show everything, just check for item before use!
+
             foreach (InteractionPieMenuSettings pieMenuSettings in interactionDescriptorModel.Settings) {
                 items.Add(new(pieMenuSettings.Title, pieMenuSettings.Description, pieMenuSettings.IconPath));
             }

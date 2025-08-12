@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Attributes;
+using Game.GameMap.Soil.Model;
 using UnityEngine;
 
 namespace Game.GameMap.Map.Descriptor
@@ -17,5 +18,7 @@ namespace Game.GameMap.Map.Descriptor
         public float TileLength { get; private set; } = 1;
         [field: SerializeField]
         public Vector3 TileMainPoint { get; private set; } = Vector3.zero;
+        [field: SerializeField]
+        public SoilType SoilType { get; private set; } = SoilType.Black;
     }
 }
