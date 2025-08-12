@@ -5,7 +5,6 @@ using Core.Reactive;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.PieMenu.Model;
-using Game.PieMenu.Settings;
 using Game.PieMenu.UI;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;

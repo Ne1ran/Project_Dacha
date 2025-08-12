@@ -19,8 +19,6 @@ namespace Game.PieMenu.UI.Model
         public int MenuItemSize { get; private set; }
 
         public AnimationClip? Animation { get; private set; }
-        public AudioClip? MouseHover { get; private set; }
-        public AudioClip? MouseClick { get; private set; }
 
         public void SetStartValues()
         {
@@ -91,16 +89,6 @@ namespace Game.PieMenu.UI.Model
         public void SetAnimation(AnimationClip animationClip)
         {
             Animation = animationClip;
-        }
-        
-        public void SetMouseHoverClip(AudioClip audioClip)
-        {
-            MouseHover = audioClip;
-        }
-        
-        public void SetMouseClickClip(AudioClip audioClip)
-        {
-            MouseClick = audioClip;
         }
     }
 }

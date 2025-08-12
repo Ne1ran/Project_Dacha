@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Game.Interactable.ViewModel;
 using Game.PieMenu.InputDevices;
 using Game.PieMenu.Model;
 using Game.PieMenu.UI.Model;
@@ -11,26 +12,31 @@ namespace Game.PieMenu.UI.Common
     public class MenuItemSelector : MonoBehaviour
     {
         private const int CircleDegrees = 360;
-
         private const float CheckDelay = 0.1f;
 
+        public Dictionary<int, PieMenuItemController> PieMenuItemsReference { get; private set; } = null!;
         public InputDeviceGetter InputDeviceGetter { get; private set; } = null!;
 
         public bool SelectionEnabled { get; private set; }
         public bool CanBeClicked { get; private set; }
 
+
+        private PieMenuModel _pieMenuModel = null!;
+        private PieMenuViewModel _pieMenuViewModel = null!;
+
         private int _selection;
-        private bool _isChecking;
-
-        private PieMenuController _pieMenu = null!;
-
-        public Dictionary<int, PieMenuItemController> PieMenuItemsReference { get; private set; } = null!;
-
         private int _previousSelection;
-
-        private bool _selectionConstrained;
         private int _constraintMaxDistance;
 
+        private bool _selectionConstrained;
+        private bool _isChecking;
+        private bool _initialized;
+
+        public void Initialize()
+        {
+            _initialized = true;
+        }
+        
         public void ResetPreviousSelection()
         {
             _previousSelection = -1;
@@ -45,11 +51,6 @@ namespace Game.PieMenu.UI.Common
         {
             if (selection == _previousSelection) {
                 return;
-            }
-
-            if (_previousSelection == 0) {
-                return;
-                // todo neiran check this
             }
 
             UnselectPreviousMenuItem();
@@ -85,21 +86,21 @@ namespace Game.PieMenu.UI.Common
             _constraintMaxDistance = maxDistance;
         }
 
-        public int CalculateSelection(PieMenuController pieMenu, IInputDevice inputDevice)
+        public int CalculateSelection(IInputDevice inputDevice)
         {
             int selection;
 
             // This method calculates the angle from 0 to 360 degrees based on the mouse position relative to the center of the pie menu.
-            float currentAngle = CalculateAngle(inputDevice, pieMenu.PieMenuModel.AnchoredPosition);
+            float currentAngle = CalculateAngle(inputDevice, _pieMenuModel.AnchoredPosition);
             if (!Mathf.Approximately(currentAngle, -1)) {
                 // This method takes into account the pie menu rotation to adjust currentAngle
-                float adjustedAngle = AdjustAngle(pieMenu, currentAngle);
+                float adjustedAngle = AdjustAngle(_pieMenuModel, currentAngle);
 
-                int menuItemCount = pieMenu.ViewModel.PieMenuItems.Count;
+                int menuItemCount = _pieMenuViewModel.PieMenuItems.Count;
                 selection = (int) adjustedAngle / (CircleDegrees / menuItemCount);
 
                 // This method adjusts the Menu Item selection taking into account their spacing.
-                selection = AdjustSelection(pieMenu, selection, currentAngle);
+                selection = AdjustSelection(_pieMenuModel, selection, currentAngle, menuItemCount);
 
                 //This calculation reverses the selection direction. Without it, the items would be selected clockwise,
                 //starting from the left-center of the circle(in our case, the items should be selected in the opposite direction).
@@ -131,16 +132,14 @@ namespace Game.PieMenu.UI.Common
             return currentAngle;
         }
 
-        private float AdjustAngle(PieMenuController pieMenu, float currentAngle)
+        private float AdjustAngle(PieMenuModel pieMenuModel, float currentAngle)
         {
-            PieMenuModel pieMenuModel = pieMenu.PieMenuModel;
             float adjustedAngle = (currentAngle + pieMenuModel.Rotation + CircleDegrees) % CircleDegrees;
             return adjustedAngle;
         }
 
-        private int AdjustSelection(PieMenuController pieMenu, int selection, float currentAngle)
+        private int AdjustSelection(PieMenuModel pieMenuModel, int selection, float currentAngle, int menuItemsCount)
         {
-            PieMenuModel pieMenuModel = pieMenu.PieMenuModel;
             float menuItemSpacing = pieMenuModel.MenuItemSpacing;
             int minSpacing = 1;
             if (menuItemSpacing <= minSpacing) {
@@ -171,7 +170,6 @@ namespace Game.PieMenu.UI.Common
                 // Adjusting selection and handling wrap-around
                 selection++;
                 int firstIndex = 0;
-                int menuItemsCount = pieMenu.ViewModel.PieMenuItems.Count;
                 if (selection >= menuItemsCount) {
                     selection = firstIndex;
                 }
@@ -180,15 +178,20 @@ namespace Game.PieMenu.UI.Common
             return selection; // No adjustment needed
         }
 
-        public void Initialize(PieMenuController pieMenu, PieMenuSettingsModel settingsModel)
+        public void Initialize(PieMenuSettingsModel settingsModel)
         {
-            _pieMenu = pieMenu;
             InputDeviceGetter = settingsModel.InputDeviceGetter;
-            SaveReferencesToMenuItems();
+            _pieMenuModel = settingsModel.PieMenuModel;
+            _pieMenuViewModel = settingsModel.PieMenuViewModel;
+            RegisterMenuItems(_pieMenuViewModel.PieMenuItems);
         }
 
         private void Update()
         {
+            if (!_initialized) {
+                return;
+            }
+            
             if (SelectionEnabled) {
                 if (!_isChecking) {
                     TryHandleSelectionAsync().Forget();
@@ -218,7 +221,7 @@ namespace Game.PieMenu.UI.Common
             _isChecking = true;
             await UniTask.WaitForSeconds(CheckDelay, cancellationToken: destroyCancellationToken);
 
-            _selection = CalculateSelection(_pieMenu, InputDeviceGetter.InputDevice);
+            _selection = CalculateSelection(InputDeviceGetter.InputDevice);
 
             if (_selection != -1) {
                 SelectMenuItem(_selection);
@@ -242,11 +245,6 @@ namespace Game.PieMenu.UI.Common
 
             CanBeClicked = false;
             PieMenuItemsReference[_selection].OnClick();
-        }
-
-        private void SaveReferencesToMenuItems()
-        {
-            RegisterMenuItems(_pieMenu.ViewModel.PieMenuItems);
         }
     }
 }

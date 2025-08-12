@@ -8,17 +8,15 @@ namespace Game.PieMenu.Utils
     {
         public const string InputDevice = "InputDevice";
         public const int CircleDegrees = 360;
-        public const float CircleDegrees_F = 360f;
+        public const float CircleDegreesF = 360f;
 
-        public static int CalculateItemAngle(PieMenuController pieMenu)
+        public static int CalculateItemAngle(int menuItemCount, int menuItemSpacing)
         {
-            int menuItemCount = pieMenu.ViewModel.PieMenuItems.Count;
             if (menuItemCount == 0) {
                 Debug.Log("Can't divide by zero! Ensure menu items != 0");
                 return 0;
             }
             
-            int menuItemSpacing = pieMenu.PieMenuModel.MenuItemSpacing;
 
             int totalSpacing = CalculateTotalSpacing(menuItemCount, menuItemSpacing);
 
@@ -59,12 +57,9 @@ namespace Game.PieMenu.Utils
             return rotation;
         }
 
-        public static float CalculatePieMenuScale(PieMenuController pieMenu, int size)
+        public static float CalculatePieMenuScale(int initialSize, int size)
         {
-            int initialSize = pieMenu.PieMenuModel.MenuItemInitialSize;
-
-            float newScale = (float) size / initialSize;
-            return newScale;
+            return (float) size / initialSize;
         }
 
         public static void RotateFirstElement(Transform menuItem, Quaternion iconDirRotation)

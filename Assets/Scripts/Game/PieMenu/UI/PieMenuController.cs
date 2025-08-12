@@ -7,7 +7,6 @@ using Game.Interactable.ViewModel;
 using Game.PieMenu.InputDevices;
 using Game.PieMenu.Model;
 using Game.PieMenu.Service;
-using Game.PieMenu.Settings;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
 using Game.PieMenu.Utils;
@@ -28,7 +27,7 @@ namespace Game.PieMenu.UI
         private PieMenuController _pieMenu = null!;
         [ComponentBinding]
         private RectTransform _rectTransform = null!;
-        [ComponentBinding]
+        [ComponentBinding("ItemsHolder")]
         private Transform _itemsHolder = null!;
         [ComponentBinding("MenuItemTemplate")]
         private PieMenuItemController _menuItemControllerTemplate = null!;
@@ -83,6 +82,7 @@ namespace Game.PieMenu.UI
         public async UniTask AddItemsAsync(List<PieMenuItemModel> items)
         {
             await ViewModel.AddAsync(items, _itemsHolder, destroyCancellationToken);
+            _pieMenuItemSelector.Initialize();
         }
 
         public void RemoveItems()
@@ -98,7 +98,7 @@ namespace Game.PieMenu.UI
         private void InitializePieMenu()
         {
             _inputDeviceGetter.Initialize(gameObject);
-            _pieMenuItemSelector.Initialize(this, PieMenuSettingsModel);
+            _pieMenuItemSelector.Initialize(PieMenuSettingsModel);
             _generalSettings.Initialize(this);
             ReadDataAndInfoFields();
             ActivateMenuAsync(true).Forget();
@@ -113,7 +113,7 @@ namespace Game.PieMenu.UI
 
             float menuItemSize = _menuItemControllerTemplate.GetComponent<RectTransform>().sizeDelta.x;
             PieMenuModel.SetMenuItemSize((int) menuItemSize);
-            float scale = PieMenuUtils.CalculatePieMenuScale(this, (int) menuItemSize);
+            float scale = PieMenuUtils.CalculatePieMenuScale(PieMenuModel.MenuItemInitialSize, (int) menuItemSize);
             PieMenuModel.SetScale(scale);
             PieMenuModel.SetRotation(0);
             
@@ -187,17 +187,8 @@ namespace Game.PieMenu.UI
         private float CalculateTimeToWait(PieMenuController pieMenu)
         {
             PieMenuModel pieMenuModel = pieMenu.PieMenuModel;
-            float audioClipLength = 0f;
-            if (pieMenuModel.MouseClick != null) {
-                audioClipLength = pieMenuModel.MouseClick.length;
-            }
-
-            float animationClipLength = 0f;
-            if (pieMenuModel.Animation != null) {
-                animationClipLength = pieMenuModel.Animation.length;
-            }
-
-            return Mathf.Max(audioClipLength, animationClipLength);
+            AnimationClip? animationClip = pieMenuModel.Animation;
+            return animationClip != null ? animationClip.length : 0f;
         }
 
         private void DisableInfoPanel()

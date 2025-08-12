@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Game.PieMenu.Model;
-using Game.PieMenu.UI;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
 using Game.PieMenu.Utils;
@@ -8,9 +7,8 @@ using Game.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using PieMenuItemController = Game.PieMenu.UI.PieMenuItemController;
 
-namespace Game.PieMenu.Settings
+namespace Game.PieMenu.UI
 {
     public class PieMenuGeneralSettings : MonoBehaviour
     {
@@ -93,9 +91,6 @@ namespace Game.PieMenu.Settings
         [SerializeField]
         private Animator _animator = null!;
 
-        [SerializeField]
-        private AudioSource _mouseClickAudioSource = null!;
-
         public Image Background => _background;
 
         public Transform InfoPanel => _infoPanel;
@@ -105,8 +100,6 @@ namespace Game.PieMenu.Settings
         public TextMeshProUGUI Details => _details;
 
         public Animator Animator => _animator;
-
-        public AudioSource MouseClickAudioSource => _mouseClickAudioSource;
 
         private PieMenuController _pieMenuController = null!;
         private PieMenuModel _pieMenuModel = null!;
@@ -150,7 +143,7 @@ namespace Game.PieMenu.Settings
 
             _pieMenuModel.SetSpacing(menuItemSpacing);
             UpdateFillAmount(menuItemCount, menuItemSpacing);
-            _pieMenuModel.SetMenuItemAngle(PieMenuUtils.CalculateItemAngle(_pieMenuController));
+            _pieMenuModel.SetMenuItemAngle(PieMenuUtils.CalculateItemAngle(menuItemCount, menuItemSpacing));
         }
 
         public void ChangeRotation(int rotation)
@@ -173,7 +166,7 @@ namespace Game.PieMenu.Settings
                 Image image = item.Value.GetComponent<Image>();
                 image.fillAmount = fillAmount;
 
-                float zAxisRotation = (fillAmount * iteration * PieMenuUtils.CircleDegrees_F) + (menuItemSpacing * iteration);
+                float zAxisRotation = (fillAmount * iteration * PieMenuUtils.CircleDegreesF) + (menuItemSpacing * iteration);
                 item.Value.transform.rotation = Quaternion.Euler(0, 0, zAxisRotation);
                 iteration++;
             }

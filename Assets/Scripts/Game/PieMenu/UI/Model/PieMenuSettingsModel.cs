@@ -1,11 +1,8 @@
 ﻿using Game.Interactable.ViewModel;
 using Game.PieMenu.InputDevices;
-using Game.PieMenu.Settings;
-using Game.PieMenu.UI;
 using Game.PieMenu.UI.Common;
-using Game.PieMenu.UI.Model;
 
-namespace Game.PieMenu.Model
+namespace Game.PieMenu.UI.Model
 {
     public class PieMenuSettingsModel
     {

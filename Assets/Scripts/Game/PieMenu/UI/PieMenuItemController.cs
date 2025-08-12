@@ -1,7 +1,7 @@
 using Core.Reactive;
 using Core.Resources.Binding.Attributes;
 using Game.PieMenu.Model;
-using Game.PieMenu.Settings;
+using Game.PieMenu.UI.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,15 +18,13 @@ namespace Game.PieMenu.UI
 
         [ComponentBinding]
         private Button _button = null!;
+        [ComponentBinding]
+        private Animator _animator = null!;
 
         [Header("Menu Item")]
         [ReadOnly]
         [SerializeField]
         private int _id;
-
-        public AudioSource HoverAudioSource { get; private set; } = null!;
-
-        private Animator _animator = null!;
 
         private PieMenuGeneralSettings _generalSettings = null!;
 
@@ -52,8 +50,6 @@ namespace Game.PieMenu.UI
             _itemModel = model;
             _pieMenuController = pieMenuController;
             OnClickedTrigger = onClickedTrigger;
-            HoverAudioSource = GetComponent<AudioSource>();
-            _animator = GetComponent<Animator>();
 
             PieMenuSettingsModel settingsModel = pieMenuController.PieMenuSettingsModel;
             _generalSettings = settingsModel.GeneralSettings;
