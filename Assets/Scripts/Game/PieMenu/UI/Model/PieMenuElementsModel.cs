@@ -1,39 +1,33 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Game.PieMenu.UI.Model
 {
-    public class PieMenuElements : MonoBehaviour
+    public class PieMenuElementsModel : MonoBehaviour
     {
-        [FormerlySerializedAs("menuItemsDir"), SerializeField]
+        [SerializeField]
         private Transform _menuItemsDir = null!;
 
-        [FormerlySerializedAs("hiddenMenuItemsDir"), SerializeField]
-        private Transform _hiddenMenuItemsDir = null!;
-
-        [FormerlySerializedAs("background"), SerializeField]
+        [SerializeField]
         private Image _background = null!;
 
-        [FormerlySerializedAs("infoPanel"), SerializeField]
+        [SerializeField]
         private Transform _infoPanel = null!;
 
-        [FormerlySerializedAs("header"), SerializeField]
+        [SerializeField]
         private TextMeshProUGUI _header = null!;
 
-        [FormerlySerializedAs("details"), SerializeField]
+        [SerializeField]
         private TextMeshProUGUI _details = null!;
 
-        [FormerlySerializedAs("animator"), SerializeField]
+        [SerializeField]
         private Animator _animator = null!;
 
-        [FormerlySerializedAs("mouseClickAudioSource"), SerializeField]
+        [SerializeField]
         private AudioSource _mouseClickAudioSource = null!;
 
         public Transform MenuItemsDir => _menuItemsDir;
-
-        public Transform HiddenMenuItemsDir => _hiddenMenuItemsDir;
 
         public Image Background => _background;
 

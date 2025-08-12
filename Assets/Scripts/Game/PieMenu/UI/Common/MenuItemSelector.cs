@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Game.Interactable.ViewModel;
 using Game.PieMenu.InputDevices;
 using Game.PieMenu.Model;
 using Game.PieMenu.UI.Model;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace Game.PieMenu.UI.Common
 {

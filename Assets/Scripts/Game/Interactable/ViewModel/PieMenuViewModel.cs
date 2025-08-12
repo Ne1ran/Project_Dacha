@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Core.Reactive;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.PieMenu.Model;
@@ -9,8 +10,6 @@ using Game.PieMenu.UI;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
 using Game.Utils;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.Interactable.ViewModel
 {
@@ -24,6 +23,8 @@ namespace Game.Interactable.ViewModel
         private PieMenuGeneralSettings _generalSettings = null!;
 
         private IResourceService _resourceService = null!;
+        
+        public ReactiveTrigger<PieMenuItemModel> OnClickedTrigger { get; private set; } = new();
 
         public void Initialize(IResourceService resourceService)
         {
@@ -60,7 +61,7 @@ namespace Game.Interactable.ViewModel
                                                                            CancellationToken cancellationToken = default)
         {
             PieMenuItemController pieItem = await _resourceService.LoadObjectAsync<PieMenuItemController>();
-            pieItem.Initialize(itemModel, pieMenu);
+            pieItem.Initialize(itemModel, pieMenu, OnClickedTrigger);
             return pieItem;
         }
 

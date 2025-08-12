@@ -5,7 +5,6 @@ namespace Game.PieMenu.UI.Model
     public class PieMenuModel : MonoBehaviour
     {
         public bool IsActive { get; private set; }
-        public bool IsTransitioning { get; private set; }
         public bool IsCloseable { get; private set; }
         public bool SelectionConstrained { get; private set; }
         public int Rotation { get; private set; }
@@ -32,11 +31,6 @@ namespace Game.PieMenu.UI.Model
             IsActive = isActive;
         }
 
-        public void SetTransitionState(bool isTransitioning)
-        {
-            IsTransitioning = isTransitioning;
-        }
-
         public void SetCloseableState(bool isCloseable)
         {
             IsCloseable = isCloseable;
@@ -60,13 +54,9 @@ namespace Game.PieMenu.UI.Model
         public void SetAnchoredPosition(RectTransform rectTransform)
         {
             // This method adjusts the anchored position based on the differences in screen resolution in maximized and focused windows.
-
             Vector2 anchoredPosition = rectTransform.anchoredPosition;
-
             float difference = (float) Screen.width / Screen.currentResolution.width;
-
             anchoredPosition = new(anchoredPosition.x * difference, anchoredPosition.y * difference);
-
             AnchoredPosition = anchoredPosition;
         }
 

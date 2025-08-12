@@ -9,10 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2120365762625608146}
-  - component: {fileID: 6056410503619714176}
   - component: {fileID: 5293378067901498447}
-  - component: {fileID: 1136375881764719131}
-  - component: {fileID: 1538724876113943088}
   - component: {fileID: 1768171898388993146}
   - component: {fileID: 8207781811394013060}
   - component: {fileID: 5434622942280348813}
@@ -38,18 +35,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 376266584478053165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6056410503619714176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 110944816659601268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c02eaf604c491c44af95a0a49da195f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5293378067901498447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,30 +45,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 885ecbd9c85d36d489432cbf489fad6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1136375881764719131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 110944816659601268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 006fe7c89f3a92542b41c5c06f4022cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1538724876113943088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 110944816659601268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 006fe7c89f3a92542b41c5c06f4022cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1768171898388993146
@@ -111,7 +72,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _menuItemsDir: {fileID: 7293434501763601136}
-  _hiddenMenuItemsDir: {fileID: 7511074534174085931}
   _background: {fileID: 2022830101496020880}
   _infoPanel: {fileID: 615534387678541856}
   _header: {fileID: 887402441295827442}
@@ -885,10 +845,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 0
-  _details: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  _header: Header
 --- !u!222 &4239066160406934071
 CanvasRenderer:
   m_ObjectHideFlags: 0

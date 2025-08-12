@@ -28,7 +28,7 @@ namespace Game.Player.Controller
         [Inject]
         private IPublisher<string, InventoryStatusEvent> _inventoryStatusPublisher = null!;
 
-        private LookAtInteractableComponent _lookAtInteractableComponent = null!;
+        private PlayerInteractionComponent _playerInteractionComponent = null!;
         private MovementController _movementController = null!;
         private EquipmentController _equipmentController = null!;
         private Transform _headCamera = null!;
@@ -39,40 +39,47 @@ namespace Game.Player.Controller
         private void Awake()
         {
             _headCamera = this.RequireComponentInChildren<Camera>().transform;
-            _lookAtInteractableComponent = this.AddComponent<LookAtInteractableComponent>();
+            _playerInteractionComponent = this.AddComponent<PlayerInteractionComponent>();
             _movementController = this.RequireComponent<MovementController>();
             _equipmentController = this.RequireComponent<EquipmentController>();
 
-            _lookAtInteractableComponent.OnLook += OnLookAtInteractableStarted;
-            _lookAtInteractableComponent.OnUnlook += OnLookAtInteractableFinished;
-            _lookAtInteractableComponent.OnInteract += OnInteract;
+            _playerInteractionComponent.OnLook += OnPlayerInteractionStarted;
+            _playerInteractionComponent.OnUnlook += OnPlayerInteractionFinished;
+            _playerInteractionComponent.OnInteractStarted += OnInteractStarted;
+            _playerInteractionComponent.OnInteractFinished += OnInteractFinished;
         }
 
         private void OnDestroy()
         {
-            _lookAtInteractableComponent.OnLook -= OnLookAtInteractableStarted;
-            _lookAtInteractableComponent.OnUnlook -= OnLookAtInteractableFinished;
-            _lookAtInteractableComponent.OnInteract -= OnInteract;
+            _playerInteractionComponent.OnLook -= OnPlayerInteractionStarted;
+            _playerInteractionComponent.OnUnlook -= OnPlayerInteractionFinished;
+            _playerInteractionComponent.OnInteractStarted -= OnInteractStarted;
+            _playerInteractionComponent.OnInteractFinished -= OnInteractFinished;
         }
 
-        private void OnLookAtInteractableStarted()
+        private void OnPlayerInteractionStarted()
         {
             _playModeService.PlayModeScreen.ShowCrosshair(true);
         }
 
-        private void OnLookAtInteractableFinished()
+        private void OnPlayerInteractionFinished()
         {
             _playModeService.PlayModeScreen.FadeCrosshair(true);
         }
 
-        private void OnInteract(IInteractableComponent target)
+        private void OnInteractStarted(IInteractableComponent target)
         {
             target.Interact().Forget();
         }
 
+        private void OnInteractFinished(IInteractableComponent target)
+        {
+            target.StopInteract().Forget();
+        }
+
         public void Initialize()
         {
-            _lookAtInteractableComponent.Init(_headCamera);
+            _playerInteractionComponent.Init(_headCamera);
             _equipmentController.Init(_rightHand, _leftHand);
         }
 
@@ -84,7 +91,7 @@ namespace Game.Player.Controller
         private void Update()
         {
             if (_cursorEnabled) {
-                _lookAtInteractableComponent.Tick();
+                _playerInteractionComponent.Tick();
             }
 
             if (!_inventoryEnabled) {
@@ -119,5 +126,7 @@ namespace Game.Player.Controller
         }
 
         public Vector3 Forward => _movementController.Forward;
+
+        public bool InteractionButtonPressed => _playerInteractionComponent.InteractionPressed;
     }
 }

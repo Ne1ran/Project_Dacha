@@ -226,8 +226,7 @@ namespace Game.PieMenu.Settings
 
         private void ChangeRotation(PieMenuController pieMenu, int rotation)
         {
-            Transform menuItemsDir = pieMenu.PieMenuElements.MenuItemsDir;
-
+            Transform menuItemsDir = pieMenu.PieMenuSettingsModel.PieMenuElementsModel.MenuItemsDir;
             Quaternion newRotation = Quaternion.Euler(0f, 0f, rotation);
             menuItemsDir.rotation = newRotation;
             pieMenu.PieMenuModel.SetRotation(rotation);
@@ -354,7 +353,7 @@ namespace Game.PieMenu.Settings
             OnCloseSettingsInitialized();
             InitializeInfoPanelSettings();
             SetCurrentlyUsedShape();
-            _background = _pieMenuController.PieMenuElements.Background;
+            _background = _pieMenuController.PieMenuSettingsModel.PieMenuElementsModel.Background;
             _pieMenuController.PieMenuModel.SetBackgroundEnabled(_backgroundEnabled);
         }
 
@@ -377,7 +376,7 @@ namespace Game.PieMenu.Settings
 
         private void SetColorFields()
         {
-            Transform menuItem = _pieMenuController.MenuItemControllerTemplate.transform;
+            Transform menuItem = _pieMenuController.PieMenuSettingsModel.MenuItemControllerTemplate.transform;
             ColorBlock colors = menuItem.GetComponent<Button>().colors;
             _normalColor = colors.normalColor;
             _selectedColor = colors.selectedColor;
@@ -710,7 +709,7 @@ namespace Game.PieMenu.Settings
 
         private void InitializeAnimationsSettings()
         {
-            _animator = _pieMenuController.PieMenuElements.Animator;
+            _animator = _pieMenuController.PieMenuSettingsModel.PieMenuElementsModel.Animator;
 
             InitializeList();
             GetSelectedAnimation();
@@ -748,7 +747,7 @@ namespace Game.PieMenu.Settings
         {
             AnimatorOverrideController overrideController = GetAnimator(controllerIndex);
 
-            pieMenu.PieMenuElements.Animator.runtimeAnimatorController = overrideController;
+            pieMenu.PieMenuSettingsModel.PieMenuElementsModel.Animator.runtimeAnimatorController = overrideController;
 
             pieMenu.PieMenuModel.SetAnimation(GetAnimation(overrideController));
         }
@@ -833,10 +832,10 @@ namespace Game.PieMenu.Settings
                 return;
             }
 
-            PieMenuElements pieMenuElements = _pieMenuController.PieMenuElements;
-            _headerColor = pieMenuElements.Header.color;
-            _detailsColor = pieMenuElements.Details.color;
-            _scale = pieMenuElements.InfoPanel.localScale.x;
+            PieMenuElementsModel pieMenuElementsModel = _pieMenuController.PieMenuSettingsModel.PieMenuElementsModel;
+            _headerColor = pieMenuElementsModel.Header.color;
+            _detailsColor = pieMenuElementsModel.Details.color;
+            _scale = pieMenuElementsModel.InfoPanel.localScale.x;
         }
 
         public void HandleEnableValueChange(PieMenuController pieMenu, bool enabled)
@@ -848,32 +847,32 @@ namespace Game.PieMenu.Settings
 
         public void SetActive(PieMenuController pieMenu, bool isActive)
         {
-            pieMenu.PieMenuElements.InfoPanel.gameObject.SetActive(isActive);
+            pieMenu.PieMenuSettingsModel.PieMenuElementsModel.InfoPanel.gameObject.SetActive(isActive);
         }
 
         public void ChangeHeaderColor(PieMenuController pieMenu, Color newColor)
         {
-            pieMenu.PieMenuElements.Header.color = newColor;
+            pieMenu.PieMenuSettingsModel.PieMenuElementsModel.Header.color = newColor;
         }
 
         public void ChangeDetailsColor(PieMenuController pieMenu, Color newColor)
         {
-            pieMenu.PieMenuElements.Details.color = newColor;
+            pieMenu.PieMenuSettingsModel.PieMenuElementsModel.Details.color = newColor;
         }
 
         public void ChangeScale(PieMenuController pieMenu, float scale)
         {
-            pieMenu.PieMenuElements.InfoPanel.localScale = new(scale, scale, scale);
+            pieMenu.PieMenuSettingsModel.PieMenuElementsModel.InfoPanel.localScale = new(scale, scale, scale);
         }
 
         public void ModifyHeader(PieMenuController pieMenu, string newHeader)
         {
-            pieMenu.PieMenuElements.Header.text = newHeader;
+            pieMenu.PieMenuSettingsModel.PieMenuElementsModel.Header.text = newHeader;
         }
 
         public void ModifyDetails(PieMenuController pieMenu, string newMessage)
         {
-            pieMenu.PieMenuElements.Details.text = newMessage;
+            pieMenu.PieMenuSettingsModel.PieMenuElementsModel.Details.text = newMessage;
         }
 
         public void RestoreDefaultInfoPanelText(PieMenuController pieMenu)
@@ -963,7 +962,7 @@ namespace Game.PieMenu.Settings
 
         private void SetCurrentlyUsedShape()
         {
-            Sprite sprite = _pieMenuController.MenuItemControllerTemplate.GetComponent<ImageFilledClickableSlices>().sprite;
+            Sprite sprite = _pieMenuController.PieMenuSettingsModel.MenuItemControllerTemplate.GetComponent<ImageFilledClickableSlices>().sprite;
             int index = Shapes.IndexOf(sprite);
             if (index != -1) {
                 CreateDropdownShapesList(index);

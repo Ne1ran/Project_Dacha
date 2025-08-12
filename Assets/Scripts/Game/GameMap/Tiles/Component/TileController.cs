@@ -44,5 +44,11 @@ namespace Game.GameMap.Tiles.Component
             
             await _pieMenuService.CreatePieMenuAsync(InteractableType.TILE);
         }
+
+        public UniTask StopInteract()
+        {
+            Debug.Log("Stopped interacting with tile!");
+            return UniTask.CompletedTask;
+        }
     }
 }

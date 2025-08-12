@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace Game.PieMenu.InputDevices
 {
-    public class InputDeviceGetter : MonoBehaviour
+    public class InputDeviceGetter
     {
         public IInputDevice InputDevice { get; private set; } = null!;
         private bool _isOldInputSystemEnabled;
         private bool _isNewInputSystemEnabled;
 
-        private void Awake()
+        public void Initialize(GameObject pieMenuGO)
         {
             DetectInputSystem();
-            HandleInputDevicePreferences();
+            HandleInputDevicePreferences(pieMenuGO);
         }
-
+        
         private void DetectInputSystem()
         {
 #if ENABLE_INPUT_SYSTEM
@@ -30,40 +30,40 @@ namespace Game.PieMenu.InputDevices
 #endif
         }
 
-        private void HandleInputDevicePreferences()
+        private void HandleInputDevicePreferences(GameObject obj)
         {
             int defaultValue = -1;
             int inputDeviceId = PlayerPrefs.GetInt(PieMenuUtils.InputDevice, defaultValue);
 
             if (_isOldInputSystemEnabled) {
                 if (inputDeviceId == (int) AvailableInputDevices.MouseAndKeyboardOldInputSystem) {
-                    SetInputDevice<PieMenuOldInputSystem>();
+                    SetInputDevice<PieMenuOldInputSystem>(obj);
                 } else {
-                    SetDefault();
+                    SetDefault(obj);
                 }
             } else if (_isNewInputSystemEnabled) {
                 if (inputDeviceId == (int) AvailableInputDevices.MouseAndKeyboardNewInputSystem) {
-                    SetInputDevice<PieMenuNewInputSystem>();
+                    SetInputDevice<PieMenuNewInputSystem>(obj);
                 } else {
-                    SetDefault();
+                    SetDefault(obj);
                 }
             }
         }
 
-        private void SetDefault()
+        private void SetDefault(GameObject obj)
         {
             if (_isOldInputSystemEnabled) {
-                SetInputDevice<PieMenuOldInputSystem>();
+                SetInputDevice<PieMenuOldInputSystem>(obj);
             } else if (_isNewInputSystemEnabled) {
-                SetInputDevice<PieMenuNewInputSystem>();
+                SetInputDevice<PieMenuNewInputSystem>(obj);
             }
         }
 
-        private void SetInputDevice<T>()
+        private void SetInputDevice<T>(GameObject obj)
                 where T : MonoBehaviour, IInputDevice
         {
             if (typeof(IInputDevice).IsAssignableFrom(typeof(T))) {
-                InputDevice = gameObject.AddComponent<T>();
+                InputDevice = obj.AddComponent<T>();
             } else {
                 throw new InvalidOperationException($"Type {typeof(T)} must derive from MonoBehaviour and implement IInputDevice interface.");
             }

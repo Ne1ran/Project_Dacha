@@ -1,3 +1,4 @@
+using Core.Reactive;
 using Core.Resources.Binding.Attributes;
 using Game.PieMenu.Model;
 using Game.PieMenu.Settings;
@@ -15,7 +16,7 @@ namespace Game.PieMenu.UI
         private static readonly int _mouseEnter = Animator.StringToHash(MouseEnterTrigger);
         private const string MouseEnterTrigger = "MouseEnter";
         private const string MouseExitTrigger = "MouseExit";
-        
+
         [ComponentBinding]
         private Button _button = null!;
 
@@ -24,42 +25,43 @@ namespace Game.PieMenu.UI
         [SerializeField]
         private int _id;
 
-        private string _details = null!;
-
-        private string _header = null!;
-
         public AudioSource HoverAudioSource { get; private set; } = null!;
 
         private Animator _animator = null!;
         private IMenuItemClickHandler? _clickHandler;
 
-        private bool _idAssigned;
-        private bool _mouseOverButton;
-
         private PieMenuGeneralSettings _generalSettings = null!;
-        private PieMenuToggler _pieMenuToggler = null!;
 
         private RectTransform _pieRectTransform = null!;
         private PieMenuController _pieMenuController = null!;
+        private PieMenuItemModel _itemModel = null!;
 
-        public float SizeDeltaX => _pieRectTransform.sizeDelta.x;
+        private string _details = null!;
+        private string _header = null!;
+
+        private bool _idAssigned;
+        private bool _mouseOverButton;
+
+        public ReactiveTrigger<PieMenuItemModel> OnClickedTrigger { get; private set; } = null!;
+        
+        
 
         private void Awake()
         {
             _pieRectTransform = GetComponent<RectTransform>();
         }
 
-        public void Initialize(PieMenuItemModel model, PieMenuController pieMenuController)
+        public void Initialize(PieMenuItemModel model, PieMenuController pieMenuController, ReactiveTrigger<PieMenuItemModel> onClickedTrigger)
         {
+            _itemModel = model;
             _pieMenuController = pieMenuController;
-
+            OnClickedTrigger = onClickedTrigger;
             HoverAudioSource = GetComponent<AudioSource>();
             _animator = GetComponent<Animator>();
             _clickHandler = GetComponent<IMenuItemClickHandler>();
 
             PieMenuSettingsModel settingsModel = pieMenuController.PieMenuSettingsModel;
             _generalSettings = settingsModel.GeneralSettings;
-            _pieMenuToggler = settingsModel.PieMenuToggler;
         }
 
         public void SetId(int newId)
@@ -101,7 +103,7 @@ namespace Game.PieMenu.UI
             if (_mouseOverButton) {
                 return;
             }
-            
+
             _button.Select();
             _mouseOverButton = true;
 
@@ -136,9 +138,9 @@ namespace Game.PieMenu.UI
                           + " Then, attach it to the appropriate Menu Item. Check the documentation to learn more.");
             }
 
-            _pieMenuToggler.SetActive(_pieMenuController, false);
+            OnClickedTrigger.Set(_itemModel);
         }
-        
+
         public void Change(ColorBlock newColors)
         {
             ColorBlock colors = _button.colors;
@@ -150,7 +152,7 @@ namespace Game.PieMenu.UI
 
             _button.colors = colors;
         }
-        
+
         public bool Interactable => _button.interactable;
 
         public int Id => _id;
@@ -158,5 +160,7 @@ namespace Game.PieMenu.UI
         public string Header => _header;
 
         public string Details => _details;
+
+        public float SizeDeltaX => _pieRectTransform.sizeDelta.x;
     }
 }

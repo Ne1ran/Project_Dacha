@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Player.Controller
 {
-    public class LookAtInteractableComponent : MonoBehaviour
+    public class PlayerInteractionComponent : MonoBehaviour
     {
         public float _raycastLength = 2.75f;
 
@@ -13,9 +13,13 @@ namespace Game.Player.Controller
 
         public event Action? OnLook;
         public event Action? OnUnlook;
-        public event Action<IInteractableComponent>? OnInteract;
+        public event Action<IInteractableComponent>? OnInteractStarted;
+        public event Action<IInteractableComponent>? OnInteractFinished;
 
+        private IInteractableComponent? _cachedInteractionLook;
         private IInteractableComponent? _currentLook;
+        
+        private bool _isInteracting;
 
         public void Init(Transform head)
         {
@@ -26,7 +30,8 @@ namespace Game.Player.Controller
         public void Tick()
         {
             RunLook();
-            RunPickUp();
+            RunInteractionStart();
+            RunInteractionEnd();
         }
 
         private void RunLook()
@@ -51,15 +56,40 @@ namespace Game.Player.Controller
             OnLook?.Invoke();
         }
 
-        private void RunPickUp()
+        private void RunInteractionStart()
         {
             if (_currentLook == null) {
                 return;
             }
-            
-            if (Input.GetKeyDown(KeyCode.E)) {
-                OnInteract?.Invoke(_currentLook);
+
+            if (_isInteracting) {
+                // todo neiran maybe we will need interaction every frame. But we can use InteractionPressed. Think about it if needed
+                return;
             }
+
+            if (!Input.GetKeyDown(KeyCode.E)) {
+                return;
+            }
+
+            _cachedInteractionLook = _currentLook;
+            OnInteractStarted?.Invoke(_currentLook);
+            _isInteracting = true;
+        }
+
+        private void RunInteractionEnd()
+        {
+            if (_cachedInteractionLook == null) {
+                return;
+            }
+
+            if (_currentLook != null && !Input.GetKeyUp(KeyCode.E)) {
+                return;
+            }
+            
+            _isInteracting = false;
+            OnInteractFinished?.Invoke(_cachedInteractionLook);
+            _cachedInteractionLook = null;
+
         }
 
         private void TryResetLook()
@@ -71,5 +101,7 @@ namespace Game.Player.Controller
             OnUnlook?.Invoke();
             _currentLook = null;
         }
+
+        public bool InteractionPressed => _isInteracting;
     }
 }
