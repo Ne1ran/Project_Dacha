@@ -3,7 +3,8 @@ using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;
-using Game.Interactable.PieMenu.Service;
+using Game.Interactable.Model;
+using Game.PieMenu.Service;
 using UnityEngine;
 using VContainer;
 
@@ -23,7 +24,7 @@ namespace Game.GameMap.Tiles.Component
 
         public async UniTask Interact()
         {
-            await _pieMenuService.CreatePieMenuAsync();
+            await _pieMenuService.CreatePieMenuAsync(InteractableType.TILE);
         }
     }
 }

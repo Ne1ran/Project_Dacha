@@ -14,6 +14,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ItemDescriptors>k__BackingField:
   - <InteractableType>k__BackingField: 2
+    <Settings>k__BackingField:
+    - <Title>k__BackingField: Inspect
+      <Description>k__BackingField: Inspect soil
+      <IconPath>k__BackingField: UI/Sprites/axe_icon
+    - <Title>k__BackingField: Plow
+      <Description>k__BackingField: Plow soil
+      <IconPath>k__BackingField: UI/Sprites/hoe_icon
   - <InteractableType>k__BackingField: 0
+    <Settings>k__BackingField: []
   - <InteractableType>k__BackingField: 1
+    <Settings>k__BackingField:
+    - <Title>k__BackingField: Open
+      <Description>k__BackingField: Open door
+      <IconPath>k__BackingField: 
+    - <Title>k__BackingField: Close
+      <Description>k__BackingField: Close door
+      <IconPath>k__BackingField: 
   - <InteractableType>k__BackingField: 3
+    <Settings>k__BackingField:
+    - <Title>k__BackingField: Inspect
+      <Description>k__BackingField: Inspect plant
+      <IconPath>k__BackingField: 
+    - <Title>k__BackingField: Water
+      <Description>k__BackingField: Water plant
+      <IconPath>k__BackingField: 
+    - <Title>k__BackingField: Remove
+      <Description>k__BackingField: Remove plant
+      <IconPath>k__BackingField: 
