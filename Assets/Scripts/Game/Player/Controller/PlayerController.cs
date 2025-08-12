@@ -88,6 +88,11 @@ namespace Game.Player.Controller
             _movementController.SetActive(active);
         }
 
+        public void ChangeLookActive(bool active)
+        {
+            _movementController.ChangeLookActive(active);
+        }
+
         private void Update()
         {
             if (_cursorEnabled) {

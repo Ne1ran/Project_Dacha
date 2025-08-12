@@ -123,6 +123,11 @@ namespace Game.Movement
             _moveEnabled = state;
             _lookEnabled = state;
         }
+
+        public void ChangeLookActive(bool isActive)
+        {
+            _lookEnabled = isActive;
+        }
         
         public Vector3 Forward => _playerCamera.forward;
     }

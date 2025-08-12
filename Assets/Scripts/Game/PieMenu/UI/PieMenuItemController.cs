@@ -2,7 +2,6 @@ using Core.Reactive;
 using Core.Resources.Binding.Attributes;
 using Game.PieMenu.Model;
 using Game.PieMenu.Settings;
-using Game.PieMenu.UI.Common;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +27,6 @@ namespace Game.PieMenu.UI
         public AudioSource HoverAudioSource { get; private set; } = null!;
 
         private Animator _animator = null!;
-        private IMenuItemClickHandler? _clickHandler;
 
         private PieMenuGeneralSettings _generalSettings = null!;
 
@@ -36,16 +34,14 @@ namespace Game.PieMenu.UI
         private PieMenuController _pieMenuController = null!;
         private PieMenuItemModel _itemModel = null!;
 
-        private string _details = null!;
-        private string _header = null!;
+        private string _detailsText = null!;
+        private string _headerText = null!;
 
         private bool _idAssigned;
         private bool _mouseOverButton;
 
         public ReactiveTrigger<PieMenuItemModel> OnClickedTrigger { get; private set; } = null!;
         
-        
-
         private void Awake()
         {
             _pieRectTransform = GetComponent<RectTransform>();
@@ -58,7 +54,6 @@ namespace Game.PieMenu.UI
             OnClickedTrigger = onClickedTrigger;
             HoverAudioSource = GetComponent<AudioSource>();
             _animator = GetComponent<Animator>();
-            _clickHandler = GetComponent<IMenuItemClickHandler>();
 
             PieMenuSettingsModel settingsModel = pieMenuController.PieMenuSettingsModel;
             _generalSettings = settingsModel.GeneralSettings;
@@ -76,25 +71,25 @@ namespace Game.PieMenu.UI
 
         public void SetHeader(string newHeader)
         {
-            _header = newHeader;
+            _headerText = newHeader;
         }
 
         public void SetDetails(string newDetails)
         {
-            _details = newDetails;
+            _detailsText = newDetails;
         }
 
         public void DisplayHeader()
         {
             if (_generalSettings != null) {
-                _generalSettings.ModifyHeader(_pieMenuController, _header);
+                _generalSettings.ModifyHeaderText(_headerText);
             }
         }
 
         public void DisplayDetails()
         {
             if (_generalSettings != null) {
-                _generalSettings.ModifyDetails(_pieMenuController, _details);
+                _generalSettings.ModifyDetailsText(_detailsText);
             }
         }
 
@@ -130,18 +125,11 @@ namespace Game.PieMenu.UI
 
         public void OnClick()
         {
-            if (_clickHandler != null) {
-                BeforePointerExit();
-                _clickHandler.Handle();
-            } else {
-                Debug.Log("To handle clicks, you need to create a new script in which you implement the IMenuItemClickHandler interface."
-                          + " Then, attach it to the appropriate Menu Item. Check the documentation to learn more.");
-            }
-
+            BeforePointerExit();
             OnClickedTrigger.Set(_itemModel);
         }
 
-        public void Change(ColorBlock newColors)
+        public void ChangeColor(ColorBlock newColors)
         {
             ColorBlock colors = _button.colors;
 
@@ -153,13 +141,18 @@ namespace Game.PieMenu.UI
             _button.colors = colors;
         }
 
+        public void ChangeShape(Sprite shape)
+        {
+            // do changes
+        }
+
         public bool Interactable => _button.interactable;
 
         public int Id => _id;
 
-        public string Header => _header;
+        public string HeaderText => _headerText;
 
-        public string Details => _details;
+        public string DetailsText => _detailsText;
 
         public float SizeDeltaX => _pieRectTransform.sizeDelta.x;
     }

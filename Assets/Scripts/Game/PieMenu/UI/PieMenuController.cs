@@ -10,6 +10,7 @@ using Game.PieMenu.Service;
 using Game.PieMenu.Settings;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
+using Game.PieMenu.Utils;
 using Game.Player.Service;
 using Game.Utils;
 using UnityEngine;
@@ -27,13 +28,11 @@ namespace Game.PieMenu.UI
         private PieMenuController _pieMenu = null!;
         [ComponentBinding]
         private RectTransform _rectTransform = null!;
+        [ComponentBinding]
+        private Transform _itemsHolder = null!;
         [ComponentBinding("MenuItemTemplate")]
         private PieMenuItemController _menuItemControllerTemplate = null!;
 
-        [ComponentBinding(SETTINGS_NAME)]
-        private PieMenuModel _pieMenuModel = null!;
-        [ComponentBinding(SETTINGS_NAME)]
-        private PieMenuElementsModel _pieMenuElementsModel = null!;
         [ComponentBinding(SETTINGS_NAME)]
         private MenuItemSelector _pieMenuItemSelector = null!;
         [ComponentBinding(SETTINGS_NAME)]
@@ -47,22 +46,26 @@ namespace Game.PieMenu.UI
         private readonly PlayerService _playerService = null!;
 
         public PieMenuViewModel ViewModel { get; private set; } = new();
-        public PieMenuModel PieMenuModel { get; private set; } = null!;
+        public PieMenuModel PieMenuModel { get; private set; } = new();
         public PieMenuSettingsModel PieMenuSettingsModel { get; private set; } = null!;
 
         private readonly InputDeviceGetter _inputDeviceGetter = new();
+
         private bool _closing = false;
 
         public void Initialize()
         {
-            PieMenuSettingsModel = new(_menuItemControllerTemplate, _pieMenuModel, _pieMenuElementsModel, _pieMenuItemSelector, _inputDeviceGetter,
+            _playerService.Player.ChangeLookActive(false);
+            _menuItemControllerTemplate.transform.SetActive(false);
+            
+            PieMenuSettingsModel = new(_menuItemControllerTemplate, PieMenuModel, _pieMenuItemSelector, _inputDeviceGetter,
                                        _generalSettings, ViewModel);
 
             PieMenuSettingsModel = PieMenuSettingsModel;
             PieMenuModel = PieMenuSettingsModel.PieMenuModel;
             InitializePieMenu();
 
-            ViewModel.Initialize(_resourceService);
+            ViewModel.Initialize(_resourceService, this);
             ViewModel.OnClickedTrigger.Triggered += OnItemClicked;
         }
 
@@ -74,18 +77,17 @@ namespace Game.PieMenu.UI
         private void OnItemClicked(PieMenuItemModel itemModel)
         {
             Debug.Log($"OnItemClicked: {itemModel}. Title={itemModel.Title} Description={itemModel.Description} Icon={itemModel.IconPath}");
-            
             RemovePieMenu().Forget();
         }
 
         public async UniTask AddItemsAsync(List<PieMenuItemModel> items)
         {
-            await ViewModel.AddAsync(_pieMenu, items, destroyCancellationToken);
+            await ViewModel.AddAsync(items, _itemsHolder, destroyCancellationToken);
         }
 
         public void RemoveItems()
         {
-            ViewModel.RemoveItems(this);
+            ViewModel.RemoveItems();
         }
 
         public Dictionary<int, PieMenuItemController> GetMenuItems()
@@ -100,7 +102,6 @@ namespace Game.PieMenu.UI
             _generalSettings.Initialize(this);
             ReadDataAndInfoFields();
             ActivateMenuAsync(true).Forget();
-            _menuItemControllerTemplate.transform.SetActive(false);
         }
 
         private void ReadDataAndInfoFields()
@@ -112,22 +113,23 @@ namespace Game.PieMenu.UI
 
             float menuItemSize = _menuItemControllerTemplate.GetComponent<RectTransform>().sizeDelta.x;
             PieMenuModel.SetMenuItemSize((int) menuItemSize);
-            float scale = PieMenuGeneralSettings.CalculatePieMenuScale(this, (int) menuItemSize);
+            float scale = PieMenuUtils.CalculatePieMenuScale(this, (int) menuItemSize);
             PieMenuModel.SetScale(scale);
-
-            int rotation = (int) _pieMenuElementsModel.MenuItemsDir.rotation.eulerAngles.z;
-            PieMenuModel.SetRotation(rotation);
-
-            PieMenuModel.SetAnchoredPosition(_rectTransform);
+            PieMenuModel.SetRotation(0);
+            
+            Vector2 anchoredPosition = _rectTransform.anchoredPosition;
+            float difference = (float) Screen.width / Screen.currentResolution.width;
+            anchoredPosition = new(anchoredPosition.x * difference, anchoredPosition.y * difference);
+            PieMenuModel.SetAnchoredPosition(anchoredPosition);
         }
 
-        private async UniTask RemovePieMenu()
+        private async UniTask RemovePieMenu()   
         {
+            _playerService.Player.ChangeLookActive(true);
             await ActivateMenuAsync(false);
             _pieMenuService.RemovePieMenuAsync().Forget();
         }
 
-        // todo neiran check for button pressed. If no or escape = close!
         private void Update()
         {
             if (_playerService.Player.InteractionButtonPressed) {
@@ -142,7 +144,7 @@ namespace Game.PieMenu.UI
             RemovePieMenu().Forget();
         }
 
-        public async UniTask ActivateMenuAsync(bool isActive, CancellationToken token = default)
+        private async UniTask ActivateMenuAsync(bool isActive, CancellationToken token = default)
         {
             DisableInfoPanel();
             if (isActive) {
@@ -155,14 +157,14 @@ namespace Game.PieMenu.UI
         private async UniTask ShowPieMenu(CancellationToken token)
         {
             this.SetActive(true);
-            _generalSettings.PlayAnimation(_pieMenuElementsModel.Animator, PieMenuGeneralSettings.TriggerActiveTrue);
+            _generalSettings.PlayAnimation(PieMenuGeneralSettings.TriggerActiveTrue);
             await WaitForAudioAndAnimationToFinishPlaying(true, token);
         }
 
         private async UniTask HidePieMenu(CancellationToken token)
         {
             _pieMenuItemSelector.ToggleSelection(false);
-            _generalSettings.PlayAnimation(_pieMenuElementsModel.Animator, PieMenuGeneralSettings.TriggerActiveFalse);
+            _generalSettings.PlayAnimation(PieMenuGeneralSettings.TriggerActiveFalse);
             await WaitForAudioAndAnimationToFinishPlaying(false, token);
         }
 
@@ -201,7 +203,7 @@ namespace Game.PieMenu.UI
         private void DisableInfoPanel()
         {
             if (PieMenuModel.InfoPanelEnabled) {
-                _generalSettings.SetActive(this, false);
+                _generalSettings.SetActiveInfoPanel(false);
             }
         }
 
@@ -211,9 +213,11 @@ namespace Game.PieMenu.UI
                 return;
             }
 
-            _generalSettings.SetActive(this, true);
-            _generalSettings.ModifyHeader(this, string.Empty);
-            _generalSettings.ModifyDetails(this, string.Empty);
+            _generalSettings.SetActiveInfoPanel(true);
+            _generalSettings.ModifyHeaderText(string.Empty);
+            _generalSettings.ModifyDetailsText(string.Empty);
         }
+
+        public RectTransform RectTransform => _rectTransform;
     }
 }

@@ -10,6 +10,7 @@ using Game.PieMenu.UI;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
 using Game.Utils;
+using UnityEngine;
 
 namespace Game.Interactable.ViewModel
 {
@@ -18,28 +19,33 @@ namespace Game.Interactable.ViewModel
         public Dictionary<int, PieMenuItemController> PieMenuItems { get; private set; } = new();
 
         private PieMenuModel _pieMenuModel = null!;
+        private PieMenuGeneralSettings _generalSettings = null!;
+        private PieMenuController _pieMenuController = null!;
         private int _menuItemCount;
         private int _menuItemSpacing;
-        private PieMenuGeneralSettings _generalSettings = null!;
 
         private IResourceService _resourceService = null!;
         
         public ReactiveTrigger<PieMenuItemModel> OnClickedTrigger { get; private set; } = new();
 
-        public void Initialize(IResourceService resourceService)
+        public void Initialize(IResourceService resourceService, PieMenuController pieMenuController)
         {
             _resourceService = resourceService;
+            _pieMenuController = pieMenuController;
+            
+            _generalSettings = _pieMenuController.PieMenuSettingsModel.GeneralSettings;
+            _pieMenuModel = _pieMenuController.PieMenuModel;
         }
 
-        public async UniTask AddAsync(PieMenuController pieMenu, List<PieMenuItemModel> menuItems, CancellationToken cancellationToken = default)
+        public async UniTask AddAsync(List<PieMenuItemModel> menuItems, Transform itemsHolder, CancellationToken cancellationToken = default)
         {
-            MenuItemSelector selectionHandler = pieMenu.PieMenuSettingsModel.MenuItemSelector;
+            MenuItemSelector selectionHandler = _pieMenuController.PieMenuSettingsModel.MenuItemSelector;
 
             selectionHandler.ToggleSelection(false);
 
             List<UniTask<PieMenuItemController>> tasks = new();
             foreach (PieMenuItemModel item in menuItems) {
-                tasks.Add(CreateControllerAsync(item, pieMenu, cancellationToken));
+                tasks.Add(CreateControllerAsync(item, itemsHolder, cancellationToken));
             }
 
             PieMenuItemController[] items = await UniTask.WhenAll(tasks);
@@ -52,42 +58,40 @@ namespace Game.Interactable.ViewModel
                 PieMenuItems.Add(i + currentItemsCount, items[i]);
             }
 
-            Redraw(pieMenu);
+            Redraw();
             selectionHandler.ToggleSelection(true);
         }
 
         private async UniTask<PieMenuItemController> CreateControllerAsync(PieMenuItemModel itemModel,
-                                                                           PieMenuController pieMenu,
+                                                                           Transform itemsHolder,
                                                                            CancellationToken cancellationToken = default)
         {
-            PieMenuItemController pieItem = await _resourceService.LoadObjectAsync<PieMenuItemController>();
-            pieItem.Initialize(itemModel, pieMenu, OnClickedTrigger);
+            PieMenuItemController pieItem = await _resourceService.LoadObjectAsync<PieMenuItemController>(itemsHolder.transform);
+            pieItem.Initialize(itemModel, _pieMenuController, OnClickedTrigger);
             return pieItem;
         }
 
-        public void Redraw(PieMenuController pieMenu)
+        public void Redraw()
         {
             _menuItemCount = PieMenuItems.Count;
 
-            _generalSettings = pieMenu.PieMenuSettingsModel.GeneralSettings;
-            _pieMenuModel = pieMenu.PieMenuModel;
             _menuItemSpacing = _pieMenuModel.MenuItemSpacing;
             int rotation = _pieMenuModel.Rotation;
 
-            _generalSettings.HandleRotationChange(pieMenu, 0);
-            _generalSettings.UpdateButtons(pieMenu, _menuItemCount, _menuItemSpacing);
-            ManageMenuItemSpacing(pieMenu);
-            _generalSettings.HandleRotationChange(pieMenu, rotation);
+            _generalSettings.ChangeRotation(0);
+            _generalSettings.UpdateButtons(_menuItemCount, _menuItemSpacing);
+            ManageMenuItemSpacing(_pieMenuController);
+            _generalSettings.ChangeRotation(rotation);
         }
 
-        public void RemoveItems(PieMenuController pieMenu)
+        public void RemoveItems()
         {
             foreach (PieMenuItemController itemController in PieMenuItems.Values) {
                 itemController.DestroyObject();
             }
 
             PieMenuItems.Clear();
-            Redraw(pieMenu);
+            Redraw();
         }
 
         private void ManageMenuItemSpacing(PieMenuController pieMenu)
@@ -97,11 +101,11 @@ namespace Game.Interactable.ViewModel
             if (_menuItemCount == 1) {
                 _pieMenuModel.SetPreservedSpacing(_menuItemSpacing);
                 newSpacing = 0;
-                _generalSettings.HandleButtonSpacingChange(pieMenu, _menuItemCount, newSpacing);
+                _generalSettings.UpdateButtons(_menuItemCount, newSpacing);
             } else if (preservedSpacing != -1) {
                 newSpacing = preservedSpacing;
                 _pieMenuModel.SetPreservedSpacing(-1);
-                _generalSettings.HandleButtonSpacingChange(pieMenu, _menuItemCount, newSpacing);
+                _generalSettings.UpdateButtons(_menuItemCount, newSpacing);
             }
         }
 
