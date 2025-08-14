@@ -8,6 +8,8 @@ namespace Game.Fertilizers.Descriptor
     public class FertilizerDescriptorModel
     {
         [field: SerializeField]
+        public string Id { get; set; } = string.Empty;
+        [field: SerializeField]
         public string Name { get; set; } = string.Empty;
         [field: SerializeField]
         public FertilizerType Type { get; set; } = FertilizerType.Mineral;
@@ -19,6 +21,8 @@ namespace Game.Fertilizers.Descriptor
         public float PhChange { get; set; } = 0f;
         [field: SerializeField, Range(-100f, 100f), Tooltip("Value that influence the soil microsystem and biological strength")]
         public float BiologicalValue { get; set; } = 0f;
+        [field: SerializeField]
+        public string PrefabPath { get; set; } = string.Empty;
         [field: SerializeField]
         public FertilizerElementsDescriptorModel FertilizerElements { get; set; } = null!;
     }

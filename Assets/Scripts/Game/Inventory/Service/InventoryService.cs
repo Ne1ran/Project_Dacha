@@ -39,7 +39,7 @@ namespace Game.Inventory.Service
             _inventoryRepo.Save(new(inventory));
         }
 
-        public bool TryAddToolToInventory(string toolId)
+        public bool TryAddItemToInventory(string itemId, ItemType itemType)
         {
             InventoryModel inventoryModel = Inventory;
             if (!inventoryModel.HasFreeSpace) {
@@ -47,7 +47,7 @@ namespace Game.Inventory.Service
                 return false;
             }
             int autoHotkeyNumber = TryAutoHotkeyItem(inventoryModel.InventorySlots);
-            InventoryItem inventoryItem = new(toolId, toolId, ItemType.TOOL, autoHotkeyNumber);
+            InventoryItem inventoryItem = new(itemId, itemId, itemType, autoHotkeyNumber);
             bool result = TryAddToInventory(inventoryItem);
             if (result && autoHotkeyNumber != 0) {
                 _hotkeyChangedPublisher.Publish(HotkeyChangedEvent.BINDED, new(inventoryItem, 0, autoHotkeyNumber));

@@ -5,6 +5,7 @@ using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Items.Controller;
 using Game.Items.Descriptors;
+using Game.Items.Service;
 using Game.Player.Controller;
 using Game.Player.Service;
 using Game.Tools.Service;
@@ -20,21 +21,21 @@ namespace Game.Drop.Service
     {
         private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;
         private readonly PlayerService _playerService;
-        private readonly ToolsService _toolsService;
+        private readonly PickUpItemService _pickUpItemService;
         private readonly IDescriptorService _descriptorService;
 
         private IDisposable? _disposable;
-        
-        private LayerMask _layerMask;
+
+        private readonly LayerMask _layerMask;
 
         public DropService(ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber,
                            PlayerService playerService,
-                           ToolsService toolsService,
+                           PickUpItemService pickUpItemService,
                            IDescriptorService descriptorService)
         {
             _inventoryChangedSubscriber = inventoryChangedSubscriber;
             _playerService = playerService;
-            _toolsService = toolsService;
+            _pickUpItemService = pickUpItemService;
             _descriptorService = descriptorService;
             _layerMask = LayerMask.GetMask("Default", "Ground"); // todo neiran to combined layer mask to workaround
         }
@@ -65,9 +66,9 @@ namespace Game.Drop.Service
                     if (itemDescriptorModel == null) {
                         throw new ArgumentException($"Descriptor not found for item with id={inventoryItem.Id}");
                     }
-                    
-                    Vector3 dropPosition = GetDropPosition(player.transform.position, player.Forward, itemDescriptorModel.DropOffsetMultiplier); 
-                    return (await _toolsService.CreateTool(itemDescriptorModel.ItemId, dropPosition));
+
+                    Vector3 dropPosition = GetDropPosition(player.transform.position, player.Forward, itemDescriptorModel.DropOffsetMultiplier);
+                    return (await _pickUpItemService.DropItemAsync(itemDescriptorModel.ItemId, itemDescriptorModel.ItemType, dropPosition));
                 default:
                     throw new NotImplementedException("Need to implement other item types");
             }

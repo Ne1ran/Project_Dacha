@@ -1,6 +1,8 @@
 ﻿using Core.Descriptors.Service;
 using Core.Scopes;
 using Cysharp.Threading.Tasks;
+using Game.Inventory.Model;
+using Game.Items.Service;
 using Game.Player.Service;
 using Game.TimeMove.Service;
 using Game.Tools.Descriptors;
@@ -41,6 +43,14 @@ namespace Core.Console
             foreach (ToolsDescriptorModel descriptor in toolsDescriptor.ToolsDescriptors) {
                 toolsService.CreateTool(descriptor.ToolId, spawnPosition).Forget();
             }
+        }
+        
+        [ConsoleMethod("createItem", "Create tool by name and coords relative to the player position")]
+        public static void CreateItem(string itemName, ItemType itemType, float x, float y, float z)
+        {
+            PickUpItemService pickUpItemService = Container.Resolve<PickUpItemService>();
+            PlayerService playerService = Container.Resolve<PlayerService>();
+            pickUpItemService.DropItemAsync(itemName, itemType, playerService.Player.transform.position + new Vector3(x, y, z)).Forget();
         }
 
         [ConsoleMethod("timePass", "Passes time for N minutes")]

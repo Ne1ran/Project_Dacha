@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Game.Equipment.Event;
+using Game.Fertilizers.Service;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Items.Controller;
@@ -20,6 +21,7 @@ namespace Game.Equipment.Service
     {
         private readonly PlayerService _playerService;
         private readonly ToolsService _toolsService;
+        private readonly FertilizerService _fertilizersService;
         private readonly EquipmentService _equipmentService;
         private readonly ISubscriber<string, EquipmentChangedEvent> _equipmentChangedSubscriber;
         private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;
@@ -29,12 +31,14 @@ namespace Game.Equipment.Service
         public WorldEquipmentManager(PlayerService playerService,
                                      ToolsService toolsService,
                                      EquipmentService equipmentService,
+                                     FertilizerService fertilizersService,
                                      ISubscriber<string, EquipmentChangedEvent> equipmentChangedSubscriber,
                                      ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber)
         {
             _playerService = playerService;
             _toolsService = toolsService;
             _equipmentService = equipmentService;
+            _fertilizersService = fertilizersService;
             _equipmentChangedSubscriber = equipmentChangedSubscriber;
             _inventoryChangedSubscriber = inventoryChangedSubscriber;
         }
@@ -74,16 +78,17 @@ namespace Game.Equipment.Service
 
         private async UniTaskVoid EquipItemAsync(ItemModel newItem)
         {
-            ItemController item = await CreateItemInWorldAsync(newItem);
+            ItemController item = await CreateItemInWorldAsync(newItem, Vector3.zero);
             item.IsKinematic = true;
             PlayerController player = _playerService.Player;
             player.EquipItem(item);
         }
 
-        private async UniTask<ItemController> CreateItemInWorldAsync(ItemModel oldItem)
+        private async UniTask<ItemController> CreateItemInWorldAsync(ItemModel oldItem, Vector3 position)
         {
             return oldItem.ItemType switch {
-                    ItemType.TOOL => (await _toolsService.CreateTool(oldItem.ItemId, Vector3.zero)),
+                    ItemType.TOOL => (await _toolsService.CreateTool(oldItem.ItemId, position)),
+                    ItemType.FERTILIZER => (await _fertilizersService.CreateFertilizer(oldItem.ItemId, position)),
                     _ => throw new NotImplementedException("Need to implement other item types")
             };
         }

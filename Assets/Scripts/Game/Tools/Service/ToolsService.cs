@@ -55,20 +55,5 @@ namespace Game.Tools.Service
             toolController.name = toolsDescriptorModel.ToolId;
             return toolController;
         }
-
-        public void PickUpTool(ToolController toolController)
-        {
-            string toolId = toolController.GetName;
-            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
-            List<ToolsDescriptorModel> tools = toolsDescriptor.ToolsDescriptors;
-            ToolsDescriptorModel toolsDescriptorModel = tools.Find(tool => tool.ToolId == toolId);
-            if (toolsDescriptorModel == null) {
-                throw new ArgumentException($"Tool not found with id={toolId}");
-            }
-
-            if (_inventoryService.TryAddToolToInventory(toolId)) {
-                toolController.gameObject.DestroyObject();
-            }
-        }
     }
 }

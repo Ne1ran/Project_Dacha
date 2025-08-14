@@ -15,6 +15,7 @@ MonoBehaviour:
   <ItemDescriptors>k__BackingField:
   - <ItemId>k__BackingField: Axe
     <ItemPrefab>k__BackingField: Prefabs/Tools/Axe
+    <Icon>k__BackingField: {fileID: 21300000, guid: dc96280a2b2104f47afc6a317090d3bc, type: 3}
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
@@ -22,6 +23,7 @@ MonoBehaviour:
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Hammer
     <ItemPrefab>k__BackingField: Prefabs/Tools/Hammer
+    <Icon>k__BackingField: {fileID: 21300000, guid: a03509ed5651d664bb2b265f5db6b82d, type: 3}
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
@@ -29,6 +31,7 @@ MonoBehaviour:
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Hoe
     <ItemPrefab>k__BackingField: Prefabs/Tools/Hoe
+    <Icon>k__BackingField: {fileID: 21300000, guid: 8f52c694ba522ef4cb0f4787ff3a32f1, type: 3}
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
@@ -36,6 +39,7 @@ MonoBehaviour:
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Pickaxe
     <ItemPrefab>k__BackingField: Prefabs/Tools/Pickaxe
+    <Icon>k__BackingField: {fileID: 21300000, guid: dc96280a2b2104f47afc6a317090d3bc, type: 3}
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
@@ -43,6 +47,7 @@ MonoBehaviour:
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Scythe
     <ItemPrefab>k__BackingField: Prefabs/Tools/Scythe
+    <Icon>k__BackingField: {fileID: 21300000, guid: ca2ed15f5740fba4da84d4419c9556b9, type: 3}
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
@@ -50,15 +55,17 @@ MonoBehaviour:
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Spade
     <ItemPrefab>k__BackingField: Prefabs/Tools/Spade
+    <Icon>k__BackingField: {fileID: 21300000, guid: b72899c720715e3489a25364f637bb51, type: 3}
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: AmmoPhoPotassium
-    <ItemPrefab>k__BackingField: 
+  - <ItemId>k__BackingField: PotassiumMonophosphate
+    <ItemPrefab>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <Icon>k__BackingField: {fileID: 21300000, guid: 8542587de6e9f3f4a98ba85992c9f647, type: 3}
     <ItemType>k__BackingField: 5
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
-    <ShowInHand>k__BackingField: 0
+    <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1

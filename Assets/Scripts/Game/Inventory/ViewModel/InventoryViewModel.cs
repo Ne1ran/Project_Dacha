@@ -2,6 +2,7 @@
 using Core.Descriptors.Service;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
+using Game.Items.Descriptors;
 using Game.Tools.Descriptors;
 
 namespace Game.Inventory.ViewModel
@@ -23,31 +24,18 @@ namespace Game.Inventory.ViewModel
 
             InventoryModel inventory = _inventoryService.Inventory;
             foreach (InventorySlot inventorySlot in inventory.InventorySlots) {
-                InventoryItem inventoryItem = inventorySlot.InventoryItem;
+                InventoryItem? inventoryItem = inventorySlot.InventoryItem;
                 if (inventoryItem == null) {
                     list.Add(new());
                     continue;
                 }
-
-                switch (inventoryItem.ItemType) {
-                    case ItemType.TOOL:
-                        list.Add(CreateToolSlotViewModel(inventoryItem.Id, inventoryItem.HotkeyNumber));
-                        break;
-                    default:
-                        // todo neiran add for future item types
-                        list.Add(new());
-                        break;
-                }
+                
+                ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
+                ItemDescriptorModel toolDescriptor = itemsDescriptor.ItemDescriptors.Find(item => item.ItemId == inventoryItem.Id);
+                list.Add(new(inventoryItem.Id, ItemType.TOOL, toolDescriptor.Icon, inventoryItem.HotkeyNumber));
             }
 
             return list;
-        }
-
-        private InventorySlotViewModel CreateToolSlotViewModel(string toolId, int hotkeyNumber)
-        {
-            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
-            ToolsDescriptorModel toolDescriptor = toolsDescriptor.ToolsDescriptors.Find(tool => tool.ToolId == toolId);
-            return new(toolId, ItemType.TOOL, toolDescriptor.ToolIcon, hotkeyNumber);
         }
     }
 }

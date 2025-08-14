@@ -15,19 +15,13 @@ MonoBehaviour:
   <ToolsDescriptors>k__BackingField:
   - <ToolId>k__BackingField: Axe
     <ToolPrefab>k__BackingField: Prefabs/Tools/Axe
-    <ToolIcon>k__BackingField: {fileID: 21300000, guid: dc96280a2b2104f47afc6a317090d3bc, type: 3}
   - <ToolId>k__BackingField: Hammer
     <ToolPrefab>k__BackingField: Prefabs/Tools/Hammer
-    <ToolIcon>k__BackingField: {fileID: 21300000, guid: 8542587de6e9f3f4a98ba85992c9f647, type: 3}
   - <ToolId>k__BackingField: Hoe
     <ToolPrefab>k__BackingField: Prefabs/Tools/Hoe
-    <ToolIcon>k__BackingField: {fileID: 21300000, guid: 8f52c694ba522ef4cb0f4787ff3a32f1, type: 3}
   - <ToolId>k__BackingField: Pickaxe
     <ToolPrefab>k__BackingField: Prefabs/Tools/Pickaxe
-    <ToolIcon>k__BackingField: {fileID: 21300000, guid: dd00ce776805e53489ea19ae7919e89d, type: 3}
   - <ToolId>k__BackingField: Scythe
     <ToolPrefab>k__BackingField: Prefabs/Tools/Scythe
-    <ToolIcon>k__BackingField: {fileID: 21300000, guid: a03509ed5651d664bb2b265f5db6b82d, type: 3}
   - <ToolId>k__BackingField: Spade
     <ToolPrefab>k__BackingField: Prefabs/Tools/Spade
-    <ToolIcon>k__BackingField: {fileID: 21300000, guid: b72899c720715e3489a25364f637bb51, type: 3}
