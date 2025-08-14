@@ -19,12 +19,17 @@ namespace Game.GameMap.Soil.Service
         public SoilModel CreateSoil(SoilType soilType)
         {
             SoilDescriptorModel soilDesc = RequireModelByType(soilType);
-            return new(soilDesc.SoilType, soilDesc.Ph, soilDesc.Salinity, soilDesc.Breathability, soilDesc.Humus, soilDesc.Mass, soilDesc.StartWaterAmount);
+            SoilElementsDescriptorModel elementsDescriptor = soilDesc.ElementsDescriptorModel;
+            SoilElementsModel soilElementsModel = new(elementsDescriptor.StartNitrogen,
+                                                      elementsDescriptor.StartPotassium, elementsDescriptor.StartPhosphorus);
+            return new(soilDesc.SoilType, soilDesc.Ph, soilDesc.Salinity, soilDesc.Breathability, soilDesc.Humus, soilDesc.Mass,
+                       soilDesc.StartWaterAmount, soilElementsModel);
         }
 
-        public void UpdateSoil()
+        public SoilModel UpdateSoil(SoilModel soilModel)
         {
             // todo neiran do smth we take changes in gramms/kilogramms. Then calculate percents. If its not higher than max values - apply it in percents.
+            return soilModel;
         }
 
         public SoilModel TryRecoverSoil(SoilModel soil, int daysPassed)
@@ -40,7 +45,7 @@ namespace Game.GameMap.Soil.Service
             float humusDiff = soilDesc.Humus - soil.Humus;
 
             float dayCoeff = (float) daysPassed / soilDesc.RecoveryDays;
-            
+
             soil.Ph = phDiff / dayCoeff;
             soil.Salinity = salinityDiff / dayCoeff;
             soil.Breathability = breathabilityDiff / dayCoeff;
@@ -53,19 +58,19 @@ namespace Game.GameMap.Soil.Service
             if (!MathUtils.IsFuzzyEquals(soilDesc.Ph, soil.Ph, 0.01f)) {
                 return true;
             }
-            
+
             if (!MathUtils.IsFuzzyEquals(soilDesc.Salinity, soil.Salinity, 0.01f)) {
                 return true;
             }
-            
+
             if (!MathUtils.IsFuzzyEquals(soilDesc.Breathability, soil.Breathability, 0.1f)) {
                 return true;
             }
-            
+
             if (!MathUtils.IsFuzzyEquals(soilDesc.Humus, soil.Humus, 0.01f)) {
                 return true;
             }
-            
+
             return false;
         }
 

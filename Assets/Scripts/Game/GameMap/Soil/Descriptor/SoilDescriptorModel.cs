@@ -23,5 +23,7 @@ namespace Game.GameMap.Soil.Descriptor
         public int RecoveryDays { get; set; } = 180;
         [field: SerializeField, Tooltip("Water amount in litres")]
         public float StartWaterAmount { get; set; } = 10f;
+        [field: SerializeField]
+        public SoilElementsDescriptorModel ElementsDescriptorModel { get; set; } = null!;
     }
 }

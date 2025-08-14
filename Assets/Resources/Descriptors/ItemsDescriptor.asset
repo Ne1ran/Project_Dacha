@@ -15,31 +15,50 @@ MonoBehaviour:
   <ItemDescriptors>k__BackingField:
   - <ItemId>k__BackingField: Axe
     <ItemPrefab>k__BackingField: Prefabs/Tools/Axe
+    <ItemType>k__BackingField: 0
+    <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Hammer
     <ItemPrefab>k__BackingField: Prefabs/Tools/Hammer
+    <ItemType>k__BackingField: 0
+    <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Hoe
     <ItemPrefab>k__BackingField: Prefabs/Tools/Hoe
+    <ItemType>k__BackingField: 0
+    <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Pickaxe
     <ItemPrefab>k__BackingField: Prefabs/Tools/Pickaxe
+    <ItemType>k__BackingField: 0
+    <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Scythe
     <ItemPrefab>k__BackingField: Prefabs/Tools/Scythe
+    <ItemType>k__BackingField: 0
+    <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Spade
     <ItemPrefab>k__BackingField: Prefabs/Tools/Spade
+    <ItemType>k__BackingField: 0
+    <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
+    <MaxStack>k__BackingField: 1
+  - <ItemId>k__BackingField: AmmoPhoPotassium
+    <ItemPrefab>k__BackingField: 
+    <ItemType>k__BackingField: 5
+    <DropOffsetMultiplier>k__BackingField: 2.5
+    <Stackable>k__BackingField: 0
+    <ShowInHand>k__BackingField: 0
     <MaxStack>k__BackingField: 1
