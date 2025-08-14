@@ -21,5 +21,7 @@ namespace Game.GameMap.Soil.Descriptor
         public float Mass { get; set; } = 1000f;
         [field: SerializeField, Tooltip("Time for soil to recover to its starting values. If we remove half of its humus or salinity and won't change anything soil will recover to its starting values.")]
         public int RecoveryDays { get; set; } = 180;
+        [field: SerializeField, Tooltip("Water amount in litres")]
+        public float StartWaterAmount { get; set; } = 10f;
     }
 }

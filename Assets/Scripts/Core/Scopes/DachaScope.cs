@@ -7,6 +7,8 @@ using Game.GameMap.Map.Service;
 using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Repo;
 using Game.GameMap.Tiles.Service;
+using Game.Interactable.Handlers;
+using Game.Interactable.Service;
 using Game.Inventory.Repo;
 using Game.Inventory.Service;
 using Game.PieMenu.Service;
@@ -45,6 +47,8 @@ namespace Core.Scopes
             builder.Register<GameWorldService>(Lifetime.Singleton);
             builder.Register<MapService>(Lifetime.Singleton);
             builder.Register<PieMenuService>(Lifetime.Singleton);
+            builder.Register<InteractionService>(Lifetime.Singleton);
+            builder.Register<InteractionHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             

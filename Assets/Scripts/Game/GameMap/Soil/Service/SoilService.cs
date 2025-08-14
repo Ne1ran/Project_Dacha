@@ -19,7 +19,7 @@ namespace Game.GameMap.Soil.Service
         public SoilModel CreateSoil(SoilType soilType)
         {
             SoilDescriptorModel soilDesc = RequireModelByType(soilType);
-            return new(soilDesc.SoilType, soilDesc.Ph, soilDesc.Salinity, soilDesc.Breathability, soilDesc.Humus, soilDesc.Mass);
+            return new(soilDesc.SoilType, soilDesc.Ph, soilDesc.Salinity, soilDesc.Breathability, soilDesc.Humus, soilDesc.Mass, soilDesc.StartWaterAmount);
         }
 
         public void UpdateSoil()

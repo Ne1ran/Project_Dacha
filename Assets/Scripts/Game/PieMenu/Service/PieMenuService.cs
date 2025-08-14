@@ -90,7 +90,7 @@ namespace Game.PieMenu.Service
         private UniTask<PieMenuItemModel> CreateItemModelAsync(InteractionPieMenuSettings pieMenuSettings)
         {
             Sprite? sprite = Resources.Load<Sprite>(pieMenuSettings.IconPath); // todo neiran remove when go to addressables!!!
-            PieMenuItemModel model = new(pieMenuSettings.Title, pieMenuSettings.Description, sprite);
+            PieMenuItemModel model = new(pieMenuSettings.InteractionName, pieMenuSettings.Title, pieMenuSettings.Description, sprite);
             return UniTask.FromResult(model);
         }
     }

@@ -7,6 +7,8 @@ namespace Game.Interactable.Descriptor
     public class InteractionPieMenuSettings
     {
         [field: SerializeField]
+        public string InteractionName { get; set; } = null!;
+        [field: SerializeField]
         public string Title { get; set; } = null!;
         [field: SerializeField]
         public string Description { get; set; } = null!;

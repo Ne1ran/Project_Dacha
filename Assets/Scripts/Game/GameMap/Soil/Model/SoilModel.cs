@@ -8,8 +8,9 @@
         public float Breathability { get; set; }
         public float Humus { get; set; }
         public float Mass { get; set; }
+        public float WaterAmount { get; set; }
 
-        public SoilModel(SoilType type, float ph, float salinity, float breathability, float humus, float mass)
+        public SoilModel(SoilType type, float ph, float salinity, float breathability, float humus, float mass, float waterAmount)
         {
             Type = type;
             Ph = ph;
@@ -17,6 +18,7 @@
             Breathability = breathability;
             Humus = humus;
             Mass = mass;
+            WaterAmount = waterAmount;
         }
     }
 }

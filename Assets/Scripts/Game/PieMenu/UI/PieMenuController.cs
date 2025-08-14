@@ -3,6 +3,7 @@ using System.Threading;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
+using Game.Interactable.Service;
 using Game.Interactable.ViewModel;
 using Game.PieMenu.InputDevices;
 using Game.PieMenu.Model;
@@ -42,6 +43,8 @@ namespace Game.PieMenu.UI
         private readonly PieMenuService _pieMenuService = null!;
         [Inject]
         private readonly PlayerService _playerService = null!;
+        [Inject]
+        private readonly InteractionService _interactionService = null!;
 
         public PieMenuViewModel ViewModel { get; private set; } = new();
         public PieMenuModel PieMenuModel { get; private set; } = new();
@@ -75,7 +78,7 @@ namespace Game.PieMenu.UI
 
         private void OnItemClicked(PieMenuItemModel itemModel)
         {
-            Debug.Log($"OnItemClicked: {itemModel}. Title={itemModel.Title} Description={itemModel.Description} Icon={itemModel.Icon}");
+            _interactionService.Interact(itemModel.InteractionName);
             RemovePieMenu().Forget();
         }
 
@@ -123,6 +126,7 @@ namespace Game.PieMenu.UI
         private async UniTask RemovePieMenu()   
         {
             _playerService.Player.ChangeLookActive(true);
+            _playerService.Player.ChangeMovementActive(true);
             await ActivateMenuAsync(false);
             _pieMenuService.RemovePieMenuAsync().Forget();
         }
