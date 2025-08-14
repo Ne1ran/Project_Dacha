@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Game.Interactable.ViewModel;
 using Game.PieMenu.InputDevices;
-using Game.PieMenu.Model;
 using Game.PieMenu.UI.Model;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -46,16 +45,15 @@ namespace Game.PieMenu.UI.Common
                 return;
             }
             
-            // todo neiran check afterwards. temporary disabled
-            // if (SelectionEnabled) {
-            //     if (!_isChecking) {
-            //         TryHandleSelectionAsync().Forget();
-            //     }
-            //
-            //     DetectClick();
-            // } else {
-            //     UnselectPreviousMenuItem();
-            // }
+            if (SelectionEnabled) {
+                if (!_isChecking) {
+                    TryHandleSelectionAsync().Forget();
+                }
+            
+                DetectClick();
+            } else {
+                UnselectPreviousMenuItem();
+            }
         }
         
         public void ResetPreviousSelection()
@@ -78,11 +76,6 @@ namespace Game.PieMenu.UI.Common
         {
             if (_previousSelection == -1) {
                 return;
-            }
-
-            if (_previousSelection == 0) {
-                return;
-                // todo neiran check this
             }
 
             PieMenuItemsReference[_previousSelection].BeforePointerExit();
@@ -211,9 +204,7 @@ namespace Game.PieMenu.UI.Common
         {
             _isChecking = true;
             await UniTask.WaitForSeconds(CheckDelay, cancellationToken: destroyCancellationToken);
-
             _selection = CalculateSelection(InputDeviceGetter.InputDevice);
-
             if (_selection != -1) {
                 SelectMenuItem(_selection);
             } else {

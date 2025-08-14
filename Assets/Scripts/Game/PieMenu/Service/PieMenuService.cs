@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Core.Descriptors.Service;
 using Core.UI.Service;
 using Cysharp.Threading.Tasks;
@@ -27,7 +29,7 @@ namespace Game.PieMenu.Service
 
         public async UniTask<PieMenuController> CreatePieMenuAsync(InteractableType interactableType)
         {
-            List<PieMenuItemModel> pieMenuItemModels = CreateItemModels(interactableType);
+            List<PieMenuItemModel> pieMenuItemModels = await CreateItemModelsAsync(interactableType);
             PieMenuController pieMenu = await _uiService.ShowDialogAsync<PieMenuController>();
             pieMenu.gameObject.SetActive(true);
             pieMenu.Initialize();
@@ -51,9 +53,10 @@ namespace Game.PieMenu.Service
                 Debug.LogWarning("Can't change items if pie menu is null");
                 return;
             }
-            
+
             _currentPieMenu.RemoveItems();
-            await _currentPieMenu.AddItemsAsync(CreateItemModels(interactableType));
+            List<PieMenuItemModel> pieMenuItemModels = await CreateItemModelsAsync(interactableType);
+            await _currentPieMenu.AddItemsAsync(pieMenuItemModels);
         }
 
         public async UniTask RemovePieMenuAsync()
@@ -67,9 +70,9 @@ namespace Game.PieMenu.Service
             _currentPieMenu = null;
         }
 
-        private List<PieMenuItemModel> CreateItemModels(InteractableType interactableType)
+        private async UniTask<List<PieMenuItemModel>> CreateItemModelsAsync(InteractableType interactableType, CancellationToken token = default)
         {
-            List<PieMenuItemModel> items = new();
+            List<UniTask<PieMenuItemModel>> items = new();
 
             InteractionDescriptor interactionDescriptor = _descriptorService.Require<InteractionDescriptor>();
             InteractionDescriptorModel interactionDescriptorModel = interactionDescriptor.RequireByType(interactableType);
@@ -77,10 +80,18 @@ namespace Game.PieMenu.Service
             // todo neiran also add checker or descriptor to check if item persists or so! For now show everything, just check for item before use!
 
             foreach (InteractionPieMenuSettings pieMenuSettings in interactionDescriptorModel.Settings) {
-                items.Add(new(pieMenuSettings.Title, pieMenuSettings.Description, pieMenuSettings.IconPath));
+                items.Add(CreateItemModelAsync(pieMenuSettings));
             }
 
-            return items;
+            PieMenuItemModel[] itemModels = await UniTask.WhenAll(items);
+            return itemModels.ToList();
+        }
+
+        private UniTask<PieMenuItemModel> CreateItemModelAsync(InteractionPieMenuSettings pieMenuSettings)
+        {
+            Sprite? sprite = Resources.Load<Sprite>(pieMenuSettings.IconPath); // todo neiran remove when go to addressables!!!
+            PieMenuItemModel model = new(pieMenuSettings.Title, pieMenuSettings.Description, sprite);
+            return UniTask.FromResult(model);
         }
     }
 }

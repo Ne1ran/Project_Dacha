@@ -7,15 +7,13 @@ using Game.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace Game.PieMenu.UI
 {
     public class PieMenuGeneralSettings : MonoBehaviour
     {
-        public const string TriggerActiveTrue = "ActiveTrue";
-        public const string TriggerActiveFalse = "ActiveFalse";
-        public const float MaxInfoPanelScale = 2f;
+        private const float MaxInfoPanelScale = 2f;
+        private const float MaxFillAmount = 1f;
 
         [SerializeField]
         private bool _infoPanelEnabled;
@@ -31,10 +29,10 @@ namespace Game.PieMenu.UI
         [Range(0, 100), SerializeField]
         private int _menuItemSpacing;
 
-        [FormerlySerializedAs("_rotation"),Range(0, 360), SerializeField]
+        [FormerlySerializedAs("_rotation"), Range(0, 360), SerializeField]
         private int _globalRotation;
 
-        [FormerlySerializedAs("_size"),Range(250, 1000), SerializeField]
+        [FormerlySerializedAs("_size"), Range(250, 1000), SerializeField]
         private int _itemSize;
 
         [Range(-500f, 0f), SerializeField]
@@ -99,7 +97,7 @@ namespace Game.PieMenu.UI
             ConstraintSelection(_selectionConstrained);
             InitializeAnimationsSettings();
         }
-        
+
         private void RestoreRotationToDefault()
         {
             _globalRotation = 0;
@@ -131,10 +129,11 @@ namespace Game.PieMenu.UI
         public void ModifyFillAmount(Dictionary<int, PieMenuItemController> menuItems, float fillAmount, float menuItemSpacing)
         {
             int iteration = 0;
+            // We also remove this angle, because spacing starts not at 0 z-rotation, but x-menuItemSpacing. We remove half so it will correspond properly
+            float additionalAngle = menuItemSpacing / 2f; 
             foreach (PieMenuItemController? item in menuItems.Values) {
                 item.ChangeFillAmount(fillAmount);
-
-                float zAxisRotation = (fillAmount * iteration * PieMenuUtils.CircleDegreesF) + (menuItemSpacing * iteration);
+                float zAxisRotation = (fillAmount * iteration * PieMenuUtils.CircleDegreesF) + (menuItemSpacing * iteration) - additionalAngle;
                 item.ChangeRotation(new(0, 0, zAxisRotation));
                 iteration++;
             }
@@ -143,19 +142,9 @@ namespace Game.PieMenu.UI
         public float CalculateMenuItemFillAmount(int menuItemCount, int menuItemSpacing)
         {
             float totalSpacingPercentage = PieMenuUtils.CalculateTotalSpacingPercentage(menuItemCount, menuItemSpacing);
-
-            float maxFillAmount = 1f;
-            float fillAmountLeft = maxFillAmount - totalSpacingPercentage;
+            float fillAmountLeft = MaxFillAmount - totalSpacingPercentage;
             float fillAmount = fillAmountLeft / menuItemCount;
             return fillAmount;
-        }
-
-        // todo neiran dont forget
-        private void ChangeMenuItemsColors(ColorBlock newColors)
-        {
-            foreach (PieMenuItemController pieMenuItem in _pieMenuController.ViewModel.PieMenuItems.Values) {
-                pieMenuItem.ChangeColor(newColors);
-            }
         }
 
         public void SetOffset(int newOffset)
@@ -306,20 +295,19 @@ namespace Game.PieMenu.UI
 
             MenuItemSelector selector = _pieMenuController.PieMenuSettingsModel.MenuItemSelector;
             selector.ToggleSelectionConstraint(selectionConstrained);
-
             if (!selectionConstrained) {
                 return;
             }
 
-            float maxDistance = CalculateConstraintMaxDistance(_pieMenuController);
+            float maxDistance = CalculateConstraintMaxDistance();
             selector.SetConstraintMaxDistance((int) maxDistance);
         }
 
-        public float CalculateConstraintMaxDistance(PieMenuController pieMenu)
+        public float CalculateConstraintMaxDistance()
         {
-            return pieMenu.PieMenuModel.MenuItemSize * 0.10f;
+            return ItemSize * 0.10f;
         }
-        
+
         public float Scale => _scale;
         public int MenuItemSpacing => _menuItemSpacing;
         public int GlobalRotation => _globalRotation;

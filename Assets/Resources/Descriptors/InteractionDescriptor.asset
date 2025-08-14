@@ -21,6 +21,9 @@ MonoBehaviour:
     - <Title>k__BackingField: Plow
       <Description>k__BackingField: Plow soil
       <IconPath>k__BackingField: UI/Sprites/hoe_icon
+    - <Title>k__BackingField: Open
+      <Description>k__BackingField: Open door
+      <IconPath>k__BackingField: UI/Sprites/hoe_icon
   - <InteractableType>k__BackingField: 0
     <Settings>k__BackingField: []
   - <InteractableType>k__BackingField: 1

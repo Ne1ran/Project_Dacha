@@ -9,6 +9,7 @@ using Game.PieMenu.Model;
 using Game.PieMenu.Service;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
+using Game.PieMenu.Utils;
 using Game.Player.Service;
 using Game.Utils;
 using UnityEngine;
@@ -55,7 +56,7 @@ namespace Game.PieMenu.UI
             _playerService.Player.ChangeLookActive(false);
             _menuItemControllerTemplate.transform.SetActive(false);
             
-            PieMenuSettingsModel = new(_menuItemControllerTemplate, PieMenuModel, _pieMenuItemSelector, _inputDeviceGetter,
+            PieMenuSettingsModel = new(PieMenuModel, _pieMenuItemSelector, _inputDeviceGetter,
                                        _generalSettings, ViewModel);
 
             PieMenuSettingsModel = PieMenuSettingsModel;
@@ -73,7 +74,7 @@ namespace Game.PieMenu.UI
 
         private void OnItemClicked(PieMenuItemModel itemModel)
         {
-            Debug.Log($"OnItemClicked: {itemModel}. Title={itemModel.Title} Description={itemModel.Description} Icon={itemModel.IconPath}");
+            Debug.Log($"OnItemClicked: {itemModel}. Title={itemModel.Title} Description={itemModel.Description} Icon={itemModel.Icon}");
             RemovePieMenu().Forget();
         }
 
@@ -96,9 +97,10 @@ namespace Game.PieMenu.UI
 
         private void InitializePieMenu()
         {
+            ReadDataAndInfoFields();
+            
             _inputDeviceGetter.Initialize(gameObject);
             _generalSettings.Initialize(this);
-            ReadDataAndInfoFields();
             _itemsHolder.rotation = Quaternion.Euler(0f, 0f, PieMenuModel.Rotation);
         }
 
@@ -151,14 +153,14 @@ namespace Game.PieMenu.UI
         private async UniTask ShowPieMenu(CancellationToken token)
         {
             this.SetActive(true);
-            _generalSettings.PlayAnimation(PieMenuGeneralSettings.TriggerActiveTrue);
+            _generalSettings.PlayAnimation(PieMenuUtils.TriggerActiveTrue);
             await WaitForAnimationFinish(true, token);
         }
 
         private async UniTask HidePieMenu(CancellationToken token)
         {
             _pieMenuItemSelector.ToggleSelection(false);
-            _generalSettings.PlayAnimation(PieMenuGeneralSettings.TriggerActiveFalse);
+            _generalSettings.PlayAnimation(PieMenuUtils.TriggerActiveFalse);
             await WaitForAnimationFinish(false, token);
         }
 
@@ -202,7 +204,5 @@ namespace Game.PieMenu.UI
             _generalSettings.ModifyHeaderText(string.Empty);
             _generalSettings.ModifyDetailsText(string.Empty);
         }
-
-        public RectTransform RectTransform => _rectTransform;
     }
 }

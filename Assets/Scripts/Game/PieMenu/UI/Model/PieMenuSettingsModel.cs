@@ -6,21 +6,18 @@ namespace Game.PieMenu.UI.Model
 {
     public class PieMenuSettingsModel
     {
-        public PieMenuItemController MenuItemControllerTemplate { get; private set; }
         public PieMenuModel PieMenuModel { get; private set; }
         public MenuItemSelector MenuItemSelector { get; private set; }
         public InputDeviceGetter InputDeviceGetter { get; private set; }
         public PieMenuGeneralSettings GeneralSettings { get; private set; }
         public PieMenuViewModel PieMenuViewModel { get; private set; }
 
-        public PieMenuSettingsModel(PieMenuItemController menuItemControllerTemplate,
-                                    PieMenuModel pieMenuModel,
+        public PieMenuSettingsModel(PieMenuModel pieMenuModel,
                                     MenuItemSelector menuItemSelector,
                                     InputDeviceGetter inputDeviceGetter,
                                     PieMenuGeneralSettings generalSettings,
                                     PieMenuViewModel pieMenuViewModel)
         {
-            MenuItemControllerTemplate = menuItemControllerTemplate;
             PieMenuModel = pieMenuModel;
             MenuItemSelector = menuItemSelector;
             InputDeviceGetter = inputDeviceGetter;

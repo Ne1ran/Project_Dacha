@@ -66,7 +66,7 @@ namespace Game.Interactable.ViewModel
                                                                            CancellationToken cancellationToken = default)
         {
             PieMenuItemController pieItem = await _resourceService.LoadObjectAsync<PieMenuItemController>(itemsHolder.transform);
-            pieItem.Initialize(itemModel, _pieMenuController, OnClickedTrigger);
+            pieItem.Initialize(itemModel, _generalSettings, OnClickedTrigger);
             return pieItem;
         }
 
@@ -79,7 +79,7 @@ namespace Game.Interactable.ViewModel
 
             _generalSettings.ChangeRotation(0);
             _generalSettings.UpdateButtons(_menuItemCount, _menuItemSpacing);
-            ManageMenuItemSpacing(_pieMenuController);
+            ManageMenuItemSpacing();
             _generalSettings.ChangeRotation(rotation);
         }
 
@@ -93,7 +93,7 @@ namespace Game.Interactable.ViewModel
             Redraw();
         }
 
-        private void ManageMenuItemSpacing(PieMenuController pieMenu)
+        private void ManageMenuItemSpacing()
         {
             int preservedSpacing = _pieMenuModel.MenuItemPreservedSpacing;
             int newSpacing;

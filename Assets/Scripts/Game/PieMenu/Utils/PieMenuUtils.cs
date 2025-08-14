@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using Game.PieMenu.UI;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.PieMenu.Utils
 {
     public static class PieMenuUtils
     {
         public const string InputDevice = "InputDevice";
+        public const string TriggerActiveTrue = "ActiveTrue";
+        public const string TriggerActiveFalse = "ActiveFalse";
         public const int CircleDegrees = 360;
         public const float CircleDegreesF = 360f;
-
-        public static int CalculateItemAngle(int menuItemCount, int menuItemSpacing)
+        
+        public static float CalculateItemAngle(int menuItemCount, int menuItemSpacing)
         {
             if (menuItemCount == 0) {
                 Debug.Log("Can't divide by zero! Ensure menu items != 0");
@@ -21,7 +21,7 @@ namespace Game.PieMenu.Utils
             int totalSpacing = CalculateTotalSpacing(menuItemCount, menuItemSpacing);
 
             int totalMenuItemsAngle = CircleDegrees - totalSpacing;
-            int menuItemAngle = totalMenuItemsAngle / menuItemCount;
+            float menuItemAngle = (float) totalMenuItemsAngle / menuItemCount;
 
             if (menuItemAngle < 0) {
                 menuItemAngle = 0;
