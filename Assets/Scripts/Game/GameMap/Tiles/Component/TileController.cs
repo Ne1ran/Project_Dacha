@@ -1,4 +1,5 @@
 ﻿using Core.Descriptors.Service;
+using Core.Parameters;
 using Core.Resources.Binding.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
@@ -35,19 +36,11 @@ namespace Game.GameMap.Tiles.Component
 
         public async UniTask Interact()
         {
-            if (_tileModel.Soil == null) {
-                SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().SoilType;
-                SoilModel soilModel = _soilService.CreateSoil(mapSoilType);
-                _tileService.UpdateSoil(_tileModel.Id, soilModel);
-                Debug.Log("Added soil to tile!");
-            }
-            
-            await _pieMenuService.CreatePieMenuAsync(InteractableType.TILE);
+            await _pieMenuService.CreatePieMenuAsync(InteractableType.TILE, new(ParameterNames.TileId, _tileModel.Id));
         }
 
         public UniTask StopInteract()
         {
-            Debug.Log("Stopped interacting with tile!");
             return UniTask.CompletedTask;
         }
     }

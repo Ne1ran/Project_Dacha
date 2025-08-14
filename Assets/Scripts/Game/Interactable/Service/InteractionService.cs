@@ -1,4 +1,5 @@
-﻿using Game.Interactable.Handlers;
+﻿using Core.Parameters;
+using Game.Interactable.Handlers;
 using JetBrains.Annotations;
 
 namespace Game.Interactable.Service
@@ -13,10 +14,10 @@ namespace Game.Interactable.Service
             _factory = factory;
         }
 
-        public void Interact(string handlerName)
+        public void Interact(string handlerName, Parameters parameters)
         {
             IInteractionHandler interactionHandler = _factory.Create(handlerName);
-            interactionHandler.Interact();
+            interactionHandler.Interact(parameters);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Game.Common.Handlers;
+﻿using Core.Parameters;
+using Game.Common.Handlers;
 using UnityEngine;
 
 namespace Game.Interactable.Handlers.Environment
@@ -6,7 +7,7 @@ namespace Game.Interactable.Handlers.Environment
     [Handler("DummyEnvironment")]
     public class DummyEnvironmentInteractionHandler : IInteractionHandler
     {
-        public void Interact()
+        public void Interact(Parameters parameters)
         {
             Debug.LogWarning($"Interaction with={nameof(DummyEnvironmentInteractionHandler)}");
         }

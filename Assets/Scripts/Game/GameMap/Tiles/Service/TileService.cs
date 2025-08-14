@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Descriptors.Service;
 using Core.Resources.Service;
+using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Soil.Model;
+using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Repo;
 using JetBrains.Annotations;
@@ -14,10 +17,14 @@ namespace Game.GameMap.Tiles.Service
     public class TileService : IInitializable
     {
         private readonly TileRepo _tileRepo;
+        private readonly SoilService _soilService;
+        private readonly IDescriptorService _descriptorService;
 
-        public TileService(TileRepo tileRepo, IResourceService resourceService)
+        public TileService(TileRepo tileRepo, SoilService soilService, IDescriptorService descriptorService)
         {
             _tileRepo = tileRepo;
+            _soilService = soilService;
+            _descriptorService = descriptorService;
         }
 
         public void Initialize()
@@ -54,17 +61,18 @@ namespace Game.GameMap.Tiles.Service
             _tileRepo.Save(tilesModel);
             return newTiles;
         }
-
-        public void UpdateSoil(string guid, SoilModel soilModel)
+        
+        public void ChangeTileSoil(string tileGuid)
         {
             TilesModel tilesModel = _tileRepo.Require();
-            SingleTileModel tileModel = tilesModel.Tiles.Find(tile => tile.Id == guid);
-            if (tileModel == null) {
-                Debug.LogWarning($"Tile not found with guid={guid}");
-                return;
+            SingleTileModel tileModel = RequireTileModel(tileGuid, tilesModel);
+            
+            if (tileModel.Soil == null) {
+                SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().SoilType;
+                SoilModel soilModel = _soilService.CreateSoil(mapSoilType);
+                tileModel.Soil = soilModel;
             }
             
-            tileModel.Soil = soilModel;
             _tileRepo.Save(tilesModel);
         }
 
@@ -79,6 +87,16 @@ namespace Game.GameMap.Tiles.Service
         public List<SingleTileModel> GetTiles()
         {
             return _tileRepo.Require().Tiles;
+        }
+
+        private SingleTileModel RequireTileModel(string guid, TilesModel tilesModel)
+        {
+            SingleTileModel tileModel = tilesModel.Tiles.Find(tile => tile.Id == guid);
+            if (tileModel == null) {
+                throw new KeyNotFoundException($"No tile found for guid={guid}");
+            }
+
+            return tileModel;
         }
     }
 }

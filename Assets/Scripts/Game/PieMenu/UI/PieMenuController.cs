@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
+using Core.Parameters;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
@@ -52,10 +53,13 @@ namespace Game.PieMenu.UI
 
         private readonly InputDeviceGetter _inputDeviceGetter = new();
 
+        private Parameters _parameters;
         private bool _closing = false;
 
-        public void Initialize()
+        public void Initialize(Parameters parameters)
         {
+            _parameters = parameters;
+            
             _playerService.Player.ChangeLookActive(false);
             _playerService.Player.ChangeMovementActive(false);
             _menuItemControllerTemplate.transform.SetActive(false);
@@ -78,7 +82,7 @@ namespace Game.PieMenu.UI
 
         private void OnItemClicked(PieMenuItemModel itemModel)
         {
-            _interactionService.Interact(itemModel.InteractionName);
+            _interactionService.Interact(itemModel.InteractionName, _parameters);
             RemovePieMenu().Forget();
         }
 

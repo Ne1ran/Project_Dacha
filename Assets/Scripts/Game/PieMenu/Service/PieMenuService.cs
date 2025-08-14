@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Core.Descriptors.Service;
+using Core.Parameters;
 using Core.UI.Service;
 using Cysharp.Threading.Tasks;
 using Game.Interactable.Descriptor;
@@ -27,12 +28,12 @@ namespace Game.PieMenu.Service
             _descriptorService = descriptorService;
         }
 
-        public async UniTask<PieMenuController> CreatePieMenuAsync(InteractableType interactableType)
+        public async UniTask<PieMenuController> CreatePieMenuAsync(InteractableType interactableType, Parameters parameters)
         {
             List<PieMenuItemModel> pieMenuItemModels = await CreateItemModelsAsync(interactableType);
             PieMenuController pieMenu = await _uiService.ShowDialogAsync<PieMenuController>();
             pieMenu.gameObject.SetActive(true);
-            pieMenu.Initialize();
+            pieMenu.Initialize(parameters);
             _currentPieMenu = pieMenu;
             await pieMenu.AddItemsAsync(pieMenuItemModels);
             return pieMenu;
