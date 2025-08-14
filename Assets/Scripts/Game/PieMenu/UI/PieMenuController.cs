@@ -54,6 +54,7 @@ namespace Game.PieMenu.UI
         public void Initialize()
         {
             _playerService.Player.ChangeLookActive(false);
+            _playerService.Player.ChangeMovementActive(false);
             _menuItemControllerTemplate.transform.SetActive(false);
             
             PieMenuSettingsModel = new(PieMenuModel, _pieMenuItemSelector, _inputDeviceGetter,

@@ -29,10 +29,10 @@ namespace Game.PieMenu.UI
         [Range(0, 100), SerializeField]
         private int _menuItemSpacing;
 
-        [FormerlySerializedAs("_rotation"), Range(0, 360), SerializeField]
+        [Range(0, 360), SerializeField]
         private int _globalRotation;
 
-        [FormerlySerializedAs("_size"), Range(250, 1000), SerializeField]
+        [Range(250, 1000), SerializeField]
         private int _itemSize;
 
         [Range(-500f, 0f), SerializeField]
@@ -76,8 +76,6 @@ namespace Game.PieMenu.UI
         public TextMeshProUGUI Header => _header;
 
         public TextMeshProUGUI Details => _details;
-
-        public Animator Animator => _animator;
 
         private PieMenuController _pieMenuController = null!;
         private PieMenuModel _pieMenuModel = null!;

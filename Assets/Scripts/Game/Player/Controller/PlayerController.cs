@@ -85,7 +85,7 @@ namespace Game.Player.Controller
 
         public void ChangeMovementActive(bool active)
         {
-            _movementController.SetActive(active);
+            _movementController.ChangeMoveActive(active);
         }
 
         public void ChangeLookActive(bool active)

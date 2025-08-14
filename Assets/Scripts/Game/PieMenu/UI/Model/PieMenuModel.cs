@@ -9,7 +9,6 @@ namespace Game.PieMenu.UI.Model
         public int Rotation { get; private set; }
         public float Scale { get; private set; }
         public Vector2 AnchoredPosition { get; private set; }
-
         public bool InfoPanelEnabled { get; private set; }
         public float MenuItemFillAmount { get; private set; }
         public float MenuItemDegrees { get; private set; }
@@ -19,12 +18,6 @@ namespace Game.PieMenu.UI.Model
         public int MenuItemSize { get; private set; }
 
         public AnimationClip? Animation { get; private set; }
-
-        public void SetStartValues()
-        {
-            IsActive = true;
-            
-        }
 
         public void SetActiveState(bool isActive)
         {
