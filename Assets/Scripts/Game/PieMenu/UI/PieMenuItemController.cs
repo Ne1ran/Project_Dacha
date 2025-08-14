@@ -150,16 +150,16 @@ namespace Game.PieMenu.UI
             int itemSize = _generalSettings.ItemSize;
             Vector2 iconSize = _itemImage.rectTransform.sizeDelta;
             float iconSizeValue = Mathf.Max(iconSize.x, iconSize.y);
-            float startPositionX = -(itemSize / 2f - iconSizeValue);
-            float startPositionY = iconSizeValue / 2f;
+            float circleRadius = itemSize / 2f - iconSizeValue;
 
             float circleDegrees = PieMenuUtils.CircleDegreesF * _fillAmount;
             float centerDegrees = circleDegrees / 2f;
 
-            float sin = Mathf.Sin(centerDegrees * Mathf.Deg2Rad);
-            float cos = Mathf.Cos(centerDegrees * Mathf.Deg2Rad);
-            float positionX = startPositionX * cos;
-            float positionY = (startPositionY / (1f - sin)) - iconSizeValue / 4f;
+            float deg2Rad = centerDegrees * Mathf.Deg2Rad;
+            float sin = Mathf.Sin(deg2Rad);
+            float cos = Mathf.Cos(deg2Rad);
+            float positionX = -circleRadius * cos;
+            float positionY = circleRadius * sin;
             
             _itemImage.rectTransform.anchoredPosition = new(positionX, positionY);
         }

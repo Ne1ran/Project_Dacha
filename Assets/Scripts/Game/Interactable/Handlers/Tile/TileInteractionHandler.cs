@@ -1,7 +1,7 @@
 ﻿using Game.Common.Handlers;
 using UnityEngine;
 
-namespace Game.Interactable.Handlers
+namespace Game.Interactable.Handlers.Tile
 {
     [Handler("Tile")]
     public class TileInteractionHandler : IInteractionHandler
