@@ -2,11 +2,11 @@
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
 using Game.Equipment.Component;
+using Game.GameMap.Spawn;
 using Game.Inventory.Event;
 using Game.Items.Controller;
 using Game.Movement;
 using Game.PlayMode.Service;
-using Game.Spawn;
 using Game.Utils;
 using MessagePipe;
 using Unity.VisualScripting;
@@ -28,7 +28,7 @@ namespace Game.Player.Controller
         [Inject]
         private IPublisher<string, InventoryStatusEvent> _inventoryStatusPublisher = null!;
 
-        private PickUpComponent _pickUpComponent = null!;
+        private PlayerInteractionComponent _playerInteractionComponent = null!;
         private MovementController _movementController = null!;
         private EquipmentController _equipmentController = null!;
         private Transform _headCamera = null!;
@@ -39,52 +39,64 @@ namespace Game.Player.Controller
         private void Awake()
         {
             _headCamera = this.RequireComponentInChildren<Camera>().transform;
-            _pickUpComponent = this.AddComponent<PickUpComponent>();
+            _playerInteractionComponent = this.AddComponent<PlayerInteractionComponent>();
             _movementController = this.RequireComponent<MovementController>();
             _equipmentController = this.RequireComponent<EquipmentController>();
 
-            _pickUpComponent.OnLook += OnPickUpStarted;
-            _pickUpComponent.OnUnlook += OnPickUpFinished;
-            _pickUpComponent.OnInteract += OnInteract;
+            _playerInteractionComponent.OnLook += OnPlayerInteractionStarted;
+            _playerInteractionComponent.OnUnlook += OnPlayerInteractionFinished;
+            _playerInteractionComponent.OnInteractStarted += OnInteractStarted;
+            _playerInteractionComponent.OnInteractFinished += OnInteractFinished;
         }
 
         private void OnDestroy()
         {
-            _pickUpComponent.OnLook -= OnPickUpStarted;
-            _pickUpComponent.OnUnlook -= OnPickUpFinished;
-            _pickUpComponent.OnInteract -= OnInteract;
+            _playerInteractionComponent.OnLook -= OnPlayerInteractionStarted;
+            _playerInteractionComponent.OnUnlook -= OnPlayerInteractionFinished;
+            _playerInteractionComponent.OnInteractStarted -= OnInteractStarted;
+            _playerInteractionComponent.OnInteractFinished -= OnInteractFinished;
         }
 
-        private void OnPickUpStarted()
+        private void OnPlayerInteractionStarted()
         {
             _playModeService.PlayModeScreen.ShowCrosshair(true);
         }
 
-        private void OnPickUpFinished()
+        private void OnPlayerInteractionFinished()
         {
             _playModeService.PlayModeScreen.FadeCrosshair(true);
         }
 
-        private void OnInteract(IInteractableComponent target)
+        private void OnInteractStarted(IInteractableComponent target)
         {
             target.Interact().Forget();
         }
 
+        private void OnInteractFinished(IInteractableComponent target)
+        {
+            target.StopInteract().Forget();
+        }
+
         public void Initialize()
         {
-            _pickUpComponent.Init(_headCamera);
+            _playerInteractionComponent.Init(_headCamera);
             _equipmentController.Init(_rightHand, _leftHand);
         }
 
         public void ChangeMovementActive(bool active)
         {
-            _movementController.SetActive(active);
+            _movementController.ChangeMoveActive(active);
+        }
+
+        public void ChangeLookActive(bool active)
+        {
+            _movementController.ChangeLookActive(active);
         }
 
         private void Update()
         {
             if (_cursorEnabled) {
-                _pickUpComponent.Tick();
+                _playerInteractionComponent.Tick();
             }
 
             if (!_inventoryEnabled) {
@@ -119,5 +131,7 @@ namespace Game.Player.Controller
         }
 
         public Vector3 Forward => _movementController.Forward;
+
+        public bool InteractionButtonPressed => _playerInteractionComponent.InteractionPressed;
     }
 }

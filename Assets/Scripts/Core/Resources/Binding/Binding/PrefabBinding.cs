@@ -9,8 +9,8 @@ namespace Core.Resources.Binding.Binding
 {
     internal class PrefabBinding : IBinding
     {
-        private readonly List<ObjectBinding> _objectBindings = new List<ObjectBinding>();
-        private readonly List<ComponentBinding> _componentBindings = new List<ComponentBinding>();
+        private readonly List<ObjectBinding> _objectBindings = new();
+        private readonly List<ComponentBinding> _componentBindings = new();
         private Type PrefabType { get; }
 
         public PrefabBinding(Type type)
@@ -33,7 +33,7 @@ namespace Core.Resources.Binding.Binding
                   .Where(c => c.gameObject != prefab)
                   .ToList()
                   .ForEach(c => {
-                      List<MonoBehaviour> components = new List<MonoBehaviour>();
+                      List<MonoBehaviour> components = new();
                       c.GetComponents(components);
                       components.ForEach(o => {
                           if (PrefabBinder.Binders.TryGetValue(o.GetType(), out PrefabBinding binding)) {
@@ -49,10 +49,10 @@ namespace Core.Resources.Binding.Binding
                 foreach (Attribute attribute in fieldInfo.GetCustomAttributes(false)) {
                     switch (attribute) {
                         case ComponentBindingAttribute componentAttr:
-                            _componentBindings.Add(new ComponentBinding(componentAttr.ComponentName, fieldInfo, fieldInfo.FieldType));
+                            _componentBindings.Add(new(componentAttr.ComponentName, fieldInfo, fieldInfo.FieldType));
                             break;
                         case ObjectBindingAttribute objectAttr:
-                            _objectBindings.Add(new ObjectBinding(objectAttr.ObjectName, fieldInfo));
+                            _objectBindings.Add(new(objectAttr.ObjectName, fieldInfo));
                             break;
                     }
                 }
@@ -61,7 +61,7 @@ namespace Core.Resources.Binding.Binding
 
         private List<FieldInfo> GetFields()
         {
-            List<FieldInfo> result = new List<FieldInfo>();
+            List<FieldInfo> result = new();
             BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
             Type currentType = PrefabType;
 

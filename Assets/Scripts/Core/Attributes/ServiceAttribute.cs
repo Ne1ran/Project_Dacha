@@ -1,7 +1,11 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace Core.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    public class ServiceAttribute : UsedImplicitlyAttribute { }
+    [MeansImplicitUse, AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    public class ServiceAttribute : Attribute
+    {
+        
+    }
 }

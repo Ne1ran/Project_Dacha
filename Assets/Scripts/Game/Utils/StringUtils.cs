@@ -19,5 +19,10 @@
  
             return char.ToLowerInvariant(s[0]) + s.Substring(1);
         }
+
+        public static string Substitute(this string s, string substitution, string newText)
+        {
+            return string.IsNullOrEmpty(s) ? s : s.Replace(substitution, newText);
+        }
     }
 }

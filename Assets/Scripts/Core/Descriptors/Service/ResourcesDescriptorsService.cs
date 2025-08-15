@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Core.Descriptors.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class ResourcesDescriptorsService : IDescriptorService
     {
         private readonly Dictionary<Type, ScriptableObject> _cachedDescriptors = new();

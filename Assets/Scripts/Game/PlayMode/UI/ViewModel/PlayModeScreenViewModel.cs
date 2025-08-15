@@ -6,8 +6,8 @@ using Game.Equipment.Service;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
+using Game.Items.Descriptors;
 using Game.PlayMode.UI.Model;
-using Game.Tools.Descriptors;
 using Game.Utils;
 using MessagePipe;
 using UnityEngine;
@@ -82,10 +82,7 @@ namespace Game.PlayMode.UI.ViewModel
                         continue;
                     }
 
-                    list.Add(hotkeyItem.ItemType switch {
-                            ItemType.TOOL => CreateToolSlotViewModel(hotkeyItem.Id, i),
-                            _ => new(i)
-                    });
+                    list.Add(CreateHotkeySlotViewModel(hotkeyItem, i));
 
                     read = true;
                     break;
@@ -98,10 +95,7 @@ namespace Game.PlayMode.UI.ViewModel
 
             foreach (InventoryItem hotkeyItem in hotkeyItems) {
                 int hotkeyNumber = hotkeyItem.HotkeyNumber;
-                list[hotkeyNumber - 1] = hotkeyItem.ItemType switch {
-                        ItemType.TOOL => CreateToolSlotViewModel(hotkeyItem.Id, hotkeyNumber),
-                        _ => new(hotkeyNumber)
-                };
+                list[hotkeyNumber - 1] = CreateHotkeySlotViewModel(hotkeyItem, hotkeyNumber);
             }
 
             return list;
@@ -127,7 +121,7 @@ namespace Game.PlayMode.UI.ViewModel
         private void OnHotkeyBinded(HotkeyChangedEvent evt)
         {
             int newHotkeyIndex = GetHotkeyIndex(evt.NewHotkey);
-            Hotkeys[newHotkeyIndex] = CreateToolSlotViewModel(evt.Item.Id, evt.NewHotkey);
+            Hotkeys[newHotkeyIndex] = CreateHotkeySlotViewModel(evt.Item, evt.NewHotkey);
             RemoveOldHotkey(evt.OldHotkey);
         }
 
@@ -169,11 +163,11 @@ namespace Game.PlayMode.UI.ViewModel
             return 0;
         }
 
-        private HotkeySlotViewModel CreateToolSlotViewModel(string toolId, int hotkeyNumber)
+        private HotkeySlotViewModel CreateHotkeySlotViewModel(InventoryItem itemModel, int hotkeyNumber)
         {
-            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
-            ToolsDescriptorModel toolDescriptor = toolsDescriptor.ToolsDescriptors.Find(tool => tool.ToolId == toolId);
-            return new(toolId, ItemType.TOOL, toolDescriptor.ToolIcon, hotkeyNumber);
+            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
+            ItemDescriptorModel itemDescriptor = itemsDescriptor.ItemDescriptors.Find(item => itemModel.Id == item.ItemId);
+            return new(itemModel.Id, itemModel.ItemType, itemDescriptor.Icon, hotkeyNumber);
         }
     }
 }

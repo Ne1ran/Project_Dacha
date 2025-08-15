@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Game.Equipment.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class EquipmentService
     {
         private readonly EquipmentRepo _equipmentRepo;

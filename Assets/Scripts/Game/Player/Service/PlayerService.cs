@@ -1,11 +1,11 @@
-﻿using Core.Resources.Service;
+﻿using Core.Attributes;
+using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Player.Controller;
-using JetBrains.Annotations;
 
 namespace Game.Player.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class PlayerService
     {
         private readonly IResourceService _resourceService;

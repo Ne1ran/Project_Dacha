@@ -177,7 +177,7 @@ MonoBehaviour:
   _groundDistance: 0.1
   _groundMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 321
   _playerCamera: {fileID: 7195502937935532615}
   _isSprinting: 0
 --- !u!114 &-7499732974278749224

@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f6afdb050046f79db7693007dca918, type: 3}
+  m_Name: InteractionDescriptor
+  m_EditorClassIdentifier: 
+  <ItemDescriptors>k__BackingField:
+  - <InteractableType>k__BackingField: 2
+    <Settings>k__BackingField:
+    - <InteractionName>k__BackingField: InspectSoil
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Inspect
+      <Description>k__BackingField: Inspect soil
+      <IconPath>k__BackingField: UI/Sprites/axe_icon
+    - <InteractionName>k__BackingField: PlowSoil
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Plow
+      <Description>k__BackingField: Plow soil
+      <IconPath>k__BackingField: UI/Sprites/hoe_icon
+    - <InteractionName>k__BackingField: FertilizeSoil
+      <HandlerName>k__BackingField: Fertilize
+      <Title>k__BackingField: Fertilize
+      <Description>k__BackingField: Fertilize soil with {substitute}
+      <IconPath>k__BackingField: UI/Sprites/fork_icon
+    - <InteractionName>k__BackingField: WaterSoil
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Water
+      <Description>k__BackingField: Water soil
+      <IconPath>k__BackingField: UI/Sprites/wateringCan_icon
+  - <InteractableType>k__BackingField: 0
+    <Settings>k__BackingField: []
+  - <InteractableType>k__BackingField: 1
+    <Settings>k__BackingField:
+    - <InteractionName>k__BackingField: OpenDoor
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Open
+      <Description>k__BackingField: Open door
+      <IconPath>k__BackingField: 
+    - <InteractionName>k__BackingField: CloseDoor
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Close
+      <Description>k__BackingField: Close door
+      <IconPath>k__BackingField: 
+  - <InteractableType>k__BackingField: 3
+    <Settings>k__BackingField:
+    - <InteractionName>k__BackingField: InspectPlant
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Inspect
+      <Description>k__BackingField: Inspect plant
+      <IconPath>k__BackingField: 
+    - <InteractionName>k__BackingField: WaterPlant
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Water
+      <Description>k__BackingField: Water plant
+      <IconPath>k__BackingField: 
+    - <InteractionName>k__BackingField: RemovePlant
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Remove
+      <Description>k__BackingField: Remove plant
+      <IconPath>k__BackingField: 
+    - <InteractionName>k__BackingField: FertilizePlant
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Fertilize
+      <Description>k__BackingField: Fertilize Plant
+      <IconPath>k__BackingField: 
+    - <InteractionName>k__BackingField: SprayPlant
+      <HandlerName>k__BackingField: Simple
+      <Title>k__BackingField: Spray
+      <Description>k__BackingField: Spray Plant
+      <IconPath>k__BackingField: 

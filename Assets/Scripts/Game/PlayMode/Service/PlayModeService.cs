@@ -1,11 +1,11 @@
-﻿using Core.UI.Service;
+﻿using Core.Attributes;
+using Core.UI.Service;
 using Cysharp.Threading.Tasks;
 using Game.PlayMode.UI.Screen;
-using JetBrains.Annotations;
 
 namespace Game.PlayMode.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class PlayModeService
     {
         private readonly UIService _uiService;
@@ -15,7 +15,7 @@ namespace Game.PlayMode.Service
             _uiService = uiService;
         }
 
-        public PlayModeScreen PlayModeScreen { get; private set; }
+        public PlayModeScreen PlayModeScreen { get; private set; } = null!;
         
         public async UniTask<PlayModeScreen> CreatePlayModeScreen()
         {

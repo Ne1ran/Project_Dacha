@@ -1,16 +1,16 @@
 ﻿using System;
+using Core.Attributes;
 using Core.UI.Service;
 using Cysharp.Threading.Tasks;
 using Game.Inventory.Event;
 using Game.Inventory.UI;
 using Game.Player.Service;
-using JetBrains.Annotations;
 using MessagePipe;
 using VContainer.Unity;
 
 namespace Game.Inventory.Service
 {
-    [UsedImplicitly]
+    [Mediator]
     public class InventoryMediator : IInitializable, IDisposable
     {
         private readonly ISubscriber<string, InventoryStatusEvent> _inventorySubscriber;

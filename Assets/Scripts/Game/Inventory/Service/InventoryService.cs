@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using Core.Attributes;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Repo;
 using MessagePipe;
 using UnityEngine;
-using VContainer.Unity;
+using IInitializable = VContainer.Unity.IInitializable;
 
 namespace Game.Inventory.Service
 {
-    [Core.Attributes.UsedImplicitly]
+    [Service]
     public class InventoryService : IInitializable
     {
         private readonly IPublisher<string, InventoryChangedEvent> _inventoryChangedPublisher;
@@ -38,7 +39,7 @@ namespace Game.Inventory.Service
             _inventoryRepo.Save(new(inventory));
         }
 
-        public bool TryAddToolToInventory(string toolId)
+        public bool TryAddItemToInventory(string itemId, ItemType itemType)
         {
             InventoryModel inventoryModel = Inventory;
             if (!inventoryModel.HasFreeSpace) {
@@ -46,7 +47,7 @@ namespace Game.Inventory.Service
                 return false;
             }
             int autoHotkeyNumber = TryAutoHotkeyItem(inventoryModel.InventorySlots);
-            InventoryItem inventoryItem = new(toolId, toolId, ItemType.TOOL, autoHotkeyNumber);
+            InventoryItem inventoryItem = new(itemId, itemId, itemType, autoHotkeyNumber);
             bool result = TryAddToInventory(inventoryItem);
             if (result && autoHotkeyNumber != 0) {
                 _hotkeyChangedPublisher.Publish(HotkeyChangedEvent.BINDED, new(inventoryItem, 0, autoHotkeyNumber));
@@ -179,5 +180,25 @@ namespace Game.Inventory.Service
         }
 
         public InventoryModel Inventory => _inventoryRepo.Require();
+
+        public List<InventoryItem> GetItemsByType(ItemType itemType)
+        {
+            List<InventoryItem> result = new();
+            
+            InventoryModel inventoryModel = Inventory;
+
+            foreach (InventorySlot inventorySlot in inventoryModel.InventorySlots) {
+                InventoryItem? inventoryItem = inventorySlot.InventoryItem;
+                if (inventoryItem == null) {
+                    continue;
+                }
+
+                if (inventoryItem.ItemType == itemType) {
+                    result.Add(inventoryItem);
+                }
+            }
+
+            return result;
+        }
     }
 }

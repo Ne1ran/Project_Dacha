@@ -1,0 +1,301 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24092a1e7d8b48148c1f3027abe40c14, type: 3}
+  m_Name: FertilizersDescriptor
+  m_EditorClassIdentifier: 
+  <Fertilizers>k__BackingField:
+  - <Id>k__BackingField: PotassiumMonophosphate
+    <Name>k__BackingField: Potassium monophosphate
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 250
+    <DecomposeTime>k__BackingField: 7
+    <PhChange>k__BackingField: 0
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 0
+      <PotassiumPercent>k__BackingField: 34
+      <PhosphorusPercent>k__BackingField: 52
+  - <Id>k__BackingField: PotassiumSulfate
+    <Name>k__BackingField: Potassium sulfate
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 7
+    <PhChange>k__BackingField: -0.5
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 0
+      <PotassiumPercent>k__BackingField: 50
+      <PhosphorusPercent>k__BackingField: 0
+  - <Id>k__BackingField: DoubleSuperphosphate
+    <Name>k__BackingField: Double superphosphate
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 1000
+    <PhChange>k__BackingField: 0
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 10
+      <PotassiumPercent>k__BackingField: 0
+      <PhosphorusPercent>k__BackingField: 45
+  - <Id>k__BackingField: PotassiumChloride
+    <Name>k__BackingField: Potassium chloride
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 7
+    <PhChange>k__BackingField: -1
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 0
+      <PotassiumPercent>k__BackingField: 60
+      <PhosphorusPercent>k__BackingField: 0
+  - <Id>k__BackingField: PotassiumMagnesium
+    <Name>k__BackingField: Potassium magnesium
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 300
+    <PhChange>k__BackingField: 0
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 0
+      <PotassiumPercent>k__BackingField: 30
+      <PhosphorusPercent>k__BackingField: 0
+  - <Id>k__BackingField: Superphosphate
+    <Name>k__BackingField: Superphosphate
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 650
+    <PhChange>k__BackingField: 0
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 6
+      <PotassiumPercent>k__BackingField: 0
+      <PhosphorusPercent>k__BackingField: 20
+  - <Id>k__BackingField: Ammophos
+    <Name>k__BackingField: Ammophos
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 28
+    <PhChange>k__BackingField: 0
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 10
+      <PotassiumPercent>k__BackingField: 0
+      <PhosphorusPercent>k__BackingField: 50
+  - <Id>k__BackingField: CalciumNitrate
+    <Name>k__BackingField: Calcium nitrate
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 14
+    <PhChange>k__BackingField: 0.5
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 15
+      <PotassiumPercent>k__BackingField: 0
+      <PhosphorusPercent>k__BackingField: 0
+  - <Id>k__BackingField: PotassiumNitrate
+    <Name>k__BackingField: Potassium nitrate
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 14
+    <PhChange>k__BackingField: 0
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 14
+      <PotassiumPercent>k__BackingField: 45
+      <PhosphorusPercent>k__BackingField: 15
+  - <Id>k__BackingField: BoroPhosPotassium
+    <Name>k__BackingField: BoroPhosPotassium
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 300
+    <PhChange>k__BackingField: 2
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 0
+      <PotassiumPercent>k__BackingField: 16
+      <PhosphorusPercent>k__BackingField: 10
+  - <Id>k__BackingField: Carbamide
+    <Name>k__BackingField: Carbamide
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 28
+    <PhChange>k__BackingField: 0
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 46
+      <PotassiumPercent>k__BackingField: 0
+      <PhosphorusPercent>k__BackingField: 0
+  - <Id>k__BackingField: AmmoniumNitrate
+    <Name>k__BackingField: Ammonium nitrate
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 21
+    <PhChange>k__BackingField: -0.5
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 35
+      <PotassiumPercent>k__BackingField: 0
+      <PhosphorusPercent>k__BackingField: 0
+  - <Id>k__BackingField: PotassiumHumate
+    <Name>k__BackingField: Potassium humate
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 250
+    <DecomposeTime>k__BackingField: 28
+    <PhChange>k__BackingField: 0.5
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 0
+      <PotassiumPercent>k__BackingField: 10
+      <PhosphorusPercent>k__BackingField: 0
+  - <Id>k__BackingField: NitroPhoPotassium
+    <Name>k__BackingField: NitroPhoPotassium
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 14
+    <PhChange>k__BackingField: -0.5
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 16
+      <PotassiumPercent>k__BackingField: 16
+      <PhosphorusPercent>k__BackingField: 16
+  - <Id>k__BackingField: AmmoPhoPotassium
+    <Name>k__BackingField: AmmoPhoPotassium
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 28
+    <PhChange>k__BackingField: -0.5
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 15
+      <PotassiumPercent>k__BackingField: 15
+      <PhosphorusPercent>k__BackingField: 15
+  - <Id>k__BackingField: DoubleAmmoPhoPotassium
+    <Name>k__BackingField: DoubleAmmoPhoPotassium
+    <Type>k__BackingField: 2
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 28
+    <PhChange>k__BackingField: 0
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 10
+      <PotassiumPercent>k__BackingField: 20
+      <PhosphorusPercent>k__BackingField: 20
+  - <Id>k__BackingField: PhosphateFlour
+    <Name>k__BackingField: Phosphate flour
+    <Type>k__BackingField: 1
+    <StartMass>k__BackingField: 3000
+    <DecomposeTime>k__BackingField: 1000
+    <PhChange>k__BackingField: 1
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 0
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 0
+      <PotassiumPercent>k__BackingField: 0
+      <PhosphorusPercent>k__BackingField: 20
+  - <Id>k__BackingField: BoneMeal
+    <Name>k__BackingField: Bone meal
+    <Type>k__BackingField: 1
+    <StartMass>k__BackingField: 3000
+    <DecomposeTime>k__BackingField: 650
+    <PhChange>k__BackingField: 0
+    <HumusValue>k__BackingField: 25
+    <BreathabilityValue>k__BackingField: 10
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 2
+      <PotassiumPercent>k__BackingField: 0
+      <PhosphorusPercent>k__BackingField: 11
+  - <Id>k__BackingField: SunflowerAsh
+    <Name>k__BackingField: Sunflower ash
+    <Type>k__BackingField: 1
+    <StartMass>k__BackingField: 1000
+    <DecomposeTime>k__BackingField: 60
+    <PhChange>k__BackingField: 1
+    <HumusValue>k__BackingField: 0
+    <BreathabilityValue>k__BackingField: 5
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 0
+      <PotassiumPercent>k__BackingField: 24
+      <PhosphorusPercent>k__BackingField: 7
+  - <Id>k__BackingField: HorseManure
+    <Name>k__BackingField: Horse manure
+    <Type>k__BackingField: 0
+    <StartMass>k__BackingField: 5000
+    <DecomposeTime>k__BackingField: 90
+    <PhChange>k__BackingField: -1
+    <HumusValue>k__BackingField: 500
+    <BreathabilityValue>k__BackingField: 10
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 0.475
+      <PotassiumPercent>k__BackingField: 0.5
+      <PhosphorusPercent>k__BackingField: 0.35
+  - <Id>k__BackingField: ChickenManure
+    <Name>k__BackingField: Chicken manure
+    <Type>k__BackingField: 0
+    <StartMass>k__BackingField: 5000
+    <DecomposeTime>k__BackingField: 60
+    <PhChange>k__BackingField: -2
+    <HumusValue>k__BackingField: 200
+    <BreathabilityValue>k__BackingField: 5
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 2
+      <PotassiumPercent>k__BackingField: 1
+      <PhosphorusPercent>k__BackingField: 1.5
+  - <Id>k__BackingField: CowManure
+    <Name>k__BackingField: Cow manure
+    <Type>k__BackingField: 0
+    <StartMass>k__BackingField: 5000
+    <DecomposeTime>k__BackingField: 75
+    <PhChange>k__BackingField: -1.5
+    <HumusValue>k__BackingField: 400
+    <BreathabilityValue>k__BackingField: 15
+    <PrefabPath>k__BackingField: Prefabs/Fertilizers/Fertilizer
+    <FertilizerElements>k__BackingField:
+      <NitrogenPercent>k__BackingField: 3
+      <PotassiumPercent>k__BackingField: 1.5
+      <PhosphorusPercent>k__BackingField: 3

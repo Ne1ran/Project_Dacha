@@ -4,6 +4,6 @@ using Game.Items.Model;
 
 namespace Game.Equipment.Repo
 {
-    [UsedImplicitly]
+    [Repository]
     public class EquipmentRepo : SingleEntityMemoryRepository<ItemModel> { }
 }
