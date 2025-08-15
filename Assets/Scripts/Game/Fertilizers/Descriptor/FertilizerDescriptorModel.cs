@@ -19,8 +19,10 @@ namespace Game.Fertilizers.Descriptor
         public int DecomposeTime { get; set; } = 14;
         [field: SerializeField, Range(-6f, 6f), Tooltip("PH change fertilizer can create if used with !full mass!")]
         public float PhChange { get; set; } = 0f;
-        [field: SerializeField, Range(-100f, 100f), Tooltip("Value that influence the soil microsystem and biological strength")]
-        public float BiologicalValue { get; set; } = 0f;
+        [field: SerializeField, Range(-1000f, 1000f), Tooltip("Value that influence the soil humus amount in gramms")]
+        public float HumusValue { get; set; } = 0f;
+        [field: SerializeField, Range(-25f, 25f), Tooltip("Value that influence the soil breathability change after full decomposition")]
+        public float BreathabilityValue { get; set; } = 0f;
         [field: SerializeField]
         public string PrefabPath { get; set; } = string.Empty;
         [field: SerializeField]

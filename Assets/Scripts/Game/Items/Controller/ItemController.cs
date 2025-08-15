@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
-using Game.Inventory.Service;
 using Game.Items.Service;
 using Game.Utils;
 using UnityEngine;

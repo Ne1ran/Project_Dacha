@@ -1,30 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Descriptors.Service;
-using Core.Resources.Service;
+using Game.Fertilizers.Model;
 using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Soil.Model;
 using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Repo;
 using JetBrains.Annotations;
+using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
 
 namespace Game.GameMap.Tiles.Service
 {
     [UsedImplicitly]
-    public class TileService : IInitializable
+    public class TileService : IInitializable, IDisposable
     {
         private readonly TileRepo _tileRepo;
-        private readonly SoilService _soilService;
         private readonly IDescriptorService _descriptorService;
+        private readonly SoilService _soilService;
 
-        public TileService(TileRepo tileRepo, SoilService soilService, IDescriptorService descriptorService)
+        private IDisposable? _disposable;
+
+        public TileService(TileRepo tileRepo, IDescriptorService descriptorService, SoilService soilService)
         {
             _tileRepo = tileRepo;
-            _soilService = soilService;
             _descriptorService = descriptorService;
+            _soilService = soilService;
+
+            DisposableBagBuilder bagBuilder = DisposableBag.CreateBuilder();
+            _disposable = bagBuilder.Build();
         }
 
         public void Initialize()
@@ -36,11 +42,19 @@ namespace Game.GameMap.Tiles.Service
             _tileRepo.Save(new());
         }
 
+        public void Dispose()
+        {
+            _disposable?.Dispose();
+            _disposable = null;
+        }
+
         public SingleTileModel CreateTile(Vector3 position)
         {
             TilesModel tilesModel = _tileRepo.Require();
             string tileGuid = Guid.NewGuid().ToString();
-            SingleTileModel newTileModel = new(tileGuid, position);
+            SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().SoilType;
+            SoilModel soilModel = _soilService.CreateSoil(mapSoilType);
+            SingleTileModel newTileModel = new(tileGuid, position, soilModel);
             tilesModel.AddTile(newTileModel);
             _tileRepo.Save(tilesModel);
             return newTileModel;
@@ -48,12 +62,15 @@ namespace Game.GameMap.Tiles.Service
 
         public List<SingleTileModel> CreateTiles(List<Vector3> position)
         {
-            TilesModel tilesModel = _tileRepo.Require();
             List<SingleTileModel> newTiles = new();
+
+            TilesModel tilesModel = _tileRepo.Require();
+            SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().SoilType;
 
             foreach (Vector3 tilePosition in position) {
                 string tileGuid = Guid.NewGuid().ToString();
-                SingleTileModel newTileModel = new(tileGuid, tilePosition);
+                SoilModel soilModel = _soilService.CreateSoil(mapSoilType);
+                SingleTileModel newTileModel = new(tileGuid, tilePosition, soilModel);
                 newTiles.Add(newTileModel);
             }
 
@@ -61,18 +78,36 @@ namespace Game.GameMap.Tiles.Service
             _tileRepo.Save(tilesModel);
             return newTiles;
         }
-        
-        public void ChangeTileSoil(string tileGuid)
+        private void OnDayPassed()
         {
             TilesModel tilesModel = _tileRepo.Require();
-            SingleTileModel tileModel = RequireTileModel(tileGuid, tilesModel);
-            
-            if (tileModel.Soil == null) {
-                SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().SoilType;
-                SoilModel soilModel = _soilService.CreateSoil(mapSoilType);
-                tileModel.Soil = soilModel;
+
+            foreach (SingleTileModel singleTileModel in tilesModel.Tiles) {
+                foreach (SoilFertilizationModel usedFertilizer in singleTileModel.Soil.UsedFertilizers) {
+                    usedFertilizer.CurrentDecomposeDay += 1;
+                }
             }
             
+            _tileRepo.Save(tilesModel);
+        }
+
+        private void ActivateFertilizers()
+        {
+            TilesModel tilesModel = _tileRepo.Require();
+
+            foreach (SingleTileModel singleTileModel in tilesModel.Tiles) {
+                SoilModel soilModel = singleTileModel.Soil;
+                _soilService.ActivateUsedFertilizers(soilModel);
+            }
+            
+            _tileRepo.Save(tilesModel);
+        }
+
+        public void AddFertilizer(string tileId, string fertilizerId, float portionMassGramms)
+        {
+            TilesModel tilesModel = _tileRepo.Require();
+            SingleTileModel tileModel = RequireTileModel(tileId, tilesModel);
+            _soilService.AddFertilizer(tileModel.Soil, fertilizerId, portionMassGramms / 1000f);
             _tileRepo.Save(tilesModel);
         }
 

@@ -3,8 +3,6 @@ using Core.Parameters;
 using Core.Resources.Binding.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
-using Game.GameMap.Map.Descriptor;
-using Game.GameMap.Soil.Model;
 using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;

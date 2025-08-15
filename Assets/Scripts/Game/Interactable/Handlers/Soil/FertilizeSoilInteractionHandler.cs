@@ -20,23 +20,27 @@ namespace Game.Interactable.Handlers.Soil
         public void Interact(Parameters parameters)
         {
             string tileId = parameters.Require<string>(ParameterNames.TileId); // found tile to do smth on it
+            string fertilizerId = parameters.Require<string>(ParameterNames.ItemId);
+            float portionMass = parameters.Require<float>(ParameterNames.PortionMass);
 
             List<InventoryItem> hotkeyItems = _inventoryService.GetHotkeyItems();
-            // todo neiran redo afterwards
+            // todo neiran redo afterwards to conditions?
             foreach (InventoryItem inventoryItem in hotkeyItems) {
-                if (inventoryItem.ItemType == ItemType.FERTILIZER) {
-                    UseFertilizer();
-                    return;
+                if (inventoryItem.ItemType != ItemType.FERTILIZER) {
+                    continue;
                 }
+                
+                UseFertilizer(tileId, fertilizerId, portionMass);
+                return;
             }
 
             // todo neiran show notifications
             Debug.LogWarning("No fertilizer found in inventory!");
         }
 
-        private void UseFertilizer()
+        private void UseFertilizer(string tileId, string fertilizerId, float portionMass)
         {
-            Debug.LogWarning("Using fertilizer from inventory!");
+            _tileService.AddFertilizer(tileId, fertilizerId, portionMass);
         }
     }
 }

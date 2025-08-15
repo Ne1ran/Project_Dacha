@@ -3,7 +3,6 @@ using Core.Descriptors.Service;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Items.Descriptors;
-using Game.Tools.Descriptors;
 
 namespace Game.Inventory.ViewModel
 {

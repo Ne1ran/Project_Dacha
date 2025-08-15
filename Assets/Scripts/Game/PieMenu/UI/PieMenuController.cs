@@ -82,6 +82,11 @@ namespace Game.PieMenu.UI
 
         private void OnItemClicked(PieMenuItemModel itemModel)
         {
+            if (itemModel.Parameters.HasValue) {
+                _parameters.AddParams(itemModel.Parameters.Value);
+            }
+            
+            // _parameters.AddParam(ParameterNames.ItemId, itemModel.InteractionName).AddParam(ParameterNames.PortionMass, 100);
             _interactionService.Interact(itemModel.InteractionName, _parameters);
             RemovePieMenu().Forget();
         }

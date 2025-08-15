@@ -7,7 +7,7 @@ namespace Core.Parameters
 {
     public readonly struct Parameters
     {
-        public IReadOnlyDictionary<string, object> Dictionary { get; }
+        public Dictionary<string, object> Dictionary { get; }
 
         public T? Get<T>(string name)
         {
@@ -19,6 +19,21 @@ namespace Core.Parameters
 
             T result = Cast<T>(param);
             return result;
+        }
+
+        public Parameters AddParam(string paramName, object value)
+        {
+            Dictionary.Add(paramName, value);
+            return new Parameters(Dictionary);
+        }
+
+        public Parameters AddParams(Parameters itemModelParameters)
+        {
+            foreach ((string key, object value) in itemModelParameters.Dictionary) {
+                Dictionary.Add(key, value);
+            }
+            
+            return new Parameters(Dictionary);
         }
 
         public T GetOrDefault<T>(string name, T defaultValue)
@@ -90,7 +105,7 @@ namespace Core.Parameters
             return result;
         }
 
-        public Parameters(IReadOnlyDictionary<string, object> parameters)
+        public Parameters(Dictionary<string, object> parameters)
         {
             Dictionary = parameters;
         }

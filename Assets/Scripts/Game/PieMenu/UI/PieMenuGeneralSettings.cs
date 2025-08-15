@@ -6,7 +6,6 @@ using Game.PieMenu.Utils;
 using Game.Utils;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Game.PieMenu.UI
 {

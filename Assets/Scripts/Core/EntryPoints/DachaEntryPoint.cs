@@ -3,7 +3,6 @@ using Core.SceneManagement.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Map.Service;
 using Game.GameMap.Spawn;
-using Game.Interactable.Handlers;
 using Game.Player.Controller;
 using Game.Player.Service;
 using Game.PlayMode.Service;

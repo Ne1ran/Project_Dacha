@@ -1,4 +1,7 @@
-﻿namespace Game.GameMap.Soil.Model
+﻿using System.Collections.Generic;
+using Game.Fertilizers.Model;
+
+namespace Game.GameMap.Soil.Model
 {
     public class SoilModel
     {
@@ -11,6 +14,8 @@
         public float WaterAmount { get; set; }
 
         public SoilElementsModel Elements { get; set; }
+
+        public List<SoilFertilizationModel> UsedFertilizers { get; set; } = new();
 
         public SoilModel(SoilType type,
                          float ph,
@@ -29,6 +34,18 @@
             Mass = mass;
             WaterAmount = waterAmount;
             Elements = elements;
+        }
+
+        public void UseFertilizerSoilModel(FertilizerSoilModel model)
+        {
+            Mass += model.Mass;
+            Salinity += model.Mass / Mass;
+            Ph += model.PhChange;
+            Breathability += model.BreathabilityChange;
+            Humus += model.HumusMass;
+            Elements.Nitrogen += model.NitrogenMass;
+            Elements.Potassium += model.PotassiumMass;
+            Elements.Phosphorus += model.PhosphorusMass;
         }
     }
 }

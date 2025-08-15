@@ -6,7 +6,6 @@ using Cysharp.Threading.Tasks;
 using Game.Inventory.Service;
 using Game.Tools.Component;
 using Game.Tools.Descriptors;
-using Game.Utils;
 using JetBrains.Annotations;
 using UnityEngine;
 

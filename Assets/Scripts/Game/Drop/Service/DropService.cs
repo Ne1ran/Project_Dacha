@@ -8,7 +8,6 @@ using Game.Items.Descriptors;
 using Game.Items.Service;
 using Game.Player.Controller;
 using Game.Player.Service;
-using Game.Tools.Service;
 using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
