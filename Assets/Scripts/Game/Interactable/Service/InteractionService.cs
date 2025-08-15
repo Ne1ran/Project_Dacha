@@ -1,10 +1,10 @@
-﻿using Core.Parameters;
+﻿using Core.Attributes;
+using Core.Parameters;
 using Game.Interactable.Handlers;
-using JetBrains.Annotations;
 
 namespace Game.Interactable.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class InteractionService
     {
         private readonly InteractionHandlerFactory _factory;

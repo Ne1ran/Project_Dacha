@@ -10,5 +10,8 @@ namespace Game.PieMenu.InputDevices
         bool IsSelectionButtonPressed();
 
         bool IsCloseButtonPressed();
+        bool ScrollingBackwards();
+
+        bool ScrollingForward();
     }
 }

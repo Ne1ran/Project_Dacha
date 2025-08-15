@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
+using Core.Attributes;
 using Core.Descriptors.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Tiles.Component;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Game.GameMap.Map.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class MapService
     {
         private readonly TileService _tileService;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Fertilizers.Model;
+using UnityEngine;
 
 namespace Game.GameMap.Soil.Model
 {
@@ -46,6 +47,8 @@ namespace Game.GameMap.Soil.Model
             Elements.Nitrogen += model.NitrogenMass;
             Elements.Potassium += model.PotassiumMass;
             Elements.Phosphorus += model.PhosphorusMass;
+            
+            Debug.LogWarning($"Fertilizer used. New soil data = {Mass}, {Ph}, {Salinity}, {Breathability}, {Humus}, {Elements.Nitrogen}, {Elements.Potassium}, {Elements.Phosphorus}, ");
         }
     }
 }

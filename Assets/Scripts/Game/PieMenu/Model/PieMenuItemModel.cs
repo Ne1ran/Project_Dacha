@@ -1,4 +1,4 @@
-﻿using Core.Parameters;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.PieMenu.Model
@@ -7,16 +7,19 @@ namespace Game.PieMenu.Model
     {
         public string InteractionName { get; }
         public string Title { get; }
-        public string Description { get; }
+        public string BaseDescription { get; }
         public Sprite? Icon { get; }
-        public Parameters? Parameters { get; set; }
+        public List<PieMenuItemSelectionModel> SelectionModels { get; set; }
 
-        public PieMenuItemModel(string interactionName, string title, string description, Sprite? icon)
+        public int CurrentSelectionIndex { get; set; } = -1;
+
+        public PieMenuItemModel(string interactionName, string title, string baseDescription, Sprite? icon, List<PieMenuItemSelectionModel> selectionModels)
         {
             InteractionName = interactionName;
             Title = title;
-            Description = description;
+            BaseDescription = baseDescription;
             Icon = icon;
+            SelectionModels = selectionModels;
         }
     }
 }

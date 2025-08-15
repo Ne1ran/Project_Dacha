@@ -11,7 +11,8 @@ namespace Game.PieMenu.UI.Common
     public class MenuItemSelector : MonoBehaviour
     {
         private const int CircleDegrees = 360;
-        private const float CheckDelay = 0.1f;
+        private const int CheckDelay = 100;
+        private const int CheckForScrollDelay = 200;
 
         public Dictionary<int, PieMenuItemController> PieMenuItemsReference { get; private set; } = null!;
         public InputDeviceGetter InputDeviceGetter { get; private set; } = null!;
@@ -29,6 +30,7 @@ namespace Game.PieMenu.UI.Common
         private bool _selectionConstrained;
         private bool _isChecking;
         private bool _initialized;
+        private bool _scrollCheckPaused;
 
         public void Initialize(PieMenuSettingsModel settingsModel)
         {
@@ -51,6 +53,7 @@ namespace Game.PieMenu.UI.Common
                 }
             
                 DetectClick();
+                DetectScroll();
             } else {
                 UnselectPreviousMenuItem();
             }
@@ -203,7 +206,7 @@ namespace Game.PieMenu.UI.Common
         private async UniTaskVoid TryHandleSelectionAsync()
         {
             _isChecking = true;
-            await UniTask.WaitForSeconds(CheckDelay, cancellationToken: destroyCancellationToken);
+            await UniTask.Delay(CheckDelay, cancellationToken: destroyCancellationToken);
             _selection = CalculateSelection(InputDeviceGetter.InputDevice);
             if (_selection != -1) {
                 SelectMenuItem(_selection);
@@ -227,6 +230,39 @@ namespace Game.PieMenu.UI.Common
 
             CanBeClicked = false;
             PieMenuItemsReference[_selection].OnClick();
+        }
+
+        private void DetectScroll()
+        {
+            if (_scrollCheckPaused) {
+                return;
+            }
+            
+            bool scrollingForward = InputDeviceGetter.InputDevice.ScrollingForward();
+            bool scrollingBackwards = InputDeviceGetter.InputDevice.ScrollingBackwards();
+            if ((!scrollingForward && !scrollingBackwards) || _selection == -1) {
+                return;
+            }
+
+            bool menuItemDisabled = !PieMenuItemsReference[_selection].Interactable;
+            if (menuItemDisabled) {
+                return;
+            }
+
+            if (scrollingForward) {
+                PieMenuItemsReference[_selection].OnScrollForward();
+            } else if (scrollingBackwards) {
+                PieMenuItemsReference[_selection].OnScrollBackwards();
+            }
+            
+            PauseScrollCheckAsync().Forget();
+        }
+
+        private async UniTask PauseScrollCheckAsync()
+        {
+            _scrollCheckPaused = true;
+            await UniTask.Delay(CheckForScrollDelay, cancellationToken: destroyCancellationToken);
+            _scrollCheckPaused = false;
         }
     }
 }

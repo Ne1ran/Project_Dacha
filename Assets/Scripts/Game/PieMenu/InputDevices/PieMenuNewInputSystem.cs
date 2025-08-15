@@ -1,5 +1,6 @@
 using SimplePieMenu;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game.PieMenu.InputDevices
 {
@@ -27,6 +28,16 @@ namespace Game.PieMenu.InputDevices
         private void OnDestroy()
         {
             _pieMenuControls.Disable();
+        }
+
+        public bool ScrollingForward()
+        {
+            return Mouse.current.scroll.ReadValue().y > 0f;
+        }
+
+        public bool ScrollingBackwards()
+        {
+            return Mouse.current.scroll.ReadValue().y < 0f;
         }
 
         public Vector2 GetPosition(Vector2 anchoredPosition)

@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Attributes;
 using Core.GameWorld.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Tiles.Component;
 using Game.GameMap.Tiles.Model;
-using JetBrains.Annotations;
 
 namespace Game.GameMap.Tiles.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class WorldTileService
     {
         private readonly IResourceService _resourceService;

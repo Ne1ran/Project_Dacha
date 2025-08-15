@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Core.Attributes;
 using Core.Descriptors.Service;
 using Core.Parameters;
 using Core.UI.Service;
@@ -8,24 +9,26 @@ using Cysharp.Threading.Tasks;
 using Game.Interactable.Descriptor;
 using Game.Interactable.Model;
 using Game.PieMenu.Model;
+using Game.PieMenu.PrepareHandlers;
 using Game.PieMenu.UI;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Game.PieMenu.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class PieMenuService
     {
         private readonly UIService _uiService;
         private readonly IDescriptorService _descriptorService;
+        private readonly PieMenuPrepareFactory _pieMenuPrepareFactory;
 
         private PieMenuController? _currentPieMenu;
 
-        public PieMenuService(UIService uiService, IDescriptorService descriptorService)
+        public PieMenuService(UIService uiService, IDescriptorService descriptorService, PieMenuPrepareFactory pieMenuPrepareFactory)
         {
             _uiService = uiService;
             _descriptorService = descriptorService;
+            _pieMenuPrepareFactory = pieMenuPrepareFactory;
         }
 
         public async UniTask<PieMenuController> CreatePieMenuAsync(InteractableType interactableType, Parameters parameters)
@@ -81,18 +84,17 @@ namespace Game.PieMenu.Service
             // todo neiran also add checker or descriptor to check if item persists or so! For now show everything, just check for item before use!
 
             foreach (InteractionPieMenuSettings pieMenuSettings in interactionDescriptorModel.Settings) {
-                items.Add(CreateItemModelAsync(pieMenuSettings));
+                items.Add(CreateItemModelAsync(pieMenuSettings, token));
             }
 
             PieMenuItemModel[] itemModels = await UniTask.WhenAll(items);
             return itemModels.ToList();
         }
 
-        private UniTask<PieMenuItemModel> CreateItemModelAsync(InteractionPieMenuSettings pieMenuSettings)
+        private UniTask<PieMenuItemModel> CreateItemModelAsync(InteractionPieMenuSettings pieMenuSettings, CancellationToken token)
         {
-            Sprite? sprite = Resources.Load<Sprite>(pieMenuSettings.IconPath); // todo neiran remove when go to addressables!!!
-            PieMenuItemModel model = new(pieMenuSettings.InteractionName, pieMenuSettings.Title, pieMenuSettings.Description, sprite);
-            return UniTask.FromResult(model);
+            IPieMenuPrepareHandler pieMenuPrepareHandler = _pieMenuPrepareFactory.Create(pieMenuSettings.HandlerName);
+            return pieMenuPrepareHandler.Prepare(pieMenuSettings, token);
         }
     }
 }

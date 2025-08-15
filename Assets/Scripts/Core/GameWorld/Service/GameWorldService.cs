@@ -1,11 +1,11 @@
-﻿using Core.GameWorld.Component;
+﻿using Core.Attributes;
+using Core.GameWorld.Component;
 using Game.Utils;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Core.GameWorld.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class GameWorldService
     {
         public GameWorldComponent GameWorld { get; private set; } = null!;

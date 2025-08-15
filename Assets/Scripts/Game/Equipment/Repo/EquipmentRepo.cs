@@ -1,9 +1,9 @@
-﻿using Core.Repository;
+﻿using Core.Attributes;
+using Core.Repository;
 using Game.Items.Model;
-using JetBrains.Annotations;
 
 namespace Game.Equipment.Repo
 {
-    [UsedImplicitly]
+    [Repository]
     public class EquipmentRepo : SingleEntityMemoryRepository<ItemModel> { }
 }

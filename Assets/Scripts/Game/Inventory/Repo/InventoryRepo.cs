@@ -1,11 +1,11 @@
-﻿using Core.Repository;
+﻿using Core.Attributes;
+using Core.Repository;
 using Core.Serialization;
 using Game.Inventory.Model;
-using JetBrains.Annotations;
 
 namespace Game.Inventory.Repo
 {
-    [UsedImplicitly]
+    [Repository]
     public class InventoryRepo : SingleEntityPrefsRepository<InventoryModel>
     {
         protected override string Key => "Inventory";

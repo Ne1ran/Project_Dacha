@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Attributes;
 using Core.Descriptors.Service;
 using Cysharp.Threading.Tasks;
 using Game.Inventory.Event;
@@ -8,14 +9,13 @@ using Game.Items.Descriptors;
 using Game.Items.Service;
 using Game.Player.Controller;
 using Game.Player.Service;
-using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
 
 namespace Game.Drop.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class DropService : IInitializable, IDisposable
     {
         private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;

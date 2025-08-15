@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Attributes;
 using Core.Descriptors.Service;
-using Game.Fertilizers.Model;
 using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Soil.Model;
 using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Repo;
-using JetBrains.Annotations;
+using Game.TimeMove.Event;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
 
 namespace Game.GameMap.Tiles.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class TileService : IInitializable, IDisposable
     {
         private readonly TileRepo _tileRepo;
@@ -23,13 +23,18 @@ namespace Game.GameMap.Tiles.Service
 
         private IDisposable? _disposable;
 
-        public TileService(TileRepo tileRepo, IDescriptorService descriptorService, SoilService soilService)
+        public TileService(TileRepo tileRepo,
+                           IDescriptorService descriptorService,
+                           SoilService soilService,
+                           ISubscriber<string, DayChangedEvent> dayFinishedSubscriber)
         {
             _tileRepo = tileRepo;
             _descriptorService = descriptorService;
             _soilService = soilService;
 
             DisposableBagBuilder bagBuilder = DisposableBag.CreateBuilder();
+            bagBuilder.Add(dayFinishedSubscriber.Subscribe(DayChangedEvent.DAY_FINISHED, OnDayFinished));
+            bagBuilder.Add(dayFinishedSubscriber.Subscribe(DayChangedEvent.DAY_STARTED, OnDayStarted));
             _disposable = bagBuilder.Build();
         }
 
@@ -78,7 +83,8 @@ namespace Game.GameMap.Tiles.Service
             _tileRepo.Save(tilesModel);
             return newTiles;
         }
-        private void OnDayPassed()
+
+        private void OnDayFinished(DayChangedEvent evt)
         {
             TilesModel tilesModel = _tileRepo.Require();
 
@@ -87,8 +93,13 @@ namespace Game.GameMap.Tiles.Service
                     usedFertilizer.CurrentDecomposeDay += 1;
                 }
             }
-            
+
             _tileRepo.Save(tilesModel);
+        }
+
+        private void OnDayStarted(DayChangedEvent evt)
+        {
+            ActivateFertilizers();
         }
 
         private void ActivateFertilizers()
@@ -99,7 +110,7 @@ namespace Game.GameMap.Tiles.Service
                 SoilModel soilModel = singleTileModel.Soil;
                 _soilService.ActivateUsedFertilizers(soilModel);
             }
-            
+
             _tileRepo.Save(tilesModel);
         }
 

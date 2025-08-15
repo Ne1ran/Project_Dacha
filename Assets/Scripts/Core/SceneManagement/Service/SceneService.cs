@@ -1,6 +1,6 @@
-﻿using Core.SceneManagement.Event;
+﻿using Core.Attributes;
+using Core.SceneManagement.Event;
 using Cysharp.Threading.Tasks;
-using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -12,7 +12,7 @@ using VContainer.Unity;
 
 namespace Core.SceneManagement.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class SceneService
     {
         private SceneInstance? _loadedScene;
@@ -29,7 +29,7 @@ namespace Core.SceneManagement.Service
             if (handle.Status == AsyncOperationStatus.Succeeded) {
                 SceneInstance? oldScene = _loadedScene;
                 _loadedScene = result;
-                UnityEngine.SceneManagement.Scene scene = result.Scene;
+                Scene scene = result.Scene;
                 _publisher.Publish(SceneChangedEvent.SCENE_LOADED, new(scene.name, scene));
                 ActivateScene(scene);
                 await UnloadSceneAsync(oldScene);
@@ -59,7 +59,7 @@ namespace Core.SceneManagement.Service
             }
         }
 
-        private void ActivateScene(UnityEngine.SceneManagement.Scene scene)
+        private void ActivateScene(Scene scene)
         {
             GameObject[] rootGameObjects = scene.GetRootGameObjects();
             foreach (GameObject gameObject in rootGameObjects) {
@@ -70,6 +70,6 @@ namespace Core.SceneManagement.Service
             }
         }
         
-        public UnityEngine.SceneManagement.Scene? Scene => _loadedScene?.Scene;
+        public Scene? Scene => _loadedScene?.Scene;
     }
 }

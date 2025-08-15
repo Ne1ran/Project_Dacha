@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Attributes;
 using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Inventory.Service;
 using Game.Tools.Component;
 using Game.Tools.Descriptors;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Game.Tools.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class ToolsService
     {
         private readonly InventoryService _inventoryService;

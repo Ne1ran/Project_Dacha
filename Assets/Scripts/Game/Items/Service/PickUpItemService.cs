@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Attributes;
 using Core.Descriptors.Service;
 using Cysharp.Threading.Tasks;
 using Game.Fertilizers.Service;
@@ -9,12 +10,11 @@ using Game.Items.Controller;
 using Game.Items.Descriptors;
 using Game.Tools.Service;
 using Game.Utils;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Game.Items.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class PickUpItemService
     {
         private readonly IDescriptorService _descriptorService;

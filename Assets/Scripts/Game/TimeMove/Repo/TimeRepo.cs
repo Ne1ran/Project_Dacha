@@ -1,11 +1,11 @@
-﻿using Core.Repository;
+﻿using Core.Attributes;
+using Core.Repository;
 using Core.Serialization;
 using Game.TimeMove.Model;
-using JetBrains.Annotations;
 
 namespace Game.TimeMove.Repo
 {
-    [UsedImplicitly]
+    [Repository]
     public class TimeRepo : SingleEntityPrefsRepository<TimeModel>
     {
         protected override string Key => "Time";

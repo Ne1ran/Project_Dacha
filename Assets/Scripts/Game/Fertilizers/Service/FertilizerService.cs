@@ -1,15 +1,15 @@
 ﻿using System;
+using Core.Attributes;
 using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Fertilizers.Controller;
 using Game.Fertilizers.Descriptor;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Game.Fertilizers.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class FertilizerService
     {
         private readonly IDescriptorService _descriptorService;

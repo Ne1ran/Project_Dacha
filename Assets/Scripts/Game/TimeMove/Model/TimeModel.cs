@@ -2,11 +2,13 @@
 {
     public class TimeModel
     {
-        public int CurrentTime { get; set; }
+        public int CurrentMinutes { get; set; }
+        public int CurrentDay { get; set; }
 
-        public TimeModel(int currentTime)
+        public TimeModel(int currentMinutes, int currentDay)
         {
-            CurrentTime = currentTime;
+            CurrentMinutes = currentMinutes;
+            CurrentDay = currentDay;
         }
     }
 }

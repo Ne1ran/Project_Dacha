@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Attributes;
 using Core.Descriptors.Service;
 using Game.Fertilizers.Descriptor;
 using Game.Fertilizers.Model;
@@ -6,12 +7,11 @@ using Game.GameMap.Soil.Descriptor;
 using Game.GameMap.Soil.Model;
 using Game.GameMap.Tiles.Event;
 using Game.Utils;
-using JetBrains.Annotations;
 using MessagePipe;
 
 namespace Game.GameMap.Soil.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class SoilService
     {
         private readonly IDescriptorService _descriptorService;

@@ -82,11 +82,12 @@ namespace Game.PieMenu.UI
 
         private void OnItemClicked(PieMenuItemModel itemModel)
         {
-            if (itemModel.Parameters.HasValue) {
-                _parameters.AddParams(itemModel.Parameters.Value);
+            if (itemModel.SelectionModels.Count > 0) {
+                PieMenuItemSelectionModel selectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
+                _parameters.AddParam(ParameterNames.ItemId, selectionModel.ItemId);
+                _parameters.AddParam(ParameterNames.PortionMass, 100f);
             }
             
-            // _parameters.AddParam(ParameterNames.ItemId, itemModel.InteractionName).AddParam(ParameterNames.PortionMass, 100);
             _interactionService.Interact(itemModel.InteractionName, _parameters);
             RemovePieMenu().Forget();
         }

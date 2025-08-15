@@ -1,16 +1,16 @@
 ﻿using System;
+using Core.Attributes;
 using Core.Descriptors.Service;
 using Game.Equipment.Event;
 using Game.Equipment.Repo;
 using Game.Items.Descriptors;
 using Game.Items.Model;
-using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 
 namespace Game.Equipment.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class EquipmentService
     {
         private readonly EquipmentRepo _equipmentRepo;

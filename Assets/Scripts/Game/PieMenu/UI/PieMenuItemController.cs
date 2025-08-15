@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using Core.Reactive;
 using Core.Resources.Binding.Attributes;
 using Game.PieMenu.Model;
 using Game.PieMenu.Utils;
+using Game.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,8 +35,11 @@ namespace Game.PieMenu.UI
         private PieMenuGeneralSettings _generalSettings = null!;
         private PieMenuItemModel _itemModel = null!;
 
-        private string _detailsText = null!;
-        private string _headerText = null!;
+        private string _startDetailText = null!;
+        private string _startHeaderText = null!;
+        
+        private string _currentDetailText = null!;
+        private string _currentHeaderText = null!;
 
         private bool _idAssigned;
         private bool _mouseOverButton;
@@ -47,10 +52,15 @@ namespace Game.PieMenu.UI
             _generalSettings = settings;
             _itemModel = model;
             OnClickedTrigger = onClickedTrigger;
-            SetHeader(model.Title);
-            SetDetails(model.Description);
+            _startHeaderText = model.Title;
+            _startDetailText = model.BaseDescription;
             ItemImage = model.Icon;
             SetItemIconToCenter();
+            
+            _currentDetailText = _startDetailText;
+            _currentHeaderText = _startHeaderText;
+
+            UseSelectionItemModel(0);
         }
 
         public void SetId(int newId)
@@ -63,27 +73,17 @@ namespace Game.PieMenu.UI
             _idAssigned = true;
         }
 
-        public void SetHeader(string newHeader)
-        {
-            _headerText = newHeader;
-        }
-
-        public void SetDetails(string newDetails)
-        {
-            _detailsText = newDetails;
-        }
-
         public void DisplayHeader()
         {
             if (_generalSettings != null) {
-                _generalSettings.ModifyHeaderText(_headerText);
+                _generalSettings.ModifyHeaderText(_currentHeaderText);
             }
         }
 
         public void DisplayDetails()
         {
             if (_generalSettings != null) {
-                _generalSettings.ModifyDetailsText(_detailsText);
+                _generalSettings.ModifyDetailsText(_currentDetailText);
             }
         }
 
@@ -123,6 +123,44 @@ namespace Game.PieMenu.UI
             OnClickedTrigger.Set(_itemModel);
         }
 
+        public void OnScrollForward()
+        {
+            UseSelectionItemModel(_itemModel.CurrentSelectionIndex + 1);
+        }
+
+        public void OnScrollBackwards()
+        {
+            UseSelectionItemModel(_itemModel.CurrentSelectionIndex - 1);
+        }
+
+        private void UseSelectionItemModel(int selectionIndex)
+        {
+            List<PieMenuItemSelectionModel> selectionModels = _itemModel.SelectionModels;
+            if (selectionModels.Count == 0) {
+                return;
+            }
+            
+            if (selectionIndex >= selectionModels.Count) {
+                selectionIndex = 0;
+            }
+
+            if (selectionIndex < 0) {
+                selectionIndex = selectionModels.Count - 1;
+            }
+
+            if (_itemModel.CurrentSelectionIndex == selectionIndex) {
+                return;
+            }
+
+            PieMenuItemSelectionModel itemSelectionModel = selectionModels[selectionIndex];
+            
+            ItemImage = itemSelectionModel.Icon;
+
+            _currentDetailText = _startDetailText.Substitute("{substitute}", itemSelectionModel.DescriptionSubstituteText);
+            DisplayDetails();
+            _itemModel.CurrentSelectionIndex = selectionIndex;
+        }
+        
         public void ChangeColor(ColorBlock newColors)
         {
             ColorBlock colors = _button.colors;

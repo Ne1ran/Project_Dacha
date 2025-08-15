@@ -14,6 +14,16 @@ namespace Game.PieMenu.InputDevices
             return mouseInput;
         }
 
+        public bool ScrollingForward()
+        {
+            return Input.GetAxis("Mouse ScrollWheel") > 0f;
+        }
+
+        public bool ScrollingBackwards()
+        {
+            return Input.GetAxis("Mouse ScrollWheel") < 0f;
+        }
+
         public bool IsSelectionButtonPressed()
         {
             return Input.GetKeyDown(KeyCode.Mouse0);

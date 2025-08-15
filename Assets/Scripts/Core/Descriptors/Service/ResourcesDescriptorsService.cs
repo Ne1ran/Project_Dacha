@@ -4,12 +4,11 @@ using System.Reflection;
 using Core.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Utils;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Core.Descriptors.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class ResourcesDescriptorsService : IDescriptorService
     {
         private readonly Dictionary<Type, ScriptableObject> _cachedDescriptors = new();

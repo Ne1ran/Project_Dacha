@@ -1,27 +1,27 @@
 ﻿using System;
+using Core.Attributes;
 using Game.TimeMove.Event;
-using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
 
 namespace Game.TimeMove.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class EndDayService : IInitializable, IDisposable
     {
-        private readonly ISubscriber<string, DayFinishedEvent> _dayFinishedSubscriber;
+        private readonly ISubscriber<string, DayChangedEvent> _dayFinishedSubscriber;
 
         private IDisposable? _disposable;
         
-        public EndDayService(ISubscriber<string, DayFinishedEvent> dayFinishedSubscriber)
+        public EndDayService(ISubscriber<string, DayChangedEvent> dayFinishedSubscriber)
         {
             _dayFinishedSubscriber = dayFinishedSubscriber;
         }
 
         public void Initialize()
         {
-            _disposable = _dayFinishedSubscriber.Subscribe(DayFinishedEvent.DAY_FINISHED, OnDayFinished);
+            _disposable = _dayFinishedSubscriber.Subscribe(DayChangedEvent.DAY_FINISHED, OnDayFinished);
         }
 
         public void Dispose()
@@ -30,7 +30,7 @@ namespace Game.TimeMove.Service
             _disposable = null;
         }
 
-        private void OnDayFinished(DayFinishedEvent evt)
+        private void OnDayFinished(DayChangedEvent evt)
         {
             // todo neiran impl day finish
             Debug.LogWarning("Day finished!");

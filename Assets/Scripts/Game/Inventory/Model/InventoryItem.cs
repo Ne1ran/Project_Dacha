@@ -5,7 +5,6 @@
         public string Id { get; }
         public string Name { get; }
         public ItemType ItemType { get; }
-
         public int HotkeyNumber { get; private set; }
 
         public InventoryItem(string id, string name, ItemType itemType, int hotkeyNumber = 0)

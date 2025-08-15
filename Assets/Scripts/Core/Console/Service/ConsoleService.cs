@@ -1,11 +1,11 @@
-﻿using Core.Console.Controller;
+﻿using Core.Attributes;
+using Core.Console.Controller;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace Core.Console.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class ConsoleService
     {
         private readonly IResourceService _resourceService;

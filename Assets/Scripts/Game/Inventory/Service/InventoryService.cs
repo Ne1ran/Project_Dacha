@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
+using Core.Attributes;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Repo;
-using JetBrains.Annotations;
 using MessagePipe;
 using UnityEngine;
-using VContainer.Unity;
+using IInitializable = VContainer.Unity.IInitializable;
 
 namespace Game.Inventory.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class InventoryService : IInitializable
     {
         private readonly IPublisher<string, InventoryChangedEvent> _inventoryChangedPublisher;
@@ -180,5 +180,25 @@ namespace Game.Inventory.Service
         }
 
         public InventoryModel Inventory => _inventoryRepo.Require();
+
+        public List<InventoryItem> GetItemsByType(ItemType itemType)
+        {
+            List<InventoryItem> result = new();
+            
+            InventoryModel inventoryModel = Inventory;
+
+            foreach (InventorySlot inventorySlot in inventoryModel.InventorySlots) {
+                InventoryItem? inventoryItem = inventorySlot.InventoryItem;
+                if (inventoryItem == null) {
+                    continue;
+                }
+
+                if (inventoryItem.ItemType == itemType) {
+                    result.Add(inventoryItem);
+                }
+            }
+
+            return result;
+        }
     }
 }

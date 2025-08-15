@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Core.Attributes;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Binding.Binding;
 using Cysharp.Threading.Tasks;
-using JetBrains.Annotations;
 using UnityEngine;
 using VContainer.Unity;
 using AppContext = Core.Scopes.AppContext;
@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace Core.Resources.Service
 {
-    [UsedImplicitly]
+    [Service]
     public class ResourceService : IResourceService
     {
         private readonly Dictionary<Type, PrefabBinding> _binders = new();
