@@ -10,5 +10,7 @@ namespace Game.Tools.Descriptors
         public string ToolId { get; set; } = null!;
         [field: SerializeField]
         public string ToolPrefab { get; set; } = null!;
+        [field: SerializeField]
+        public bool CanCarryInfection { get; set; }
     }
 }
