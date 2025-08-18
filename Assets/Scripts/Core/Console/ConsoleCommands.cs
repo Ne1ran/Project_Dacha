@@ -1,4 +1,6 @@
 ﻿using Core.Descriptors.Service;
+using Core.Notifications.Model;
+using Core.Notifications.Service;
 using Core.Scopes;
 using Cysharp.Threading.Tasks;
 using Game.Inventory.Model;
@@ -88,11 +90,18 @@ namespace Core.Console
             timeService.StartDay();
         }
 
-        [ConsoleMethod("timePass", "Current time in minutes")]
+        [ConsoleMethod("getCurrentTime", "Current time in minutes")]
         public static void CurrentTime()
         {
             TimeService timeService = Container.Resolve<TimeService>();
-            Debug.Log($"{timeService.GetTime()}");
+            Debug.Log($"Current global time in minutes={timeService.GetPassedGlobalTime()}");
+        }
+
+        [ConsoleMethod("showNotification", "Show notification of type")]
+        public static void ShowNotification(NotificationType type)
+        {
+            NotificationManager notificationManager = Container.Resolve<NotificationManager>();
+            notificationManager.ShowNotification(type).Forget();
         }
         
         private static IObjectResolver Container => AppContext.CurrentScope.Container;

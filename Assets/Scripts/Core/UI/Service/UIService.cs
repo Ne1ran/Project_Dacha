@@ -13,20 +13,27 @@ namespace Core.UI.Service
 {
     public class UIService : IInitializable, IDisposable
     {
-        [Inject]
-        private ISubscriber<string, SceneChangedEvent> _subscriber;
-        [Inject]
-        private IResourceService _resourceService;
-        [Inject]
-        private SceneService _sceneService;
+        private readonly ISubscriber<string, SceneChangedEvent> _subscriber;
+        private readonly IResourceService _resourceService;
+        private readonly SceneService _sceneService;
 
         private Canvas? _currentCanvas;
 
         //todo neiran add priority with dialogs
 
         private readonly Dictionary<Type, GameObject> _dialogs = new();
+        private readonly List<GameObject> _elements = new();
 
         private IDisposable? _disposable;
+
+        public UIService(ISubscriber<string, SceneChangedEvent> subscriber,
+                         IResourceService resourceService,
+                         SceneService sceneService)
+        {
+            _subscriber = subscriber;
+            _resourceService = resourceService;
+            _sceneService = sceneService;
+        }
 
         public void Initialize()
         {
@@ -98,6 +105,36 @@ namespace Core.UI.Service
 
             _resourceService.Release(dialog);
             _dialogs.Remove(dialogType);
+            return UniTask.CompletedTask;
+        }
+
+        public async UniTask<T> ShowElementAsync<T>()
+                where T : Component
+        {
+            if (_currentCanvas == null) {
+                Debug.LogWarning("Canvas not found!");
+                return null;
+            }
+
+            T loadedElement = await _resourceService.LoadObjectAsync<T>(_currentCanvas!.transform);
+            _elements.Add(loadedElement.gameObject);
+            return loadedElement;
+        }
+
+        public UniTask RemoveElementAsync(GameObject element)
+        {
+            if (_currentCanvas == null) {
+                Debug.LogWarning("Canvas already destroyed, no need to hide dialog!");
+                return UniTask.CompletedTask;
+            }
+
+            if (!_elements.Contains(element)) {
+                Debug.LogWarning($"Element not found to remove. ElementName ={element.name}!");
+                return UniTask.CompletedTask; 
+            }
+
+            _resourceService.Release(element);
+            _elements.Remove(element);
             return UniTask.CompletedTask;
         }
     }
