@@ -59,13 +59,12 @@ namespace Game.PieMenu.UI
         public void Initialize(Parameters parameters)
         {
             _parameters = parameters;
-            
+
             _playerService.Player.ChangeLookActive(false);
             _playerService.Player.ChangeMovementActive(false);
             _menuItemControllerTemplate.transform.SetActive(false);
-            
-            PieMenuSettingsModel = new(PieMenuModel, _pieMenuItemSelector, _inputDeviceGetter,
-                                       _generalSettings, ViewModel);
+
+            PieMenuSettingsModel = new(PieMenuModel, _pieMenuItemSelector, _inputDeviceGetter, _generalSettings, ViewModel);
 
             PieMenuSettingsModel = PieMenuSettingsModel;
             PieMenuModel = PieMenuSettingsModel.PieMenuModel;
@@ -82,14 +81,23 @@ namespace Game.PieMenu.UI
 
         private void OnItemClicked(PieMenuItemModel itemModel)
         {
-            if (itemModel.SelectionModels.Count > 0) {
-                PieMenuItemSelectionModel selectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
-                _parameters.AddParam(ParameterNames.ItemId, selectionModel.ItemId);
-                _parameters.AddParam(ParameterNames.PortionMass, 100f);
+            if (itemModel.BaseActionHandler == null) {
+                if (itemModel.SelectionModels.Count > 0) {
+                    PieMenuItemSelectionModel selectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
+                    _parameters.AddParam(ParameterNames.ItemId, selectionModel.ItemId);
+                    _parameters.AddParam(ParameterNames.PortionMass, 100f);
+                }
+
+                _interactionService.Interact(itemModel.InteractionName, _parameters);
+            } else {
+                itemModel.BaseActionHandler.ActionAsync().Forget();
             }
-            
-            _interactionService.Interact(itemModel.InteractionName, _parameters);
+
             RemovePieMenu().Forget();
+        }
+
+        private void ShowNotification()
+        {
         }
 
         public async UniTask AddItemsAsync(List<PieMenuItemModel> items)
@@ -112,7 +120,7 @@ namespace Game.PieMenu.UI
         private void InitializePieMenu()
         {
             ReadDataAndInfoFields();
-            
+
             _inputDeviceGetter.Initialize(gameObject);
             _generalSettings.Initialize(this);
             _itemsHolder.rotation = Quaternion.Euler(0f, 0f, PieMenuModel.Rotation);
@@ -126,14 +134,14 @@ namespace Game.PieMenu.UI
             PieMenuModel.SetScale(_generalSettings.Scale);
             PieMenuModel.SetSpacing(_generalSettings.MenuItemSpacing);
             PieMenuModel.SetRotation(_generalSettings.GlobalRotation);
-            
+
             Vector2 anchoredPosition = _rectTransform.anchoredPosition;
             float difference = (float) Screen.width / Screen.currentResolution.width;
             anchoredPosition = new(anchoredPosition.x * difference, anchoredPosition.y * difference);
             PieMenuModel.SetAnchoredPosition(anchoredPosition);
         }
 
-        private async UniTask RemovePieMenu()   
+        private async UniTask RemovePieMenu()
         {
             _playerService.Player.ChangeLookActive(true);
             _playerService.Player.ChangeMovementActive(true);

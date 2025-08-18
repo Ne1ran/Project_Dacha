@@ -58,19 +58,14 @@ namespace Game.Drop.Service
         private async UniTask<ItemController> CreateItemInWorldAsync(InventoryItem inventoryItem)
         {
             PlayerController player = _playerService.Player;
-            switch (inventoryItem.ItemType) {
-                case ItemType.TOOL:
-                    ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-                    ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.ItemDescriptors.Find(item => item.ItemId == inventoryItem.Id);
-                    if (itemDescriptorModel == null) {
-                        throw new ArgumentException($"Descriptor not found for item with id={inventoryItem.Id}");
-                    }
-
-                    Vector3 dropPosition = GetDropPosition(player.transform.position, player.Forward, itemDescriptorModel.DropOffsetMultiplier);
-                    return (await _pickUpItemService.DropItemAsync(itemDescriptorModel.ItemId, itemDescriptorModel.ItemType, dropPosition));
-                default:
-                    throw new NotImplementedException("Need to implement other item types");
+            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
+            ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.ItemDescriptors.Find(item => item.ItemId == inventoryItem.Id);
+            if (itemDescriptorModel == null) {
+                throw new ArgumentException($"Descriptor not found for item with id={inventoryItem.Id}");
             }
+
+            Vector3 dropPosition = GetDropPosition(player.transform.position, player.Forward, itemDescriptorModel.DropOffsetMultiplier);
+            return (await _pickUpItemService.DropItemAsync(itemDescriptorModel.ItemId, itemDescriptorModel.ItemType, dropPosition));
         }
 
         private Vector3 GetDropPosition(Vector3 spawnPosition, Vector3 direction, float distance)

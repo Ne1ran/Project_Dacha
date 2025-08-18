@@ -1,4 +1,5 @@
-﻿using Core.EntryPoints;
+﻿using Core.Conditions.Service;
+using Core.EntryPoints;
 using Core.GameWorld.Service;
 using Game.Drop.Service;
 using Game.Equipment.Repo;
@@ -52,8 +53,11 @@ namespace Core.Scopes
             builder.Register<PieMenuService>(Lifetime.Singleton);
             builder.Register<FertilizerService>(Lifetime.Singleton);
             builder.Register<InteractionService>(Lifetime.Singleton);
+            builder.Register<ConditionFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();;
+            builder.Register<ConditionService>(Lifetime.Singleton);
             builder.Register<PieMenuPrepareFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<InteractionHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<PieMenuActionFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             
