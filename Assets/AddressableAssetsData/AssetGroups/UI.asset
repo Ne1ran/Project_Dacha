@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: UI
   m_GUID: 7dd1ec9a54f839c4180fccba587e8006
-  m_SerializeEntries:
-  - m_GUID: 1ec1907dac9e5b348aef2ac6105b4c28
-    m_Address: dachaBackground
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d6ea6b5e9b078b041906f4538422b97b, type: 2}
   m_SchemaSet:
