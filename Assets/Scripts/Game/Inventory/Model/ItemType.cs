@@ -2,6 +2,7 @@
 {
     public enum ItemType
     {
+        NONE = -1,
         TOOL = 0,
         FOOD = 1,
         FURNITURE = 2,

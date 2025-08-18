@@ -166,6 +166,60 @@ namespace Game.Inventory.Service
             return true;
         }
 
+        public bool HasItemByType(ItemType itemType)
+        {
+            InventoryModel inventory = Inventory;
+            foreach (InventorySlot inventorySlot in inventory.InventorySlots) {
+                InventoryItem? inventoryItem = inventorySlot.InventoryItem;
+                if (inventoryItem == null) {
+                    continue;
+                }
+
+                if (inventoryItem.ItemType == itemType) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool HasItemById(string itemId)
+        {
+            InventoryModel inventory = Inventory;
+            foreach (InventorySlot inventorySlot in inventory.InventorySlots) {
+                InventoryItem? inventoryItem = inventorySlot.InventoryItem;
+                if (inventoryItem == null) {
+                    continue;
+                }
+
+                if (inventoryItem.Id == itemId) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        public bool HasItemByTypeAndId(ItemType itemType, string itemId)
+        {
+            InventoryModel inventory = Inventory;
+            foreach (InventorySlot inventorySlot in inventory.InventorySlots) {
+                InventoryItem? inventoryItem = inventorySlot.InventoryItem;
+                if (inventoryItem == null) {
+                    continue;
+                }
+
+                if (inventoryItem.ItemType != itemType) {
+                    continue;
+                }
+
+                if (inventoryItem.Id == itemId) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void RemoveFromInventory(InventoryItem inventoryItem)
         {
             InventoryModel inventoryModel = Inventory;
