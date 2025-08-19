@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Diseases.Model;
 using Game.Fertilizers.Model;
 using UnityEngine;
 
@@ -13,9 +14,9 @@ namespace Game.GameMap.Soil.Model
         public float Humus { get; set; }
         public float Mass { get; set; }
         public float WaterAmount { get; set; }
-
         public SoilElementsModel Elements { get; set; }
-
+        public List<DiseaseModel> Diseases { get; set; } = new();
+        public List<SavedDiseaseModel> SavedDiseases { get; set; } = new();
         public List<SoilFertilizationModel> UsedFertilizers { get; set; } = new();
 
         public SoilModel(SoilType type,

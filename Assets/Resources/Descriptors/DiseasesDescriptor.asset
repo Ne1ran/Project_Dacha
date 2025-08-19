@@ -18,6 +18,8 @@ MonoBehaviour:
     <DiseaseType>k__BackingField: 1
     <InfectionModel>k__BackingField:
       <StartingChance>k__BackingField: 0.001
+      <DisposeDaysNeeded>k__BackingField: 250
+      <DisposeCropRotationNeeded>k__BackingField: 2
       <TileRangeMultipliers>k__BackingField:
       - <TileRange>k__BackingField: 1
         <Multiplier>k__BackingField: 2.5
@@ -52,6 +54,8 @@ MonoBehaviour:
     <DiseaseType>k__BackingField: 1
     <InfectionModel>k__BackingField:
       <StartingChance>k__BackingField: 0.002
+      <DisposeDaysNeeded>k__BackingField: 400
+      <DisposeCropRotationNeeded>k__BackingField: 3
       <TileRangeMultipliers>k__BackingField:
       - <TileRange>k__BackingField: 1
         <Multiplier>k__BackingField: 3.5
