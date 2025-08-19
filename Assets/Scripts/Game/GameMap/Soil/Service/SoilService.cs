@@ -54,7 +54,7 @@ namespace Game.GameMap.Soil.Service
                 }
 
                 FertilizerSoilModel fertilizerSoilModel = CalculateSoilFertilizerModel(usedFertilizer, fertModel);
-                soilModel.UseFertilizerSoilModel(fertilizerSoilModel);
+                soilModel.ApplyFertilizer(fertilizerSoilModel);
                 if (usedFertilizer.CurrentDecomposeDay >= fertModel.DecomposeTime) {
                     soilModel.UsedFertilizers.Remove(usedFertilizer);
                 }

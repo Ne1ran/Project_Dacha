@@ -37,7 +37,7 @@ namespace Game.GameMap.Soil.Model
             Elements = elements;
         }
 
-        public void UseFertilizerSoilModel(FertilizerSoilModel model)
+        public void ApplyFertilizer(FertilizerSoilModel model)
         {
             Mass += model.Mass;
             Salinity += model.Mass / Mass;
@@ -47,8 +47,7 @@ namespace Game.GameMap.Soil.Model
             Elements.Nitrogen += model.NitrogenMass;
             Elements.Potassium += model.PotassiumMass;
             Elements.Phosphorus += model.PhosphorusMass;
-            
-            Debug.LogWarning($"Fertilizer used. New soil data = {Mass}, {Ph}, {Salinity}, {Breathability}, {Humus}, {Elements.Nitrogen}, {Elements.Potassium}, {Elements.Phosphorus}, ");
+            Debug.LogWarning($"Fertilizer used. New soil data = {Mass}, {Ph}, {Salinity}, {Breathability}, {Humus}, {Elements.Nitrogen}, {Elements.Potassium}, {Elements.Phosphorus}");
         }
     }
 }

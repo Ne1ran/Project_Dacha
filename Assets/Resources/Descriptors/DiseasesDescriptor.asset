@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9b4bd2dd40402495fa0e235f5567e0, type: 3}
+  m_Name: DiseasesDescriptor
+  m_EditorClassIdentifier: 
+  <Items>k__BackingField:
+  - <Id>k__BackingField: Mildew
+    <Name>k__BackingField: Mildew
+    <DiseaseType>k__BackingField: 1
+    <InfectionModel>k__BackingField:
+      <StartingChance>k__BackingField: 0.001
+      <TileRangeMultipliers>k__BackingField:
+      - <TileRange>k__BackingField: 1
+        <Multiplier>k__BackingField: 2.5
+      <InfectionStages>k__BackingField:
+      - <Stage>k__BackingField: 1
+        <PlantDamagePerDay>k__BackingField: 0.05
+        <RandomSymptoms>k__BackingField:
+        - StrangeMildew
+        - InfectedNewLeaves
+        - SlowedGrowth
+        <StageGrowth>k__BackingField: 25
+        <BaseGrowthPerDay>k__BackingField: 1
+      - <Stage>k__BackingField: 2
+        <PlantDamagePerDay>k__BackingField: 1
+        <RandomSymptoms>k__BackingField:
+        - WhiteMildew
+        - DontGrowth
+        - InfectedNewLeaves
+        - MildewOnFrontOfLeaves
+        <StageGrowth>k__BackingField: 25
+        <BaseGrowthPerDay>k__BackingField: 2
+      - <Stage>k__BackingField: 3
+        <PlantDamagePerDay>k__BackingField: 3
+        <RandomSymptoms>k__BackingField:
+        - WhiteMildew
+        - BadCondition
+        - BlackPoints
+        <StageGrowth>k__BackingField: 25
+        <BaseGrowthPerDay>k__BackingField: 3
+  - <Id>k__BackingField: DownyMildew
+    <Name>k__BackingField: Downy Mildew
+    <DiseaseType>k__BackingField: 1
+    <InfectionModel>k__BackingField:
+      <StartingChance>k__BackingField: 0.002
+      <TileRangeMultipliers>k__BackingField:
+      - <TileRange>k__BackingField: 1
+        <Multiplier>k__BackingField: 3.5
+      - <TileRange>k__BackingField: 2
+        <Multiplier>k__BackingField: 1.5
+      <InfectionStages>k__BackingField:
+      - <Stage>k__BackingField: 1
+        <PlantDamagePerDay>k__BackingField: 1
+        <RandomSymptoms>k__BackingField:
+        - SpotsOnLeaves
+        - SlowedGrowth
+        - InfectedAnyLeaves
+        <StageGrowth>k__BackingField: 25
+        <BaseGrowthPerDay>k__BackingField: 1
+      - <Stage>k__BackingField: 2
+        <PlantDamagePerDay>k__BackingField: 1
+        <RandomSymptoms>k__BackingField:
+        - YellowMildew
+        - DontGrowth
+        - MildewOnBackOfLeaves
+        - Deformation
+        <StageGrowth>k__BackingField: 25
+        <BaseGrowthPerDay>k__BackingField: 3
+      - <Stage>k__BackingField: 3
+        <PlantDamagePerDay>k__BackingField: 1
+        <RandomSymptoms>k__BackingField:
+        - YellowMildew
+        - BadCondition
+        - Rot
+        <StageGrowth>k__BackingField: 25
+        <BaseGrowthPerDay>k__BackingField: 5
