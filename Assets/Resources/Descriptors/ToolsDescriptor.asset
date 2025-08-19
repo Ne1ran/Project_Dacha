@@ -15,13 +15,25 @@ MonoBehaviour:
   <ToolsDescriptors>k__BackingField:
   - <ToolId>k__BackingField: Axe
     <ToolPrefab>k__BackingField: Prefabs/Tools/Axe
+    <UseHandler>k__BackingField: 
+    <CanCarryInfection>k__BackingField: 0
   - <ToolId>k__BackingField: Hammer
     <ToolPrefab>k__BackingField: Prefabs/Tools/Hammer
+    <UseHandler>k__BackingField: 
+    <CanCarryInfection>k__BackingField: 0
   - <ToolId>k__BackingField: Hoe
     <ToolPrefab>k__BackingField: Prefabs/Tools/Hoe
+    <UseHandler>k__BackingField: 
+    <CanCarryInfection>k__BackingField: 0
   - <ToolId>k__BackingField: Pickaxe
     <ToolPrefab>k__BackingField: Prefabs/Tools/Pickaxe
+    <UseHandler>k__BackingField: 
+    <CanCarryInfection>k__BackingField: 0
   - <ToolId>k__BackingField: Scythe
     <ToolPrefab>k__BackingField: Prefabs/Tools/Scythe
+    <UseHandler>k__BackingField: 
+    <CanCarryInfection>k__BackingField: 0
   - <ToolId>k__BackingField: Spade
     <ToolPrefab>k__BackingField: Prefabs/Tools/Spade
+    <UseHandler>k__BackingField: 
+    <CanCarryInfection>k__BackingField: 0

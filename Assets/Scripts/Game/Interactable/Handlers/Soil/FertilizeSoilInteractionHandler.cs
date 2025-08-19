@@ -1,7 +1,10 @@
-﻿using Core.Parameters;
+﻿using Core.Notifications.Model;
+using Core.Notifications.Service;
+using Core.Parameters;
+using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
 using Game.GameMap.Soil.Service;
-using Game.Inventory.Service;
+using Game.PieMenu.Model;
 using VContainer;
 
 namespace Game.Interactable.Handlers.Soil
@@ -12,14 +15,20 @@ namespace Game.Interactable.Handlers.Soil
         [Inject]
         private readonly SoilService _soilService = null!;
         [Inject]
-        private readonly InventoryService _inventoryService = null!;
+        private readonly NotificationManager _notificationManager = null!;
 
-        public void Interact(Parameters parameters)
+        public UniTask InteractAsync(PieMenuItemModel itemModel, Parameters parameters)
         {
-            string tileId = parameters.Require<string>(ParameterNames.TileId); // found tile to do smth on it
-            string fertilizerId = parameters.Require<string>(ParameterNames.ItemId);
-            float portionMass = parameters.Require<float>(ParameterNames.PortionMass);
+            PieMenuItemSelectionModel pieMenuItemSelectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
+            if (string.IsNullOrEmpty(pieMenuItemSelectionModel.ItemId)) {
+                return _notificationManager.ShowNotification(NotificationType.FERTILIZER_NOT_FOUND);
+            }
+            
+            string tileId = parameters.Require<string>(ParameterNames.TileId);
+            string fertilizerId = pieMenuItemSelectionModel.ItemId;
+            float portionMass = 100f; // todo remove afterwards
             UseFertilizer(tileId, fertilizerId, portionMass);
+            return UniTask.CompletedTask;
         }
 
         private void UseFertilizer(string tileId, string fertilizerId, float portionMass)

@@ -20,8 +20,6 @@ namespace Game.Interactable.Descriptor
         [field: SerializeField]
         public string IconPath { get; set; } = string.Empty;
         [field: SerializeField]
-        public string? NonConditionActionHandler { get; set; }
-        [field: SerializeField]
         [TableList]
         public List<ConditionDescriptor> Conditions { get; set; } = new();
     }

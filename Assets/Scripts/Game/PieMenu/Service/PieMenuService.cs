@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading;
 using Core.Attributes;
+using Core.Conditions.Checker;
+using Core.Conditions.Service;
 using Core.Descriptors.Service;
 using Core.Parameters;
 using Core.UI.Service;
@@ -21,14 +23,19 @@ namespace Game.PieMenu.Service
         private readonly UIService _uiService;
         private readonly IDescriptorService _descriptorService;
         private readonly PieMenuPrepareFactory _pieMenuPrepareFactory;
+        private readonly ConditionService _conditionService;
 
         private PieMenuController? _currentPieMenu;
 
-        public PieMenuService(UIService uiService, IDescriptorService descriptorService, PieMenuPrepareFactory pieMenuPrepareFactory)
+        public PieMenuService(UIService uiService,
+                              IDescriptorService descriptorService,
+                              PieMenuPrepareFactory pieMenuPrepareFactory,
+                              ConditionService conditionService)
         {
             _uiService = uiService;
             _descriptorService = descriptorService;
             _pieMenuPrepareFactory = pieMenuPrepareFactory;
+            _conditionService = conditionService;
         }
 
         public async UniTask<PieMenuController> CreatePieMenuAsync(InteractableType interactableType, Parameters parameters)
@@ -84,7 +91,10 @@ namespace Game.PieMenu.Service
             // todo neiran also add checker or descriptor to check if item persists or so! For now show everything, just check for item before use!
 
             foreach (InteractionPieMenuSettings pieMenuSettings in interactionDescriptorModel.Settings) {
-                items.Add(CreateItemModelAsync(pieMenuSettings, token));
+                ConditionResult conditionResult = _conditionService.Check(pieMenuSettings.Conditions);
+                if (conditionResult.IsAllowed) {
+                    items.Add(CreateItemModelAsync(pieMenuSettings, token));
+                }
             }
 
             PieMenuItemModel[] itemModels = await UniTask.WhenAll(items);

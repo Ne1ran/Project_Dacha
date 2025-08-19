@@ -11,6 +11,8 @@ namespace Game.Tools.Descriptors
         [field: SerializeField]
         public string ToolPrefab { get; set; } = null!;
         [field: SerializeField]
+        public string UseHandler { get; set; } = null!;
+        [field: SerializeField]
         public bool CanCarryInfection { get; set; }
     }
 }

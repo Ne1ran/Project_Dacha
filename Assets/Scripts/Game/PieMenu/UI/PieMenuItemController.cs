@@ -54,7 +54,6 @@ namespace Game.PieMenu.UI
             OnClickedTrigger = onClickedTrigger;
             _startHeaderText = model.Title;
             _startDetailText = model.BaseDescription;
-            ItemImage = model.Icon;
             SetItemIconToCenter();
             
             _currentDetailText = _startDetailText;

@@ -101,6 +101,8 @@ namespace Game.Player.Controller
             OnUnlook?.Invoke();
             _currentLook = null;
         }
+        
+        public IInteractableComponent? CurrentLook => _currentLook;
 
         public bool InteractionPressed => _isInteracting;
     }
