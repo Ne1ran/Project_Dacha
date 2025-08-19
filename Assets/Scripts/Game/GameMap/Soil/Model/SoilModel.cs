@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Game.Diseases.Model;
 using Game.Fertilizers.Model;
+using Game.Plants.Model;
 using UnityEngine;
 
 namespace Game.GameMap.Soil.Model
@@ -14,10 +15,11 @@ namespace Game.GameMap.Soil.Model
         public float Humus { get; set; }
         public float Mass { get; set; }
         public float WaterAmount { get; set; }
+        public SoilState State { get; set; }
         public SoilElementsModel Elements { get; set; }
-        public List<DiseaseModel> Diseases { get; set; } = new();
         public List<SavedDiseaseModel> SavedDiseases { get; set; } = new();
         public List<SoilFertilizationModel> UsedFertilizers { get; set; } = new();
+        public Dictionary<int, PlantFamilyType> CropRotations { get; set; } = new();
 
         public SoilModel(SoilType type,
                          float ph,
@@ -36,6 +38,7 @@ namespace Game.GameMap.Soil.Model
             Mass = mass;
             WaterAmount = waterAmount;
             Elements = elements;
+            State = SoilState.None;
         }
 
         public void ApplyFertilizer(FertilizerSoilModel model)

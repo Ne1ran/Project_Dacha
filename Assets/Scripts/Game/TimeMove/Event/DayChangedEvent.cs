@@ -6,10 +6,12 @@
         public const string DAY_STARTED = "DayStarted";
         
         public int CurrentDay { get; set; }
+        public int DayDifference { get; set; }
 
-        public DayChangedEvent(int currentDay)
+        public DayChangedEvent(int currentDay, int dayDifference)
         {
             CurrentDay = currentDay;
+            DayDifference = dayDifference;
         }
     }
 }

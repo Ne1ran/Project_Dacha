@@ -1,16 +1,20 @@
-﻿namespace Game.Diseases.Model
+﻿using Game.Plants.Model;
+
+namespace Game.Diseases.Model
 {
     public class SavedDiseaseModel
     {
         public string Id { get; }
-        public int CropRotationNumber { get; set; }
-        public int DaysPassed { get; set; }
+        public PlantFamilyType PlantFamilyType { get; }
+        public int CropRotationNeeded { get; set; }
+        public int RemoveDaysNeeded { get; set; }
 
-        public SavedDiseaseModel(string id, int cropRotationNumber, int daysPassed)
+        public SavedDiseaseModel(string id, PlantFamilyType plantFamilyType, int cropRotationNeeded, int removeDaysNeeded)
         {
             Id = id;
-            CropRotationNumber = cropRotationNumber;
-            DaysPassed = daysPassed;
+            PlantFamilyType = plantFamilyType;
+            CropRotationNeeded = cropRotationNeeded;
+            RemoveDaysNeeded = removeDaysNeeded;
         }
     }
 }
