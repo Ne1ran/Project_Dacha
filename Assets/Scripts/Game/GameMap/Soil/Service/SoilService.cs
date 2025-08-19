@@ -1,31 +1,58 @@
 ﻿using System;
+using System.Collections.Generic;
 using Core.Attributes;
 using Core.Descriptors.Service;
 using Game.Fertilizers.Descriptor;
 using Game.Fertilizers.Model;
+using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Soil.Descriptor;
 using Game.GameMap.Soil.Model;
+using Game.GameMap.Soil.Repository;
 using Game.GameMap.Tiles.Event;
+using Game.TimeMove.Event;
 using Game.Utils;
 using MessagePipe;
 
 namespace Game.GameMap.Soil.Service
 {
     [Service]
-    public class SoilService
+    public class SoilService : IDisposable
     {
+        private readonly SoilRepo _soilRepo;
         private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, SoilUpdatedEvent> _soilUpdatedPublisher;
+        private IDisposable? _disposable;
 
-        public SoilService(IDescriptorService descriptorService, IPublisher<string, SoilUpdatedEvent> soilUpdatedPublisher)
+        public SoilService(IDescriptorService descriptorService,
+                           IPublisher<string, SoilUpdatedEvent> soilUpdatedPublisher,
+                           ISubscriber<string, DayChangedEvent> dayFinishedSubscriber,
+                           SoilRepo soilRepo)
         {
             _descriptorService = descriptorService;
             _soilUpdatedPublisher = soilUpdatedPublisher;
+            _soilRepo = soilRepo;
+
+            DisposableBagBuilder bagBuilder = DisposableBag.CreateBuilder();
+            bagBuilder.Add(dayFinishedSubscriber.Subscribe(DayChangedEvent.DAY_FINISHED, OnDayFinished));
+            bagBuilder.Add(dayFinishedSubscriber.Subscribe(DayChangedEvent.DAY_STARTED, OnDayStarted));
+            _disposable = bagBuilder.Build();
         }
 
-        public SoilModel CreateSoil(SoilType soilType)
+        public void InitializeFromSave()
         {
-            SoilDescriptorModel soilDesc = RequireModelByType(soilType);
+            // todo neiran implement with save system
+        }
+
+        public void Dispose()
+        {
+            _disposable?.Dispose();
+            _disposable = null;
+        }
+
+        public SoilModel CreateSoil()
+        {
+            SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().SoilType;
+            SoilDescriptorModel soilDesc = RequireModelByType(mapSoilType);
             SoilElementsDescriptorModel elementsDescriptor = soilDesc.ElementsDescriptorModel;
             SoilElementsModel soilElementsModel = new(elementsDescriptor.StartNitrogen,
                                                       elementsDescriptor.StartPotassium, elementsDescriptor.StartPhosphorus);
@@ -80,6 +107,40 @@ namespace Game.GameMap.Soil.Service
             float phosphorus = elementsDescriptor.PhosphorusPercent * decomposedMass;
 
             return new(decomposedMass, phChange, breathabilityValue, humusValue, nitrogen, potassium, phosphorus);
+        }
+
+        private void OnDayFinished(DayChangedEvent evt)
+        {
+            Dictionary<string, SoilModel> soilModels = _soilRepo.GetAll();
+
+            foreach (SoilModel soilModel in soilModels.Values) {
+                foreach (SoilFertilizationModel usedFertilizer in soilModel.UsedFertilizers) {
+                    usedFertilizer.CurrentDecomposeDay += 1;
+                }
+            }
+
+            _soilRepo.SaveAll(soilModels);
+        }
+
+        private void OnDayStarted(DayChangedEvent evt)
+        {
+            ActivateFertilizers();
+        }
+
+        private void ActivateFertilizers()
+        {
+            Dictionary<string, SoilModel> soilModels = _soilRepo.GetAll();
+            foreach (SoilModel soilModel in soilModels.Values) {
+                ActivateUsedFertilizers(soilModel);
+            }
+
+            _soilRepo.SaveAll(soilModels);
+        }
+
+        public void AddFertilizer(string tileId, string fertilizerId, float portionMassGramms)
+        {
+            SoilModel soilModel = GerOrCreate(tileId);
+            AddFertilizer(soilModel, fertilizerId, portionMassGramms / 1000f);
         }
 
         public SoilModel AddFertilizer(SoilModel soilModel, string fertilizerId, float mass)
@@ -143,6 +204,17 @@ namespace Game.GameMap.Soil.Service
         private SoilDescriptorModel RequireModelByType(SoilType soilType)
         {
             return _descriptorService.Require<SoilDescriptor>().RequireByType(soilType);
+        }
+
+        private SoilModel GerOrCreate(string key)
+        {
+            if (_soilRepo.Exists(key)) {
+                return _soilRepo.Require(key);
+            }
+
+            SoilModel soilModel = CreateSoil();
+            _soilRepo.Save(key, soilModel);
+            return soilModel;
         }
     }
 }

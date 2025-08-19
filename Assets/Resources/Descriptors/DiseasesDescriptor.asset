@@ -16,6 +16,7 @@ MonoBehaviour:
   - <Id>k__BackingField: Mildew
     <Name>k__BackingField: Mildew
     <DiseaseType>k__BackingField: 1
+    <AffectedPlants>k__BackingField: 0d00000002000000050000000600000008000000010000000b000000
     <InfectionModel>k__BackingField:
       <StartingChance>k__BackingField: 0.001
       <DisposeDaysNeeded>k__BackingField: 250
@@ -52,6 +53,7 @@ MonoBehaviour:
   - <Id>k__BackingField: DownyMildew
     <Name>k__BackingField: Downy Mildew
     <DiseaseType>k__BackingField: 1
+    <AffectedPlants>k__BackingField: 010000000d000000020000000c000000030000000f0000000500000004000000
     <InfectionModel>k__BackingField:
       <StartingChance>k__BackingField: 0.002
       <DisposeDaysNeeded>k__BackingField: 400

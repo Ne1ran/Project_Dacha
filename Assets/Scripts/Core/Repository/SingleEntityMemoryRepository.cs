@@ -9,6 +9,11 @@
             return _entity;
         }
 
+        public bool Exists()
+        {
+            return _entity != null;
+        }
+
         public TEntity Require()
         {
             return _entity!;
