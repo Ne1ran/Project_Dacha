@@ -18,7 +18,7 @@ namespace Game.Interactable.Descriptor
         [field: SerializeField]
         public string Description { get; set; } = string.Empty;
         [field: SerializeField]
-        public string IconPath { get; set; } = string.Empty;
+        public Sprite? BaseIcon { get; set; }
         [field: SerializeField]
         [TableList]
         public List<ConditionDescriptor> Conditions { get; set; } = new();

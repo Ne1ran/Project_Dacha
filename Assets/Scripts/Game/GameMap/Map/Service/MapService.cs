@@ -3,7 +3,6 @@ using Core.Attributes;
 using Core.Descriptors.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Map.Descriptor;
-using Game.GameMap.Tiles.Component;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;
 using UnityEngine;

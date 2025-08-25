@@ -19,25 +19,25 @@ MonoBehaviour:
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Inspect
       <Description>k__BackingField: Inspect soil
-      <IconPath>k__BackingField: UI/Sprites/axe_icon
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: PlowSoil
-      <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Plow
-      <Description>k__BackingField: Plow soil
-      <IconPath>k__BackingField: UI/Sprites/hoe_icon
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: 6e25e74d93f2a85458c20d2e7958b0a7, type: 3}
       <Conditions>k__BackingField: []
     - <InteractionHandlerName>k__BackingField: FertilizeSoil
       <PrepareHandlerName>k__BackingField: Fertilize
       <Title>k__BackingField: Fertilize
       <Description>k__BackingField: Improve soil with {substitute}
-      <IconPath>k__BackingField: UI/Sprites/fork_icon
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: 8542587de6e9f3f4a98ba85992c9f647, type: 3}
       <Conditions>k__BackingField: []
     - <InteractionHandlerName>k__BackingField: UseSoilTool
       <PrepareHandlerName>k__BackingField: PrepareSoilTool
       <Title>k__BackingField: Use tool on soil
       <Description>k__BackingField: Use {substitute}
-      <IconPath>k__BackingField: UI/Sprites/fork_icon
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: dd00ce776805e53489ea19ae7919e89d, type: 3}
+      <Conditions>k__BackingField: []
+    - <InteractionHandlerName>k__BackingField: SowSeed
+      <PrepareHandlerName>k__BackingField: PrepareSowSeed
+      <Title>k__BackingField: Sow seed
+      <Description>k__BackingField: Sow {substitute} into the soil
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: ec02013256c3e0c40b06d46162f1108a, type: 3}
       <Conditions>k__BackingField: []
   - <InteractableType>k__BackingField: 0
     <Settings>k__BackingField: []
@@ -47,13 +47,13 @@ MonoBehaviour:
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Open
       <Description>k__BackingField: Open door
-      <IconPath>k__BackingField: 
+      <BaseIcon>k__BackingField: {fileID: 0}
       <Conditions>k__BackingField: []
     - <InteractionHandlerName>k__BackingField: 
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Close
       <Description>k__BackingField: Close door
-      <IconPath>k__BackingField: 
+      <BaseIcon>k__BackingField: {fileID: 0}
       <Conditions>k__BackingField: []
   - <InteractableType>k__BackingField: 3
     <Settings>k__BackingField:
@@ -61,29 +61,29 @@ MonoBehaviour:
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Inspect
       <Description>k__BackingField: Inspect plant
-      <IconPath>k__BackingField: 
+      <BaseIcon>k__BackingField: {fileID: 0}
       <Conditions>k__BackingField: []
     - <InteractionHandlerName>k__BackingField: 
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Water
       <Description>k__BackingField: Water plant
-      <IconPath>k__BackingField: 
+      <BaseIcon>k__BackingField: {fileID: 0}
       <Conditions>k__BackingField: []
     - <InteractionHandlerName>k__BackingField: 
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Remove
       <Description>k__BackingField: Remove plant
-      <IconPath>k__BackingField: 
+      <BaseIcon>k__BackingField: {fileID: 0}
       <Conditions>k__BackingField: []
     - <InteractionHandlerName>k__BackingField: 
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Fertilize
       <Description>k__BackingField: Fertilize Plant
-      <IconPath>k__BackingField: 
+      <BaseIcon>k__BackingField: {fileID: 0}
       <Conditions>k__BackingField: []
     - <InteractionHandlerName>k__BackingField: 
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Spray
       <Description>k__BackingField: Spray Plant
-      <IconPath>k__BackingField: 
+      <BaseIcon>k__BackingField: {fileID: 0}
       <Conditions>k__BackingField: []

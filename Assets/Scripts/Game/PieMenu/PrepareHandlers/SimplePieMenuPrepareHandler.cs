@@ -4,7 +4,6 @@ using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
 using Game.Interactable.Descriptor;
 using Game.PieMenu.Model;
-using UnityEngine;
 
 namespace Game.PieMenu.PrepareHandlers
 {
@@ -13,10 +12,8 @@ namespace Game.PieMenu.PrepareHandlers
     {
         public UniTask<PieMenuItemModel> Prepare(InteractionPieMenuSettings pieMenuSettings, CancellationToken token)
         {
-            Sprite? sprite = Resources.Load<Sprite>(pieMenuSettings.IconPath); // todo neiran remove when go to addressables!!!
-
             List<PieMenuItemSelectionModel> models = new() {
-                    new(string.Empty, sprite, string.Empty)
+                    new(string.Empty, pieMenuSettings.BaseIcon, string.Empty)
             };
 
             PieMenuItemModel itemModel = new(pieMenuSettings.InteractionHandlerName, pieMenuSettings.Title, pieMenuSettings.Description, models);

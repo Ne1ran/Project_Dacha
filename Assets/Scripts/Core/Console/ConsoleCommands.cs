@@ -7,6 +7,8 @@ using Game.Inventory.Model;
 using Game.Items.Descriptors;
 using Game.Items.Service;
 using Game.Player.Service;
+using Game.Seeds.Descriptors;
+using Game.Seeds.Service;
 using Game.TimeMove.Service;
 using Game.Tools.Descriptors;
 using Game.Tools.Service;
@@ -45,6 +47,20 @@ namespace Core.Console
             ToolsDescriptor toolsDescriptor = descriptorService.Require<ToolsDescriptor>();
             foreach (ToolsDescriptorModel descriptor in toolsDescriptor.ToolsDescriptors) {
                 toolsService.CreateTool(descriptor.ToolId, spawnPosition).Forget();
+            }
+        }
+
+        [ConsoleMethod("createAllSeeds", "Create all seeds by coords relative to the player position")]
+        public static void CreateAllSeeds(float x, float y, float z)
+        {
+            SeedsService seedsService = Container.Resolve<SeedsService>();
+            PlayerService playerService = Container.Resolve<PlayerService>();
+            IDescriptorService descriptorService = Container.Resolve<IDescriptorService>();
+
+            Vector3 spawnPosition = playerService.Player.transform.position + new Vector3(x, y, z);
+            SeedsDescriptor seedsDescriptor = descriptorService.Require<SeedsDescriptor>();
+            foreach (SeedsDescriptorModel descriptor in seedsDescriptor.Items) {
+                seedsService.CreateSeedBag(descriptor.SeedId, spawnPosition).Forget();
             }
         }
         

@@ -29,35 +29,11 @@ MonoBehaviour:
     <Alignment>k__BackingField: 0
     <ShowTimeSeconds>k__BackingField: 2
     <Priority>k__BackingField: 100
-  - <Id>k__BackingField: Test1
-    <Type>k__BackingField: 2
-    <Title>k__BackingField: Test1
-    <Message>k__BackingField: Test1_Message
-    <Icon>k__BackingField: {fileID: 21300000, guid: 5889f3968634a8542a9d9b69ab53de31, type: 3}
-    <Alignment>k__BackingField: 1
-    <ShowTimeSeconds>k__BackingField: 2
-    <Priority>k__BackingField: 100
-  - <Id>k__BackingField: Test2
-    <Type>k__BackingField: 3
-    <Title>k__BackingField: Test2
-    <Message>k__BackingField: Test2_Message
-    <Icon>k__BackingField: {fileID: 21300000, guid: a67d80a1e6dd824409cb30f62dc28448, type: 3}
-    <Alignment>k__BackingField: 2
-    <ShowTimeSeconds>k__BackingField: 2
-    <Priority>k__BackingField: 100
-  - <Id>k__BackingField: Test3
-    <Type>k__BackingField: 4
-    <Title>k__BackingField: Test3
-    <Message>k__BackingField: Test3_Message
-    <Icon>k__BackingField: {fileID: 21300000, guid: ec02013256c3e0c40b06d46162f1108a, type: 3}
-    <Alignment>k__BackingField: 3
-    <ShowTimeSeconds>k__BackingField: 2
-    <Priority>k__BackingField: 100
-  - <Id>k__BackingField: Test4
+  - <Id>k__BackingField: SEEDS_NOT_FOUND
     <Type>k__BackingField: 5
-    <Title>k__BackingField: Test4
-    <Message>k__BackingField: Test4_Message
-    <Icon>k__BackingField: {fileID: 21300000, guid: 964431ef0f1cd0d44bedb70a01641458, type: 3}
+    <Title>k__BackingField: Seeds not found
+    <Message>k__BackingField: There are no Seeds in your inventory
+    <Icon>k__BackingField: {fileID: 21300000, guid: 8542587de6e9f3f4a98ba85992c9f647, type: 3}
     <Alignment>k__BackingField: 0
     <ShowTimeSeconds>k__BackingField: 2
     <Priority>k__BackingField: 100

@@ -10,7 +10,6 @@ using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Items.Descriptors;
 using Game.PieMenu.Model;
-using UnityEngine;
 using VContainer;
 
 namespace Game.PieMenu.PrepareHandlers
@@ -29,8 +28,7 @@ namespace Game.PieMenu.PrepareHandlers
         {
             List<PieMenuItemSelectionModel> selectionModels = UpdateSelectionModels();
             if (selectionModels.Count == 0) {
-                Sprite? sprite = Resources.Load<Sprite>(pieMenuSettings.IconPath); // todo neiran remove when go to addressables!!!
-                selectionModels.Add(new(string.Empty, sprite, "any fertilizer"));
+                selectionModels.Add(new(string.Empty, pieMenuSettings.BaseIcon, "any fertilizer"));
             }
 
             PieMenuItemModel itemModel = new(pieMenuSettings.InteractionHandlerName, pieMenuSettings.Title, pieMenuSettings.Description, selectionModels);
