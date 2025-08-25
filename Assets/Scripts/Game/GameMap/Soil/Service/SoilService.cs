@@ -14,6 +14,7 @@ using Game.Plants.Model;
 using Game.TimeMove.Event;
 using Game.Utils;
 using MessagePipe;
+using UnityEngine;
 
 namespace Game.GameMap.Soil.Service
 {
@@ -70,7 +71,12 @@ namespace Game.GameMap.Soil.Service
 
         public void TiltSoil(string tileId)
         {
-            GerOrCreate(tileId).State = SoilState.Tilted;
+            SoilModel soilModel = GerOrCreate(tileId);
+            if (soilModel.State == SoilState.Planted) {
+                Debug.LogWarning("Can't tilt soil when something is planted on it!"); // todo neiran notification??
+            }
+            
+            soilModel.State = SoilState.Tilted;
         }
 
         public SoilModel ActivateUsedFertilizers(SoilModel soilModel)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Core.Attributes;
 using Core.Descriptors.Service;
+using Core.Parameters;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Inventory.Service;
@@ -55,7 +56,7 @@ namespace Game.Tools.Service
             return toolController;
         }
 
-        public async UniTask UseToolAsync(string toolId)
+        public async UniTask UseToolAsync(string toolId, Parameters parameters)
         {
             ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
             List<ToolsDescriptorModel> tools = toolsDescriptor.ToolsDescriptors;
@@ -64,7 +65,7 @@ namespace Game.Tools.Service
                 throw new ArgumentException($"Tool not found with id={toolId}");
             }
             
-            await _toolUseHandlerFactory.Create(toolsDescriptorModel.UseHandler).UseAsync();
+            await _toolUseHandlerFactory.Create(toolsDescriptorModel.UseHandler).UseAsync(parameters);
         }
     }
 }

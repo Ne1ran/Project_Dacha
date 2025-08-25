@@ -18,7 +18,7 @@ namespace Game.Interactable.Service
 
         public async UniTask InteractAsync(PieMenuItemModel itemModel, Parameters parameters)
         {
-            IInteractionHandler interactionHandler = _factory.Create(itemModel.InteractionName);
+            IInteractionHandler interactionHandler = _factory.Create(itemModel.InteractionHandlerName);
             await interactionHandler.InteractAsync(itemModel, parameters);
         }
     }

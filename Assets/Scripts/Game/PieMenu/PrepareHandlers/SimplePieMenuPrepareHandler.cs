@@ -19,7 +19,7 @@ namespace Game.PieMenu.PrepareHandlers
                     new(string.Empty, sprite, string.Empty)
             };
 
-            PieMenuItemModel itemModel = new(pieMenuSettings.InteractionName, pieMenuSettings.Title, pieMenuSettings.Description, models);
+            PieMenuItemModel itemModel = new(pieMenuSettings.InteractionHandlerName, pieMenuSettings.Title, pieMenuSettings.Description, models);
             return UniTask.FromResult(itemModel);
         }
     }

@@ -1,17 +1,21 @@
 ﻿using Core.Parameters;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
-using UnityEngine;
+using Game.GameMap.Soil.Service;
+using VContainer;
 
 namespace Game.Tools.Handlers
 {
-    [Handler("Shovel")]
-    public class UseShovelHandler : IUseToolHandler
+    [Handler("Hoe")]
+    public class UseHoeHandler : IUseToolHandler
     {
+        [Inject]
+        private readonly SoilService _soilService = null!;
+        
         public UniTask UseAsync(Parameters parameters)
         {
             string tileId = parameters.Require<string>(ParameterNames.TileId);
-            Debug.LogWarning($"Using Shovel on tile={tileId}");
+            _soilService.TiltSoil(tileId);
             return UniTask.CompletedTask;
         }
     }

@@ -103,7 +103,7 @@ namespace Game.PieMenu.Service
 
         private UniTask<PieMenuItemModel> CreateItemModelAsync(InteractionPieMenuSettings pieMenuSettings, CancellationToken token)
         {
-            IPieMenuPrepareHandler pieMenuPrepareHandler = _pieMenuPrepareFactory.Create(pieMenuSettings.HandlerName);
+            IPieMenuPrepareHandler pieMenuPrepareHandler = _pieMenuPrepareFactory.Create(pieMenuSettings.PrepareHandlerName);
             return pieMenuPrepareHandler.Prepare(pieMenuSettings, token);
         }
     }
