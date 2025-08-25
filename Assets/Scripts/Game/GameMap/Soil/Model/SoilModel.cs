@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Game.Diseases.Model;
 using Game.Fertilizers.Model;
+using Game.Plants.Descriptors;
 using Game.Plants.Model;
 using UnityEngine;
 

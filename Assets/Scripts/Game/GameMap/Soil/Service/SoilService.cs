@@ -14,6 +14,7 @@ using Game.Plants.Model;
 using Game.TimeMove.Event;
 using Game.Utils;
 using MessagePipe;
+using UnityEngine;
 
 namespace Game.GameMap.Soil.Service
 {
@@ -68,9 +69,59 @@ namespace Game.GameMap.Soil.Service
             GerOrCreate(tileId).SavedDiseases.Add(diseaseModel);
         }
 
-        public void ShovelSoil(string tileId)
+        public bool TryShovelSoil(string tileId)
         {
-            
+            SoilModel soilModel = GerOrCreate(tileId);
+            if (soilModel.State == SoilState.Planted) {
+                Debug.LogWarning("Can't shovel soil when something is planted on it!"); // todo neiran notification??
+                return false;
+            }
+
+            if (soilModel.DugRecently) {
+                Debug.LogWarning("Can't shovel twice on same day! (Don't need to)"); // todo neiran notification??
+                return false;
+            }
+
+            SoilDescriptor soilDescriptor = _descriptorService.Require<SoilDescriptor>();
+            SoilDescriptorModel soilDescriptorModel = soilDescriptor.RequireByType(soilModel.Type);
+
+            float minWaterAmount = soilDescriptorModel.StartWaterAmount / 2f;
+            float minBreathability = soilDescriptorModel.Breathability;
+            soilModel.WaterAmount = Mathf.Max(minWaterAmount, soilModel.WaterAmount * 0.75f);
+            soilModel.Breathability = Mathf.Min(minBreathability, soilModel.Breathability * 1.25f);
+            soilModel.State = SoilState.None;
+            soilModel.DugRecently = true;
+            return true;
+        }
+
+        public bool TryTiltSoil(string tileId)
+        {
+            SoilModel soilModel = GerOrCreate(tileId);
+            if (soilModel.State == SoilState.Planted) {
+                Debug.LogWarning("Can't tilt soil when something is planted on it!"); // todo neiran notification??
+                return false;
+            }
+
+            soilModel.State = SoilState.Tilted;
+            return true;
+        }
+
+        public bool TrySowSeed(string tileId)
+        {
+            SoilModel soilModel = GerOrCreate(tileId);
+            switch (soilModel.State) {
+                case SoilState.Planted:
+                    Debug.LogWarning("Can't sow seed on a planted soil!");
+                    break;
+                case SoilState.None:
+                    Debug.LogWarning("Can't sow seed on a non-tilted soil!");
+                    break;
+                case SoilState.Tilted:
+                    soilModel.State = SoilState.Planted;
+                    return true;
+            }
+
+            return false;
         }
 
         public SoilModel ActivateUsedFertilizers(SoilModel soilModel)
@@ -202,6 +253,15 @@ namespace Game.GameMap.Soil.Service
             return NeedRecoverBaseParams(soil, soilDesc) ? RecoverBaseSoilParams(soil, soilDesc, daysPassed) : soil;
         }
 
+        public SoilModel RequireSoil(string key)
+        {
+            if (!_soilRepo.Exists(key)) {
+                throw new KeyNotFoundException($"Soil not found with key={key}");
+            }
+
+            return _soilRepo.Require(key);
+        }
+
         private void RecoverFromDiseases(SoilModel soil, int daysPassed)
         {
             for (int i = 0; i < soil.SavedDiseases.Count; i++) {
@@ -213,6 +273,7 @@ namespace Game.GameMap.Soil.Service
             }
         }
 
+        // todo check soil params change
         private SoilModel RecoverBaseSoilParams(SoilModel soil, SoilDescriptorModel soilDesc, int daysPassed)
         {
             float phDiff = soilDesc.Ph - soil.Ph;
@@ -255,7 +316,7 @@ namespace Game.GameMap.Soil.Service
             return _descriptorService.Require<SoilDescriptor>().RequireByType(soilType);
         }
 
-        public SoilModel GerOrCreate(string key)
+        private SoilModel GerOrCreate(string key)
         {
             if (_soilRepo.Exists(key)) {
                 return _soilRepo.Require(key);
