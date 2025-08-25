@@ -19,5 +19,9 @@ namespace Game.Seeds.Descriptors
         public string UseHandler { get; set; } = null!;
         [field: SerializeField]
         public bool CanBeInfected { get; set; }
+        [field: SerializeField, Tooltip("Start health of a plant if used seed")]
+        public float StartHealth { get; set; } = 10f;
+        [field: SerializeField, Tooltip("Start immunity of a plant if used seed")]
+        public float StartImmunity { get; set; } = 10f;
     }
 }

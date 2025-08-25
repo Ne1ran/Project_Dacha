@@ -1,7 +1,16 @@
-﻿namespace Game.Plants.Descriptors
+﻿using System.Collections.Generic;
+using Core.Attributes;
+using Sirenix.OdinInspector;
+using UnityEngine;
+
+namespace Game.Plants.Descriptors
 {
-    public class PlantsDescriptor
+    [CreateAssetMenu(fileName = "PlantsDescriptor", menuName = "Dacha/Descriptors/PlantsDescriptor")]
+    [Descriptor("Descriptors/" + nameof(PlantsDescriptor))]
+    public class PlantsDescriptor : ScriptableObject
     {
-        
+        [field: SerializeField]
+        [TableList]
+        public List<PlantsDescriptorModel> Items { get; private set; } = new();
     }
 }

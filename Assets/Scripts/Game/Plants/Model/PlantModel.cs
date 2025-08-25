@@ -2,6 +2,7 @@
 {
     public class PlantModel
     {
+        public string PlantId { get; } = null!;
         
     }
 }
