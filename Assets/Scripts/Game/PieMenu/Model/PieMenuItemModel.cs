@@ -1,34 +1,25 @@
 ﻿using System.Collections.Generic;
-using Game.PieMenu.ActionHandler;
-using UnityEngine;
 
 namespace Game.PieMenu.Model
 {
     public class PieMenuItemModel
     {
-        public string InteractionName { get; }
+        public string InteractionHandlerName { get; }
         public string Title { get; }
         public string BaseDescription { get; }
-        public Sprite? Icon { get; }
         public List<PieMenuItemSelectionModel> SelectionModels { get; set; }
 
         public int CurrentSelectionIndex { get; set; } = -1;
-        public IPieMenuActionHandler? BaseActionHandler { get; set; }
 
-
-        public PieMenuItemModel(string interactionName,
+        public PieMenuItemModel(string interactionHandlerName,
                                 string title,
                                 string baseDescription,
-                                Sprite? icon,
-                                List<PieMenuItemSelectionModel> selectionModels,
-                                IPieMenuActionHandler? baseActionHandler = null)
+                                List<PieMenuItemSelectionModel> selectionModels)
         {
-            InteractionName = interactionName;
+            InteractionHandlerName = interactionHandlerName;
             Title = title;
             BaseDescription = baseDescription;
-            Icon = icon;
             SelectionModels = selectionModels;
-            BaseActionHandler = baseActionHandler;
         }
     }
 }

@@ -15,91 +15,75 @@ MonoBehaviour:
   <ItemDescriptors>k__BackingField:
   - <InteractableType>k__BackingField: 2
     <Settings>k__BackingField:
-    - <InteractionName>k__BackingField: InspectSoil
-      <HandlerName>k__BackingField: Simple
+    - <InteractionHandlerName>k__BackingField: Inspect
+      <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Inspect
       <Description>k__BackingField: Inspect soil
       <IconPath>k__BackingField: UI/Sprites/axe_icon
-      <NonConditionActionHandler>k__BackingField: 
       <Conditions>k__BackingField: []
-    - <InteractionName>k__BackingField: PlowSoil
-      <HandlerName>k__BackingField: Simple
+    - <InteractionHandlerName>k__BackingField: PlowSoil
+      <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Plow
       <Description>k__BackingField: Plow soil
       <IconPath>k__BackingField: UI/Sprites/hoe_icon
-      <NonConditionActionHandler>k__BackingField: 
       <Conditions>k__BackingField: []
-    - <InteractionName>k__BackingField: FertilizeSoil
-      <HandlerName>k__BackingField: Fertilize
+    - <InteractionHandlerName>k__BackingField: FertilizeSoil
+      <PrepareHandlerName>k__BackingField: Fertilize
       <Title>k__BackingField: Fertilize
-      <Description>k__BackingField: Fertilize soil with {substitute}
+      <Description>k__BackingField: Improve soil with {substitute}
       <IconPath>k__BackingField: UI/Sprites/fork_icon
-      <NonConditionActionHandler>k__BackingField: FertilizerNotFound
-      <Conditions>k__BackingField:
-      - <Id>k__BackingField: hasInventoryItemCondition
-        <Inverted>k__BackingField: 0
-        <Params>k__BackingField:
-        - <Key>k__BackingField: ItemType
-          <Value>k__BackingField: Fertilizer
-    - <InteractionName>k__BackingField: WaterSoil
-      <HandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Water
-      <Description>k__BackingField: Water soil
-      <IconPath>k__BackingField: UI/Sprites/wateringCan_icon
-      <NonConditionActionHandler>k__BackingField: 
+      <Conditions>k__BackingField: []
+    - <InteractionHandlerName>k__BackingField: UseSoilTool
+      <PrepareHandlerName>k__BackingField: PrepareSoilTool
+      <Title>k__BackingField: Use tool on soil
+      <Description>k__BackingField: Use {substitute}
+      <IconPath>k__BackingField: UI/Sprites/fork_icon
       <Conditions>k__BackingField: []
   - <InteractableType>k__BackingField: 0
     <Settings>k__BackingField: []
   - <InteractableType>k__BackingField: 1
     <Settings>k__BackingField:
-    - <InteractionName>k__BackingField: OpenDoor
-      <HandlerName>k__BackingField: Simple
+    - <InteractionHandlerName>k__BackingField: 
+      <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Open
       <Description>k__BackingField: Open door
       <IconPath>k__BackingField: 
-      <NonConditionActionHandler>k__BackingField: 
       <Conditions>k__BackingField: []
-    - <InteractionName>k__BackingField: CloseDoor
-      <HandlerName>k__BackingField: Simple
+    - <InteractionHandlerName>k__BackingField: 
+      <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Close
       <Description>k__BackingField: Close door
       <IconPath>k__BackingField: 
-      <NonConditionActionHandler>k__BackingField: 
       <Conditions>k__BackingField: []
   - <InteractableType>k__BackingField: 3
     <Settings>k__BackingField:
-    - <InteractionName>k__BackingField: InspectPlant
-      <HandlerName>k__BackingField: Simple
+    - <InteractionHandlerName>k__BackingField: 
+      <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Inspect
       <Description>k__BackingField: Inspect plant
       <IconPath>k__BackingField: 
-      <NonConditionActionHandler>k__BackingField: 
       <Conditions>k__BackingField: []
-    - <InteractionName>k__BackingField: WaterPlant
-      <HandlerName>k__BackingField: Simple
+    - <InteractionHandlerName>k__BackingField: 
+      <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Water
       <Description>k__BackingField: Water plant
       <IconPath>k__BackingField: 
-      <NonConditionActionHandler>k__BackingField: 
       <Conditions>k__BackingField: []
-    - <InteractionName>k__BackingField: RemovePlant
-      <HandlerName>k__BackingField: Simple
+    - <InteractionHandlerName>k__BackingField: 
+      <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Remove
       <Description>k__BackingField: Remove plant
       <IconPath>k__BackingField: 
-      <NonConditionActionHandler>k__BackingField: 
       <Conditions>k__BackingField: []
-    - <InteractionName>k__BackingField: FertilizePlant
-      <HandlerName>k__BackingField: Simple
+    - <InteractionHandlerName>k__BackingField: 
+      <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Fertilize
       <Description>k__BackingField: Fertilize Plant
       <IconPath>k__BackingField: 
-      <NonConditionActionHandler>k__BackingField: 
       <Conditions>k__BackingField: []
-    - <InteractionName>k__BackingField: SprayPlant
-      <HandlerName>k__BackingField: Simple
+    - <InteractionHandlerName>k__BackingField: 
+      <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Spray
       <Description>k__BackingField: Spray Plant
       <IconPath>k__BackingField: 
-      <NonConditionActionHandler>k__BackingField: 
       <Conditions>k__BackingField: []

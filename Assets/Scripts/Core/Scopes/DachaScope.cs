@@ -54,12 +54,12 @@ namespace Core.Scopes
             builder.Register<MapService>(Lifetime.Singleton);
             builder.Register<PieMenuService>(Lifetime.Singleton);
             builder.Register<FertilizerService>(Lifetime.Singleton);
-            builder.Register<InteractionService>(Lifetime.Singleton);
+            builder.Register<PieMenuInteractionService>(Lifetime.Singleton);
             builder.Register<ConditionFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();;
             builder.Register<ConditionService>(Lifetime.Singleton);
+            builder.Register<ToolUseHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<PieMenuPrepareFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<InteractionHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-            builder.Register<PieMenuActionFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             

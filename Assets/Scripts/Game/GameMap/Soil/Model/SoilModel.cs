@@ -20,6 +20,7 @@ namespace Game.GameMap.Soil.Model
         public List<SavedDiseaseModel> SavedDiseases { get; set; } = new();
         public List<SoilFertilizationModel> UsedFertilizers { get; set; } = new();
         public Dictionary<int, PlantFamilyType> CropRotations { get; set; } = new();
+        public bool DugRecently { get; set; } = false;
 
         public SoilModel(SoilType type,
                          float ph,

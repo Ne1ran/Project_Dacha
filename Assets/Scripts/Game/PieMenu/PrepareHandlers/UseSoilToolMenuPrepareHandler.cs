@@ -4,19 +4,20 @@ using Core.Conditions.Service;
 using Core.Descriptors.Service;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
-using Game.Fertilizers.Descriptor;
 using Game.Interactable.Descriptor;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Items.Descriptors;
 using Game.PieMenu.Model;
+using Game.Tools.Descriptors;
+using Game.Tools.Model;
 using UnityEngine;
 using VContainer;
 
 namespace Game.PieMenu.PrepareHandlers
 {
-    [Handler("Fertilize")]
-    public class FertilizePieMenuPrepareHandler : IPieMenuPrepareHandler
+    [Handler("PrepareSoilTool")]
+    public class UseSoilToolMenuPrepareHandler : IPieMenuPrepareHandler
     {
         [Inject]
         private readonly InventoryService _inventoryService = null!;
@@ -30,7 +31,7 @@ namespace Game.PieMenu.PrepareHandlers
             List<PieMenuItemSelectionModel> selectionModels = UpdateSelectionModels();
             if (selectionModels.Count == 0) {
                 Sprite? sprite = Resources.Load<Sprite>(pieMenuSettings.IconPath); // todo neiran remove when go to addressables!!!
-                selectionModels.Add(new(string.Empty, sprite, "any fertilizer"));
+                selectionModels.Add(new(string.Empty, sprite, "any tool"));
             }
 
             PieMenuItemModel itemModel = new(pieMenuSettings.InteractionHandlerName, pieMenuSettings.Title, pieMenuSettings.Description, selectionModels);
@@ -41,23 +42,25 @@ namespace Game.PieMenu.PrepareHandlers
         {
             List<PieMenuItemSelectionModel> result = new();
 
-            List<InventoryItem> fertilizers = _inventoryService.GetItemsByType(ItemType.FERTILIZER);
+            List<InventoryItem> tools = _inventoryService.GetItemsByType(ItemType.TOOL);
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            FertilizersDescriptor fertilizersDescriptor = _descriptorService.Require<FertilizersDescriptor>();
+            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
 
-            foreach (InventoryItem fertilizer in fertilizers) {
-                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.ItemDescriptors.Find(fert => fert.ItemId == fertilizer.Id);
+            foreach (InventoryItem tool in tools) {
+                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.ItemDescriptors.Find(toolItem => toolItem.ItemId == tool.Id);
                 if (itemDescriptorModel == null) {
                     continue;
                 }
 
-                FertilizerDescriptorModel? fertilizerDescriptorModel =
-                        fertilizersDescriptor.Fertilizers.Find(fert => fert.Id == itemDescriptorModel.ItemId);
-                if (fertilizerDescriptorModel == null) {
+                ToolsDescriptorModel? toolsDescriptorModel =
+                        toolsDescriptor.ToolsDescriptors.Find(toolItem => toolItem.ToolId == itemDescriptorModel.ItemId);
+                if (toolsDescriptorModel == null) {
                     continue;
                 }
 
-                result.Add(new(fertilizer.Id, itemDescriptorModel.Icon, fertilizerDescriptorModel.Name));
+                if (toolsDescriptorModel.ToolType == ToolType.SOIL) {
+                    result.Add(new(tool.Id, itemDescriptorModel.Icon, toolsDescriptorModel.ToolName));
+                }
             }
 
             return result;

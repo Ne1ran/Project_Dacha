@@ -45,7 +45,7 @@ namespace Game.PieMenu.UI
         [Inject]
         private readonly PlayerService _playerService = null!;
         [Inject]
-        private readonly InteractionService _interactionService = null!;
+        private readonly PieMenuInteractionService _pieMenuInteractionService = null!;
 
         public PieMenuViewModel ViewModel { get; private set; } = new();
         public PieMenuModel PieMenuModel { get; private set; } = new();
@@ -81,23 +81,13 @@ namespace Game.PieMenu.UI
 
         private void OnItemClicked(PieMenuItemModel itemModel)
         {
-            if (itemModel.BaseActionHandler == null) {
-                if (itemModel.SelectionModels.Count > 0) {
-                    PieMenuItemSelectionModel selectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
-                    _parameters.AddParam(ParameterNames.ItemId, selectionModel.ItemId);
-                    _parameters.AddParam(ParameterNames.PortionMass, 100f);
-                }
-
-                _interactionService.Interact(itemModel.InteractionName, _parameters);
-            } else {
-                itemModel.BaseActionHandler.ActionAsync().Forget();
-            }
-
-            RemovePieMenu().Forget();
+            InteractAsync(itemModel).Forget();
         }
 
-        private void ShowNotification()
+        private async UniTaskVoid InteractAsync(PieMenuItemModel itemModel)
         {
+            await _pieMenuInteractionService.InteractAsync(itemModel, _parameters);
+            RemovePieMenu().Forget();
         }
 
         public async UniTask AddItemsAsync(List<PieMenuItemModel> items)

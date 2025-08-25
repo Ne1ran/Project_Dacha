@@ -16,8 +16,6 @@ namespace Game.GameMap.Map.Service
         private readonly TileService _tileService;
         private readonly WorldTileService _worldTileService;
         private readonly IDescriptorService _descriptorService;
-        
-        public List<TileController> _mapTiles = new();
 
         public MapService(TileService tileService, WorldTileService worldTileService, IDescriptorService descriptorService)
         {
@@ -36,7 +34,7 @@ namespace Game.GameMap.Map.Service
                 tiles = _tileService.CreateTiles(mapTilesPositions);
             }
 
-            _mapTiles = await _worldTileService.CreateTilesInWorldAsync(tiles);
+            await _worldTileService.CreateTilesInWorldAsync(tiles);
         }
 
         private List<Vector3> CreateMapTilesPositions(Vector3 centerPosition, float step, int length, int width)

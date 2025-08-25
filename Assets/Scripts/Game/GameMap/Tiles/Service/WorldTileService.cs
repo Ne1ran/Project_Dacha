@@ -15,10 +15,13 @@ namespace Game.GameMap.Tiles.Service
         private readonly IResourceService _resourceService;
         private readonly GameWorldService _gameWorldService;
 
+        private List<TileController> _mapTiles = new();
+        
         public WorldTileService(IResourceService resourceService, GameWorldService gameWorldService)
         {
             _resourceService = resourceService;
             _gameWorldService = gameWorldService;
+            // todo neiran subscribe on tile/soil/everything changes to change soil visualization
         }
 
         public async UniTask<List<TileController>> CreateTilesInWorldAsync(List<SingleTileModel> tiles)
@@ -29,8 +32,8 @@ namespace Game.GameMap.Tiles.Service
                 tasks.Add(CreateTileAsync(singleTileModel));
             }
 
-            List<TileController> tileControllers = (await UniTask.WhenAll(tasks)).ToList();
-            return tileControllers;
+            _mapTiles = (await UniTask.WhenAll(tasks)).ToList();
+            return _mapTiles;
         }
 
         private async UniTask<TileController> CreateTileAsync(SingleTileModel tileModel)

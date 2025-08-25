@@ -1,11 +1,8 @@
-﻿using Core.Descriptors.Service;
-using Core.Parameters;
+﻿using Core.Parameters;
 using Core.Resources.Binding.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
-using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Model;
-using Game.GameMap.Tiles.Service;
 using Game.Interactable.Model;
 using Game.PieMenu.Service;
 using UnityEngine;
@@ -17,13 +14,7 @@ namespace Game.GameMap.Tiles.Component
     public class TileController : MonoBehaviour, IInteractableComponent
     {
         [Inject]
-        private readonly TileService _tileService = null!;
-        [Inject]
         private readonly PieMenuService _pieMenuService = null!;
-        [Inject]
-        private readonly SoilService _soilService = null!;
-        [Inject]
-        private readonly IDescriptorService _descriptorService = null!;
 
         private SingleTileModel _tileModel = null!;
         
