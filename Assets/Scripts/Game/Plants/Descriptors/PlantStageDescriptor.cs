@@ -14,6 +14,12 @@ namespace Game.Plants.Descriptors
         [field: SerializeField]
         public PlantConsumptionDescriptor PlantConsumption { get; set; } = null!;
         [field: SerializeField]
-        public PlantPreferredParameters PreferredParameters { get; set; } = null!;
+        public PlantSunlightParameters SunlightParameters { get; set; } = null!;
+        [field: SerializeField]
+        public PlantTemperatureParameters TemperatureParameters { get; set; } = null!;
+        [field: SerializeField, Tooltip("Air humidity parameters for plant")]
+        public PlantHumidityParameters AirHumidityParameters { get; set; } = null!;
+        [field: SerializeField, Tooltip("Soil humidity parameters for plant")]
+        public PlantHumidityParameters SoilHumidityParameters { get; set; } = null!;
     }
 }
