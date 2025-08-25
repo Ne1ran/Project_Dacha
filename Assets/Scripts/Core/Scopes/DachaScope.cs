@@ -6,6 +6,7 @@ using Game.Equipment.Repo;
 using Game.Equipment.Service;
 using Game.Fertilizers.Service;
 using Game.GameMap.Map.Service;
+using Game.GameMap.Soil.Repository;
 using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Repo;
 using Game.GameMap.Tiles.Service;
@@ -44,7 +45,8 @@ namespace Core.Scopes
             builder.Register<EquipmentService>(Lifetime.Singleton);
             builder.Register<TileRepo>(Lifetime.Singleton);
             builder.Register<TileService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-            builder.Register<SoilService>(Lifetime.Singleton);
+            builder.Register<SoilRepo>(Lifetime.Singleton);
+            builder.Register<SoilService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeRepo>(Lifetime.Singleton);
             builder.Register<PickUpItemService>(Lifetime.Singleton);
             builder.Register<WorldTileService>(Lifetime.Singleton);

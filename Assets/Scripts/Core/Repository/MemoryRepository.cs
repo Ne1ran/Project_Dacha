@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Core.Repository
 {
     public class MemoryRepository<TKey, TEntity> : IRepository<TKey, TEntity>
             where TKey : IEquatable<TKey>
     {
-        private readonly Dictionary<TKey, TEntity> _map = new();
+        private Dictionary<TKey, TEntity> _map = new();
 
         public TEntity? Get(TKey key)
         {
@@ -19,9 +18,9 @@ namespace Core.Repository
             return _map[key];
         }
 
-        public IReadOnlyList<TEntity> GetAll()
+        public Dictionary<TKey, TEntity> GetAll()
         {
-            return _map.Values.ToList();
+            return _map;
         }
 
         public bool Exists(TKey key)
@@ -37,6 +36,11 @@ namespace Core.Repository
         public void Save(TKey key, TEntity entity)
         {
             _map.Add(key, entity);
+        }
+
+        public void SaveAll(Dictionary<TKey, TEntity> values)
+        {
+            _map = values;
         }
 
         public void Clear()

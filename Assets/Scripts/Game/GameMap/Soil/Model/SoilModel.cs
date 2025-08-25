@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Game.Diseases.Model;
 using Game.Fertilizers.Model;
+using Game.Plants.Model;
 using UnityEngine;
 
 namespace Game.GameMap.Soil.Model
@@ -13,10 +15,11 @@ namespace Game.GameMap.Soil.Model
         public float Humus { get; set; }
         public float Mass { get; set; }
         public float WaterAmount { get; set; }
-
+        public SoilState State { get; set; }
         public SoilElementsModel Elements { get; set; }
-
+        public List<SavedDiseaseModel> SavedDiseases { get; set; } = new();
         public List<SoilFertilizationModel> UsedFertilizers { get; set; } = new();
+        public Dictionary<int, PlantFamilyType> CropRotations { get; set; } = new();
 
         public SoilModel(SoilType type,
                          float ph,
@@ -35,9 +38,10 @@ namespace Game.GameMap.Soil.Model
             Mass = mass;
             WaterAmount = waterAmount;
             Elements = elements;
+            State = SoilState.None;
         }
 
-        public void UseFertilizerSoilModel(FertilizerSoilModel model)
+        public void ApplyFertilizer(FertilizerSoilModel model)
         {
             Mass += model.Mass;
             Salinity += model.Mass / Mass;
@@ -47,8 +51,7 @@ namespace Game.GameMap.Soil.Model
             Elements.Nitrogen += model.NitrogenMass;
             Elements.Potassium += model.PotassiumMass;
             Elements.Phosphorus += model.PhosphorusMass;
-            
-            Debug.LogWarning($"Fertilizer used. New soil data = {Mass}, {Ph}, {Salinity}, {Breathability}, {Humus}, {Elements.Nitrogen}, {Elements.Potassium}, {Elements.Phosphorus}, ");
+            Debug.LogWarning($"Fertilizer used. New soil data = {Mass}, {Ph}, {Salinity}, {Breathability}, {Humus}, {Elements.Nitrogen}, {Elements.Potassium}, {Elements.Phosphorus}");
         }
     }
 }

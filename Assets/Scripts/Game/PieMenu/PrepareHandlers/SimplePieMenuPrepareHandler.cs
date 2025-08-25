@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using Core.Conditions.Checker;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
 using Game.Interactable.Descriptor;

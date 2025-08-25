@@ -1,6 +1,6 @@
 ﻿using Core.Parameters;
 using Game.Common.Handlers;
-using Game.GameMap.Tiles.Service;
+using Game.GameMap.Soil.Service;
 using Game.Inventory.Service;
 using VContainer;
 
@@ -10,7 +10,7 @@ namespace Game.Interactable.Handlers.Soil
     public class FertilizeSoilInteractionHandler : IInteractionHandler
     {
         [Inject]
-        private readonly TileService _tileService = null!;
+        private readonly SoilService _soilService = null!;
         [Inject]
         private readonly InventoryService _inventoryService = null!;
 
@@ -24,7 +24,7 @@ namespace Game.Interactable.Handlers.Soil
 
         private void UseFertilizer(string tileId, string fertilizerId, float portionMass)
         {
-            _tileService.AddFertilizer(tileId, fertilizerId, portionMass);
+            _soilService.AddFertilizer(tileId, fertilizerId, portionMass);
         }
     }
 }

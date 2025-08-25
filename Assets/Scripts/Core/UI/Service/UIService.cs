@@ -6,7 +6,6 @@ using Core.SceneManagement.Service;
 using Cysharp.Threading.Tasks;
 using MessagePipe;
 using UnityEngine;
-using VContainer;
 using VContainer.Unity;
 
 namespace Core.UI.Service
