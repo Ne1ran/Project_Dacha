@@ -69,14 +69,9 @@ namespace Game.GameMap.Soil.Service
             GerOrCreate(tileId).SavedDiseases.Add(diseaseModel);
         }
 
-        public void TiltSoil(string tileId)
+        public void ShovelSoil(string tileId)
         {
-            SoilModel soilModel = GerOrCreate(tileId);
-            if (soilModel.State == SoilState.Planted) {
-                Debug.LogWarning("Can't tilt soil when something is planted on it!"); // todo neiran notification??
-            }
             
-            soilModel.State = SoilState.Tilted;
         }
 
         public SoilModel ActivateUsedFertilizers(SoilModel soilModel)
@@ -136,6 +131,7 @@ namespace Game.GameMap.Soil.Service
                     usedFertilizer.CurrentDecomposeDay += 1;
                 }
 
+                soilModel.DugRecently = false;
                 TryRecoverSoil(soilModel, evt.DayDifference);
             }
 
@@ -166,16 +162,17 @@ namespace Game.GameMap.Soil.Service
         public void UpdateCropRotation(string tileId, PlantFamilyType plantFamilyType)
         {
             SoilModel soilModel = GerOrCreate(tileId);
-            
+
             int currentRotation = soilModel.CropRotations.Count;
             int newRotation = currentRotation + 1;
             soilModel.CropRotations.Add(newRotation, plantFamilyType);
             for (int i = 0; i < soilModel.SavedDiseases.Count; i++) {
                 SavedDiseaseModel savedDisease = soilModel.SavedDiseases[i];
-                if (savedDisease.PlantFamilyType == plantFamilyType) { // todo neiran maybe redo to check not only for last(new) rotation, but multiple?
+                if (savedDisease.PlantFamilyType == plantFamilyType) {
+                    // todo neiran maybe redo to check not only for last(new) rotation, but multiple?
                     continue;
                 }
-                
+
                 savedDisease.CropRotationNeeded--;
                 if (savedDisease.CropRotationNeeded <= 0) {
                     soilModel.SavedDiseases.RemoveAt(i);
@@ -201,7 +198,7 @@ namespace Game.GameMap.Soil.Service
         public SoilModel TryRecoverSoil(SoilModel soil, int daysPassed)
         {
             RecoverFromDiseases(soil, daysPassed);
-            
+
             SoilDescriptorModel soilDesc = RequireModelByType(soil.Type);
             return NeedRecoverBaseParams(soil, soilDesc) ? RecoverBaseSoilParams(soil, soilDesc, daysPassed) : soil;
         }
@@ -259,7 +256,7 @@ namespace Game.GameMap.Soil.Service
             return _descriptorService.Require<SoilDescriptor>().RequireByType(soilType);
         }
 
-        private SoilModel GerOrCreate(string key)
+        public SoilModel GerOrCreate(string key)
         {
             if (_soilRepo.Exists(key)) {
                 return _soilRepo.Require(key);
