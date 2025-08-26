@@ -15,7 +15,7 @@ namespace Game.GameMap.Map.Descriptor
         [field: SerializeField]
         public int Width { get; private set; } = 20;
         [field: SerializeField]
-        public float TileLength { get; private set; } = 1;
+        public int TileLength { get; private set; } = 1;
         [field: SerializeField]
         public Vector3 TileMainPoint { get; private set; } = Vector3.zero;
         [field: SerializeField]

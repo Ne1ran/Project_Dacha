@@ -9,7 +9,7 @@ namespace Game.Plants.Descriptors
         [field: SerializeField, Tooltip("Need to do calculation?")]
         public bool Ignore { get; set; }
         [field: SerializeField, Range(0f, 100f), Tooltip("Min humidity for plant to survive")]
-        public float MinHumidity { get; set; } = 20f;
+        public float MinHumidity { get; set; } = 5f;
         [field: SerializeField, Range(0f, 100f), Tooltip("Max humidity for plant to survive")]
         public float MaxHumidity { get; set; } = 65f;
         [field: SerializeField, Range(0f, 100f), Tooltip("Min humidity preferred by plant")]

@@ -57,11 +57,11 @@ namespace Game.GameMap.Soil.Service
             SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().SoilType;
             SoilDescriptorModel soilDesc = RequireModelByType(mapSoilType);
             SoilElementsDescriptorModel elementsDescriptor = soilDesc.ElementsDescriptorModel;
-            SoilElementsModel soilElementsModel = new(elementsDescriptor.StartNitrogen,
-                                                      elementsDescriptor.StartPotassium, elementsDescriptor.StartPhosphorus);
+            ElementsModel elementsModel = new(elementsDescriptor.StartNitrogen,
+                                              elementsDescriptor.StartPotassium, elementsDescriptor.StartPhosphorus);
 
             return new(soilDesc.SoilType, soilDesc.Ph, soilDesc.Salinity, soilDesc.Breathability, soilDesc.Humus * soilDesc.Mass, soilDesc.Mass,
-                       soilDesc.StartWaterAmount, soilElementsModel);
+                       soilDesc.StartWaterAmount, elementsModel);
         }
 
         public void AddSavedDisease(string tileId, SavedDiseaseModel diseaseModel)
@@ -248,9 +248,20 @@ namespace Game.GameMap.Soil.Service
         public SoilModel TryRecoverSoil(SoilModel soil, int daysPassed)
         {
             RecoverFromDiseases(soil, daysPassed);
-
             SoilDescriptorModel soilDesc = RequireModelByType(soil.Type);
-            return NeedRecoverBaseParams(soil, soilDesc) ? RecoverBaseSoilParams(soil, soilDesc, daysPassed) : soil;
+            return RecoverBaseSoilParams(soil, soilDesc, daysPassed);
+        }
+
+        public bool TryConsumeForPlant(string soilId, float waterUsage, ElementsModel elementsModel)
+        {
+            SoilModel soil = RequireSoil(soilId);
+            return soil.TryConsume(waterUsage, elementsModel);
+        }
+
+        public float GetSoilHumidity(string soilId)
+        {
+            SoilModel soilModel = RequireSoil(soilId);
+            return soilModel.WaterAmount * soilModel.Breathability / 100f;
         }
 
         public SoilModel RequireSoil(string key)
@@ -273,42 +284,31 @@ namespace Game.GameMap.Soil.Service
             }
         }
 
-        // todo check soil params change
         private SoilModel RecoverBaseSoilParams(SoilModel soil, SoilDescriptorModel soilDesc, int daysPassed)
         {
-            float phDiff = soilDesc.Ph - soil.Ph;
-            float salinityDiff = soilDesc.Salinity - soil.Salinity;
-            float breathabilityDiff = soilDesc.Breathability - soil.Breathability;
-            float humusDiff = soilDesc.Humus - soil.Humus;
-
             float dayCoeff = (float) daysPassed / soilDesc.RecoveryDays;
 
-            soil.Ph = phDiff / dayCoeff;
-            soil.Salinity = salinityDiff / dayCoeff;
-            soil.Breathability = breathabilityDiff / dayCoeff;
-            soil.Humus = humusDiff / dayCoeff;
-            return soil;
-        }
-
-        private bool NeedRecoverBaseParams(SoilModel soil, SoilDescriptorModel soilDesc)
-        {
             if (!MathUtils.IsFuzzyEquals(soilDesc.Ph, soil.Ph, 0.01f)) {
-                return true;
+                float phDiff = soilDesc.Ph - soil.Ph;
+                soil.Ph = phDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Salinity, soil.Salinity, 0.01f)) {
-                return true;
+                float salinityDiff = soilDesc.Salinity - soil.Salinity;
+                soil.Salinity = salinityDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Breathability, soil.Breathability, 0.1f)) {
-                return true;
+                float breathabilityDiff = soilDesc.Breathability - soil.Breathability;
+                soil.Breathability = breathabilityDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Humus, soil.Humus, 0.01f)) {
-                return true;
+                float humusDiff = soilDesc.Humus - soil.Humus;
+                soil.Humus = humusDiff / dayCoeff;
             }
 
-            return false;
+            return soil;
         }
 
         private SoilDescriptorModel RequireModelByType(SoilType soilType)

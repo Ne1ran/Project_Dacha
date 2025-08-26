@@ -17,7 +17,7 @@ namespace Game.GameMap.Soil.Model
         public float Mass { get; set; }
         public float WaterAmount { get; set; }
         public SoilState State { get; set; }
-        public SoilElementsModel Elements { get; set; }
+        public ElementsModel Elements { get; set; }
         public List<SavedDiseaseModel> SavedDiseases { get; set; } = new();
         public List<SoilFertilizationModel> UsedFertilizers { get; set; } = new();
         public Dictionary<int, PlantFamilyType> CropRotations { get; set; } = new();
@@ -30,7 +30,7 @@ namespace Game.GameMap.Soil.Model
                          float humus,
                          float mass,
                          float waterAmount,
-                         SoilElementsModel elements)
+                         ElementsModel elements)
         {
             Type = type;
             Ph = ph;
@@ -54,6 +54,17 @@ namespace Game.GameMap.Soil.Model
             Elements.Potassium += model.PotassiumMass;
             Elements.Phosphorus += model.PhosphorusMass;
             Debug.LogWarning($"Fertilizer used. New soil data = {Mass}, {Ph}, {Salinity}, {Breathability}, {Humus}, {Elements.Nitrogen}, {Elements.Potassium}, {Elements.Phosphorus}");
+        }
+
+        public bool TryConsume(float water, ElementsModel elements)
+        {
+            if (WaterAmount < water || !Elements.HasEnoughElements(elements)) {
+                return false; 
+            }
+            
+            WaterAmount -= water;
+            Elements.Subtract(elements);
+            return true;
         }
     }
 }

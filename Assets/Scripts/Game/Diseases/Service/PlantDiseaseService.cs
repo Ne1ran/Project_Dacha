@@ -1,0 +1,273 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using Core.Attributes;
+using Core.Descriptors.Service;
+using Game.Diseases.Descriptor;
+using Game.Diseases.Model;
+using Game.GameMap.Soil.Service;
+using Game.GameMap.Tiles.Service;
+using Game.Plants.Descriptors;
+using Game.Plants.Model;
+using Game.Plants.Repo;
+using UnityEngine;
+
+namespace Game.Diseases.Service
+{
+    [Service]
+    public class PlantDiseaseService
+    {
+        private readonly IDescriptorService _descriptorService;
+        private readonly PlantsRepo _plantsRepo;
+        private readonly SoilService _soilService;
+        private readonly WorldTileService _worldTileService;
+
+        public PlantDiseaseService(IDescriptorService descriptorService,
+                                   PlantsRepo plantsRepo,
+                                   WorldTileService worldTileService,
+                                   SoilService soilService)
+        {
+            _descriptorService = descriptorService;
+            _plantsRepo = plantsRepo;
+            _worldTileService = worldTileService;
+            _soilService = soilService;
+        }
+
+        public PlantModel UpdateDiseases(PlantModel plant, PlantsDescriptorModel plantsDescriptorModel, string soilId)
+        {
+            DiseasesDescriptor diseasesDescriptor = _descriptorService.Require<DiseasesDescriptor>();
+            TryIncreaseDiseasesGrowth(ref plant, diseasesDescriptor, soilId);
+            TryGetInfected(ref plant, plantsDescriptorModel, soilId, diseasesDescriptor);
+            return plant;
+        }
+
+        public void CheckSymptoms(PlantModel plantModel)
+        {
+            DiseasesDescriptor diseasesDescriptor = _descriptorService.Require<DiseasesDescriptor>();
+            foreach (DiseaseModel disease in plantModel.DiseaseModels) {
+                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Items.Find(modelDescriptor => modelDescriptor.Id == disease.Id);
+                if (diseaseModelDescriptor == null) {
+                    Debug.LogWarning($"Disease model descriptor not found with id={disease.Id}");
+                    continue;
+                }
+                
+                int currentStage = disease.Stage;
+                InfectionStage stageDescriptor = diseaseModelDescriptor.InfectionModel.InfectionStages.Find(stage => stage.Stage == currentStage);
+
+                Dictionary<string, bool> symptomsKnowledge = new();
+                foreach (string symptom in stageDescriptor.RandomSymptoms) {
+                    symptomsKnowledge.Add(symptom, disease.KnownSymptoms.Contains(symptom));                 
+                }
+
+                // todo next
+                
+                int knowledgeCount = symptomsKnowledge.Values.Count(value => value);
+
+                if (symptomsKnowledge.Values.All(value => value)) {
+                    continue;
+                }
+
+                float symptomShowChance = disease.CurrentGrowth / stageDescriptor.StageGrowth;
+                float random = Random.Range(0f, 1f);
+                if (random >= symptomShowChance) {
+                    continue;
+                }
+
+            }
+        }
+
+        private void TryIncreaseDiseasesGrowth(ref PlantModel plant, DiseasesDescriptor diseasesDescriptor, string soilId)
+        {
+            for (int i = 0; i < plant.DiseaseModels.Count; i++) {
+                DiseaseModel diseaseModel = plant.DiseaseModels[i];
+                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Items.Find(disease => disease.Id == diseaseModel.Id);
+                if (diseaseModelDescriptor == null) {
+                    Debug.LogWarning($"Disease model descriptor not found with id={diseaseModel.Id}");
+                    continue;
+                }
+
+                DiseaseInfectionModel diseaseInfectionModel = diseaseModelDescriptor.InfectionModel;
+                int currentStage = diseaseModel.Stage;
+                InfectionStage? infectionStage = diseaseInfectionModel.InfectionStages.Find(stage => stage.Stage == currentStage);
+                if (infectionStage == null) {
+                    Debug.LogWarning($"Infection stage not found. This shouldn't be possible. DiseaseId={diseaseModel.Id}, Stage={currentStage}");
+                    continue;
+                }
+
+                bool result = TryHealDisease(plant, diseaseInfectionModel, infectionStage);
+                if (result) {
+                    plant.DiseaseModels.Remove(diseaseModel);
+                }
+
+                plant.DealDamage(infectionStage.PlantDamagePerDay);
+                TryDiseaseGrowToNextStage(diseaseModel, infectionStage, diseaseInfectionModel);
+
+                float diseaseGrowth = infectionStage.BaseGrowthPerDay;
+                float growthMultiplier = CalculateGrowthMultiplier(diseaseInfectionModel, soilId);
+                diseaseGrowth *= growthMultiplier;
+                diseaseModel.CurrentGrowth += diseaseGrowth;
+            }
+        }
+
+        private bool TryHealDisease(PlantModel plant, DiseaseInfectionModel infectionModel, InfectionStage infectionStage)
+        {
+            if (plant.Health > infectionModel.HighHealth && plant.Immunity > infectionModel.HighImmunity) {
+                float healChance = infectionStage.HealChance;
+                float random = Random.Range(0f, 1f);
+                if (random < healChance) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private float CalculateGrowthMultiplier(DiseaseInfectionModel infectionModel, string soilId)
+        {
+            float multiplier = 1f;
+
+            InfectionGrowthDescriptor infectionGrowthDescriptor = infectionModel.GrowthDescriptor;
+
+            TryApplyTemperatureMultiplier(infectionGrowthDescriptor, ref multiplier);
+            TryApplyAirHumidityMultiplier(infectionGrowthDescriptor, ref multiplier);
+            TryApplySoilHumidityMultiplier(soilId, infectionGrowthDescriptor, ref multiplier);
+
+            return multiplier;
+        }
+
+        private void TryApplySoilHumidityMultiplier(string soilId, InfectionGrowthDescriptor infectionGrowthDescriptor, ref float multiplier)
+        {
+            if (infectionGrowthDescriptor.IgnoreSoilHumidity) {
+                return;
+            }
+
+            float soilHumidity = _soilService.GetSoilHumidity(soilId);
+            if (infectionGrowthDescriptor.MinPreferredSoilHumidity < soilHumidity
+                && infectionGrowthDescriptor.MaxPreferredSoilHumidity > soilHumidity) {
+                multiplier += infectionGrowthDescriptor.SoilHumidityGrowBuff;
+            }
+        }
+
+        private void TryApplyAirHumidityMultiplier(InfectionGrowthDescriptor infectionGrowthDescriptor, ref float multiplier)
+        {
+            if (infectionGrowthDescriptor.IgnoreAirHumidity) {
+                return;
+            }
+
+            float airHumidity = 45f; // todo neiran add air service
+            if (infectionGrowthDescriptor.MinPreferredAirHumidity < airHumidity && infectionGrowthDescriptor.MaxPreferredAirHumidity > airHumidity) {
+                multiplier += infectionGrowthDescriptor.AirHumidityGrowBuff;
+            }
+        }
+
+        private void TryApplyTemperatureMultiplier(InfectionGrowthDescriptor infectionGrowthDescriptor, ref float multiplier)
+        {
+            if (infectionGrowthDescriptor.IgnoreTemperature) {
+                return;
+            }
+
+            float temperature = 25f; // todo neiran add temperature service
+            if (infectionGrowthDescriptor.MinPreferredTemperature < temperature && infectionGrowthDescriptor.MaxPreferredTemperature > temperature) {
+                multiplier += infectionGrowthDescriptor.TemperatureGrowBuff;
+            }
+        }
+
+        private void TryDiseaseGrowToNextStage(DiseaseModel diseaseModel, InfectionStage infectionStage, DiseaseInfectionModel diseaseInfectionModel)
+        {
+            if (diseaseModel.CurrentGrowth < infectionStage.StageGrowth) {
+                return;
+            }
+
+            int newPossibleStage = diseaseModel.Stage + 1;
+            InfectionStage? newPossibleStageDescriptor = diseaseInfectionModel.InfectionStages.Find(stage => stage.Stage == newPossibleStage);
+            if (newPossibleStageDescriptor == null) {
+                return;
+            }
+
+            diseaseModel.Stage = newPossibleStage;
+            diseaseModel.CurrentGrowth = 0f;
+        }
+
+        private void TryGetInfected(ref PlantModel plant,
+                                    PlantsDescriptorModel plantsDescriptorModel,
+                                    string soilId,
+                                    DiseasesDescriptor diseasesDescriptor)
+        {
+            foreach (DiseaseModelDescriptor diseaseModelDescriptor in diseasesDescriptor.Items) {
+                if (!diseaseModelDescriptor.AffectedPlants.Contains(plantsDescriptorModel.FamilyType)) {
+                    continue;
+                }
+
+                float infectionChance = CalculateInfectionChance(plant, diseaseModelDescriptor.InfectionModel);
+                float nearbyMultiplier = CalculateNearbyPlantsMultiplier(plant, diseaseModelDescriptor, soilId);
+
+                infectionChance *= nearbyMultiplier;
+
+                float random = Random.Range(0f, 1f);
+                if (infectionChance > random) {
+                    plant.DiseaseModels.Add(new(diseaseModelDescriptor.Id, 1, 0f));
+                }
+            }
+        }
+
+        private float CalculateNearbyPlantsMultiplier(PlantModel plant, DiseaseModelDescriptor diseaseModelDescriptor, string soilId)
+        {
+            float multiplier = 0f;
+            DiseaseInfectionModel diseaseInfectionModel = diseaseModelDescriptor.InfectionModel;
+            int range = diseaseInfectionModel.GetMaxTileRange();
+
+            Dictionary<int, string> nearbyTiles = _worldTileService.GetNearbyTiles(soilId, range);
+            foreach ((int tileRange, string tileId) in nearbyTiles) {
+                if (!_plantsRepo.Exists(tileId)) {
+                    continue;
+                }
+
+                PlantModel nearbyPlant = _plantsRepo.Require(tileId);
+                if (nearbyPlant.FamilyType != plant.FamilyType) {
+                    continue;
+                }
+
+                if (nearbyPlant.DiseaseModels.Count == 0) {
+                    continue;
+                }
+
+                DiseaseModel? plantDisease = nearbyPlant.DiseaseModels.Find(disease => disease.Id == diseaseModelDescriptor.Id);
+                if (plantDisease == null) {
+                    continue;
+                }
+
+                TileRangePair? tileRangePair = diseaseInfectionModel.TileRangeMultipliers.Find(pair => pair.TileRange == tileRange);
+                if (tileRangePair == null) {
+                    Debug.LogWarning($"Tile range multiplier mismatch. This should not be possible. PlantId={plant.PlantId}, diseaseId={diseaseModelDescriptor.Id}, tileRange={tileRange}");
+                    continue;
+                }
+
+                multiplier += tileRangePair.Multiplier;
+            }
+
+            return Mathf.Max(1f, multiplier);
+        }
+
+        private float CalculateInfectionChance(PlantModel plant, DiseaseInfectionModel infectionModel)
+        {
+            float baseChance = infectionModel.StartingChance;
+
+            if (plant.Immunity > infectionModel.HighImmunity) {
+                baseChance *= infectionModel.HighImmunityMultiplier;
+            }
+
+            if (plant.Immunity < infectionModel.LowImmunity) {
+                baseChance *= infectionModel.LowImmunityMultiplier;
+            }
+
+            if (plant.Health > infectionModel.HighHealth) {
+                baseChance *= infectionModel.HighImmunityMultiplier;
+            }
+
+            if (plant.Health < infectionModel.LowHealth) {
+                baseChance *= infectionModel.LowImmunityMultiplier;
+            }
+
+            return baseChance;
+        }
+    }
+}
