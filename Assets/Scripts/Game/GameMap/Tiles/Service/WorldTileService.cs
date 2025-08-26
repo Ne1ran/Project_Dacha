@@ -44,9 +44,9 @@ namespace Game.GameMap.Tiles.Service
             await UniTask.WhenAll(tasks);
         }
 
-        public Dictionary<int, string> GetNearbyTiles(string centerTileId, int range)
+        public Dictionary<string, int> GetNearbyTiles(string centerTileId, int range)
         {
-            Dictionary<int, string> result = new();
+            Dictionary<string, int> result = new();
 
             SingleTileModel centerTileModel = _mapTilesModels.Find(tile => tile.Id == centerTileId);
             MapDescriptor mapDescriptor = _descriptorService.Require<MapDescriptor>();
@@ -74,7 +74,7 @@ namespace Game.GameMap.Tiles.Service
                         minRange = 1;
                     }
 
-                    result.Add(minRange, _mapTilesModels[neighborIndex].Id);
+                    result.Add(_mapTilesModels[neighborIndex].Id, minRange);
                 }
             }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Core.Attributes;
 using Core.Descriptors.Service;
+using Game.Diseases.Model;
 using Game.Diseases.Service;
 using Game.GameMap.Soil.Model;
 using Game.GameMap.Soil.Service;
@@ -73,6 +74,23 @@ namespace Game.Plants.Service
             plantModel.InspectedToday = true;
         }
 
+        public void RemovePlant(string tileId)
+        {
+            if (_plantsRepo.Exists(tileId)) {
+                Debug.LogWarning($"Plant doesn't exists on tile={tileId}");
+                return;
+            }
+            
+            PlantModel plantModel = _plantsRepo.Require(tileId);
+            if (plantModel.CurrentStage != PlantGrowStage.DEAD) {
+                Debug.Log("Removing growing plant?"); // todo add check or do it sooner in pie menu
+            }
+
+            List<SavedDiseaseModel> savedDiseaseModels = _plantDiseaseService.GetSavedDiseases(plantModel);
+            _soilService.InfectSoil(tileId, savedDiseaseModels);
+            _plantsRepo.Delete(tileId);
+        }
+
         public void CreatePlant(string seedId, string tileId)
         {
             if (_plantsRepo.Exists(tileId)) {
@@ -117,26 +135,29 @@ namespace Game.Plants.Service
         private void SimulatePlantLife(PlantModel plant, string soilId, PlantsDescriptorModel plantsDescriptorModel, int dayDifference)
         {
             PlantGrowStage plantCurrentStage = plant.CurrentStage;
+            if (plant.CurrentStage == PlantGrowStage.DEAD) {
+                return;
+            }
+            
             PlantStageDescriptor plantStageDescriptor =
                     plantsDescriptorModel.Stages.Find(stageDescriptor => stageDescriptor.Stage == plantCurrentStage);
             if (plantStageDescriptor == null) {
                 throw new KeyNotFoundException($"Stage not found for plant={plant.PlantId}, stage={plantCurrentStage}");
             }
 
-            if (plant.CurrentStage == PlantGrowStage.DEAD) {
-                return;
-            }
-
             PlantGrowCalculationModel growCalculationModel = new();
 
-            CalculateConsumptionMultiplier(plantStageDescriptor.PlantConsumption, soilId, growCalculationModel);
-            CalculateSunlightAffect(plantStageDescriptor.SunlightParameters, growCalculationModel);
-            CalculateTemperatureAffect(plantStageDescriptor.TemperatureParameters, growCalculationModel);
-            CalculateAirHumidityAffect(plantStageDescriptor.AirHumidityParameters, growCalculationModel);
-            CalculateSoilHumidityAffect(plantStageDescriptor.SoilHumidityParameters, soilId, growCalculationModel);
+            CalculateConsumptionMultiplier(plantStageDescriptor.PlantConsumption, soilId, ref growCalculationModel);
+            CalculateSunlightAffect(plantStageDescriptor.SunlightParameters, ref growCalculationModel);
+            CalculateTemperatureAffect(plantStageDescriptor.TemperatureParameters, ref growCalculationModel);
+            CalculateAirHumidityAffect(plantStageDescriptor.AirHumidityParameters, ref growCalculationModel);
+            CalculateSoilHumidityAffect(plantStageDescriptor.SoilHumidityParameters, soilId, ref growCalculationModel);
             Debug.LogWarning($"Plant life simulation. GrowCalcModel: growMultiplier={growCalculationModel.GrowMultiplier}, damage={growCalculationModel.Damage}");
 
-            ApplyGrowCalculationModel(ref plant, soilId, plantStageDescriptor, growCalculationModel, dayDifference);
+            if (!TryApplyGrowCalculationModel(ref plant, soilId, plantStageDescriptor, growCalculationModel, dayDifference)) {
+                _plantDiseaseService.UpdatePlantDiseases(ref plant, plantsDescriptorModel, soilId);
+                return;
+            }
 
             if (plant.CurrentStage == PlantGrowStage.DEAD) {
                 // if plant have died - no need for further calculations 
@@ -150,13 +171,11 @@ namespace Game.Plants.Service
                     TryIncreaseImmunity(ref plant, plantStageDescriptor);
                 }
             }
-            
+
             _plantDiseaseService.UpdatePlantDiseases(ref plant, plantsDescriptorModel, soilId);
         }
 
-        private void TryHealPlant(ref PlantModel plant,
-                                  PlantStageDescriptor plantStageDescriptor,
-                                  string soilId)
+        private void TryHealPlant(ref PlantModel plant, PlantStageDescriptor plantStageDescriptor, string soilId)
         {
             if (plant.Health >= Constants.Constants.MAX_HEALTH) {
                 return;
@@ -175,14 +194,15 @@ namespace Game.Plants.Service
             }
 
             float healthMultiplier = plant.Health / Constants.Constants.MAX_HEALTH;
-            plant.Immunity = Mathf.Clamp(plant.Immunity + healthMultiplier * plantStageDescriptor.DailyImmunityGain, 0f, Constants.Constants.MAX_IMMUNITY);
+            plant.Immunity = Mathf.Clamp(plant.Immunity + healthMultiplier * plantStageDescriptor.DailyImmunityGain, 0f,
+                                         Constants.Constants.MAX_IMMUNITY);
         }
 
-        private void ApplyGrowCalculationModel(ref PlantModel plant,
-                                               string soilId,
-                                               PlantStageDescriptor plantStageDescriptor,
-                                               PlantGrowCalculationModel calculationModel,
-                                               float dayDifference)
+        private bool TryApplyGrowCalculationModel(ref PlantModel plant,
+                                                  string soilId,
+                                                  PlantStageDescriptor plantStageDescriptor,
+                                                  PlantGrowCalculationModel calculationModel,
+                                                  float dayDifference)
         {
             float growthMultiplier = dayDifference * calculationModel.GrowMultiplier;
             float dayCoeff = growthMultiplier / plantStageDescriptor.AverageGrowTime;
@@ -193,10 +213,12 @@ namespace Game.Plants.Service
 
             if (!TryConsumeElements(plant, soilId, plantStageDescriptor, dayCoeff)) {
                 // Maybe additional damage?
-                return;
+                return false;
             }
 
             plant.StageGrowth += growthMultiplier;
+            Debug.Log($"Plant has grew up! PlantId={plant.PlantId}, stageGrowth={plant.StageGrowth}");
+            return true;
         }
 
         private void TryGrowToNextStage(PlantModel plant, PlantStageDescriptor currentStageDescriptor, PlantsDescriptorModel plantsDescriptorModel)
@@ -213,13 +235,13 @@ namespace Game.Plants.Service
             int stageIndex = plantsDescriptorModel.Stages.IndexOf(plantStageDescriptor);
             int newStageIndex = stageIndex + 1;
             if (newStageIndex >= plantsDescriptorModel.Stages.Count) {
-                Debug.LogWarning("Can't grow to next stage, because stage index is out of range!");
                 return;
             }
 
             PlantStageDescriptor newStageDescriptor = plantsDescriptorModel.Stages[newStageIndex];
             plant.CurrentStage = newStageDescriptor.Stage;
             plant.StageGrowth = 0f;
+            Debug.Log($"Plant has grew to next stage! PlantId={plant.PlantId}, newStage={newStageDescriptor.Stage}");
         }
 
         private bool TryConsumeElements(PlantModel plant, string soilId, PlantStageDescriptor plantStageDescriptor, float dayCoeff)
@@ -234,12 +256,13 @@ namespace Game.Plants.Service
                 plant.TakenElements.Add(elementsModel);
             }
 
+            Debug.Log($"Consume elements. nitrogenUsage={nitrogenUsage}, potassiumUsage={potassiumUsage}, phosphorusUsage={phosphorusUsage}, waterUsage={waterUsage} ");
             return result;
         }
 
-        private PlantGrowCalculationModel CalculateConsumptionMultiplier(PlantConsumptionDescriptor consumptionDescriptor,
-                                                                         string soilId,
-                                                                         PlantGrowCalculationModel calculationModel)
+        private void CalculateConsumptionMultiplier(PlantConsumptionDescriptor consumptionDescriptor,
+                                                    string soilId,
+                                                    ref PlantGrowCalculationModel calculationModel)
         {
             SoilModel soilModel = _soilService.RequireSoil(soilId);
             if (consumptionDescriptor.WaterUsage > soilModel.WaterAmount) {
@@ -258,15 +281,12 @@ namespace Game.Plants.Service
                     consumptionDescriptor.PhosphorusUsage * consumptionDescriptor.PreferredUsageMultiplier < soilModel.Elements.Phosphorus
                             ? consumptionDescriptor.GrowBuff
                             : consumptionDescriptor.GrowDebuff;
-
-            return calculationModel;
         }
 
-        private PlantGrowCalculationModel CalculateSunlightAffect(PlantSunlightParameters sunlightParameters,
-                                                                  PlantGrowCalculationModel calculationModel)
+        private void CalculateSunlightAffect(PlantSunlightParameters sunlightParameters, ref PlantGrowCalculationModel calculationModel)
         {
             if (sunlightParameters.Ignore) {
-                return calculationModel;
+                return;
             }
 
             float currentSunlight = 2200f; // todo neiran integrate sunlight and weather system
@@ -282,15 +302,12 @@ namespace Game.Plants.Service
             if (sunlightParameters.MinPreferredSunlight < currentSunlight && sunlightParameters.MaxPreferredSunlight > currentSunlight) {
                 calculationModel.GrowMultiplier += sunlightParameters.GrowBuff;
             }
-
-            return calculationModel;
         }
 
-        private PlantGrowCalculationModel CalculateTemperatureAffect(PlantTemperatureParameters temperatureParameters,
-                                                                     PlantGrowCalculationModel calculationModel)
+        private void CalculateTemperatureAffect(PlantTemperatureParameters temperatureParameters, ref PlantGrowCalculationModel calculationModel)
         {
             if (temperatureParameters.Ignore) {
-                return calculationModel;
+                return;
             }
 
             float currentTemperature = 25f; // todo neiran integrate temperature and add it to soil system
@@ -309,15 +326,12 @@ namespace Game.Plants.Service
                 && temperatureParameters.MaxPreferredTemperature > currentTemperature) {
                 calculationModel.GrowMultiplier += temperatureParameters.GrowBuff;
             }
-
-            return calculationModel;
         }
 
-        private PlantGrowCalculationModel CalculateAirHumidityAffect(PlantHumidityParameters airHumidityParameters,
-                                                                     PlantGrowCalculationModel calculationModel)
+        private void CalculateAirHumidityAffect(PlantHumidityParameters airHumidityParameters, ref PlantGrowCalculationModel calculationModel)
         {
             if (airHumidityParameters.Ignore) {
-                return calculationModel;
+                return;
             }
 
             float airHumidityPercent = 70f; // todo neiran integrate sunlight and weather system
@@ -335,16 +349,14 @@ namespace Game.Plants.Service
             if (airHumidityParameters.MinPreferredHumidity < airHumidityPercent && airHumidityParameters.MaxPreferredHumidity > airHumidityPercent) {
                 calculationModel.GrowMultiplier += airHumidityParameters.GrowBuff;
             }
-
-            return calculationModel;
         }
 
-        private PlantGrowCalculationModel CalculateSoilHumidityAffect(PlantHumidityParameters soilHumidityParameters,
-                                                                      string soilId,
-                                                                      PlantGrowCalculationModel calculationModel)
+        private void CalculateSoilHumidityAffect(PlantHumidityParameters soilHumidityParameters,
+                                                 string soilId,
+                                                 ref PlantGrowCalculationModel calculationModel)
         {
             if (soilHumidityParameters.Ignore) {
-                return calculationModel;
+                return;
             }
 
             float soilHumidity = _soilService.GetSoilHumidity(soilId);
@@ -360,8 +372,6 @@ namespace Game.Plants.Service
             if (soilHumidityParameters.MinPreferredHumidity < soilHumidity && soilHumidityParameters.MaxPreferredHumidity > soilHumidity) {
                 calculationModel.GrowMultiplier += soilHumidityParameters.GrowBuff;
             }
-
-            return calculationModel;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Game.Seeds.Descriptors
         [field: SerializeField]
         public bool CanBeInfected { get; set; }
         [field: SerializeField, Tooltip("Start health of a plant if used seed")]
-        public float StartHealth { get; set; } = 10f;
+        public float StartHealth { get; set; } = 100f;
         [field: SerializeField, Tooltip("Start immunity of a plant if used seed")]
         public float StartImmunity { get; set; } = 10f;
     }

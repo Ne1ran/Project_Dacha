@@ -1,6 +1,7 @@
 ﻿using Core.Conditions.Service;
 using Core.EntryPoints;
 using Core.GameWorld.Service;
+using Game.Diseases.Service;
 using Game.Drop.Service;
 using Game.Equipment.Repo;
 using Game.Equipment.Service;
@@ -63,6 +64,7 @@ namespace Core.Scopes
             builder.Register<SeedsService>(Lifetime.Singleton);
             builder.Register<PlantsService>(Lifetime.Singleton);
             builder.Register<PlantsWorldService>(Lifetime.Singleton);
+            builder.Register<PlantDiseaseService>(Lifetime.Singleton);
             builder.Register<PlantsRepo>(Lifetime.Singleton);
             builder.Register<SowSeedHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<ToolUseHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();

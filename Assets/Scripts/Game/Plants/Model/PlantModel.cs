@@ -41,7 +41,7 @@ namespace Game.Plants.Model
                 return;
             }
 
-            float damageToHealth = Immunity - damage;
+            float damageToHealth = damage - Immunity;
             Health -= damageToHealth;
             Immunity = 0;
 

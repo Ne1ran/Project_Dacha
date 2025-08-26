@@ -117,6 +117,7 @@ namespace Game.Diseases.Service
                 float growthMultiplier = CalculateGrowthMultiplier(diseaseInfectionModel, soilId);
                 diseaseGrowth *= growthMultiplier;
                 diseaseModel.CurrentGrowth += diseaseGrowth;
+                Debug.Log($"Infection progression. PlantId={plant.PlantId}, diseaseId={diseaseModel.Id}, currentGrowth={diseaseModel.CurrentGrowth}");
             }
         }
 
@@ -215,6 +216,7 @@ namespace Game.Diseases.Service
 
                 float random = Random.Range(0f, 1f);
                 if (infectionChance > random) {
+                    Debug.Log($"Plant has been infected! PlantId={plant.PlantId}, infectionId={diseaseModelDescriptor.Id}, infectionChance={infectionChance}, nearbyMultiplier={nearbyMultiplier}");
                     plant.DiseaseModels.Add(new(diseaseModelDescriptor.Id, 1, 0f));
                 }
             }
@@ -226,8 +228,8 @@ namespace Game.Diseases.Service
             DiseaseInfectionModel diseaseInfectionModel = diseaseModelDescriptor.InfectionModel;
             int range = diseaseInfectionModel.GetMaxTileRange();
 
-            Dictionary<int, string> nearbyTiles = _worldTileService.GetNearbyTiles(soilId, range);
-            foreach ((int tileRange, string tileId) in nearbyTiles) {
+            Dictionary<string, int> nearbyTiles = _worldTileService.GetNearbyTiles(soilId, range);
+            foreach ((string tileId, int tileRange) in nearbyTiles) {
                 if (!_plantsRepo.Exists(tileId)) {
                     continue;
                 }
@@ -279,6 +281,28 @@ namespace Game.Diseases.Service
             }
 
             return baseChance;
+        }
+
+        public List<SavedDiseaseModel> GetSavedDiseases(PlantModel plantModel)
+        {
+            DiseasesDescriptor diseasesDescriptor = _descriptorService.Require<DiseasesDescriptor>();
+
+            List<SavedDiseaseModel> savedDiseaseModels = new();
+
+            foreach (DiseaseModel disease in plantModel.DiseaseModels) {
+                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Items.Find(diseaseModel => diseaseModel.Id == disease.Id);
+                if (diseaseModelDescriptor == null) {
+                    Debug.LogWarning($"Disease does not exist with id={disease.Id}");
+                    continue;
+                }
+
+                SavedDiseaseModel newSavedDisease = new(disease.Id, plantModel.FamilyType,
+                                                        diseaseModelDescriptor.InfectionModel.DisposeCropRotationNeeded,
+                                                        diseaseModelDescriptor.InfectionModel.DisposeDaysNeeded);
+                savedDiseaseModels.Add(newSavedDisease);
+            }
+
+            return savedDiseaseModels;
         }
     }
 }

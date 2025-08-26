@@ -331,5 +331,10 @@ namespace Game.GameMap.Soil.Service
             _soilRepo.Save(key, soilModel);
             return soilModel;
         }
+
+        public void InfectSoil(string soilId, List<SavedDiseaseModel> savedDiseaseModel)
+        {
+            RequireSoil(soilId).SavedDiseases.AddRange(savedDiseaseModel);
+        }
     }
 }

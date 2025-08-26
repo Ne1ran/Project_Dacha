@@ -19,39 +19,81 @@ MonoBehaviour:
     <Breathability>k__BackingField: 65
     <Humus>k__BackingField: 10
     <Mass>k__BackingField: 1000
+    <RecoveryDays>k__BackingField: 180
+    <StartWaterAmount>k__BackingField: 50
+    <ElementsDescriptorModel>k__BackingField:
+      <StartNitrogen>k__BackingField: 350
+      <StartPotassium>k__BackingField: 300
+      <StartPhosphorus>k__BackingField: 250
   - <SoilType>k__BackingField: 1
     <Ph>k__BackingField: 3.5
     <Salinity>k__BackingField: 0.05
     <Breathability>k__BackingField: 5
     <Humus>k__BackingField: 0.5
     <Mass>k__BackingField: 750
+    <RecoveryDays>k__BackingField: 180
+    <StartWaterAmount>k__BackingField: 80
+    <ElementsDescriptorModel>k__BackingField:
+      <StartNitrogen>k__BackingField: 350
+      <StartPotassium>k__BackingField: 300
+      <StartPhosphorus>k__BackingField: 250
   - <SoilType>k__BackingField: 2
     <Ph>k__BackingField: 6
     <Salinity>k__BackingField: 0.1
     <Breathability>k__BackingField: 25
     <Humus>k__BackingField: 5
     <Mass>k__BackingField: 1800
+    <RecoveryDays>k__BackingField: 180
+    <StartWaterAmount>k__BackingField: 65
+    <ElementsDescriptorModel>k__BackingField:
+      <StartNitrogen>k__BackingField: 350
+      <StartPotassium>k__BackingField: 300
+      <StartPhosphorus>k__BackingField: 250
   - <SoilType>k__BackingField: 3
     <Ph>k__BackingField: 7
     <Salinity>k__BackingField: 0.15
     <Breathability>k__BackingField: 75
     <Humus>k__BackingField: 1.5
     <Mass>k__BackingField: 1200
+    <RecoveryDays>k__BackingField: 180
+    <StartWaterAmount>k__BackingField: 35
+    <ElementsDescriptorModel>k__BackingField:
+      <StartNitrogen>k__BackingField: 350
+      <StartPotassium>k__BackingField: 300
+      <StartPhosphorus>k__BackingField: 250
   - <SoilType>k__BackingField: 4
     <Ph>k__BackingField: 6.5
     <Salinity>k__BackingField: 0.15
     <Breathability>k__BackingField: 5
     <Humus>k__BackingField: 1
     <Mass>k__BackingField: 2400
+    <RecoveryDays>k__BackingField: 180
+    <StartWaterAmount>k__BackingField: 85
+    <ElementsDescriptorModel>k__BackingField:
+      <StartNitrogen>k__BackingField: 350
+      <StartPotassium>k__BackingField: 300
+      <StartPhosphorus>k__BackingField: 250
   - <SoilType>k__BackingField: 5
     <Ph>k__BackingField: 8.25
     <Salinity>k__BackingField: 0.5
     <Breathability>k__BackingField: 60
     <Humus>k__BackingField: 5
     <Mass>k__BackingField: 1400
+    <RecoveryDays>k__BackingField: 180
+    <StartWaterAmount>k__BackingField: 60
+    <ElementsDescriptorModel>k__BackingField:
+      <StartNitrogen>k__BackingField: 350
+      <StartPotassium>k__BackingField: 300
+      <StartPhosphorus>k__BackingField: 250
   - <SoilType>k__BackingField: 6
     <Ph>k__BackingField: 5
     <Salinity>k__BackingField: 0.1
     <Breathability>k__BackingField: 20
     <Humus>k__BackingField: 2.5
     <Mass>k__BackingField: 1300
+    <RecoveryDays>k__BackingField: 180
+    <StartWaterAmount>k__BackingField: 70
+    <ElementsDescriptorModel>k__BackingField:
+      <StartNitrogen>k__BackingField: 350
+      <StartPotassium>k__BackingField: 300
+      <StartPhosphorus>k__BackingField: 250
