@@ -5,7 +5,6 @@ using Core.Descriptors.Service;
 using Core.Parameters;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
-using Game.Inventory.Service;
 using Game.Tools.Component;
 using Game.Tools.Descriptors;
 using UnityEngine;

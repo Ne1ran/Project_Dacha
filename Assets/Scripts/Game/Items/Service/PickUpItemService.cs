@@ -8,6 +8,7 @@ using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Items.Controller;
 using Game.Items.Descriptors;
+using Game.Seeds.Service;
 using Game.Tools.Service;
 using Game.Utils;
 using UnityEngine;
@@ -21,16 +22,19 @@ namespace Game.Items.Service
         private readonly InventoryService _inventoryService;
         private readonly ToolsService _toolsService;
         private readonly FertilizerService _fertilizerService;
+        private readonly SeedsService _seedsService;
 
         public PickUpItemService(IDescriptorService descriptorService,
                                  InventoryService inventoryService,
                                  ToolsService toolsService,
-                                 FertilizerService fertilizerService)
+                                 FertilizerService fertilizerService,
+                                 SeedsService seedsService)
         {
             _descriptorService = descriptorService;
             _inventoryService = inventoryService;
             _toolsService = toolsService;
             _fertilizerService = fertilizerService;
+            _seedsService = seedsService;
         }
 
         public void PickUpItem(ItemController itemController)
@@ -55,6 +59,8 @@ namespace Game.Items.Service
                     return await _toolsService.CreateTool(itemId, position);
                 case ItemType.FERTILIZER:
                     return await _fertilizerService.CreateFertilizer(itemId, position);
+                case ItemType.SEED:
+                    return await _seedsService.CreateSeedBag(itemId, position);
                 default:
                     throw new ArgumentException($"Unknown item type {itemType}. Need impl");
             }

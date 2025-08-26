@@ -16,16 +16,16 @@ namespace Game.GameMap.Tiles.Component
         [Inject]
         private readonly PieMenuService _pieMenuService = null!;
 
-        private SingleTileModel _tileModel = null!;
+        public SingleTileModel TileModel { get; private set; } = null!;
         
         public void Initialize(SingleTileModel model)
         {
-            _tileModel = model;
+            TileModel = model;
         }
 
         public async UniTask Interact()
         {
-            await _pieMenuService.CreatePieMenuAsync(InteractableType.TILE, new(ParameterNames.TileId, _tileModel.Id));
+            await _pieMenuService.CreatePieMenuAsync(InteractableType.TILE, new(ParameterNames.TileId, TileModel.Id));
         }
 
         public UniTask StopInteract()

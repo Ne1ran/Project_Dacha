@@ -57,11 +57,11 @@ namespace Game.GameMap.Soil.Service
             SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().SoilType;
             SoilDescriptorModel soilDesc = RequireModelByType(mapSoilType);
             SoilElementsDescriptorModel elementsDescriptor = soilDesc.ElementsDescriptorModel;
-            SoilElementsModel soilElementsModel = new(elementsDescriptor.StartNitrogen,
-                                                      elementsDescriptor.StartPotassium, elementsDescriptor.StartPhosphorus);
+            ElementsModel elementsModel = new(elementsDescriptor.StartNitrogen,
+                                              elementsDescriptor.StartPotassium, elementsDescriptor.StartPhosphorus);
 
             return new(soilDesc.SoilType, soilDesc.Ph, soilDesc.Salinity, soilDesc.Breathability, soilDesc.Humus * soilDesc.Mass, soilDesc.Mass,
-                       soilDesc.StartWaterAmount, soilElementsModel);
+                       soilDesc.StartWaterAmount, elementsModel);
         }
 
         public void AddSavedDisease(string tileId, SavedDiseaseModel diseaseModel)
@@ -69,9 +69,64 @@ namespace Game.GameMap.Soil.Service
             GerOrCreate(tileId).SavedDiseases.Add(diseaseModel);
         }
 
-        public void ShovelSoil(string tileId)
+        public bool TryShovelSoil(string tileId)
         {
-            
+            SoilModel soilModel = GerOrCreate(tileId);
+            if (soilModel.State == SoilState.Planted) {
+                Debug.LogWarning("Can't shovel soil when something is planted on it!"); // todo neiran notification??
+                return false;
+            }
+
+            if (soilModel.DugRecently) {
+                Debug.LogWarning("Can't shovel twice on same day! (Don't need to)"); // todo neiran notification??
+                return false;
+            }
+
+            SoilDescriptor soilDescriptor = _descriptorService.Require<SoilDescriptor>();
+            SoilDescriptorModel soilDescriptorModel = soilDescriptor.RequireByType(soilModel.Type);
+
+            float minWaterAmount = soilDescriptorModel.StartWaterAmount / 2f;
+            float minBreathability = soilDescriptorModel.Breathability;
+            soilModel.WaterAmount = Mathf.Max(minWaterAmount, soilModel.WaterAmount * 0.75f);
+            soilModel.Breathability = Mathf.Min(minBreathability, soilModel.Breathability * 1.25f);
+            soilModel.State = SoilState.None;
+            soilModel.DugRecently = true;
+            return true;
+        }
+
+        public bool TryTiltSoil(string tileId)
+        {
+            SoilModel soilModel = GerOrCreate(tileId);
+            if (soilModel.State == SoilState.Planted) {
+                Debug.LogWarning("Can't tilt soil when something is planted on it!"); // todo neiran notification??
+                return false;
+            }
+
+            soilModel.State = SoilState.Tilted;
+            return true;
+        }
+
+        public bool TryConsumeHumus(string tileId, float humus)
+        {
+            return RequireSoil(tileId).TryConsumeHumus(humus);
+        }
+
+        public bool TrySowSeed(string tileId)
+        {
+            SoilModel soilModel = GerOrCreate(tileId);
+            switch (soilModel.State) {
+                case SoilState.Planted:
+                    Debug.LogWarning("Can't sow seed on a planted soil!");
+                    break;
+                case SoilState.None:
+                    Debug.LogWarning("Can't sow seed on a non-tilted soil!");
+                    break;
+                case SoilState.Tilted:
+                    soilModel.State = SoilState.Planted;
+                    return true;
+            }
+
+            return false;
         }
 
         public SoilModel ActivateUsedFertilizers(SoilModel soilModel)
@@ -198,9 +253,29 @@ namespace Game.GameMap.Soil.Service
         public SoilModel TryRecoverSoil(SoilModel soil, int daysPassed)
         {
             RecoverFromDiseases(soil, daysPassed);
-
             SoilDescriptorModel soilDesc = RequireModelByType(soil.Type);
-            return NeedRecoverBaseParams(soil, soilDesc) ? RecoverBaseSoilParams(soil, soilDesc, daysPassed) : soil;
+            return RecoverBaseSoilParams(soil, soilDesc, daysPassed);
+        }
+
+        public bool TryConsumeForPlant(string soilId, float waterUsage, ElementsModel elementsModel)
+        {
+            SoilModel soil = RequireSoil(soilId);
+            return soil.TryConsume(waterUsage, elementsModel);
+        }
+
+        public float GetSoilHumidity(string soilId)
+        {
+            SoilModel soilModel = RequireSoil(soilId);
+            return soilModel.WaterAmount * soilModel.Breathability / 100f;
+        }
+
+        public SoilModel RequireSoil(string key)
+        {
+            if (!_soilRepo.Exists(key)) {
+                throw new KeyNotFoundException($"Soil not found with key={key}");
+            }
+
+            return _soilRepo.Require(key);
         }
 
         private void RecoverFromDiseases(SoilModel soil, int daysPassed)
@@ -216,39 +291,29 @@ namespace Game.GameMap.Soil.Service
 
         private SoilModel RecoverBaseSoilParams(SoilModel soil, SoilDescriptorModel soilDesc, int daysPassed)
         {
-            float phDiff = soilDesc.Ph - soil.Ph;
-            float salinityDiff = soilDesc.Salinity - soil.Salinity;
-            float breathabilityDiff = soilDesc.Breathability - soil.Breathability;
-            float humusDiff = soilDesc.Humus - soil.Humus;
-
             float dayCoeff = (float) daysPassed / soilDesc.RecoveryDays;
 
-            soil.Ph = phDiff / dayCoeff;
-            soil.Salinity = salinityDiff / dayCoeff;
-            soil.Breathability = breathabilityDiff / dayCoeff;
-            soil.Humus = humusDiff / dayCoeff;
-            return soil;
-        }
-
-        private bool NeedRecoverBaseParams(SoilModel soil, SoilDescriptorModel soilDesc)
-        {
             if (!MathUtils.IsFuzzyEquals(soilDesc.Ph, soil.Ph, 0.01f)) {
-                return true;
+                float phDiff = soilDesc.Ph - soil.Ph;
+                soil.Ph = phDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Salinity, soil.Salinity, 0.01f)) {
-                return true;
+                float salinityDiff = soilDesc.Salinity - soil.Salinity;
+                soil.Salinity = salinityDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Breathability, soil.Breathability, 0.1f)) {
-                return true;
+                float breathabilityDiff = soilDesc.Breathability - soil.Breathability;
+                soil.Breathability = breathabilityDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Humus, soil.Humus, 0.01f)) {
-                return true;
+                float humusDiff = soilDesc.Humus - soil.Humus;
+                soil.Humus = humusDiff / dayCoeff;
             }
 
-            return false;
+            return soil;
         }
 
         private SoilDescriptorModel RequireModelByType(SoilType soilType)
@@ -256,7 +321,7 @@ namespace Game.GameMap.Soil.Service
             return _descriptorService.Require<SoilDescriptor>().RequireByType(soilType);
         }
 
-        public SoilModel GerOrCreate(string key)
+        private SoilModel GerOrCreate(string key)
         {
             if (_soilRepo.Exists(key)) {
                 return _soilRepo.Require(key);
@@ -265,6 +330,11 @@ namespace Game.GameMap.Soil.Service
             SoilModel soilModel = CreateSoil();
             _soilRepo.Save(key, soilModel);
             return soilModel;
+        }
+
+        public void InfectSoil(string soilId, List<SavedDiseaseModel> savedDiseaseModel)
+        {
+            RequireSoil(soilId).SavedDiseases.AddRange(savedDiseaseModel);
         }
     }
 }

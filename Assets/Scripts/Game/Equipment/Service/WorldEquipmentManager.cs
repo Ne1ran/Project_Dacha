@@ -9,6 +9,7 @@ using Game.Items.Controller;
 using Game.Items.Model;
 using Game.Player.Controller;
 using Game.Player.Service;
+using Game.Seeds.Service;
 using Game.Tools.Service;
 using MessagePipe;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace Game.Equipment.Service
         private readonly PlayerService _playerService;
         private readonly ToolsService _toolsService;
         private readonly FertilizerService _fertilizersService;
+        private readonly SeedsService _seedsService;
         private readonly EquipmentService _equipmentService;
         private readonly ISubscriber<string, EquipmentChangedEvent> _equipmentChangedSubscriber;
         private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;
@@ -33,7 +35,8 @@ namespace Game.Equipment.Service
                                      EquipmentService equipmentService,
                                      FertilizerService fertilizersService,
                                      ISubscriber<string, EquipmentChangedEvent> equipmentChangedSubscriber,
-                                     ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber)
+                                     ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber,
+                                     SeedsService seedsService)
         {
             _playerService = playerService;
             _toolsService = toolsService;
@@ -41,6 +44,7 @@ namespace Game.Equipment.Service
             _fertilizersService = fertilizersService;
             _equipmentChangedSubscriber = equipmentChangedSubscriber;
             _inventoryChangedSubscriber = inventoryChangedSubscriber;
+            _seedsService = seedsService;
         }
 
         public void Initialize()
@@ -89,6 +93,7 @@ namespace Game.Equipment.Service
             return oldItem.ItemType switch {
                     ItemType.TOOL => (await _toolsService.CreateTool(oldItem.ItemId, position)),
                     ItemType.FERTILIZER => (await _fertilizersService.CreateFertilizer(oldItem.ItemId, position)),
+                    ItemType.SEED => (await _seedsService.CreateSeedBag(oldItem.ItemId, position)),
                     _ => throw new NotImplementedException("Need to implement other item types")
             };
         }

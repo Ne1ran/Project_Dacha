@@ -19,5 +19,7 @@ namespace Game.Diseases.Descriptor
         public float StageGrowth { get; set; } = 25f;
         [field: SerializeField, Tooltip("Base speed of infection growth of current stage per day"), Range(0f, 100f)]
         public float BaseGrowthPerDay { get; set; } = 1f;
+        [field: SerializeField, Tooltip("Base chance of infection heal per day on current stage"), Range(0f, 1f)]
+        public float HealChance { get; set; } = 0.1f;
     }
 }

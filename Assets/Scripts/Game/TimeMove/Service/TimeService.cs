@@ -50,7 +50,7 @@ namespace Game.TimeMove.Service
             if (timeModel.CurrentMinutes >= Constants.Constants.END_DAY_TIME) {
                 timeModel.CurrentDay++;
                 timeModel.CurrentMinutes = 0;
-                _dayFinishedPublisher.Publish(DayChangedEvent.DAY_FINISHED, new(timeModel.CurrentDay, savedCurrentDay - timeModel.CurrentDay));
+                _dayFinishedPublisher.Publish(DayChangedEvent.DAY_FINISHED, new(timeModel.CurrentDay, timeModel.CurrentDay - savedCurrentDay));
                 Debug.Log($"Day passed! Current time: {timeModel.CurrentMinutes}");
             }
 
@@ -67,7 +67,7 @@ namespace Game.TimeMove.Service
             int savedCurrentDay = timeModel.CurrentDay;
             timeModel.CurrentDay++;
             timeModel.CurrentMinutes = 0;
-            _dayFinishedPublisher.Publish(DayChangedEvent.DAY_FINISHED, new(timeModel.CurrentDay, savedCurrentDay - timeModel.CurrentDay));
+            _dayFinishedPublisher.Publish(DayChangedEvent.DAY_FINISHED, new(timeModel.CurrentDay, timeModel.CurrentDay - savedCurrentDay));
             _timeChangePublisher.Publish(TimeChangeEvent.PASSED, new(diff, timeModel.CurrentMinutes));
         }
 

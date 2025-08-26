@@ -12,5 +12,8 @@
         public const float MAX_SALINITY_PERCENT = 5.0f;
         public const float MAX_BREATHABILITY = 100f;
         public const float MAX_HUMUS_PERCENT = 15.0f;
+        
+        public const float MAX_HEALTH = 100.0f;
+        public const float MAX_IMMUNITY = 100.0f;
     }
 }
