@@ -9,6 +9,7 @@ using Game.GameMap.Tiles.Service;
 using Game.Plants.Descriptors;
 using Game.Plants.Model;
 using Game.Plants.Repo;
+using Game.Utils;
 using UnityEngine;
 
 namespace Game.Diseases.Service
@@ -32,12 +33,11 @@ namespace Game.Diseases.Service
             _soilService = soilService;
         }
 
-        public PlantModel UpdateDiseases(PlantModel plant, PlantsDescriptorModel plantsDescriptorModel, string soilId)
+        public void UpdatePlantDiseases(ref PlantModel plant, PlantsDescriptorModel plantsDescriptorModel, string soilId)
         {
             DiseasesDescriptor diseasesDescriptor = _descriptorService.Require<DiseasesDescriptor>();
             TryIncreaseDiseasesGrowth(ref plant, diseasesDescriptor, soilId);
             TryGetInfected(ref plant, plantsDescriptorModel, soilId, diseasesDescriptor);
-            return plant;
         }
 
         public void CheckSymptoms(PlantModel plantModel)
@@ -49,30 +49,42 @@ namespace Game.Diseases.Service
                     Debug.LogWarning($"Disease model descriptor not found with id={disease.Id}");
                     continue;
                 }
-                
-                int currentStage = disease.Stage;
-                InfectionStage stageDescriptor = diseaseModelDescriptor.InfectionModel.InfectionStages.Find(stage => stage.Stage == currentStage);
 
-                Dictionary<string, bool> symptomsKnowledge = new();
-                foreach (string symptom in stageDescriptor.RandomSymptoms) {
-                    symptomsKnowledge.Add(symptom, disease.KnownSymptoms.Contains(symptom));                 
-                }
-
-                // todo next
-                
-                int knowledgeCount = symptomsKnowledge.Values.Count(value => value);
-
-                if (symptomsKnowledge.Values.All(value => value)) {
-                    continue;
-                }
-
-                float symptomShowChance = disease.CurrentGrowth / stageDescriptor.StageGrowth;
-                float random = Random.Range(0f, 1f);
-                if (random >= symptomShowChance) {
-                    continue;
-                }
-
+                TryLearnRandomSymptom(disease, diseaseModelDescriptor);
             }
+        }
+
+        private void TryLearnRandomSymptom(DiseaseModel disease, DiseaseModelDescriptor diseaseModelDescriptor)
+        {
+            int currentStage = disease.Stage;
+            InfectionStage stageDescriptor = diseaseModelDescriptor.InfectionModel.InfectionStages.Find(stage => stage.Stage == currentStage);
+
+            Dictionary<string, bool> symptomsKnowledge = new();
+            foreach (string randomSymptom in stageDescriptor.RandomSymptoms) {
+                symptomsKnowledge.Add(randomSymptom, disease.KnownSymptoms.Contains(randomSymptom));
+            }
+
+            if (symptomsKnowledge.Values.All(value => value)) {
+                return;
+            }
+
+            float symptomShowChance = disease.CurrentGrowth / stageDescriptor.StageGrowth;
+            float random = Random.Range(0f, 1f);
+            if (random >= symptomShowChance) {
+                return;
+            }
+
+            List<string> list = new();
+            foreach ((string symptom, bool known) in symptomsKnowledge) {
+                if (known) {
+                    continue;
+                }
+
+                list.Add(symptom);
+            }
+
+            string randomUnknownSymptom = list.PickRandom();
+            disease.KnownSymptoms.Add(randomUnknownSymptom);
         }
 
         private void TryIncreaseDiseasesGrowth(ref PlantModel plant, DiseasesDescriptor diseasesDescriptor, string soilId)
@@ -110,15 +122,13 @@ namespace Game.Diseases.Service
 
         private bool TryHealDisease(PlantModel plant, DiseaseInfectionModel infectionModel, InfectionStage infectionStage)
         {
-            if (plant.Health > infectionModel.HighHealth && plant.Immunity > infectionModel.HighImmunity) {
-                float healChance = infectionStage.HealChance;
-                float random = Random.Range(0f, 1f);
-                if (random < healChance) {
-                    return true;
-                }
+            if (!(plant.Health > infectionModel.HighHealth) || !(plant.Immunity > infectionModel.HighImmunity)) {
+                return false;
             }
 
-            return false;
+            float healChance = infectionStage.HealChance;
+            float random = Random.Range(0f, 1f);
+            return random < healChance;
         }
 
         private float CalculateGrowthMultiplier(DiseaseInfectionModel infectionModel, string soilId)
@@ -183,6 +193,7 @@ namespace Game.Diseases.Service
                 return;
             }
 
+            diseaseModel.AddSymptoms(infectionStage.RandomSymptoms);
             diseaseModel.Stage = newPossibleStage;
             diseaseModel.CurrentGrowth = 0f;
         }

@@ -21,6 +21,27 @@ MonoBehaviour:
       <StartingChance>k__BackingField: 0.001
       <DisposeDaysNeeded>k__BackingField: 250
       <DisposeCropRotationNeeded>k__BackingField: 2
+      <LowImmunity>k__BackingField: 5
+      <HighImmunity>k__BackingField: 50
+      <LowHealth>k__BackingField: 20
+      <HighHealth>k__BackingField: 80
+      <LowImmunityMultiplier>k__BackingField: 2
+      <HighImmunityMultiplier>k__BackingField: 0.5
+      <LowHealthMultiplier>k__BackingField: 3
+      <HighHealthMultiplier>k__BackingField: 0.5
+      <GrowthDescriptor>k__BackingField:
+        <IgnoreTemperature>k__BackingField: 0
+        <MinPreferredTemperature>k__BackingField: 17
+        <MaxPreferredTemperature>k__BackingField: 22
+        <TemperatureGrowBuff>k__BackingField: 0.15
+        <IgnoreAirHumidity>k__BackingField: 0
+        <MinPreferredAirHumidity>k__BackingField: 50
+        <MaxPreferredAirHumidity>k__BackingField: 70
+        <AirHumidityGrowBuff>k__BackingField: 0.1
+        <IgnoreSoilHumidity>k__BackingField: 1
+        <MinPreferredSoilHumidity>k__BackingField: 80
+        <MaxPreferredSoilHumidity>k__BackingField: 99
+        <SoilHumidityGrowBuff>k__BackingField: 0.15
       <TileRangeMultipliers>k__BackingField:
       - <TileRange>k__BackingField: 1
         <Multiplier>k__BackingField: 2.5
@@ -33,15 +54,16 @@ MonoBehaviour:
         - SlowedGrowth
         <StageGrowth>k__BackingField: 25
         <BaseGrowthPerDay>k__BackingField: 1
+        <HealChance>k__BackingField: 0.05
       - <Stage>k__BackingField: 2
         <PlantDamagePerDay>k__BackingField: 1
         <RandomSymptoms>k__BackingField:
         - WhiteMildew
         - DontGrowth
-        - InfectedNewLeaves
         - MildewOnFrontOfLeaves
         <StageGrowth>k__BackingField: 25
         <BaseGrowthPerDay>k__BackingField: 2
+        <HealChance>k__BackingField: 0.01
       - <Stage>k__BackingField: 3
         <PlantDamagePerDay>k__BackingField: 3
         <RandomSymptoms>k__BackingField:
@@ -50,6 +72,7 @@ MonoBehaviour:
         - BlackPoints
         <StageGrowth>k__BackingField: 25
         <BaseGrowthPerDay>k__BackingField: 3
+        <HealChance>k__BackingField: 0
   - <Id>k__BackingField: DownyMildew
     <Name>k__BackingField: Downy Mildew
     <DiseaseType>k__BackingField: 1
@@ -58,6 +81,27 @@ MonoBehaviour:
       <StartingChance>k__BackingField: 0.002
       <DisposeDaysNeeded>k__BackingField: 400
       <DisposeCropRotationNeeded>k__BackingField: 3
+      <LowImmunity>k__BackingField: 5
+      <HighImmunity>k__BackingField: 50
+      <LowHealth>k__BackingField: 20
+      <HighHealth>k__BackingField: 80
+      <LowImmunityMultiplier>k__BackingField: 2
+      <HighImmunityMultiplier>k__BackingField: 0.5
+      <LowHealthMultiplier>k__BackingField: 3
+      <HighHealthMultiplier>k__BackingField: 0.5
+      <GrowthDescriptor>k__BackingField:
+        <IgnoreTemperature>k__BackingField: 0
+        <MinPreferredTemperature>k__BackingField: 20
+        <MaxPreferredTemperature>k__BackingField: 24
+        <TemperatureGrowBuff>k__BackingField: 0.15
+        <IgnoreAirHumidity>k__BackingField: 0
+        <MinPreferredAirHumidity>k__BackingField: 80
+        <MaxPreferredAirHumidity>k__BackingField: 99
+        <AirHumidityGrowBuff>k__BackingField: 0.15
+        <IgnoreSoilHumidity>k__BackingField: 0
+        <MinPreferredSoilHumidity>k__BackingField: 80
+        <MaxPreferredSoilHumidity>k__BackingField: 99
+        <SoilHumidityGrowBuff>k__BackingField: 0.15
       <TileRangeMultipliers>k__BackingField:
       - <TileRange>k__BackingField: 1
         <Multiplier>k__BackingField: 3.5
@@ -72,6 +116,7 @@ MonoBehaviour:
         - InfectedAnyLeaves
         <StageGrowth>k__BackingField: 25
         <BaseGrowthPerDay>k__BackingField: 1
+        <HealChance>k__BackingField: 0.1
       - <Stage>k__BackingField: 2
         <PlantDamagePerDay>k__BackingField: 1
         <RandomSymptoms>k__BackingField:
@@ -81,6 +126,7 @@ MonoBehaviour:
         - Deformation
         <StageGrowth>k__BackingField: 25
         <BaseGrowthPerDay>k__BackingField: 3
+        <HealChance>k__BackingField: 0.1
       - <Stage>k__BackingField: 3
         <PlantDamagePerDay>k__BackingField: 1
         <RandomSymptoms>k__BackingField:
@@ -89,3 +135,4 @@ MonoBehaviour:
         - Rot
         <StageGrowth>k__BackingField: 25
         <BaseGrowthPerDay>k__BackingField: 5
+        <HealChance>k__BackingField: 0.1

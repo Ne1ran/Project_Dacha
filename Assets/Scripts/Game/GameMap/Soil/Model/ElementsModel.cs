@@ -31,5 +31,10 @@
         {
             return !(Phosphorus < elementsModel.Phosphorus) && !(Nitrogen < elementsModel.Nitrogen) && !(Potassium < elementsModel.Potassium);
         }
+
+        public float TotalMass()
+        {
+            return Nitrogen + Potassium + Phosphorus;
+        }
     }
 }

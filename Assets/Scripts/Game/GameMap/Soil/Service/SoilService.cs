@@ -106,6 +106,11 @@ namespace Game.GameMap.Soil.Service
             return true;
         }
 
+        public bool TryConsumeHumus(string tileId, float humus)
+        {
+            return RequireSoil(tileId).TryConsumeHumus(humus);
+        }
+
         public bool TrySowSeed(string tileId)
         {
             SoilModel soilModel = GerOrCreate(tileId);

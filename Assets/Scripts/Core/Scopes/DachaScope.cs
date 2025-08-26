@@ -58,7 +58,7 @@ namespace Core.Scopes
             builder.Register<PieMenuService>(Lifetime.Singleton);
             builder.Register<FertilizerService>(Lifetime.Singleton);
             builder.Register<PieMenuInteractionService>(Lifetime.Singleton);
-            builder.Register<ConditionFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();;
+            builder.Register<ConditionFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<ConditionService>(Lifetime.Singleton);
             builder.Register<SeedsService>(Lifetime.Singleton);
             builder.Register<PlantsService>(Lifetime.Singleton);

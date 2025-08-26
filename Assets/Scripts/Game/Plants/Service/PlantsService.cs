@@ -65,14 +65,14 @@ namespace Game.Plants.Service
                 Debug.Log($"No need to double inspect plant on tile={tileId}");
                 return;
             }
-            
+
             if (plantModel.DiseaseModels.Count > 0) {
                 _plantDiseaseService.CheckSymptoms(plantModel);
             }
 
             plantModel.InspectedToday = true;
         }
-        
+
         public void CreatePlant(string seedId, string tileId)
         {
             if (_plantsRepo.Exists(tileId)) {
@@ -136,7 +136,7 @@ namespace Game.Plants.Service
             CalculateSoilHumidityAffect(plantStageDescriptor.SoilHumidityParameters, soilId, growCalculationModel);
             Debug.LogWarning($"Plant life simulation. GrowCalcModel: growMultiplier={growCalculationModel.GrowMultiplier}, damage={growCalculationModel.Damage}");
 
-            ApplyGrowCalculationModel(plant, soilId, plantStageDescriptor, growCalculationModel, dayDifference);
+            ApplyGrowCalculationModel(ref plant, soilId, plantStageDescriptor, growCalculationModel, dayDifference);
 
             if (plant.CurrentStage == PlantGrowStage.DEAD) {
                 // if plant have died - no need for further calculations 
@@ -144,14 +144,45 @@ namespace Game.Plants.Service
             }
 
             TryGrowToNextStage(plant, plantStageDescriptor, plantsDescriptorModel);
-            _plantDiseaseService.UpdateDiseases(plant, plantsDescriptorModel, soilId);
+            if (growCalculationModel.Damage <= 0) {
+                TryHealPlant(ref plant, plantStageDescriptor, soilId);
+                if (growCalculationModel.GrowMultiplier > 1f) {
+                    TryIncreaseImmunity(ref plant, plantStageDescriptor);
+                }
+            }
+            
+            _plantDiseaseService.UpdatePlantDiseases(ref plant, plantsDescriptorModel, soilId);
         }
 
-        private PlantModel ApplyGrowCalculationModel(PlantModel plant,
-                                                     string soilId,
-                                                     PlantStageDescriptor plantStageDescriptor,
-                                                     PlantGrowCalculationModel calculationModel,
-                                                     float dayDifference)
+        private void TryHealPlant(ref PlantModel plant,
+                                  PlantStageDescriptor plantStageDescriptor,
+                                  string soilId)
+        {
+            if (plant.Health >= Constants.Constants.MAX_HEALTH) {
+                return;
+            }
+
+            float neededHealth = Mathf.Min(plantStageDescriptor.DailyRegeneration, Constants.Constants.MAX_HEALTH - plant.Health);
+            if (_soilService.TryConsumeHumus(soilId, neededHealth)) {
+                plant.Health = Mathf.Clamp(plant.Health + neededHealth, 0f, Constants.Constants.MAX_HEALTH);
+            }
+        }
+
+        private void TryIncreaseImmunity(ref PlantModel plant, PlantStageDescriptor plantStageDescriptor)
+        {
+            if (plant.Immunity >= Constants.Constants.MAX_IMMUNITY) {
+                return;
+            }
+
+            float healthMultiplier = plant.Health / Constants.Constants.MAX_HEALTH;
+            plant.Immunity = Mathf.Clamp(plant.Immunity + healthMultiplier * plantStageDescriptor.DailyImmunityGain, 0f, Constants.Constants.MAX_IMMUNITY);
+        }
+
+        private void ApplyGrowCalculationModel(ref PlantModel plant,
+                                               string soilId,
+                                               PlantStageDescriptor plantStageDescriptor,
+                                               PlantGrowCalculationModel calculationModel,
+                                               float dayDifference)
         {
             float growthMultiplier = dayDifference * calculationModel.GrowMultiplier;
             float dayCoeff = growthMultiplier / plantStageDescriptor.AverageGrowTime;
@@ -162,19 +193,16 @@ namespace Game.Plants.Service
 
             if (!TryConsumeElements(plant, soilId, plantStageDescriptor, dayCoeff)) {
                 // Maybe additional damage?
-                return plant;
+                return;
             }
 
             plant.StageGrowth += growthMultiplier;
-            return plant;
         }
 
-        private PlantModel TryGrowToNextStage(PlantModel plant,
-                                              PlantStageDescriptor currentStageDescriptor,
-                                              PlantsDescriptorModel plantsDescriptorModel)
+        private void TryGrowToNextStage(PlantModel plant, PlantStageDescriptor currentStageDescriptor, PlantsDescriptorModel plantsDescriptorModel)
         {
             if (plant.StageGrowth < currentStageDescriptor.AverageGrowTime) {
-                return plant;
+                return;
             }
 
             PlantStageDescriptor? plantStageDescriptor = plantsDescriptorModel.Stages.Find(stageDesc => stageDesc.Stage == plant.CurrentStage);
@@ -186,13 +214,12 @@ namespace Game.Plants.Service
             int newStageIndex = stageIndex + 1;
             if (newStageIndex >= plantsDescriptorModel.Stages.Count) {
                 Debug.LogWarning("Can't grow to next stage, because stage index is out of range!");
-                return plant;
+                return;
             }
 
             PlantStageDescriptor newStageDescriptor = plantsDescriptorModel.Stages[newStageIndex];
             plant.CurrentStage = newStageDescriptor.Stage;
             plant.StageGrowth = 0f;
-            return plant;
         }
 
         private bool TryConsumeElements(PlantModel plant, string soilId, PlantStageDescriptor plantStageDescriptor, float dayCoeff)

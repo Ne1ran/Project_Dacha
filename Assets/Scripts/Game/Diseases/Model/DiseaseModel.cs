@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Game.Diseases.Model
 {
@@ -14,6 +15,17 @@ namespace Game.Diseases.Model
             Id = id;
             Stage = stage;
             CurrentGrowth = currentGrowth;
+        }
+
+        public void AddSymptoms(List<string> symptoms)
+        {
+            foreach (string symptom in symptoms) {
+                if (KnownSymptoms.Contains(symptom)) {
+                    continue;
+                }
+                
+                KnownSymptoms.Add(symptom);
+            }
         }
     }
 }

@@ -58,13 +58,34 @@ namespace Game.GameMap.Soil.Model
 
         public bool TryConsume(float water, ElementsModel elements)
         {
-            if (WaterAmount < water || !Elements.HasEnoughElements(elements)) {
-                return false; 
+            if (WaterAmount < water) {
+                return false;
             }
-            
+
             WaterAmount -= water;
-            Elements.Subtract(elements);
+
+            if (Elements.HasEnoughElements(elements)) {
+                Elements.Subtract(elements);
+                return true;
+            }
+
+            float totalMass = elements.TotalMass();
+            if (Humus > totalMass) {
+                Humus -= totalMass;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool TryConsumeHumus(float humus)
+        {
+            if (Humus < humus) {
+                return false;
+            }
+
+            Humus -= humus;
             return true;
         }
-    }
+    } 
 }

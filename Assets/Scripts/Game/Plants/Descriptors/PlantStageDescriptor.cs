@@ -11,6 +11,10 @@ namespace Game.Plants.Descriptors
         public PlantGrowStage Stage { get; set; } = PlantGrowStage.SEED;
         [field: SerializeField]
         public float AverageGrowTime { get; set; } = 7f;
+        [field: SerializeField, Tooltip("Plant regeneration every day. Consumes humus to convert into health")]
+        public float DailyRegeneration { get; set; } = 3f;
+        [field: SerializeField, Tooltip("Plant immunity gain every day. Doesn't consume anything. Applies only if there was no debuffs on plant health or growth via external factors (deceases doesn't count). Decreases proportionally with health of plant")]
+        public float DailyImmunityGain { get; set; } = 3f;
         [field: SerializeField]
         public PlantConsumptionDescriptor PlantConsumption { get; set; } = null!;
         [field: SerializeField]
