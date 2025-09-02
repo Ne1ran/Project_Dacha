@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6139951463367715577}
   - component: {fileID: -8148696353848839379}
   m_Layer: 0
-  m_Name: Tillage_1x1
+  m_Name: pfTillage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
