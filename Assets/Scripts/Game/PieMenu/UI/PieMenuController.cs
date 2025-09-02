@@ -25,8 +25,6 @@ namespace Game.PieMenu.UI
         private const string SETTINGS_NAME = "Settings";
 
         [ComponentBinding]
-        private PieMenuController _pieMenu = null!;
-        [ComponentBinding]
         private RectTransform _rectTransform = null!;
         [ComponentBinding("ItemsHolder")]
         private Transform _itemsHolder = null!;
@@ -86,7 +84,9 @@ namespace Game.PieMenu.UI
 
         private async UniTaskVoid InteractAsync(PieMenuItemModel itemModel)
         {
+            
             await _pieMenuInteractionService.InteractAsync(itemModel, _parameters);
+            
             RemovePieMenu().Forget();
         }
 

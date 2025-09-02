@@ -7,5 +7,6 @@
         public const string ItemType = "ItemType";
         public const string PortionMass = "PortionMass";
         public const string NotificationType = "NotificationType";
+        public const string WaterAmount = "WaterAmount";
     }
 }

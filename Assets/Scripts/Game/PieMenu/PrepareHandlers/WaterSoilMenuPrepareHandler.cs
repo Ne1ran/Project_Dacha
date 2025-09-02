@@ -14,8 +14,8 @@ using VContainer;
 
 namespace Game.PieMenu.PrepareHandlers
 {
-    [Handler("PrepareSoilTool")]
-    public class UseSoilToolMenuPrepareHandler : IPieMenuPrepareHandler
+    [Handler("PrepareWaterSoil")]
+    public class WaterSoilMenuPrepareHandler : IPieMenuPrepareHandler
     {
         [Inject]
         private readonly InventoryService _inventoryService = null!;
@@ -26,7 +26,7 @@ namespace Game.PieMenu.PrepareHandlers
         {
             List<PieMenuItemSelectionModel> selectionModels = UpdateSelectionModels();
             if (selectionModels.Count == 0) {
-                selectionModels.Add(new(string.Empty, pieMenuSettings.BaseIcon, "any tool"));
+                selectionModels.Add(new(string.Empty, pieMenuSettings.BaseIcon, "any water container"));
             }
 
             PieMenuItemModel itemModel = new(pieMenuSettings.InteractionHandlerName, pieMenuSettings.Title, pieMenuSettings.Description,
@@ -54,7 +54,7 @@ namespace Game.PieMenu.PrepareHandlers
                     continue;
                 }
 
-                if (toolsDescriptorModel.ToolType == ToolType.SOIL) {
+                if (toolsDescriptorModel.ToolType == ToolType.WATER) {
                     result.Add(new(tool.Id, itemDescriptorModel.Icon, toolsDescriptorModel.ToolName));
                 }
             }

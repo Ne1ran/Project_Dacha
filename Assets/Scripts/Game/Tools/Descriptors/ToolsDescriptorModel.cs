@@ -1,5 +1,7 @@
 ﻿using System;
+using Game.Common.Descriptors;
 using Game.Tools.Model;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.Tools.Descriptors
@@ -19,5 +21,7 @@ namespace Game.Tools.Descriptors
         public string UseHandler { get; set; } = null!;
         [field: SerializeField]
         public bool CanCarryInfection { get; set; }
+        [field: SerializeField]
+        public string SelectorDescriptorId { get; set; } = null!;
     }
 }
