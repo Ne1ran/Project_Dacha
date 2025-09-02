@@ -17,5 +17,5 @@ MonoBehaviour:
     <MinValue>k__BackingField: 1
     <MaxValue>k__BackingField: 10
     <StartValue>k__BackingField: 5
-    <StepsCount>k__BackingField: 20
+    <StepValue>k__BackingField: 0.5
     <RoundDigits>k__BackingField: 1

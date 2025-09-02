@@ -5,15 +5,15 @@
         public float MinValue { get; }
         public float MaxValue { get; }
         public float StartValue { get; }
-        public float StepsCount { get; }
+        public float StepValue { get; }
         public int RoundDigits { get; }
 
-        public SliderSelectorModel(float minValue, float maxValue, float startValue, float stepsCount, int roundDigits)
+        public SliderSelectorModel(float minValue, float maxValue, float startValue, float stepValue, int roundDigits)
         {
             MinValue = minValue;
             MaxValue = maxValue;
             StartValue = startValue;
-            StepsCount = stepsCount;
+            StepValue = stepValue;
             RoundDigits = roundDigits;
         }
     }

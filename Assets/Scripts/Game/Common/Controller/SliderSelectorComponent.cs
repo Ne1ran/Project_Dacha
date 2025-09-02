@@ -29,13 +29,14 @@ namespace Game.Common.Controller
         [ComponentBinding("Background")]
         private readonly ClickableControl _backgroundClickable = null!;
 
-        private float _currentValue;
-
         private float _minValue;
         private float _maxValue;
-        private float _valuesDifference;
-        private float _stepsCount;
+
+        private float _stepValue;
+        private int _stepsCount;
+
         private int _roundDigits;
+        private float _currentValue;
 
         public event Action? OnBackPressed;
         public event Action<float>? OnAcceptPressed;
@@ -47,13 +48,13 @@ namespace Game.Common.Controller
             _slider.onValueChanged.AddListener(OnSliderValueChanged);
             _backgroundClickable.OnClick += OnGoBack;
         }
-        
+
         private void OnSliderValueChanged(float newValue)
         {
-            float steppedValue = Mathf.CeilToInt(newValue * _stepsCount) / _stepsCount;
-            _slider.SetValueWithoutNotify(steppedValue);
-            _currentValue = steppedValue;
-            CurrentValueText = RealValue;
+            _currentValue = GetRealValue(newValue);
+            float sliderValue = GetSliderValue(_currentValue);
+            _slider.SetValueWithoutNotify(sliderValue);
+            CurrentValueText = _currentValue;
         }
 
         private void OnDestroy()
@@ -69,25 +70,37 @@ namespace Game.Common.Controller
             _minValue = sliderSelectorModel.MinValue;
             _maxValue = sliderSelectorModel.MaxValue;
             _roundDigits = sliderSelectorModel.RoundDigits;
-            _stepsCount = sliderSelectorModel.StepsCount;
-            _currentValue = sliderSelectorModel.StartValue / _maxValue;
-            
+            _stepValue = sliderSelectorModel.StepValue;
+            _stepsCount = (int) Mathf.Round((_maxValue - _minValue) / _stepValue) + 1;
+
             MinValue = _minValue;
             MaxValue = _maxValue;
-            CurrentValueText = RealValue;
+            CurrentValueText = GetRealValue(GetSliderValue(sliderSelectorModel.StartValue));
+        }
+
+        private float GetRealValue(float sliderValue)
+        {
+            int stepIndex = (int) Mathf.Round(sliderValue * (_stepsCount - 1));
+            stepIndex = Mathf.Clamp(stepIndex, 0, _stepsCount - 1);
+            return _minValue + stepIndex * _stepValue;
+        }
+
+        private float GetSliderValue(float realValue)
+        {
+            int stepIndex = (int) Mathf.Round((realValue - _minValue) / _stepValue);
+            stepIndex = Mathf.Clamp(stepIndex, 0, _stepsCount - 1);
+            return (float) stepIndex / (_stepsCount - 1);
         }
 
         private void OnAcceptClicked()
         {
-            OnAcceptPressed?.Invoke(RealValue);
+            OnAcceptPressed?.Invoke(_currentValue);
         }
 
         private void OnGoBack()
         {
             OnBackPressed?.Invoke();
         }
-
-        private float RealValue => Mathf.Clamp(_currentValue * _maxValue, _minValue, _maxValue);
 
         private float CurrentValueText
         {

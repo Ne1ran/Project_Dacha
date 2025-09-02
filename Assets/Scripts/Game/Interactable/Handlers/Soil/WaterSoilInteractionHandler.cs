@@ -52,14 +52,14 @@ namespace Game.Interactable.Handlers.Soil
             if (string.IsNullOrEmpty(toolsDescriptorModel.SelectorDescriptorId)) {
                 return;
             }
-            
+
             SelectorsDescriptor selectorDescriptor = _descriptorService.Require<SelectorsDescriptor>();
             SelectorDescriptorModel selectorDescriptorModel = selectorDescriptor.Require(toolsDescriptorModel.SelectorDescriptorId);
 
             _sliderSelector = await _uiService.ShowElementAsync<SliderSelectorComponent>();
             _sliderSelector.Initialize(new(selectorDescriptorModel.MinValue, selectorDescriptorModel.MaxValue, selectorDescriptorModel.StartValue,
-                                           selectorDescriptorModel.StepsCount, selectorDescriptorModel.RoundDigits));
-            
+                                           selectorDescriptorModel.StepValue, selectorDescriptorModel.RoundDigits));
+
             _sliderSelector.OnAcceptPressed += OnAccepted;
             _sliderSelector.OnBackPressed += OnBackPressed;
             _isWaiting = true;
@@ -82,7 +82,7 @@ namespace Game.Interactable.Handlers.Soil
             _isWaiting = false;
             _sliderSelector.OnAcceptPressed -= OnAccepted;
             _sliderSelector.OnBackPressed -= OnBackPressed;
-            _uiService.HideDialogAsync<SliderSelectorComponent>().Forget();
+            _uiService.RemoveElementAsync(_sliderSelector.gameObject).Forget();
         }
     }
 }

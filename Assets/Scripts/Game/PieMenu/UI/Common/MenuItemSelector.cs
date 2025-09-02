@@ -46,6 +46,10 @@ namespace Game.PieMenu.UI.Common
             if (!_initialized) {
                 return;
             }
+
+            if (!_pieMenuModel.IsActive) {
+                return;
+            }
             
             if (SelectionEnabled) {
                 if (!_isChecking) {

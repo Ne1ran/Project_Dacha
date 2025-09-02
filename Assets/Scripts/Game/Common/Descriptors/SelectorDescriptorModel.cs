@@ -15,7 +15,7 @@ namespace Game.Common.Descriptors
         [field: SerializeField]
         public float StartValue { get; set; }
         [field: SerializeField]
-        public float StepsCount { get; set; }
+        public float StepValue { get; set; }
         [field: SerializeField]
         public int RoundDigits { get; set; }
     }

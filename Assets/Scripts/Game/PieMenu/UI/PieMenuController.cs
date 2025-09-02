@@ -84,9 +84,9 @@ namespace Game.PieMenu.UI
 
         private async UniTaskVoid InteractAsync(PieMenuItemModel itemModel)
         {
-            
+            PieMenuModel.SetActiveState(false);
             await _pieMenuInteractionService.InteractAsync(itemModel, _parameters);
-            
+            PieMenuModel.SetActiveState(true);
             RemovePieMenu().Forget();
         }
 
@@ -141,6 +141,10 @@ namespace Game.PieMenu.UI
 
         private void Update()
         {
+            if (!PieMenuModel.IsActive) {
+                return;
+            }
+            
             if (_playerService.Player.InteractionButtonPressed) {
                 return;
             }
