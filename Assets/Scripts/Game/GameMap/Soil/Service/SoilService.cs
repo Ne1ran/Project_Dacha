@@ -94,6 +94,13 @@ namespace Game.GameMap.Soil.Service
             return true;
         }
 
+        public void WaterSoil(string tileId, float waterAmount)
+        {
+            SoilModel soilModel = GerOrCreate(tileId);
+            soilModel.WaterAmount += waterAmount;
+            Debug.Log($"Watered soil={tileId}, waterAmount={waterAmount}, newAmount={soilModel.WaterAmount}");
+        }
+
         public bool TryTiltSoil(string tileId)
         {
             SoilModel soilModel = GerOrCreate(tileId);

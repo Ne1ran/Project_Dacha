@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Core.Attributes;
-using Core.Common.Model;
 using Core.Descriptors.Service;
 using Core.GameWorld.Service;
 using Core.Resources.Service;
@@ -9,7 +7,6 @@ using Cysharp.Threading.Tasks;
 using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Tiles.Component;
 using Game.GameMap.Tiles.Model;
-using Unity.Mathematics.Geometry;
 using Math = System.Math;
 
 namespace Game.GameMap.Tiles.Service

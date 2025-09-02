@@ -26,7 +26,7 @@ namespace Game.Interactable.Handlers.Soil
             
             string tileId = parameters.Require<string>(ParameterNames.TileId);
             string fertilizerId = pieMenuItemSelectionModel.ItemId;
-            float portionMass = 100f; // todo remove afterwards
+            float portionMass = 100f; // todo neiran remove afterwards
             UseFertilizer(tileId, fertilizerId, portionMass);
             return UniTask.CompletedTask;
         }

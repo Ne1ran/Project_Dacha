@@ -39,6 +39,12 @@ MonoBehaviour:
       <Description>k__BackingField: Sow {substitute} into the soil
       <BaseIcon>k__BackingField: {fileID: 21300000, guid: ec02013256c3e0c40b06d46162f1108a, type: 3}
       <Conditions>k__BackingField: []
+    - <InteractionHandlerName>k__BackingField: WaterSoil
+      <PrepareHandlerName>k__BackingField: PrepareWaterSoil
+      <Title>k__BackingField: Water soil
+      <Description>k__BackingField: Water soil with {substitute}
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: 8542587de6e9f3f4a98ba85992c9f647, type: 3}
+      <Conditions>k__BackingField: []
   - <InteractableType>k__BackingField: 0
     <Settings>k__BackingField: []
   - <InteractableType>k__BackingField: 1

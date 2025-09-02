@@ -20,11 +20,9 @@ namespace Game.Interactable.Handlers.Soil
         public UniTask InteractAsync(PieMenuItemModel itemModel, Parameters parameters)
         {
             PieMenuItemSelectionModel pieMenuItemSelectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
-            if (string.IsNullOrEmpty(pieMenuItemSelectionModel.ItemId)) {
-                return _notificationManager.ShowNotification(NotificationType.TOOL_NOT_FOUND);
-            }
-
-            return _toolsService.UseToolAsync(pieMenuItemSelectionModel.ItemId, parameters);
+            return string.IsNullOrEmpty(pieMenuItemSelectionModel.ItemId)
+                           ? _notificationManager.ShowNotification(NotificationType.TOOL_NOT_FOUND)
+                           : _toolsService.UseToolAsync(pieMenuItemSelectionModel.ItemId, parameters);
         }
     }
 }
