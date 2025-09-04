@@ -17,8 +17,12 @@ namespace Game.Plants.Descriptors
         public string PlantId { get; set; } = null!;
         [field: SerializeField]
         public string PlantName { get; set; } = null!;
+        [field: SerializeField]
+        public int PlantsCount { get; set; } = 1;
         [field: SerializeField, Tooltip("Family type of a plant")]
         public PlantFamilyType FamilyType { get; set; } = PlantFamilyType.None;
+        [field: SerializeField]
+        public PlantVisualizationDescriptor Visualization { get; set; } = null!;
         [field: SerializeField]
         public List<PlantStageDescriptor> Stages { get; set; } = new();
     }
