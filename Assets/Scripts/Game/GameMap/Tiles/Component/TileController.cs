@@ -2,6 +2,7 @@
 using Core.Resources.Binding.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
+using Game.GameMap.Soil.Component;
 using Game.GameMap.Tiles.Model;
 using Game.Interactable.Model;
 using Game.PieMenu.Service;
@@ -13,10 +14,17 @@ namespace Game.GameMap.Tiles.Component
     [PrefabPath("Prefabs/Tiles/pfTile")]
     public class TileController : MonoBehaviour, IInteractableComponent
     {
+        [ComponentBinding("SoilHolder")]
+        private Transform _soilHolder = null!;
+        [ComponentBinding("PlantHolder")]
+        private Transform _plantHolder = null!;
+        
         [Inject]
         private readonly PieMenuService _pieMenuService = null!;
 
         public SingleTileModel TileModel { get; private set; } = null!;
+        
+        private SoilController _currentSoil = null!;
         
         public void Initialize(SingleTileModel model)
         {
@@ -31,6 +39,17 @@ namespace Game.GameMap.Tiles.Component
         public UniTask StopInteract()
         {
             return UniTask.CompletedTask;
+        }
+
+        public void AddSoil(SoilController soil)
+        {
+            _currentSoil = soil;
+            soil.transform.SetParent(_soilHolder, false);
+        }
+
+        public void AddPlant()
+        {
+            // todo neiran add when needed
         }
     }
 }

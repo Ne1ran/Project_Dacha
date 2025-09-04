@@ -4,14 +4,14 @@ namespace Game.GameMap.Tiles.Event
 {
     public class SoilUpdatedEvent
     {
-        public const string SOIL_UPDATED = "SOIL_UPDATED";
+        public const string FullyUpdated = "FullyUpdated";
         
-        public string TileId { get; }
+        public string Id { get; }
         public SoilModel SoilModel { get; }
 
-        public SoilUpdatedEvent(string tileId, SoilModel soilModel)
+        public SoilUpdatedEvent(string id, SoilModel soilModel)
         {
-            TileId = tileId;
+            Id = id;
             SoilModel = soilModel;
         }
     }
