@@ -91,6 +91,8 @@ namespace Game.GameMap.Soil.Service
             soilModel.Breathability = Mathf.Min(minBreathability, soilModel.Breathability * 1.25f);
             soilModel.State = SoilState.None;
             soilModel.DugRecently = true;
+            
+            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
             return true;
         }
 
@@ -99,6 +101,7 @@ namespace Game.GameMap.Soil.Service
             SoilModel soilModel = GerOrCreate(tileId);
             soilModel.WaterAmount += waterAmount;
             Debug.Log($"Watered soil={tileId}, waterAmount={waterAmount}, newAmount={soilModel.WaterAmount}");
+            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
         }
 
         public bool TryTiltSoil(string tileId)
@@ -110,6 +113,7 @@ namespace Game.GameMap.Soil.Service
             }
 
             soilModel.State = SoilState.Tilted;
+            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
             return true;
         }
 
@@ -130,6 +134,7 @@ namespace Game.GameMap.Soil.Service
                     break;
                 case SoilState.Tilted:
                     soilModel.State = SoilState.Planted;
+                    _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
                     return true;
             }
 
@@ -188,13 +193,14 @@ namespace Game.GameMap.Soil.Service
         {
             Dictionary<string, SoilModel> soilModels = _soilRepo.GetAll();
 
-            foreach (SoilModel soilModel in soilModels.Values) {
+            foreach ((string tileId, SoilModel soilModel) in soilModels) {
                 foreach (SoilFertilizationModel usedFertilizer in soilModel.UsedFertilizers) {
                     usedFertilizer.CurrentDecomposeDay += 1;
                 }
 
                 soilModel.DugRecently = false;
                 TryRecoverSoil(soilModel, evt.DayDifference);
+                _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
             }
 
             _soilRepo.SaveAll(soilModels);

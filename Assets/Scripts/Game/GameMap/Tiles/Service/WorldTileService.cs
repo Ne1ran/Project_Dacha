@@ -22,7 +22,7 @@ namespace Game.GameMap.Tiles.Service
         private readonly IDescriptorService _descriptorService;
 
         private readonly List<SingleTileModel> _mapTilesModels = new();
-        private readonly Dictionary<SingleTileModel, TileController> _mapTilesControllers = new();
+        private readonly Dictionary<string, TileController> _mapTilesControllers = new();
 
         private IDisposable? _disposable;
 
@@ -102,14 +102,14 @@ namespace Game.GameMap.Tiles.Service
             TileController tileController = await _resourceService.LoadObjectAsync<TileController>(_gameWorldService.MapObject);
             tileController.Initialize(tileModel);
             tileController.transform.position = tileModel.Position.ToVector3();
-            _mapTilesControllers.Add(tileModel, tileController);
+            _mapTilesControllers.Add(tileModel.Id, tileController);
             return tileController;
         }
 
         private void OnSoilCreated(SoilControllerCreatedEvent evt)
         {
-            if (!_mapTilesControllers.TryGetValue(evt.TileModel, out TileController tileController)) {
-                throw new ArgumentException($"Tile controller not found for tile model. Id={evt.TileModel.Id}");
+            if (!_mapTilesControllers.TryGetValue(evt.Id, out TileController tileController)) {
+                throw new ArgumentException($"Tile controller not found for tile model. Id={evt.Id}");
             }
             
             tileController.AddSoil(evt.SoilController);

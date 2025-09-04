@@ -7,12 +7,12 @@ namespace Game.GameMap.Soil.Event
     {
         public const string SoilCreated = "SoilControllerCreated";
         
-        public SingleTileModel TileModel { get; }
+        public string Id { get; }
         public SoilController SoilController { get; }
 
-        public SoilControllerCreatedEvent(SingleTileModel tileModel, SoilController soilController)
+        public SoilControllerCreatedEvent(string id, SoilController soilController)
         {
-            TileModel = tileModel;
+            Id = id;
             SoilController = soilController;
         }
     }

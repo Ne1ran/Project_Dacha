@@ -50,7 +50,7 @@ namespace Core.Scopes
             builder.Register<TileRepo>(Lifetime.Singleton);
             builder.Register<TileService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<SoilRepo>(Lifetime.Singleton);
-            builder.Register<WorldSoilService>(Lifetime.Singleton);
+            builder.Register<WorldSoilService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();;
             builder.Register<SoilService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeRepo>(Lifetime.Singleton);
             builder.Register<PickUpItemService>(Lifetime.Singleton);

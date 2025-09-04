@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Attributes;
 using Core.Descriptors.Service;
@@ -9,31 +10,41 @@ using Game.GameMap.Soil.Component;
 using Game.GameMap.Soil.Descriptor;
 using Game.GameMap.Soil.Event;
 using Game.GameMap.Soil.Model;
+using Game.GameMap.Tiles.Event;
 using Game.GameMap.Tiles.Model;
 using MessagePipe;
-using UnityEngine;
 
 namespace Game.GameMap.Soil.Service
 {
     [Service]
-    public class WorldSoilService
+    public class WorldSoilService : IDisposable
     {
         private readonly IResourceService _resourceService;
         private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, SoilControllerCreatedEvent> _soilControllerCreatedPublisher;
-        private readonly SoilService _soilService;
 
         private readonly Dictionary<string, SoilController> _soilControllers = new();
 
+        private IDisposable? _disposable;
+
         public WorldSoilService(IResourceService resourceService,
                                 IDescriptorService descriptorService,
-                                SoilService soilService,
-                                IPublisher<string, SoilControllerCreatedEvent> soilControllerCreatedPublisher)
+                                IPublisher<string, SoilControllerCreatedEvent> soilControllerCreatedPublisher,
+                                ISubscriber<string, SoilUpdatedEvent> soilUpdatedSubscriber)
         {
             _resourceService = resourceService;
             _descriptorService = descriptorService;
-            _soilService = soilService;
             _soilControllerCreatedPublisher = soilControllerCreatedPublisher;
+
+            DisposableBagBuilder disposableBag = DisposableBag.CreateBuilder();
+            disposableBag.Add(soilUpdatedSubscriber.Subscribe(SoilUpdatedEvent.FullyUpdated, OnSoilUpdated));
+            _disposable = disposableBag.Build();
+        }
+
+        public void Dispose()
+        {
+            _disposable?.Dispose();
+            _disposable = null;
         }
 
         public async UniTask<List<SoilController>> CreateSoilControllers(List<SingleTileModel> tiles)
@@ -46,28 +57,29 @@ namespace Game.GameMap.Soil.Service
 
             List<UniTask<SoilController>> soilControllers = new();
             foreach (SingleTileModel tileModel in tiles) {
-                soilControllers.Add(CreateSoil(tileModel, soilVisualDescriptor));
+                soilControllers.Add(CreateSoil(tileModel.Id, soilVisualDescriptor));
             }
 
             SoilController[] controllers = await UniTask.WhenAll(soilControllers);
             return controllers.ToList();
         }
 
-        private async UniTask<SoilController> CreateSoil(SingleTileModel tileModel, SoilVisualDescriptor soilVisualDescriptor)
+        private async UniTask<SoilController> CreateSoil(string soilId, SoilVisualDescriptor soilVisualDescriptor)
         {
             SoilController soil = await _resourceService.LoadObjectAsync<SoilController>();
-
-            string soilId = tileModel.Id;
-            SoilModel? soilModel = _soilService.GetSoil(soilId);
-            string prefabPath = soilModel == null
-                                        ? soilVisualDescriptor.BaseViewPrefab
-                                        : soilVisualDescriptor.GetPrefabPath(soilModel.State, soilModel.DugRecently, soilModel.WellWatered);
-            Transform skin = await _resourceService.LoadObjectAsync<Transform>(prefabPath);
-            soil.Initialize(skin);
-
-            _soilControllerCreatedPublisher.Publish(SoilControllerCreatedEvent.SoilCreated, new(tileModel, soil));
+            await soil.InitializeAsync(soilId, soilVisualDescriptor);
+            _soilControllerCreatedPublisher.Publish(SoilControllerCreatedEvent.SoilCreated, new(soilId, soil));
             _soilControllers.Add(soilId, soil);
             return soil;
+        }
+
+        private void OnSoilUpdated(SoilUpdatedEvent evt)
+        {
+            if (!_soilControllers.TryGetValue(evt.Id, out SoilController soilController)) {
+                throw new KeyNotFoundException($"Soil controller not found. Id={evt.Id}");
+            }
+            
+            soilController.UpdateSkinAsync().Forget();
         }
     }
 }
