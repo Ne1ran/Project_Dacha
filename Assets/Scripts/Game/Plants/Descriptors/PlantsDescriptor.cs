@@ -12,5 +12,15 @@ namespace Game.Plants.Descriptors
         [field: SerializeField]
         [TableList]
         public List<PlantsDescriptorModel> Items { get; private set; } = new();
+
+        public PlantsDescriptorModel RequirePlant(string id)
+        {
+            PlantsDescriptorModel? plantsDescriptorModel = Items.Find(plant => plant.PlantId == id);
+            if (plantsDescriptorModel == null) {
+                throw new KeyNotFoundException($"Plant not found with id={id}");
+            }
+            
+            return plantsDescriptorModel;
+        }
     }
 }

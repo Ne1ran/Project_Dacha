@@ -18,8 +18,8 @@ MonoBehaviour:
     <PlantsCount>k__BackingField: 4
     <FamilyType>k__BackingField: 13
     <Visualization>k__BackingField:
-      <Type>k__BackingField: 3
-      <Offset>k__BackingField: 0
+      <Type>k__BackingField: 1
+      <Offset>k__BackingField: 0.4
     <Stages>k__BackingField:
     - <Stage>k__BackingField: 5
       <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberSeedling

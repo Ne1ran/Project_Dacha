@@ -11,5 +11,7 @@ namespace Game.Plants.Descriptors
         public PlantVisualizationType Type { get; set; }
         [field: SerializeField]
         public float Offset { get; set; }
+        [field: SerializeField]
+        public string DeadPrefabPath { get; set; } = "Prefabs/Plants/pfDeadPlant";
     }
 }
