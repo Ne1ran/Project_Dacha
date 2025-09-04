@@ -273,7 +273,7 @@ namespace Game.GameMap.Soil.Service
         public float GetSoilHumidity(string soilId)
         {
             SoilModel soilModel = RequireSoil(soilId);
-            return soilModel.WaterAmount * soilModel.Breathability / 100f;
+            return soilModel.SoilHumidity;
         }
 
         public SoilModel RequireSoil(string key)
@@ -326,6 +326,11 @@ namespace Game.GameMap.Soil.Service
         private SoilDescriptorModel RequireModelByType(SoilType soilType)
         {
             return _descriptorService.Require<SoilDescriptor>().RequireByType(soilType);
+        }
+
+        public SoilModel? GetSoil(string soilId)
+        {
+            return _soilRepo.Get(soilId);
         }
 
         private SoilModel GerOrCreate(string key)

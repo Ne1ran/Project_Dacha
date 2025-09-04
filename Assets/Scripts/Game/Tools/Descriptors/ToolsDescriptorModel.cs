@@ -1,7 +1,5 @@
 ﻿using System;
-using Game.Common.Descriptors;
 using Game.Tools.Model;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.Tools.Descriptors

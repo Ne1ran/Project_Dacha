@@ -86,5 +86,8 @@ namespace Game.GameMap.Soil.Model
             Humus -= humus;
             return true;
         }
+
+        public bool WellWatered => WaterAmount > 1f && SoilHumidity > 50f;
+        public float SoilHumidity => WaterAmount * Breathability / 100f;
     } 
 }

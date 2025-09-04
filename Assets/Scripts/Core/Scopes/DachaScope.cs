@@ -50,10 +50,11 @@ namespace Core.Scopes
             builder.Register<TileRepo>(Lifetime.Singleton);
             builder.Register<TileService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<SoilRepo>(Lifetime.Singleton);
+            builder.Register<WorldSoilService>(Lifetime.Singleton);
             builder.Register<SoilService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeRepo>(Lifetime.Singleton);
             builder.Register<PickUpItemService>(Lifetime.Singleton);
-            builder.Register<WorldTileService>(Lifetime.Singleton);
+            builder.Register<WorldTileService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<GameWorldService>(Lifetime.Singleton);
             builder.Register<MapService>(Lifetime.Singleton);
             builder.Register<PieMenuService>(Lifetime.Singleton);
@@ -63,7 +64,7 @@ namespace Core.Scopes
             builder.Register<ConditionService>(Lifetime.Singleton);
             builder.Register<SeedsService>(Lifetime.Singleton);
             builder.Register<PlantsService>(Lifetime.Singleton);
-            builder.Register<PlantsWorldService>(Lifetime.Singleton);
+            builder.Register<WorldPlantsService>(Lifetime.Singleton);
             builder.Register<PlantDiseaseService>(Lifetime.Singleton);
             builder.Register<PlantsRepo>(Lifetime.Singleton);
             builder.Register<SowSeedHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();

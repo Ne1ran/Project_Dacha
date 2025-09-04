@@ -3,6 +3,7 @@ using Core.Attributes;
 using Core.Descriptors.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Map.Descriptor;
+using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;
 using UnityEngine;
@@ -14,13 +15,18 @@ namespace Game.GameMap.Map.Service
     {
         private readonly TileService _tileService;
         private readonly WorldTileService _worldTileService;
+        private readonly WorldSoilService _worldSoilService;
         private readonly IDescriptorService _descriptorService;
 
-        public MapService(TileService tileService, WorldTileService worldTileService, IDescriptorService descriptorService)
+        public MapService(TileService tileService,
+                          WorldTileService worldTileService,
+                          IDescriptorService descriptorService,
+                          WorldSoilService worldSoilService)
         {
             _tileService = tileService;
             _worldTileService = worldTileService;
             _descriptorService = descriptorService;
+            _worldSoilService = worldSoilService;
         }
 
         public async UniTask InitializeMapAsync()
@@ -29,11 +35,14 @@ namespace Game.GameMap.Map.Service
 
             List<SingleTileModel> tiles = _tileService.GetTiles();
             if (tiles.Count == 0) {
-                List<Vector3> mapTilesPositions = CreateMapTilesPositions(mapDescriptor.TileMainPoint, mapDescriptor.TileLength, mapDescriptor.Length, mapDescriptor.Width);
+                List<Vector3> mapTilesPositions =
+                        CreateMapTilesPositions(mapDescriptor.TileMainPoint, mapDescriptor.TileLength, mapDescriptor.Length, mapDescriptor.Width);
                 tiles = _tileService.CreateTiles(mapTilesPositions);
             }
 
             await _worldTileService.CreateTilesInWorldAsync(tiles);
+            // never change sides. subscriptions won't work.
+            await _worldSoilService.CreateSoilControllers(tiles);
         }
 
         private List<Vector3> CreateMapTilesPositions(Vector3 centerPosition, float step, int length, int width)

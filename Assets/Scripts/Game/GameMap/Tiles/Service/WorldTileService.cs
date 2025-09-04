@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core.Attributes;
 using Core.Descriptors.Service;
 using Core.GameWorld.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Map.Descriptor;
+using Game.GameMap.Soil.Event;
 using Game.GameMap.Tiles.Component;
 using Game.GameMap.Tiles.Model;
+using MessagePipe;
 using Math = System.Math;
 
 namespace Game.GameMap.Tiles.Service
 {
     [Service]
-    public class WorldTileService
+    public class WorldTileService : IDisposable
     {
         private readonly IResourceService _resourceService;
         private readonly GameWorldService _gameWorldService;
@@ -21,12 +24,28 @@ namespace Game.GameMap.Tiles.Service
         private readonly List<SingleTileModel> _mapTilesModels = new();
         private readonly Dictionary<SingleTileModel, TileController> _mapTilesControllers = new();
 
-        public WorldTileService(IResourceService resourceService, GameWorldService gameWorldService, IDescriptorService descriptorService)
+        private IDisposable? _disposable;
+
+        public WorldTileService(IResourceService resourceService,
+                                GameWorldService gameWorldService,
+                                IDescriptorService descriptorService,
+                                ISubscriber<string, SoilControllerCreatedEvent> soilCreatedSubscriber)
         {
             _resourceService = resourceService;
             _gameWorldService = gameWorldService;
             _descriptorService = descriptorService;
+
+            DisposableBagBuilder? disposableBag = DisposableBag.CreateBuilder();
+            disposableBag.Add(soilCreatedSubscriber.Subscribe(SoilControllerCreatedEvent.SoilCreated, OnSoilCreated));
+            _disposable = disposableBag.Build();
+
             // todo neiran subscribe on tile/soil/everything changes to change soil visualization
+        }
+
+        public void Dispose()
+        {
+            _disposable?.Dispose();
+            _disposable = null;
         }
 
         public async UniTask CreateTilesInWorldAsync(List<SingleTileModel> tiles)
@@ -85,6 +104,15 @@ namespace Game.GameMap.Tiles.Service
             tileController.transform.position = tileModel.Position.ToVector3();
             _mapTilesControllers.Add(tileModel, tileController);
             return tileController;
+        }
+
+        private void OnSoilCreated(SoilControllerCreatedEvent evt)
+        {
+            if (!_mapTilesControllers.TryGetValue(evt.TileModel, out TileController tileController)) {
+                throw new ArgumentException($"Tile controller not found for tile model. Id={evt.TileModel.Id}");
+            }
+            
+            tileController.AddSoil(evt.SoilController);
         }
     }
 }
