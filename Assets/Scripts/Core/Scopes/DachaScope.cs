@@ -64,7 +64,7 @@ namespace Core.Scopes
             builder.Register<ConditionService>(Lifetime.Singleton);
             builder.Register<SeedsService>(Lifetime.Singleton);
             builder.Register<PlantsService>(Lifetime.Singleton);
-            builder.Register<WorldPlantsService>(Lifetime.Singleton);
+            builder.Register<WorldPlantsService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<PlantDiseaseService>(Lifetime.Singleton);
             builder.Register<PlantsRepo>(Lifetime.Singleton);
             builder.Register<SowSeedHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();

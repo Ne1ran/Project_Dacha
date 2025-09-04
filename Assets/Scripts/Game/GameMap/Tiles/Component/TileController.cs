@@ -6,6 +6,7 @@ using Game.GameMap.Soil.Component;
 using Game.GameMap.Tiles.Model;
 using Game.Interactable.Model;
 using Game.PieMenu.Service;
+using Game.Plants.Component;
 using UnityEngine;
 using VContainer;
 
@@ -24,7 +25,8 @@ namespace Game.GameMap.Tiles.Component
 
         public SingleTileModel TileModel { get; private set; } = null!;
         
-        private SoilController _currentSoil = null!;
+        private SoilController? _currentSoil;
+        private PlantController? _currentPlant;
         
         public void Initialize(SingleTileModel model)
         {
@@ -47,9 +49,10 @@ namespace Game.GameMap.Tiles.Component
             soil.transform.SetParent(_soilHolder, false);
         }
 
-        public void AddPlant()
+        public void AddPlant(PlantController plant)
         {
-            // todo neiran add when needed
+            _currentPlant = plant;
+            plant.transform.SetParent(_plantHolder, false);
         }
     }
 }

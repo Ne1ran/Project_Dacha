@@ -15,15 +15,23 @@ MonoBehaviour:
   <Items>k__BackingField:
   - <PlantId>k__BackingField: cucumber
     <PlantName>k__BackingField: Cucumber
+    <PlantsCount>k__BackingField: 4
     <FamilyType>k__BackingField: 13
+    <Visualization>k__BackingField:
+      <Type>k__BackingField: 1
+      <Offset>k__BackingField: 0.4
     <Stages>k__BackingField:
     - <Stage>k__BackingField: 5
+      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberSeedling
       <AverageGrowTime>k__BackingField: 7
+      <DailyRegeneration>k__BackingField: 3
+      <DailyImmunityGain>k__BackingField: 3
       <PlantConsumption>k__BackingField:
         <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 0.5
         <PotassiumUsage>k__BackingField: 0.5
         <PhosphorusUsage>k__BackingField: 0.5
+        <PreferredUsageMultiplier>k__BackingField: 10
         <GrowBuff>k__BackingField: 0
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 2.5
@@ -60,12 +68,16 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 5
         <GrowBuff>k__BackingField: 0.15
     - <Stage>k__BackingField: 10
+      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberSeedling
       <AverageGrowTime>k__BackingField: 7
+      <DailyRegeneration>k__BackingField: 3
+      <DailyImmunityGain>k__BackingField: 3
       <PlantConsumption>k__BackingField:
         <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 2
         <PotassiumUsage>k__BackingField: 2
         <PhosphorusUsage>k__BackingField: 3
+        <PreferredUsageMultiplier>k__BackingField: 10
         <GrowBuff>k__BackingField: 0.05
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 5
@@ -102,12 +114,16 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 15
+      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberVegetation
       <AverageGrowTime>k__BackingField: 14
+      <DailyRegeneration>k__BackingField: 3
+      <DailyImmunityGain>k__BackingField: 3
       <PlantConsumption>k__BackingField:
         <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 5
         <PotassiumUsage>k__BackingField: 5
         <PhosphorusUsage>k__BackingField: 5
+        <PreferredUsageMultiplier>k__BackingField: 10
         <GrowBuff>k__BackingField: 0.05
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 15
@@ -144,12 +160,16 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 20
+      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberBlooming
       <AverageGrowTime>k__BackingField: 7
+      <DailyRegeneration>k__BackingField: 3
+      <DailyImmunityGain>k__BackingField: 3
       <PlantConsumption>k__BackingField:
         <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 4
         <PotassiumUsage>k__BackingField: 8
         <PhosphorusUsage>k__BackingField: 4
+        <PreferredUsageMultiplier>k__BackingField: 10
         <GrowBuff>k__BackingField: 0.05
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 20
@@ -186,12 +206,16 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 25
+      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberMaturing
       <AverageGrowTime>k__BackingField: 7
+      <DailyRegeneration>k__BackingField: 3
+      <DailyImmunityGain>k__BackingField: 3
       <PlantConsumption>k__BackingField:
         <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 3
         <PotassiumUsage>k__BackingField: 6
         <PhosphorusUsage>k__BackingField: 3
+        <PreferredUsageMultiplier>k__BackingField: 10
         <GrowBuff>k__BackingField: 0.05
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 25
@@ -228,12 +252,16 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 30
+      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberMaturing
       <AverageGrowTime>k__BackingField: 7
+      <DailyRegeneration>k__BackingField: 3
+      <DailyImmunityGain>k__BackingField: 3
       <PlantConsumption>k__BackingField:
         <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 2
         <PotassiumUsage>k__BackingField: 5
         <PhosphorusUsage>k__BackingField: 2
+        <PreferredUsageMultiplier>k__BackingField: 10
         <GrowBuff>k__BackingField: 0.05
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 15
@@ -270,12 +298,16 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 35
+      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberMaturing
       <AverageGrowTime>k__BackingField: 14
+      <DailyRegeneration>k__BackingField: 3
+      <DailyImmunityGain>k__BackingField: 3
       <PlantConsumption>k__BackingField:
         <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 2
         <PotassiumUsage>k__BackingField: 2
         <PhosphorusUsage>k__BackingField: 2
+        <PreferredUsageMultiplier>k__BackingField: 10
         <GrowBuff>k__BackingField: 0.05
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 15
@@ -312,12 +344,16 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.2
     - <Stage>k__BackingField: 40
+      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberMaturing
       <AverageGrowTime>k__BackingField: 14
+      <DailyRegeneration>k__BackingField: 3
+      <DailyImmunityGain>k__BackingField: 3
       <PlantConsumption>k__BackingField:
         <Ignore>k__BackingField: 1
         <NitrogenUsage>k__BackingField: 0
         <PotassiumUsage>k__BackingField: 0
         <PhosphorusUsage>k__BackingField: 0
+        <PreferredUsageMultiplier>k__BackingField: 10
         <GrowBuff>k__BackingField: 0
         <GrowDebuff>k__BackingField: 0
         <WaterUsage>k__BackingField: 10

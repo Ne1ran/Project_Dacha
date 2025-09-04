@@ -9,6 +9,7 @@ using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Soil.Event;
 using Game.GameMap.Tiles.Component;
 using Game.GameMap.Tiles.Model;
+using Game.Plants.Event;
 using MessagePipe;
 using Math = System.Math;
 
@@ -29,7 +30,8 @@ namespace Game.GameMap.Tiles.Service
         public WorldTileService(IResourceService resourceService,
                                 GameWorldService gameWorldService,
                                 IDescriptorService descriptorService,
-                                ISubscriber<string, SoilControllerCreatedEvent> soilCreatedSubscriber)
+                                ISubscriber<string, SoilControllerCreatedEvent> soilCreatedSubscriber,
+                                ISubscriber<string, PlantControllerCreatedEvent> plantCreatedSubscriber)
         {
             _resourceService = resourceService;
             _gameWorldService = gameWorldService;
@@ -37,6 +39,7 @@ namespace Game.GameMap.Tiles.Service
 
             DisposableBagBuilder? disposableBag = DisposableBag.CreateBuilder();
             disposableBag.Add(soilCreatedSubscriber.Subscribe(SoilControllerCreatedEvent.SoilCreated, OnSoilCreated));
+            disposableBag.Add(plantCreatedSubscriber.Subscribe(PlantControllerCreatedEvent.PlantCreated, OnPlantCreated));
             _disposable = disposableBag.Build();
 
             // todo neiran subscribe on tile/soil/everything changes to change soil visualization
@@ -113,6 +116,15 @@ namespace Game.GameMap.Tiles.Service
             }
             
             tileController.AddSoil(evt.SoilController);
+        }
+
+        private void OnPlantCreated(PlantControllerCreatedEvent evt)
+        {
+            if (!_mapTilesControllers.TryGetValue(evt.TileId, out TileController tileController)) {
+                throw new ArgumentException($"Tile controller not found for tile model. Id={evt.TileId}");
+            }
+            
+            tileController.AddPlant(evt.PlantController);
         }
     }
 }

@@ -6,6 +6,7 @@ using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;
+using Game.Plants.Service;
 using UnityEngine;
 
 namespace Game.GameMap.Map.Service
@@ -16,17 +17,20 @@ namespace Game.GameMap.Map.Service
         private readonly TileService _tileService;
         private readonly WorldTileService _worldTileService;
         private readonly WorldSoilService _worldSoilService;
+        private readonly WorldPlantsService _worldPlantsService;
         private readonly IDescriptorService _descriptorService;
 
         public MapService(TileService tileService,
                           WorldTileService worldTileService,
                           IDescriptorService descriptorService,
-                          WorldSoilService worldSoilService)
+                          WorldSoilService worldSoilService,
+                          WorldPlantsService worldPlantsService)
         {
             _tileService = tileService;
             _worldTileService = worldTileService;
             _descriptorService = descriptorService;
             _worldSoilService = worldSoilService;
+            _worldPlantsService = worldPlantsService;
         }
 
         public async UniTask InitializeMapAsync()
@@ -43,6 +47,7 @@ namespace Game.GameMap.Map.Service
             await _worldTileService.CreateTilesInWorldAsync(tiles);
             // never change sides. subscriptions won't work.
             await _worldSoilService.CreateSoilControllers(tiles);
+            await _worldPlantsService.CreatePlants(tiles);
         }
 
         private List<Vector3> CreateMapTilesPositions(Vector3 centerPosition, float step, int length, int width)

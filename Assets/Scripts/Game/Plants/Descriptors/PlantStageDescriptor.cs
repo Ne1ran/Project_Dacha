@@ -10,6 +10,8 @@ namespace Game.Plants.Descriptors
         [field: SerializeField]
         public PlantGrowStage Stage { get; set; } = PlantGrowStage.SEED;
         [field: SerializeField]
+        public string PrefabPath { get; set; } = null!;
+        [field: SerializeField]
         public float AverageGrowTime { get; set; } = 7f;
         [field: SerializeField, Tooltip("Plant regeneration every day. Consumes humus to convert into health")]
         public float DailyRegeneration { get; set; } = 3f;

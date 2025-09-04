@@ -7,6 +7,7 @@ using Game.Diseases.Service;
 using Game.GameMap.Soil.Model;
 using Game.GameMap.Soil.Service;
 using Game.Plants.Descriptors;
+using Game.Plants.Event;
 using Game.Plants.Model;
 using Game.Plants.Repo;
 using Game.Seeds.Descriptors;
@@ -23,6 +24,7 @@ namespace Game.Plants.Service
         private readonly SoilService _soilService;
         private readonly PlantDiseaseService _plantDiseaseService;
         private readonly IDescriptorService _descriptorService;
+        private readonly IPublisher<string, PlantUpdatedEvent> _plantUpdatedEvent;
 
         private IDisposable? _disposable;
 
@@ -30,12 +32,14 @@ namespace Game.Plants.Service
                              IDescriptorService descriptorService,
                              ISubscriber<string, DayChangedEvent> dayChangedSubscriber,
                              SoilService soilService,
-                             PlantDiseaseService plantDiseaseService)
+                             PlantDiseaseService plantDiseaseService,
+                             IPublisher<string, PlantUpdatedEvent> plantUpdatedEvent)
         {
             _plantsRepo = plantsRepo;
             _descriptorService = descriptorService;
             _soilService = soilService;
             _plantDiseaseService = plantDiseaseService;
+            _plantUpdatedEvent = plantUpdatedEvent;
 
             DisposableBagBuilder bag = DisposableBag.CreateBuilder();
 
@@ -52,6 +56,11 @@ namespace Game.Plants.Service
         {
             _disposable?.Dispose();
             _disposable = null;
+        }
+
+        public PlantModel? GetPlant(string tileId)
+        {
+            return _plantsRepo.Get(tileId);
         }
 
         public void InspectPlant(string tileId)
@@ -89,6 +98,7 @@ namespace Game.Plants.Service
             List<SavedDiseaseModel> savedDiseaseModels = _plantDiseaseService.GetSavedDiseases(plantModel);
             _soilService.InfectSoil(tileId, savedDiseaseModels);
             _plantsRepo.Delete(tileId);
+            _plantUpdatedEvent.Publish(PlantUpdatedEvent.Removed, new(tileId, plantModel));
         }
 
         public void CreatePlant(string seedId, string tileId)
@@ -114,6 +124,7 @@ namespace Game.Plants.Service
 
             PlantModel plantModel = new(seedId, plantsDescriptorModel.FamilyType, PlantGrowStage.SEED, seedsDescriptorModel.StartHealth,
                                         seedsDescriptorModel.StartImmunity);
+            _plantUpdatedEvent.Publish(PlantUpdatedEvent.Created, new(tileId, plantModel));
             _plantsRepo.Save(tileId, plantModel);
         }
 
@@ -129,6 +140,7 @@ namespace Game.Plants.Service
                 }
 
                 SimulatePlantLife(plant, tileId, plantsDescriptorModel, evt.DayDifference);
+                _plantUpdatedEvent.Publish(PlantUpdatedEvent.Updated, new(tileId, plant));
             }
         }
 
