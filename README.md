@@ -10,4 +10,5 @@
 ### Deceases are different. Some are actual illnesses, some are just insects. But all of them have different yet same symptoms. Will you recognize one and defeat instantly or your plants will meet their doom? 
 
 <img width="1743" height="1237" alt="cucumber" src="https://github.com/user-attachments/assets/bf2b23c1-85df-4e40-a27c-6577573d1d32" />
-## Game is currently WIP
+
+## Game is currently WIP ##
