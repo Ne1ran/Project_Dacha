@@ -24,7 +24,7 @@ namespace Game.Player.Controller
         public void Init(Transform head)
         {
             _head = head;
-            _lookLayerMask = LayerMask.GetMask("Tool", "Tile"); // todo neiran to combined layer mask to workaround or make descriptor
+            _lookLayerMask = LayerMask.GetMask("Tool", "Tile", "Plant", "Harvest"); // todo neiran to combined layer mask to workaround or make descriptor
         }
 
         public void Tick()
@@ -43,16 +43,17 @@ namespace Game.Player.Controller
             }
 
             Transform currentHit = hit.transform;
-            if (!currentHit.TryGetComponent(out IInteractableComponent lookInteractionObj)) {
+            IInteractableComponent interactableComponent = currentHit.GetComponentInParent<IInteractableComponent>();
+            if (interactableComponent == null) {
                 TryResetLook();
                 return;
             }
 
-            if (_currentLook == lookInteractionObj) {
+            if (_currentLook == interactableComponent) {
                 return;
             }
 
-            _currentLook = lookInteractionObj;
+            _currentLook = interactableComponent;
             OnLook?.Invoke();
         }
 

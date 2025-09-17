@@ -11,6 +11,7 @@ using Game.GameMap.Soil.Repository;
 using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Repo;
 using Game.GameMap.Tiles.Service;
+using Game.Harvest.Service;
 using Game.Interactable.Handlers;
 using Game.Interactable.Service;
 using Game.Inventory.Repo;
@@ -64,6 +65,7 @@ namespace Core.Scopes
             builder.Register<ConditionService>(Lifetime.Singleton);
             builder.Register<SeedsService>(Lifetime.Singleton);
             builder.Register<PlantsService>(Lifetime.Singleton);
+            builder.Register<PlantHarvestService>(Lifetime.Singleton);
             builder.Register<WorldPlantsService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<PlantDiseaseService>(Lifetime.Singleton);
             builder.Register<PlantsRepo>(Lifetime.Singleton);

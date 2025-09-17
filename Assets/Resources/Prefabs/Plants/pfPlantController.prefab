@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 3278835640036501716}
   - component: {fileID: -1339021893851668908}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: pfPlantController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3278835640036501716
 Transform:
   m_ObjectHideFlags: 0

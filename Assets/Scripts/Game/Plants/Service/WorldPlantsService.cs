@@ -75,7 +75,7 @@ namespace Game.Plants.Service
         private async UniTask<PlantController> CreatePlantController(string tileId, PlantModel plantModel)
         {
             PlantController plantController = await _resourceService.LoadObjectAsync<PlantController>();
-            await plantController.InitializeAsync(plantModel);
+            await plantController.InitializeAsync(tileId, plantModel);
             _plantControllers.Add(tileId, plantController);
             _plantControllerCreatedPublisher.Publish(PlantControllerCreatedEvent.PlantCreated, new(tileId, plantController));
             return plantController;

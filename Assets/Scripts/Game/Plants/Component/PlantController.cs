@@ -1,9 +1,13 @@
 ﻿using System;
 using Core.Descriptors.Service;
+using Core.Parameters;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
+using Game.Common.Controller;
 using Game.GameMap.Map.Descriptor;
+using Game.Interactable.Model;
+using Game.PieMenu.Service;
 using Game.Plants.Descriptors;
 using Game.Plants.Model;
 using Game.Plants.PlaceStrategy;
@@ -13,20 +17,24 @@ using VContainer;
 namespace Game.Plants.Component
 {
     [PrefabPath("Prefabs/Plants/pfPlantController")]
-    public class PlantController : MonoBehaviour
+    public class PlantController : MonoBehaviour, IInteractableComponent
     {
         [Inject]
         private readonly IDescriptorService _descriptorService = null!;
         [Inject]
         private readonly IResourceService _resourceService = null!;
+        [Inject]
+        private readonly PieMenuService _pieMenuService = null!;
 
         private IPlantPlaceStrategy? _plantPlaceStrategy;
 
         private PlantModel _plantModel = null!;
         private PlantGrowStage _currentStage;
+        private string _tileId = null!;
 
-        public async UniTask InitializeAsync(PlantModel plantModel)
+        public async UniTask InitializeAsync(string tileId, PlantModel plantModel)
         {
+            _tileId = tileId;
             _plantModel = plantModel;
             _currentStage = _plantModel.CurrentStage;
             await PlaceAllPlantsAsync(_plantModel);
@@ -83,6 +91,16 @@ namespace Game.Plants.Component
                     PlantVisualizationType.Circle => new CirclePlantPlaceStrategy(),
                     _ => throw new NotImplementedException($"Unknown plantVisualization type={visualizationType.ToString()}")
             };
+        }
+
+        public async UniTask Interact()
+        {
+            await _pieMenuService.CreatePieMenuAsync(InteractableType.PLANT, new(ParameterNames.TileId, _tileId));
+        }
+
+        public UniTask StopInteract()
+        {
+            return UniTask.CompletedTask;
         }
     }
 }

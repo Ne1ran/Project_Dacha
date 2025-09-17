@@ -46,6 +46,7 @@ namespace Game.Inventory.Service
                 Debug.LogWarning("Max slots reached");
                 return false;
             }
+
             int autoHotkeyNumber = TryAutoHotkeyItem(inventoryModel.InventorySlots);
             InventoryItem inventoryItem = new(itemId, itemId, itemType, autoHotkeyNumber);
             bool result = TryAddToInventory(inventoryItem);
@@ -83,7 +84,7 @@ namespace Game.Inventory.Service
                 oldBindedItem.TryRebindHotkey(0);
                 _hotkeyChangedPublisher.Publish(HotkeyChangedEvent.REMOVED, new(inventoryItem, oldHotkey, 0));
             }
-            
+
             _hotkeyChangedPublisher.Publish(HotkeyChangedEvent.BINDED, new(inventoryItem, currentHotkey, newHotkey));
             _inventoryRepo.Save(inventory);
             return true;
@@ -158,7 +159,7 @@ namespace Game.Inventory.Service
                 Debug.Log($"Item was already null when remove from slot={slotIndex}");
                 return false;
             }
-            
+
             inventorySlot.InventoryItem = null;
             _inventoryChangedPublisher.Publish(InventoryChangedEvent.REMOVED, new(inventoryItem));
             _inventoryRepo.Save(inventory);
@@ -199,6 +200,7 @@ namespace Game.Inventory.Service
 
             return false;
         }
+
         public bool HasItemByTypeAndId(ItemType itemType, string itemId)
         {
             InventoryModel inventory = Inventory;
@@ -220,6 +222,11 @@ namespace Game.Inventory.Service
             return false;
         }
 
+        public bool CheckIsFull()
+        {
+            return !Inventory.HasFreeSpace;
+        }
+
         public void RemoveFromInventory(InventoryItem inventoryItem)
         {
             InventoryModel inventoryModel = Inventory;
@@ -238,7 +245,7 @@ namespace Game.Inventory.Service
         public List<InventoryItem> GetItemsByType(ItemType itemType)
         {
             List<InventoryItem> result = new();
-            
+
             InventoryModel inventoryModel = Inventory;
 
             foreach (InventorySlot inventorySlot in inventoryModel.InventorySlots) {
