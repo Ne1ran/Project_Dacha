@@ -61,7 +61,12 @@ namespace Game.Harvest.Service
                 return false;
             }
 
-            return _inventoryService.TryAddItemToInventory(harvestModel.HarvestItemId, ItemType.HARVEST);
+            if (!_inventoryService.TryAddItemToInventory(harvestModel.HarvestItemId, ItemType.HARVEST)) {
+                return false;
+            }
+
+            _plantsService.RemovePlant(plantTileId);
+            return true;
         }
     }
 }

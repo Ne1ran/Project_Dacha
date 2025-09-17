@@ -35,10 +35,10 @@ namespace Game.Conditions.Checkers
 
             return _operationType switch {
                     MathOperationType.Equal => new(_growStage == plantModel.CurrentStage, string.Empty),
-                    MathOperationType.Lesser => new(_growStage < plantModel.CurrentStage, string.Empty),
-                    MathOperationType.Greater => new(_growStage > plantModel.CurrentStage, string.Empty),
-                    MathOperationType.LesserOrEqual => new(_growStage <= plantModel.CurrentStage, string.Empty),
-                    MathOperationType.GreaterOrEqual => new(_growStage >= plantModel.CurrentStage, string.Empty),
+                    MathOperationType.Lesser => new(plantModel.CurrentStage < _growStage, string.Empty),
+                    MathOperationType.Greater => new(plantModel.CurrentStage > _growStage, string.Empty),
+                    MathOperationType.LesserOrEqual => new(plantModel.CurrentStage <= _growStage, string.Empty),
+                    MathOperationType.GreaterOrEqual => new(plantModel.CurrentStage >= _growStage, string.Empty),
                     _ => throw new ArgumentOutOfRangeException()
             };
         }
