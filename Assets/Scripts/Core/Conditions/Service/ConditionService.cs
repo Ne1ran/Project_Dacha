@@ -10,12 +10,12 @@ namespace Core.Conditions.Service
     {
         private readonly ConditionFactory _conditionFactory;
 
-        public IReadOnlyList<IConditionChecker> Create(List<ConditionDescriptor> descriptors)
+        public IReadOnlyList<IConditionChecker> Create(List<ConditionDescriptor> descriptors, Parameters.Parameters additionalParams)
         {
             List<IConditionChecker> result = new(descriptors.Count);
             foreach (ConditionDescriptor descriptor in descriptors) {
                 IConditionChecker condition = _conditionFactory.Create(descriptor.Id);
-                condition.Initialize(descriptor.Inverted, descriptor.GetParameters());
+                condition.Initialize(descriptor.Inverted, descriptor.GetParameters().AddParams(additionalParams));
                 result.Add(condition);
             }
             
@@ -34,9 +34,9 @@ namespace Core.Conditions.Service
             return new(true, string.Empty);
         }
 
-        public ConditionResult Check(List<ConditionDescriptor> conditionDescriptors)
+        public ConditionResult Check(List<ConditionDescriptor> conditionDescriptors, Parameters.Parameters additionalParams)
         {
-            IReadOnlyList<IConditionChecker> conditions = Create(conditionDescriptors);
+            IReadOnlyList<IConditionChecker> conditions = Create(conditionDescriptors, additionalParams);
 
             foreach (IConditionChecker condition in conditions) {
                 ConditionResult conditionResult = condition.Check();

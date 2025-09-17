@@ -119,6 +119,16 @@ namespace Core.Console
             NotificationManager notificationManager = Container.Resolve<NotificationManager>();
             notificationManager.ShowNotification(type).Forget();
         }
+
+        [ConsoleMethod("simulateTime", "Simulate time in days with some delay")]
+        public static async UniTask SimulateTime(int days)
+        {
+            TimeService timeService = Container.Resolve<TimeService>();
+            for (int i = 0; i < days; i++) {
+                await UniTask.Delay(100);
+                timeService.EndDay();
+            }
+        }
         
         private static IObjectResolver Container => AppContext.CurrentScope.Container;
     }

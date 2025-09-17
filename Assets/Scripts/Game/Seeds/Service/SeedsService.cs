@@ -64,7 +64,7 @@ namespace Game.Seeds.Service
                 throw new ArgumentException($"Seed not found with id={seedId}");
             }
             
-            await _sowSeedHandlerFactory.Create(seedsDescriptorModel.UseHandler).SowSeedAsync(seedId, parameters);
+            await _sowSeedHandlerFactory.Create(seedsDescriptorModel.UseHandler).SowSeedAsync(seedsDescriptorModel.SeedId, parameters);
         }
     }
 }

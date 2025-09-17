@@ -93,7 +93,7 @@ MonoBehaviour:
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: cucumber
+  - <ItemId>k__BackingField: cucumberSeed
     <ItemPrefab>k__BackingField: Prefabs/Seeds/pfSeedBag
     <Icon>k__BackingField: {fileID: 21300000, guid: 929b54ef59aaeba4a9807a6ef928457b, type: 3}
     <ItemType>k__BackingField: 3
@@ -101,7 +101,7 @@ MonoBehaviour:
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: watermelon
+  - <ItemId>k__BackingField: watermelonSeed
     <ItemPrefab>k__BackingField: Prefabs/Seeds/pfSeedBag
     <Icon>k__BackingField: {fileID: 21300000, guid: 575f0768799e8504a929d65ae3bc2c28, type: 3}
     <ItemType>k__BackingField: 3
@@ -109,7 +109,7 @@ MonoBehaviour:
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: beetroot
+  - <ItemId>k__BackingField: beetrootSeed
     <ItemPrefab>k__BackingField: Prefabs/Seeds/pfSeedBag
     <Icon>k__BackingField: {fileID: 21300000, guid: a67d80a1e6dd824409cb30f62dc28448, type: 3}
     <ItemType>k__BackingField: 3
@@ -125,3 +125,11 @@ MonoBehaviour:
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
+  - <ItemId>k__BackingField: cucumberHarvest
+    <ItemPrefab>k__BackingField: Prefabs/Harvest/pfCucumber
+    <Icon>k__BackingField: {fileID: 21300000, guid: c3e472f25f685b24cb873a70418519d3, type: 3}
+    <ItemType>k__BackingField: 4
+    <DropOffsetMultiplier>k__BackingField: 2.5
+    <Stackable>k__BackingField: 1
+    <ShowInHand>k__BackingField: 1
+    <MaxStack>k__BackingField: 10

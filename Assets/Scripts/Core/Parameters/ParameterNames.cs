@@ -8,5 +8,8 @@
         public const string PortionMass = "PortionMass";
         public const string NotificationType = "NotificationType";
         public const string WaterAmount = "WaterAmount";
+        
+        public const string GrowStage = "GrowStage";
+        public const string Operation = "Operation";
     }
 }

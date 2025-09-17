@@ -3,6 +3,7 @@ using Core.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Equipment.Event;
 using Game.Fertilizers.Service;
+using Game.Harvest.Service;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Items.Controller;
@@ -24,6 +25,7 @@ namespace Game.Equipment.Service
         private readonly ToolsService _toolsService;
         private readonly FertilizerService _fertilizersService;
         private readonly SeedsService _seedsService;
+        private readonly PlantHarvestService _harvestService;
         private readonly EquipmentService _equipmentService;
         private readonly ISubscriber<string, EquipmentChangedEvent> _equipmentChangedSubscriber;
         private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;
@@ -36,7 +38,8 @@ namespace Game.Equipment.Service
                                      FertilizerService fertilizersService,
                                      ISubscriber<string, EquipmentChangedEvent> equipmentChangedSubscriber,
                                      ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber,
-                                     SeedsService seedsService)
+                                     SeedsService seedsService,
+                                     PlantHarvestService harvestService)
         {
             _playerService = playerService;
             _toolsService = toolsService;
@@ -45,6 +48,7 @@ namespace Game.Equipment.Service
             _equipmentChangedSubscriber = equipmentChangedSubscriber;
             _inventoryChangedSubscriber = inventoryChangedSubscriber;
             _seedsService = seedsService;
+            _harvestService = harvestService;
         }
 
         public void Initialize()
@@ -94,6 +98,7 @@ namespace Game.Equipment.Service
                     ItemType.TOOL => (await _toolsService.CreateTool(oldItem.ItemId, position)),
                     ItemType.FERTILIZER => (await _fertilizersService.CreateFertilizer(oldItem.ItemId, position)),
                     ItemType.SEED => (await _seedsService.CreateSeedBag(oldItem.ItemId, position)),
+                    ItemType.HARVEST => (await _harvestService.CreateHarvest(oldItem.ItemId, position)),
                     _ => throw new NotImplementedException("Need to implement other item types")
             };
         }

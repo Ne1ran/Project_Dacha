@@ -40,7 +40,7 @@ namespace Game.PieMenu.Service
 
         public async UniTask<PieMenuController> CreatePieMenuAsync(InteractableType interactableType, Parameters parameters)
         {
-            List<PieMenuItemModel> pieMenuItemModels = await CreateItemModelsAsync(interactableType);
+            List<PieMenuItemModel> pieMenuItemModels = await CreateItemModelsAsync(interactableType, parameters);
             PieMenuController pieMenu = await _uiService.ShowDialogAsync<PieMenuController>();
             pieMenu.gameObject.SetActive(true);
             pieMenu.Initialize(parameters);
@@ -81,7 +81,9 @@ namespace Game.PieMenu.Service
             _currentPieMenu = null;
         }
 
-        private async UniTask<List<PieMenuItemModel>> CreateItemModelsAsync(InteractableType interactableType, CancellationToken token = default)
+        private async UniTask<List<PieMenuItemModel>> CreateItemModelsAsync(InteractableType interactableType,
+                                                                            Parameters parameters = default,
+                                                                            CancellationToken token = default)
         {
             List<UniTask<PieMenuItemModel>> items = new();
 
@@ -91,7 +93,7 @@ namespace Game.PieMenu.Service
             // todo neiran also add checker or descriptor to check if item persists or so! For now show everything, just check for item before use!
 
             foreach (InteractionPieMenuSettings pieMenuSettings in interactionDescriptorModel.Settings) {
-                ConditionResult conditionResult = _conditionService.Check(pieMenuSettings.Conditions);
+                ConditionResult conditionResult = _conditionService.Check(pieMenuSettings.Conditions, parameters);
                 if (conditionResult.IsAllowed) {
                     items.Add(CreateItemModelAsync(pieMenuSettings, token));
                 }

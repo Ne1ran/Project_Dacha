@@ -15,7 +15,7 @@ MonoBehaviour:
   <ItemDescriptors>k__BackingField:
   - <InteractableType>k__BackingField: 2
     <Settings>k__BackingField:
-    - <InteractionHandlerName>k__BackingField: Inspect
+    - <InteractionHandlerName>k__BackingField: InspectSoil
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Inspect
       <Description>k__BackingField: Inspect soil
@@ -63,33 +63,40 @@ MonoBehaviour:
       <Conditions>k__BackingField: []
   - <InteractableType>k__BackingField: 3
     <Settings>k__BackingField:
-    - <InteractionHandlerName>k__BackingField: 
+    - <InteractionHandlerName>k__BackingField: InspectPlant
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Inspect
       <Description>k__BackingField: Inspect plant
-      <BaseIcon>k__BackingField: {fileID: 0}
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: 6e25e74d93f2a85458c20d2e7958b0a7, type: 3}
       <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: 
+    - <InteractionHandlerName>k__BackingField: FertilizeSoil
+      <PrepareHandlerName>k__BackingField: Fertilize
+      <Title>k__BackingField: Ferilize
+      <Description>k__BackingField: Fertilize plant with {substitute}
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: 8542587de6e9f3f4a98ba85992c9f647, type: 3}
+      <Conditions>k__BackingField: []
+    - <InteractionHandlerName>k__BackingField: WaterSoil
+      <PrepareHandlerName>k__BackingField: PrepareWaterSoil
+      <Title>k__BackingField: Water plant
+      <Description>k__BackingField: Water plant with {substitute}
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: 8542587de6e9f3f4a98ba85992c9f647, type: 3}
+      <Conditions>k__BackingField: []
+    - <InteractionHandlerName>k__BackingField: HarvestPlant
       <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Water
-      <Description>k__BackingField: Water plant
-      <BaseIcon>k__BackingField: {fileID: 0}
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: 
+      <Title>k__BackingField: Harvest
+      <Description>k__BackingField: 'Harvest '
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: 8f52c694ba522ef4cb0f4787ff3a32f1, type: 3}
+      <Conditions>k__BackingField:
+      - <Id>k__BackingField: PlantStageCondition
+        <Inverted>k__BackingField: 0
+        <Params>k__BackingField:
+        - <Key>k__BackingField: GrowStage
+          <Value>k__BackingField: Riped
+        - <Key>k__BackingField: Operation
+          <Value>k__BackingField: GreaterOrEqual
+    - <InteractionHandlerName>k__BackingField: RemovePlant
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Remove
       <Description>k__BackingField: Remove plant
-      <BaseIcon>k__BackingField: {fileID: 0}
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: 
-      <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Fertilize
-      <Description>k__BackingField: Fertilize Plant
-      <BaseIcon>k__BackingField: {fileID: 0}
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: 
-      <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Spray
-      <Description>k__BackingField: Spray Plant
-      <BaseIcon>k__BackingField: {fileID: 0}
+      <BaseIcon>k__BackingField: {fileID: 21300000, guid: ba819174422bfeb4bac57853e95cc8d2, type: 3}
       <Conditions>k__BackingField: []

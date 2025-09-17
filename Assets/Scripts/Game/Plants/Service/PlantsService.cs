@@ -85,16 +85,7 @@ namespace Game.Plants.Service
 
         public void RemovePlant(string tileId)
         {
-            if (_plantsRepo.Exists(tileId)) {
-                Debug.LogWarning($"Plant doesn't exists on tile={tileId}");
-                return;
-            }
-            
             PlantModel plantModel = _plantsRepo.Require(tileId);
-            if (plantModel.CurrentStage != PlantGrowStage.DEAD) {
-                Debug.Log("Removing growing plant?"); // todo add check or do it sooner in pie menu
-            }
-
             List<SavedDiseaseModel> savedDiseaseModels = _plantDiseaseService.GetSavedDiseases(plantModel);
             _soilService.InfectSoil(tileId, savedDiseaseModels);
             _plantsRepo.Delete(tileId);
@@ -108,13 +99,6 @@ namespace Game.Plants.Service
                 return;
             }
 
-            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
-            PlantsDescriptorModel? plantsDescriptorModel = plantsDescriptor.Items.Find(plant => plant.PlantId == seedId);
-            if (plantsDescriptorModel == null) {
-                Debug.LogWarning($"Plant not found seedId={seedId}");
-                return;
-            }
-
             SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
             SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Items.Find(seed => seed.SeedId == seedId);
             if (seedsDescriptorModel == null) {
@@ -122,7 +106,15 @@ namespace Game.Plants.Service
                 return;
             }
 
-            PlantModel plantModel = new(seedId, plantsDescriptorModel.FamilyType, PlantGrowStage.SEED, seedsDescriptorModel.StartHealth,
+            string plantId = seedsDescriptorModel.PlantId;
+            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
+            PlantsDescriptorModel? plantsDescriptorModel = plantsDescriptor.Items.Find(plant => plant.PlantId == plantId);
+            if (plantsDescriptorModel == null) {
+                Debug.LogWarning($"Plant not found seedId={seedId}, plantId={plantId}");
+                return;
+            }
+
+            PlantModel plantModel = new(plantId, plantsDescriptorModel.FamilyType, PlantGrowStage.SEED, seedsDescriptorModel.StartHealth,
                                         seedsDescriptorModel.StartImmunity);
             _plantUpdatedEvent.Publish(PlantUpdatedEvent.Created, new(tileId, plantModel));
             _plantsRepo.Save(tileId, plantModel);
@@ -150,7 +142,7 @@ namespace Game.Plants.Service
             if (plant.CurrentStage == PlantGrowStage.DEAD) {
                 return;
             }
-            
+
             PlantStageDescriptor plantStageDescriptor =
                     plantsDescriptorModel.Stages.Find(stageDescriptor => stageDescriptor.Stage == plantCurrentStage);
             if (plantStageDescriptor == null) {

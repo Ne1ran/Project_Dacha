@@ -21,7 +21,8 @@ namespace Game.Interactable.Handlers.Soil
         {
             PieMenuItemSelectionModel pieMenuItemSelectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
             if (string.IsNullOrEmpty(pieMenuItemSelectionModel.ItemId)) {
-                return _notificationManager.ShowNotification(NotificationType.FERTILIZER_NOT_FOUND);
+                _notificationManager.ShowNotification(NotificationType.FERTILIZER_NOT_FOUND).Forget();
+                return UniTask.CompletedTask;
             }
             
             string tileId = parameters.Require<string>(ParameterNames.TileId);
