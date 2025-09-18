@@ -16,7 +16,7 @@ using VContainer;
 
 namespace Game.Inventory.UI
 {
-    [PrefabPath("UI/Dialogs/Inventory/InventoryDialog")]
+    [NeedBinding("InventoryDialog")]
     public class InventoryDialog : MonoBehaviour
     {
         [ComponentBinding("CloseButton")]
@@ -55,19 +55,18 @@ namespace Game.Inventory.UI
             List<InventorySlotViewModel> slots = inventoryViewModel.GetCurrentSlotsViewModels();
 
             List<UniTask<InventorySlotView>> loadTasks = new(slots.Count);
-            for (int i = 0; i < slots.Count; i++) {
-                loadTasks.Add(_resourceService.LoadObjectAsync<InventorySlotView>());
-            }
-
+            loadTasks.AddRange(Enumerable.Select(slots, CreateSlotViewAsync));
             _inventorySlots = (await UniTask.WhenAll(loadTasks)).ToList();
-            for (int i = 0; i < slots.Count; i++) {
-                InventorySlotViewModel slotViewModel = slots[i];
-                InventorySlotView view = _inventorySlots[i];
-                view.Initialize(slotViewModel, i);
-                view.Dropped += OnItemDropped;
-                view.Binded += OnItemBinded;
-                view.transform.SetParent(_mainPanel, false);
-            }
+        }
+
+        private async UniTask<InventorySlotView> CreateSlotViewAsync(InventorySlotViewModel slotViewModel, int i)
+        {
+            InventorySlotView view = await _resourceService.InstantiateAsync<InventorySlotView>();
+            await view.InitializeAsync(slotViewModel, i);
+            view.Dropped += OnItemDropped;
+            view.Binded += OnItemBinded;
+            view.transform.SetParent(_mainPanel, false);
+            return view;
         }
 
         private void OnItemDropped(int slotIndex)
@@ -82,9 +81,9 @@ namespace Game.Inventory.UI
             if (_inventoryService.TryChangeHotkey(slotIndex, hotkeyNumber)) {
                 InventorySlotView? slotView = _inventorySlots.Find(slot => slot.CurrentHotkey == hotkeyNumber);
                 if (slotView != null) {
-                    slotView.UpdateHotkey(0);    
+                    slotView.UpdateHotkey(0);
                 }
-                
+
                 _inventorySlots[slotIndex].UpdateHotkey(hotkeyNumber);
             } else {
                 _inventorySlots[slotIndex].UpdateHotkey(0);

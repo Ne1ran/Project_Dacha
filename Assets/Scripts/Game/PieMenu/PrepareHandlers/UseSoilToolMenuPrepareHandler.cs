@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Core.Descriptors.Service;
+using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
 using Game.Interactable.Descriptor;
@@ -10,6 +12,8 @@ using Game.Items.Descriptors;
 using Game.PieMenu.Model;
 using Game.Tools.Descriptors;
 using Game.Tools.Model;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 using VContainer;
 
 namespace Game.PieMenu.PrepareHandlers
@@ -21,22 +25,20 @@ namespace Game.PieMenu.PrepareHandlers
         private readonly InventoryService _inventoryService = null!;
         [Inject]
         private readonly IDescriptorService _descriptorService = null!;
+        [Inject]
+        private readonly IResourceService _resourceService = null!;
 
-        public UniTask<PieMenuItemModel> Prepare(InteractionPieMenuSettings pieMenuSettings, CancellationToken token)
+        public async UniTask<PieMenuItemModel> PrepareAsync(InteractionPieMenuSettings pieMenuSettings, CancellationToken token)
         {
-            List<PieMenuItemSelectionModel> selectionModels = UpdateSelectionModels();
-            if (selectionModels.Count == 0) {
-                selectionModels.Add(new(string.Empty, pieMenuSettings.BaseIcon, "any tool"));
-            }
-
+            List<PieMenuItemSelectionModel> selectionModels = await UpdateSelectionModelsAsync(pieMenuSettings.BaseIcon, token);
             PieMenuItemModel itemModel = new(pieMenuSettings.InteractionHandlerName, pieMenuSettings.Title, pieMenuSettings.Description,
                                              selectionModels);
-            return UniTask.FromResult(itemModel);
+            return itemModel;
         }
 
-        private List<PieMenuItemSelectionModel> UpdateSelectionModels()
+        private async UniTask<List<PieMenuItemSelectionModel>> UpdateSelectionModelsAsync(AssetReference? baseIcon, CancellationToken token)
         {
-            List<PieMenuItemSelectionModel> result = new();
+            List<UniTask<PieMenuItemSelectionModel>> result = new();
 
             List<InventoryItem> tools = _inventoryService.GetItemsByType(ItemType.TOOL);
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
@@ -55,11 +57,25 @@ namespace Game.PieMenu.PrepareHandlers
                 }
 
                 if (toolsDescriptorModel.ToolType == ToolType.SOIL) {
-                    result.Add(new(tool.Id, itemDescriptorModel.Icon, toolsDescriptorModel.ToolName));
+                    result.Add(CreateItemSelectionModel(itemDescriptorModel.Icon, tool.Id, toolsDescriptorModel.ToolName, token));
                 }
             }
 
-            return result;
+            if (result.Count == 0) {
+                result.Add(CreateItemSelectionModel(baseIcon, string.Empty, "any tool", token));
+            }
+
+            PieMenuItemSelectionModel[] items = await UniTask.WhenAll(result);
+            return items.ToList();
+        }
+
+        private async UniTask<PieMenuItemSelectionModel> CreateItemSelectionModel(AssetReference? icon,
+                                                                                  string id,
+                                                                                  string name,
+                                                                                  CancellationToken token = default)
+        {
+            Sprite? itemIcon = icon != null ? await _resourceService.LoadAssetAsync<Sprite>(icon.AssetGUID, token) : null;
+            return new(id, itemIcon, name);
         }
     }
 }

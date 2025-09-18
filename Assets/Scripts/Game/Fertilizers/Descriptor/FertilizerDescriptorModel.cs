@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Fertilizers.Model;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Game.Fertilizers.Descriptor
 {
@@ -24,7 +25,7 @@ namespace Game.Fertilizers.Descriptor
         [field: SerializeField, Range(-25f, 25f), Tooltip("Value that influence the soil breathability change after full decomposition")]
         public float BreathabilityValue { get; set; } = 0f;
         [field: SerializeField]
-        public string PrefabPath { get; set; } = string.Empty;
+        public AssetReference Prefab { get; set; } = null!;
         [field: SerializeField]
         public FertilizerElementsDescriptorModel FertilizerElements { get; set; } = null!;
     }

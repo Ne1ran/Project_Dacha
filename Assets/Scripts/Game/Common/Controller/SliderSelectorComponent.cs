@@ -9,7 +9,7 @@ using Button = UnityEngine.UI.Button;
 
 namespace Game.Common.Controller
 {
-    [PrefabPath("UI/Prefabs/pfSliderSelector")]
+    [NeedBinding("pfSliderSelector")]
     public class SliderSelectorComponent : MonoBehaviour
     {
         [ComponentBinding("Slider")]

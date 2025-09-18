@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Plants.Model;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Game.Plants.Descriptors
 {
@@ -12,6 +13,6 @@ namespace Game.Plants.Descriptors
         [field: SerializeField]
         public float Offset { get; set; }
         [field: SerializeField]
-        public string DeadPrefabPath { get; set; } = "Prefabs/Plants/pfDeadPlant";
+        public AssetReference DeadPrefab { get; set; } = null!;
     }
 }

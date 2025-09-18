@@ -1,0 +1,558 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ui-textures
+  m_EditorClassIdentifier: 
+  m_GroupName: ui-textures
+  m_GUID: 2c85f5d4f59afce4197de40c134948da
+  m_SerializeEntries:
+  - m_GUID: 02bc6413e9c541c4c8fd2e7501c27232
+    m_Address: SquareRy8
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0574224a56989ef4483f0d70d6364f5b
+    m_Address: Square - Irregular
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 07d91d9460b9e0c47b239fe98e5e0395
+    m_Address: rectRy8
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 07eca9a1a43b8cd4cbfd05ec7eacf695
+    m_Address: pause
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0971759ab6cda414ebcb0c23b78883ed
+    m_Address: progressBar3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0be6070c47736024da29bde924d62ca7
+    m_Address: circlefillRy16px256px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0cda1969c40b8db4fb2fcaeab340365d
+    m_Address: loading2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f0a7cb219b8b6145a68d6fe6bec5d9a
+    m_Address: roundRect4px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 105aa01b1530a1e48ba3df5d4a1cae8b
+    m_Address: circle64
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1404bccc6df90114eb3a195786762bfd
+    m_Address: roundRect8px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 156f9a19ef4181a49aff23aa6981effe
+    m_Address: down
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ec1907dac9e5b348aef2ac6105b4c28
+    m_Address: DachaBackground
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2321c5e8799c0f2448bfaa82cd28f7b7
+    m_Address: farmer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27671c81aaafeea4a9f2bde0d18ddf92
+    m_Address: mic off
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3038788b3690d264fb4d42070ecff4f2
+    m_Address: circlefill2px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 321d8291ab2c6cb4b81d3dda37a91ef6
+    m_Address: cross
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32a6891a372942d4f9da1e39bb0493f4
+    m_Address: Square - Filled
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32dcb7e3f2355c44f98f9350b3a3fc92
+    m_Address: up
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3435a4d847046b8479dad4834460878c
+    m_Address: loading1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 344fe81eb5885dc49a97989fab66c16e
+    m_Address: forward
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3718d157a9ae33d469bcd89dc6fe863f
+    m_Address: video
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fee1d766a94fce48b374f163cbf46b5
+    m_Address: Square - Filled And Outlined
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4455f7c6c2bc1244c8b8e26fac8990da
+    m_Address: Circle - Filled And Outlined
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 457daa12c858ff9498a4a9aaf9a3d84b
+    m_Address: circlefillRy15px512px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 466d33f7eb07e9640986ec48a54a4baa
+    m_Address: progressBar4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 486a826db15e5774981eb30353a0d03b
+    m_Address: circlefill8px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b00c26149944254a804c18b63fd9c1c
+    m_Address: Starprogress
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b8ac79055b2af4408f7a8ffd3b7610d
+    m_Address: BUtton 3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4baca17df0db3604bbfd47dc83bb2fd7
+    m_Address: Circle - Squared
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5554ca8c7be720f418a6615961c299a3
+    m_Address: gamepad2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 59ba0f26538b0a94484d9478537cbcbc
+    m_Address: crosshair2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e5ec5776ed884446a324f33e0242961
+    m_Address: mic on
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60911a0262f0def4892d49dfc4c7be50
+    m_Address: circlefill4px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6100dbbea50808c49a4609a101af2551
+    m_Address: circle512
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6218d182ea182704fb1261ea2fd211b4
+    m_Address: camera
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66cf2fb8c8b913f479cd773f4c3515ce
+    m_Address: border2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76b4afe604d91bb4cab3eff50436890a
+    m_Address: circle128
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 780e6142b43458e429a524d6d0a9b6d2
+    m_Address: noet-west arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79203e86ffda6904cb5ed1ea84b589b0
+    m_Address: share
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a19814244f58574fa6d9efdd064fa3e
+    m_Address: music off
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b2d1feff57f6e34d89c38ab9e5f6768
+    m_Address: Square
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c62fee6fc0b36546a0dd0dfa8e9d55a
+    m_Address: exit left
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7caba6c25041fca419e793455e34e5b3
+    m_Address: Square - Circular
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 836cc840e5e199640b27fd4c8b01701c
+    m_Address: south-west arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84e82be6dba927947b3326e9a8bfcdd9
+    m_Address: backward
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8542587de6e9f3f4a98ba85992c9f647
+    m_Address: bucket_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8714e2d47c8e4ca48adda165fee501f1
+    m_Address: lock
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89e4157977dbae842a4dc28dddab1b97
+    m_Address: dadya_petya
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c85c1dc629ff204fbfcca59471b5123
+    m_Address: stop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d91e4504de8b6c4e8270d9aefaab604
+    m_Address: Square - Outlined
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f52c694ba522ef4cb0f4787ff3a32f1
+    m_Address: hoe_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90727ef1e5c911a4ebb89c62265b4dd6
+    m_Address: rect4pxRy8
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91c6cc6f973784249a1991e48b546115
+    m_Address: circlefillRy8px256px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 929b54ef59aaeba4a9807a6ef928457b
+    m_Address: star
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 945fc62d0dca2254f9c8b49984a55393
+    m_Address: south-east arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 953e21da8e9ad1f4c9df15470e4856d2
+    m_Address: info
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95536a7810238db4abb5c02d9b700c92
+    m_Address: circle256
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 964431ef0f1cd0d44bedb70a01641458
+    m_Address: BUtton B
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a9f6b9d76e06054e8dd89bf95d08a0e
+    m_Address: roundRect2px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9dde89aa890342541a7eab6fe3af8187
+    m_Address: unlock
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e1f36a2b01c53a41be7b755751d463d
+    m_Address: progressBar1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a03509ed5651d664bb2b265f5db6b82d
+    m_Address: handSaw_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a67d80a1e6dd824409cb30f62dc28448
+    m_Address: BUtton 2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a74dacc9bfcf47749a8630eac3456429
+    m_Address: roundRect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7a1b1daabab4cb419cb8a3c7b5e88de
+    m_Address: dadya_vanya
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a8c156df7e42dfd40a0af3ae927e559c
+    m_Address: left arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a95b268708c1b96479128a1b9ff27cbf
+    m_Address: Circle - Ultra Slim
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acfc314f747513a4e9ed3c67e3d171a7
+    m_Address: rect3pxRy8
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afb2ac212290a184db5260fceddcdc03
+    m_Address: circlefillRy86px512px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afce83f863e31494781f3972d2734761
+    m_Address: progressBar2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0325800c9b52704ab3193529a278ab6
+    m_Address: right
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0c3e53b408282f4288abf14cb70c14a
+    m_Address: music on
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5d38f0fc5f8e894c88c8b245a033211
+    m_Address: Circle - Slim
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6fcb67aab932ab47845505c9a99494c
+    m_Address: down arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b72899c720715e3489a25364f637bb51
+    m_Address: shovel_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba0998b69bda33642b0aeccfb88745ef
+    m_Address: menu1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bafb332660dbb9849aa02b37590b0912
+    m_Address: Circle - Filled
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c093ba7d3e53324499e637b60c654ff5
+    m_Address: north-east arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c109338b6adfe674b83c05ec447899d9
+    m_Address: wateringCan_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c33c6ae4ffbbdc8439f47c9811ec4064
+    m_Address: BUtton 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c356d10b4a98a33448a9da4bb7bc4990
+    m_Address: up arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3e472f25f685b24cb873a70418519d3
+    m_Address: BUtton C
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9daa32d43b9f5245aeee66ff811ac91
+    m_Address: padding
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca18070b4f83798478d5f9270d697d09
+    m_Address: sign1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca2ed15f5740fba4da84d4419c9556b9
+    m_Address: cutters_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cdf00f98e3d043344bae9b5a9d8b6e14
+    m_Address: rect8pxRy8
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cdf51f297971bed4d839669437195e6d
+    m_Address: gamepad1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d42462dceb040ad4d9b0974f30d84b4e
+    m_Address: Circle - Transparent
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d72623ff7003bb7458128bc5b8be00b6
+    m_Address: Leaderboard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc4bc33d52db40c42bcafbcf6d63ca8a
+    m_Address: home
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc96280a2b2104f47afc6a317090d3bc
+    m_Address: axe_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd00ce776805e53489ea19ae7919e89d
+    m_Address: fork_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df199e17abfbe134d9cca069a7ac9248
+    m_Address: sign2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df72830c7382d8e409c201f036f958ce
+    m_Address: hamburger icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e11d3330e5e316e43b980432fab67f97
+    m_Address: exit right
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9d35c20bfbd9a64296bdb0f67ade810
+    m_Address: Circle - Irregular
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea2ece1787634de49a7af98142d6ea22
+    m_Address: Circle - Outlined
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ebc82bb9dacba0f478d2a059e9181886
+    m_Address: circlefillRy32px256px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec785febb56d8bb469dd6cb6235ebcd2
+    m_Address: settings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f17215db0638a0944ae774ad4f93932c
+    m_Address: BUtton A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4cb417d1cba28d4d911cc35d2a19d64
+    m_Address: yes-tic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f904827dc13387a49989875f02dc6306
+    m_Address: circlefillRy30px512px
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9ad705e822274840a998b66e40fbba8
+    m_Address: Circle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fb4fddf2c378ae647ae205d38ba835b9
+    m_Address: left
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd2a1fb3e51510049945a1f359a4ccba
+    m_Address: menu2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe6e0fd0ac93828439541c5caafa41b5
+    m_Address: right arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe807cded81318b4b976109dc3f78d31
+    m_Address: Circle - Weird
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d6ea6b5e9b078b041906f4538422b97b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 541b3761a7839a34abfa5f1a5a0e066b, type: 2}
+    - {fileID: 11400000, guid: 80903800c72405144accdfd697ec16c2, type: 2}

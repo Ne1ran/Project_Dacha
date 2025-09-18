@@ -65,7 +65,7 @@ namespace Game.Interactable.ViewModel
                                                                            Transform itemsHolder,
                                                                            CancellationToken cancellationToken = default)
         {
-            PieMenuItemController pieItem = await _resourceService.LoadObjectAsync<PieMenuItemController>(itemsHolder.transform);
+            PieMenuItemController pieItem = await _resourceService.InstantiateAsync<PieMenuItemController>(itemsHolder.transform, cancellationToken);
             pieItem.Initialize(itemModel, _generalSettings, OnClickedTrigger);
             return pieItem;
         }

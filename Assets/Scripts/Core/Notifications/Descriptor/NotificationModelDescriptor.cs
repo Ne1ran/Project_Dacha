@@ -1,6 +1,7 @@
 ﻿using System;
 using Core.Notifications.Model;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Core.Notifications.Descriptor
 {
@@ -16,7 +17,7 @@ namespace Core.Notifications.Descriptor
         [field: SerializeField]
         public string Message { get; set; } = null!;
         [field: SerializeField]
-        public Sprite? Icon { get; set; }
+        public AssetReference? Icon { get; set; }
         [field: SerializeField]
         public NotificationAlignment Alignment { get; set; } = NotificationAlignment.LOWER_RIGHT;
         [field: SerializeField]

@@ -14,120 +14,270 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ItemDescriptors>k__BackingField:
   - <ItemId>k__BackingField: Axe
-    <ItemPrefab>k__BackingField: Prefabs/Tools/Axe
-    <Icon>k__BackingField: {fileID: 21300000, guid: dc96280a2b2104f47afc6a317090d3bc, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: 77d369b1cb1e6044599ebd32e53ad708
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: dc96280a2b2104f47afc6a317090d3bc
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Hammer
-    <ItemPrefab>k__BackingField: Prefabs/Tools/Hammer
-    <Icon>k__BackingField: {fileID: 21300000, guid: a03509ed5651d664bb2b265f5db6b82d, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: 8e6678e11e3e1174182d5d89894dd187
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: 780e6142b43458e429a524d6d0a9b6d2
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Hoe
-    <ItemPrefab>k__BackingField: Prefabs/Tools/Hoe
-    <Icon>k__BackingField: {fileID: 21300000, guid: 8f52c694ba522ef4cb0f4787ff3a32f1, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: 6a9c7c20364d594499fd79c643183ae4
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: 8f52c694ba522ef4cb0f4787ff3a32f1
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Pickaxe
-    <ItemPrefab>k__BackingField: Prefabs/Tools/Pickaxe
-    <Icon>k__BackingField: {fileID: 21300000, guid: dc96280a2b2104f47afc6a317090d3bc, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: 19c116d1a4285f847a781cbc41ec5b3c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: 5e5ec5776ed884446a324f33e0242961
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Scythe
-    <ItemPrefab>k__BackingField: Prefabs/Tools/Scythe
-    <Icon>k__BackingField: {fileID: 21300000, guid: ca2ed15f5740fba4da84d4419c9556b9, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: 4431af77f82aff047b6f1c5bced96587
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: 836cc840e5e199640b27fd4c8b01701c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: Spade
-    <ItemPrefab>k__BackingField: Prefabs/Tools/Spade
-    <Icon>k__BackingField: {fileID: 21300000, guid: b72899c720715e3489a25364f637bb51, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: fe87bb3c05fee9a42b605ac9b6026de6
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: b72899c720715e3489a25364f637bb51
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: PotassiumMonophosphate
-    <ItemPrefab>k__BackingField: Prefabs/Fertilizers/Fertilizer
-    <Icon>k__BackingField: {fileID: 21300000, guid: 8542587de6e9f3f4a98ba85992c9f647, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: e5014ac998380084d80368e4236e9be7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: f17215db0638a0944ae774ad4f93932c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 5
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: PotassiumSulfate
-    <ItemPrefab>k__BackingField: Prefabs/Fertilizers/Fertilizer
-    <Icon>k__BackingField: {fileID: 21300000, guid: dc96280a2b2104f47afc6a317090d3bc, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: e5014ac998380084d80368e4236e9be7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: 964431ef0f1cd0d44bedb70a01641458
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 5
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: DoubleSuperphosphate
-    <ItemPrefab>k__BackingField: Prefabs/Fertilizers/Fertilizer
-    <Icon>k__BackingField: {fileID: 21300000, guid: ca2ed15f5740fba4da84d4419c9556b9, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: e5014ac998380084d80368e4236e9be7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: c3e472f25f685b24cb873a70418519d3
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 5
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: CalciumNitrate
-    <ItemPrefab>k__BackingField: Prefabs/Fertilizers/Fertilizer
-    <Icon>k__BackingField: {fileID: 21300000, guid: 8f52c694ba522ef4cb0f4787ff3a32f1, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: e5014ac998380084d80368e4236e9be7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: c33c6ae4ffbbdc8439f47c9811ec4064
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 5
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: cucumberSeed
-    <ItemPrefab>k__BackingField: Prefabs/Seeds/pfSeedBag
-    <Icon>k__BackingField: {fileID: 21300000, guid: 929b54ef59aaeba4a9807a6ef928457b, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: f35882e324116ed4095672888efc5954
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: 929b54ef59aaeba4a9807a6ef928457b
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 3
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: watermelonSeed
-    <ItemPrefab>k__BackingField: Prefabs/Seeds/pfSeedBag
-    <Icon>k__BackingField: {fileID: 21300000, guid: 575f0768799e8504a929d65ae3bc2c28, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: f35882e324116ed4095672888efc5954
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: 4b8ac79055b2af4408f7a8ffd3b7610d
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 3
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: beetrootSeed
-    <ItemPrefab>k__BackingField: Prefabs/Seeds/pfSeedBag
-    <Icon>k__BackingField: {fileID: 21300000, guid: a67d80a1e6dd824409cb30f62dc28448, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: f35882e324116ed4095672888efc5954
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: a67d80a1e6dd824409cb30f62dc28448
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 3
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: BucketTool
-    <ItemPrefab>k__BackingField: Prefabs/Tools/BucketTool
-    <Icon>k__BackingField: {fileID: 21300000, guid: 8542587de6e9f3f4a98ba85992c9f647, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: 3bdf747cd01703043b405a579f6461e6
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: 8542587de6e9f3f4a98ba85992c9f647
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
   - <ItemId>k__BackingField: cucumberHarvest
-    <ItemPrefab>k__BackingField: Prefabs/Harvest/pfCucumber
-    <Icon>k__BackingField: {fileID: 21300000, guid: c3e472f25f685b24cb873a70418519d3, type: 3}
+    <ItemPrefab>k__BackingField:
+      m_AssetGUID: 3253a48f3e21d6c479ba2389ce05bd16
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <Icon>k__BackingField:
+      m_AssetGUID: f4cb417d1cba28d4d911cc35d2a19d64
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <ItemType>k__BackingField: 4
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 1

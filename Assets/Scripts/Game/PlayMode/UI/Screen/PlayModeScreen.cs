@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Core.Descriptors.Service;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
@@ -18,7 +17,7 @@ using VContainer;
 
 namespace Game.PlayMode.UI.Screen
 {
-    [PrefabPath("UI/Dialogs/PlayMode/PlayModeScreen")]
+    [NeedBinding("PlayModeScreen")]
     public class PlayModeScreen : MonoBehaviour
     {
         [ComponentBinding("Crosshair")]
@@ -77,7 +76,7 @@ namespace Game.PlayMode.UI.Screen
             if (_inventoryMediator.InventoryOpened) {
                 return;
             }
-            
+
             string input = Input.inputString;
             if (string.IsNullOrEmpty(input)) {
                 return;
@@ -109,13 +108,8 @@ namespace Game.PlayMode.UI.Screen
             _hotkeySlotViews.Clear();
 
             List<HotkeySlotViewModel> hotkeyViewModel = _viewModel!.GetBaseHotkeysViewModels();
-            List<UniTask<HotkeySlotView>> loadTasks = new(hotkeyViewModel.Count);
-            for (int i = 0; i < hotkeyViewModel.Count; i++) {
-                loadTasks.Add(_resourceService.LoadObjectAsync<HotkeySlotView>());
-            }
-
             Transform panelTransform = _hotkeyPanel.transform;
-            _hotkeySlotViews = (await UniTask.WhenAll(loadTasks)).ToList();
+            _hotkeySlotViews = await _resourceService.InstantiateAsync<HotkeySlotView>(hotkeyViewModel.Count);
             for (int i = 0; i < hotkeyViewModel.Count; i++) {
                 HotkeySlotViewModel slotViewModel = hotkeyViewModel[i];
                 HotkeySlotView view = _hotkeySlotViews[i];
@@ -126,17 +120,17 @@ namespace Game.PlayMode.UI.Screen
 
         private void OnHotkeyAdded(HotkeySlotViewModel newItem, int index)
         {
-            _hotkeySlotViews[index].Image = newItem.Image;
+            _hotkeySlotViews[index].SetImageAsync(newItem.ImagePath).Forget();
         }
 
         private void OnHotkeyReplaced(HotkeySlotViewModel oldItem, HotkeySlotViewModel newItem, int index)
         {
-            _hotkeySlotViews[index].Image = newItem.Image;
+            _hotkeySlotViews[index].SetImageAsync(newItem.ImagePath).Forget();
         }
 
         private void OnHotkeyRemoved(HotkeySlotViewModel oldItem, int index)
         {
-            _hotkeySlotViews[index].Image = null;
+            _hotkeySlotViews[index].SetImageAsync(null).Forget();
         }
 
         private void OnHotkeyHighlighted(int oldIndex, int newIndex)

@@ -1,5 +1,4 @@
 ﻿using Game.Inventory.Model;
-using UnityEngine;
 
 namespace Game.PlayMode.UI.Model
 {
@@ -7,14 +6,14 @@ namespace Game.PlayMode.UI.Model
     {
         public string? ItemId { get; }
         public ItemType ItemType { get; }
-        public Sprite? Image { get; }
+        public string? ImagePath { get; }
         public int HotkeyNumber { get; }
 
-        public HotkeySlotViewModel(string itemId, ItemType itemType, Sprite image, int hotkeyNumber)
+        public HotkeySlotViewModel(string itemId, ItemType itemType, string? imagePath, int hotkeyNumber)
         {
             ItemId = itemId;
             ItemType = itemType;
-            Image = image;
+            ImagePath = imagePath;
             HotkeyNumber = hotkeyNumber;
         }
 

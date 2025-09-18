@@ -29,7 +29,7 @@ namespace Game.Fertilizers.Service
                 throw new ArgumentException($"Fertilizer not found with id={fertilizerId}");
             }
 
-            FertilizerController toolController = await _resourceService.LoadObjectAsync<FertilizerController>(fertModel.PrefabPath);
+            FertilizerController toolController = await _resourceService.InstantiateAsync<FertilizerController>(fertModel.Prefab.AssetGUID);
             toolController.transform.position = position;
             toolController.name = fertilizerId; // todo redo
             return toolController;

@@ -73,17 +73,16 @@ namespace Core.UI.Service
                 where T : Component
         {
             if (_currentCanvas == null) {
-                Debug.LogWarning("Canvas not found!");
-                return null;
+                throw new NullReferenceException("Canvas not found!");
             }
 
             Type dialogType = typeof(T);
             if (_dialogs.ContainsKey(dialogType)) {
                 Debug.LogWarning("Cannot create dialog twice!");
-                return null;
+                return _dialogs[dialogType].GetComponent<T>();
             }
 
-            T loadedDialog = await _resourceService.LoadObjectAsync<T>(_currentCanvas!.transform);
+            T loadedDialog = await _resourceService.InstantiateAsync<T>(_currentCanvas!.transform);
             _dialogs.Add(dialogType, loadedDialog.gameObject);
             return loadedDialog;
         }
@@ -102,7 +101,7 @@ namespace Core.UI.Service
                 return UniTask.CompletedTask;
             }
 
-            _resourceService.Release(dialog);
+            _resourceService.ReleaseInstance(dialog);
             _dialogs.Remove(dialogType);
             return UniTask.CompletedTask;
         }
@@ -115,7 +114,7 @@ namespace Core.UI.Service
                 return null;
             }
 
-            T loadedElement = await _resourceService.LoadObjectAsync<T>(_currentCanvas!.transform);
+            T loadedElement = await _resourceService.InstantiateAsync<T>(_currentCanvas!.transform);
             _elements.Add(loadedElement.gameObject);
             return loadedElement;
         }
@@ -132,7 +131,7 @@ namespace Core.UI.Service
                 return UniTask.CompletedTask; 
             }
 
-            _resourceService.Release(element);
+            _resourceService.ReleaseInstance(element);
             _elements.Remove(element);
             return UniTask.CompletedTask;
         }

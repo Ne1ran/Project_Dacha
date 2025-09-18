@@ -3,11 +3,9 @@ using Core.SceneManagement.Event;
 using Cysharp.Threading.Tasks;
 using MessagePipe;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
-using VContainer;
 using VContainer.Unity;
 
 namespace Core.SceneManagement.Service
@@ -17,14 +15,18 @@ namespace Core.SceneManagement.Service
     {
         private SceneInstance? _loadedScene;
         
-        [Inject]
-        private IPublisher<string, SceneChangedEvent> _publisher;
+        private readonly IPublisher<string, SceneChangedEvent> _publisher;
+
+        public SceneService(IPublisher<string, SceneChangedEvent> publisher)
+        {
+            _publisher = publisher;
+        }
 
         public async UniTask LoadSceneAsync(string sceneAddress, LoadSceneMode mode = LoadSceneMode.Single)
         {
             _publisher.Publish(SceneChangedEvent.SCENE_PRELOAD, new(sceneAddress));
 
-            AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(sceneAddress, mode);
+            AsyncOperationHandle<SceneInstance> handle = UnityEngine.AddressableAssets.Addressables.LoadSceneAsync(sceneAddress, mode);
             SceneInstance result = await handle.ToUniTask();
             if (handle.Status == AsyncOperationStatus.Succeeded) {
                 SceneInstance? oldScene = _loadedScene;
@@ -51,7 +53,7 @@ namespace Core.SceneManagement.Service
             string sceneName = sceneInstance.Scene.name;
             _publisher.Publish(SceneChangedEvent.SCENE_PREUNLOAD, new(sceneName));
 
-            AsyncOperationHandle<SceneInstance> handle = Addressables.UnloadSceneAsync(sceneInstance);
+            AsyncOperationHandle<SceneInstance> handle = UnityEngine.AddressableAssets.Addressables.UnloadSceneAsync(sceneInstance);
             await handle.ToUniTask();
 
             if (handle.Status == AsyncOperationStatus.Succeeded) {

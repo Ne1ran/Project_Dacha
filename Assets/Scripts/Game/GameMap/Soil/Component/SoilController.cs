@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Core.Resources.Binding.Attributes;
+﻿using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Soil.Descriptor;
@@ -11,7 +10,7 @@ using VContainer;
 
 namespace Game.GameMap.Soil.Component
 {
-    [PrefabPath("Prefabs/Soil/pfSoilController")]
+    [NeedBinding("pfSoilController")]
     public class SoilController : MonoBehaviour
     {
         [Inject]
@@ -38,9 +37,9 @@ namespace Game.GameMap.Soil.Component
 
             _soilModel = _soilService.GetSoil(_soilId);
             _currentSkinPath = _soilModel == null
-                                       ? _visualDescriptor.BaseViewPrefab
+                                       ? _visualDescriptor.BaseViewPrefab.AssetGUID
                                        : _visualDescriptor.GetPrefabPath(_soilModel.State, _soilModel.DugRecently, _soilModel.WellWatered);
-            Transform skin = await _resourceService.LoadObjectAsync<Transform>(_currentSkinPath);
+            Transform skin = await _resourceService.InstantiateAsync<Transform>(_currentSkinPath);
             skin.SetParent(_skinHolder, false);
         }
 
@@ -62,7 +61,7 @@ namespace Game.GameMap.Soil.Component
                 child.DestroyObject();
             }
 
-            Transform skin = await _resourceService.LoadObjectAsync<Transform>(_currentSkinPath);
+            Transform skin = await _resourceService.InstantiateAsync<Transform>(_currentSkinPath);
             skin.SetParent(_skinHolder, false);
             _soilModel = newSoilModel;
         }

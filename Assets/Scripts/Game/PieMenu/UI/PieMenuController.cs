@@ -19,7 +19,7 @@ using VContainer;
 
 namespace Game.PieMenu.UI
 {
-    [PrefabPath("UI/Dialogs/PieMenu/pfPieMenu")]
+    [NeedBinding("pfPieMenu")]
     public class PieMenuController : MonoBehaviour
     {
         private const string SETTINGS_NAME = "Settings";

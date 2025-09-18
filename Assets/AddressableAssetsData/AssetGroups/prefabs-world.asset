@@ -1,0 +1,363 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: prefabs-world
+  m_EditorClassIdentifier: 
+  m_GroupName: prefabs-world
+  m_GUID: 9477928cf602ca74f898fe1bd86cf8df
+  m_SerializeEntries:
+  - m_GUID: 0002f1bdebdb83e4cb81269763fe4b2f
+    m_Address: FenceGate_A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 003e54f7c12dd3f4dbaca043fe72fb74
+    m_Address: Tomato_Crate
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 020357e91d0ca3c48948b72fffb28a10
+    m_Address: Cart
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0919f6373d0ba3c42898d72b84b02b38
+    m_Address: Bld_GreenMouse
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 093b1a4a94d0fd64782e3542fe349640
+    m_Address: Tree_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e74dfb1f930cf640bff4277ee5994e9
+    m_Address: FenceGate_B
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 130c2f5b7542aa043bb0f9b1bde2e9f3
+    m_Address: Tomato_Crate_Pack
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 136a5d02f7166784bb45906490294bfc
+    m_Address: Env_Bush_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 17755911f12715b46abdc3db02860d36
+    m_Address: Prop_WoodenChest_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 17be667ea2bc1e148933bc4124830c1f
+    m_Address: Prop_WoodenBox_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a40004eea175e7408fcf94d0228c6e4
+    m_Address: Prop_WoodenCrates_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d8c945ed39718148bb60ed85563190c
+    m_Address: FenceEnd
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2fb59737d6e4b1c489e14796b487c46d
+    m_Address: Tree
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 40dca0953ea3fe14da26d7b87da251e1
+    m_Address: Box_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47ca09283686fe942ac10af1a25af801
+    m_Address: Bld_Barn_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b51bb54b77e9e448b7067e7357f7ff3
+    m_Address: Stone_road
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51633e8f8672ebb4ca80eb935ab9bf7b
+    m_Address: Env_Tree_06
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 541b08bc544cf124daf4a447f2d514f0
+    m_Address: Env_Bush_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58f9bffc56214664e969be33c469f6a2
+    m_Address: Prop_WoodenBox_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ae7900f14d184d479d6e32f0127b797
+    m_Address: Prop_Pallete_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5cd6bc82604284345b4d21adede7e865
+    m_Address: Prop_WoodenChest_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d5745a0e63397947b3dbc92a667b7a6
+    m_Address: Env_Tree_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 62c0240cc3fc4c143a97d1592b939b05
+    m_Address: Bld_Barn_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6558392a3106eaa4ab9bb26749f4e00c
+    m_Address: Box
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 65e2c3166f897d1468061e087ee847f4
+    m_Address: Grass 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 697d161afef5d304d919e355118e5344
+    m_Address: Prop_WoodenBox_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c20b91f6f25ebb499766bb0be6b5f8a
+    m_Address: Bld_FarmMill_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c4007604bc022f448fc1c1580e16882
+    m_Address: Mountain
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d94d7893372bb4409e9168c2ded88c0
+    m_Address: Env_WoodFence_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 726982723f02a9c4cbbda92d4dc769d3
+    m_Address: Tree_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 72951464967d60240800936aa1dfea37
+    m_Address: Bld_Outhouses
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77c83503cda412e49a322ddaf231942d
+    m_Address: Prop_Pallete_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77d6fa167b9dd4f4aa91eec897b956f3
+    m_Address: Bld_FarmerHouse
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 786231a4ce8bda04ea331ca13f8d4a09
+    m_Address: Env_WoodFence_06
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79fef74c2e69c104298c6739982cc212
+    m_Address: Tree_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a77a7e2db66af5439115d6f25f735aa
+    m_Address: Well
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 916f5058d5c38aa4fb49d3769570cfab
+    m_Address: Bld_StoreBuilding_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 927c9463ccdc3724998d7e1b93ec0503
+    m_Address: Fence
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9db96fe76376d694994a92870d893312
+    m_Address: Prop_WoodenBox_05
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1faf1ea613bd5c449e0f969f591c0d0
+    m_Address: Barrel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a42676f730c2a654aa6040c7d4bf15ab
+    m_Address: Bld_FarmMill_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7d1dd9522bb084498975fd966bbcb09
+    m_Address: Fence_Middle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9ac4ffc6a6c2f142ba38d31361db74c
+    m_Address: Tree_03.2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b214a049616de1a4badde43d2a617311
+    m_Address: Env_Tree_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b8b69ec67be734745951e445487d5a36
+    m_Address: GrassGround
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc0f28e5bc04ef54a9b56ebeae78ac48
+    m_Address: Bld_Silo_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bcafd9aa431248846a8d2ed15d2d44cf
+    m_Address: Prop_WoodenCrates_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: becd5e544a16b8c4f951b784a6192766
+    m_Address: Bonfire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c19f31c315caa3d4786836eb52884381
+    m_Address: Prop_MetalBerrel_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6cdebd4757646744a411bf699deb8fb
+    m_Address: Prop_WoodenBox_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c754dcd1fe6a015409569af86c7c1863
+    m_Address: Env_WoodFence_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb4d35c78a2eea94a9a4e9ae36afa35a
+    m_Address: Bld_ChickenCoop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc894c3a9e615b747a7f155e4db32bd6
+    m_Address: Env_WoodFence_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d534d873f81082e4aa9f93a03e577725
+    m_Address: Env_Tree_05
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8312e4a711e79844958bf19c9e7128e
+    m_Address: Bld_Silo_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d845d40a10f66f54db4e10564b449dba
+    m_Address: Tree_03.1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd1314451e232934d84f9c1f0afb2806
+    m_Address: Env_Tree_07
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd61d9376da13774192b236353368e36
+    m_Address: Prop_WoodenBox_06
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df1c59486edbb164993afb23835953e5
+    m_Address: Env_WoodFence_05
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3b849f6e9e680d4e8fd957e50fa2c74
+    m_Address: Crate
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e793f57831947ae4fa0852191bea53df
+    m_Address: Env_Tree_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb53896f6bcec324896a8e8244808f2f
+    m_Address: Box_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb71626052cc9b04f9c433a2655b99d2
+    m_Address: Env_WoodFence_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee62f561f82725a459aaa2a0ef0e5a3e
+    m_Address: Grass
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f236388441bd2494693c3f4c78ae7ee0
+    m_Address: Env_Tree_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fb218e9f6cb64f648bfce1272eddddf2
+    m_Address: Streetlight
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fce2fae08c930a8409a53c394b0df96e
+    m_Address: Prop_WoodenCrates_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe7605a19bf829d46b366deda0c04974
+    m_Address: Prop_WoodenCrates_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d6ea6b5e9b078b041906f4538422b97b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 8d2c343f82ed50f4da5cf212135f506f, type: 2}
+    - {fileID: 11400000, guid: a663cfa81d671384a9a0df1a748acd5a, type: 2}

@@ -7,6 +7,6 @@ namespace Game.PieMenu.PrepareHandlers
 {
     public interface IPieMenuPrepareHandler
     {
-        UniTask<PieMenuItemModel> Prepare(InteractionPieMenuSettings pieMenuSettings, CancellationToken token);
+        UniTask<PieMenuItemModel> PrepareAsync(InteractionPieMenuSettings pieMenuSettings, CancellationToken token);
     }
 }

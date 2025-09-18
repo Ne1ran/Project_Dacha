@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: prefabs-plants
+  m_EditorClassIdentifier: 
+  m_GroupName: prefabs-plants
+  m_GUID: a01cbbea923b2a145bc7c4e8a2a9cc0b
+  m_SerializeEntries:
+  - m_GUID: 1263c5c5f1c53d941996ba932a56be28
+    m_Address: pfPaslenMedium
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1392dbd2be3bbd04d8e5c57b904b42ae
+    m_Address: pfSmallTomato
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c8776a0b36cd9a4f813bf0d2d59d109
+    m_Address: Corn_Plant
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ff530657f12e2944895de229213090e
+    m_Address: pfPaslenLarge
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23f57140deda3104b9a5767fd7162d4d
+    m_Address: pfCucumberVegetation
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30319199574ca3644bf3898bb5cac486
+    m_Address: pfPumpkinPlant
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 323e5d46aea633c42bfadb66b36971d8
+    m_Address: pfTomatoPlant
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3de640461f794dc44a223f1cfedb8abf
+    m_Address: pfPaslenSmall
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48c261e225b3d454388575c2fb5c36fd
+    m_Address: pfCabbage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56b36da289d9a9e4cb37c5f588e23748
+    m_Address: pfRootVegetable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5eacbcac5b6782b4a9bd8b3824ec2e06
+    m_Address: pfGrainVegetable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68e99fbad816a8343b710c3955e2bff1
+    m_Address: pfCucumberSeedling
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 729ab502b328ed647a983caa6fa634f4
+    m_Address: pfTulip
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 772619802dded0140a801dd015e2acf7
+    m_Address: pfChamomile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8fab063e4711f284d8d384b60d79ba73
+    m_Address: pfPlantController
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97c7589824dbbb24cbc2b95a9345ebb1
+    m_Address: Eggplant_Plant
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98541326b56e6e14eb84d42aa2461bac
+    m_Address: pfTomatoHarvest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ddccdc780f22fb4d999c26b1f8b27f1
+    m_Address: pfCucumberBlooming
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b20a4151a6eb1204b868a7f074ba14bb
+    m_Address: pfFourLeavesPlant
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb9b8b5d551aeba48ab7a6c7b8a11564
+    m_Address: pfCucumberMaturing
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: deb2bedbebf44054091d3f090b613248
+    m_Address: pfDeadPlant
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: def7ece60be119f488361050b69bb442
+    m_Address: pfWheat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f0666abddd74e5644ac4cf977d74e5e9
+    m_Address: pfTurnip
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f12845bb4d1709a499e97026b8068627
+    m_Address: pfTomatoMature
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff4399c5c516b6145b031f40e03b2334
+    m_Address: pfSeeds
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d6ea6b5e9b078b041906f4538422b97b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 8f398f0f6958289498c40fd314567530, type: 2}
+    - {fileID: 11400000, guid: daa84cb406eabf745a8e60c3cf7f5ce8, type: 2}

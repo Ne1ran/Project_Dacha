@@ -2,6 +2,7 @@
 using Game.Inventory.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Game.Items.Descriptors
 {
@@ -11,9 +12,9 @@ namespace Game.Items.Descriptors
         [field: SerializeField]
         public string ItemId { get; set; } = string.Empty;
         [field: SerializeField]
-        public string? ItemPrefab { get; set; }
+        public AssetReference ItemPrefab { get; set; } = null!;
         [field: SerializeField]
-        public Sprite Icon { get; set; } = null!; // todo neiran redo when integrate addressables properly
+        public AssetReference? Icon { get; set; }
         [field: SerializeField]
         public ItemType ItemType { get; set; }
         [field: SerializeField]

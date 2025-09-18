@@ -16,7 +16,7 @@ using VContainer;
 
 namespace Game.Plants.Component
 {
-    [PrefabPath("Prefabs/Plants/pfPlantController")]
+    [NeedBinding("pfPlantController")]
     public class PlantController : MonoBehaviour, IInteractableComponent
     {
         [Inject]
@@ -46,10 +46,10 @@ namespace Game.Plants.Component
             PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.RequirePlant(plantModel.PlantId);
             string visualPrefabPath;
             if (plantModel.CurrentStage == PlantGrowStage.DEAD) {
-                visualPrefabPath = plantsDescriptorModel.Visualization.DeadPrefabPath;
+                visualPrefabPath = plantsDescriptorModel.Visualization.DeadPrefab.AssetGUID;
             } else {
                 PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.RequireStage(plantModel.CurrentStage);
-                visualPrefabPath = plantStageDescriptor.PrefabPath;
+                visualPrefabPath = plantStageDescriptor.Prefab.AssetGUID;
             }
             
             if (string.IsNullOrEmpty(visualPrefabPath)) {
