@@ -66,7 +66,7 @@ namespace Game.GameMap.Soil.Service
 
         private async UniTask<SoilController> CreateSoil(string soilId, SoilVisualDescriptor soilVisualDescriptor)
         {
-            SoilController soil = await _resourceService.LoadObjectAsync<SoilController>();
+            SoilController soil = await _resourceService.InstantiateAsync<SoilController>();
             await soil.InitializeAsync(soilId, soilVisualDescriptor);
             _soilControllerCreatedPublisher.Publish(SoilControllerCreatedEvent.SoilCreated, new(soilId, soil));
             _soilControllers.Add(soilId, soil);

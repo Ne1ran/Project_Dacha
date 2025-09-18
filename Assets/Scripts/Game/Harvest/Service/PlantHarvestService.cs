@@ -40,7 +40,7 @@ namespace Game.Harvest.Service
                 throw new ArgumentException($"Item not found with id={itemId}");
             }
 
-            HarvestController harvestController = await _resourceService.LoadObjectAsync<HarvestController>(itemDescriptorModel.ItemPrefab!);
+            HarvestController harvestController = await _resourceService.InstantiateAsync<HarvestController>(itemDescriptorModel.ItemPrefab!);
             harvestController.transform.position = position;
             harvestController.name = itemId;
             return harvestController;

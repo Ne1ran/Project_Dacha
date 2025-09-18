@@ -56,7 +56,7 @@ namespace Game.Inventory.UI
 
             List<UniTask<InventorySlotView>> loadTasks = new(slots.Count);
             for (int i = 0; i < slots.Count; i++) {
-                loadTasks.Add(_resourceService.LoadObjectAsync<InventorySlotView>());
+                loadTasks.Add(_resourceService.InstantiateAsync<InventorySlotView>());
             }
 
             _inventorySlots = (await UniTask.WhenAll(loadTasks)).ToList();

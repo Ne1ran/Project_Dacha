@@ -39,7 +39,7 @@ namespace Game.GameMap.Soil.Component
             _currentSkinPath = _soilModel == null
                                        ? _visualDescriptor.BaseViewPrefab
                                        : _visualDescriptor.GetPrefabPath(_soilModel.State, _soilModel.DugRecently, _soilModel.WellWatered);
-            Transform skin = await _resourceService.LoadObjectAsync<Transform>(_currentSkinPath);
+            Transform skin = await _resourceService.InstantiateAsync<Transform>(_currentSkinPath);
             skin.SetParent(_skinHolder, false);
         }
 
@@ -61,7 +61,7 @@ namespace Game.GameMap.Soil.Component
                 child.DestroyObject();
             }
 
-            Transform skin = await _resourceService.LoadObjectAsync<Transform>(_currentSkinPath);
+            Transform skin = await _resourceService.InstantiateAsync<Transform>(_currentSkinPath);
             skin.SetParent(_skinHolder, false);
             _soilModel = newSoilModel;
         }

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Core.Console.Service;
 using Core.Descriptors.Service;
+using Core.Resources.Service;
 using Core.SceneManagement;
 using Core.SceneManagement.Service;
 using Cysharp.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace Core.EntryPoints
         [Inject]
         private ConsoleService _consoleService = null!;
         [Inject]
+        private AddressablesManager _addressablesManager = null!;
+        [Inject]
         private IDescriptorService _descriptorService = null!;
 
         private void Awake()
@@ -29,7 +32,7 @@ namespace Core.EntryPoints
         {
             // todo neiran implement runner?
             await InitializeConsole();
-            InitializeAddressables();
+            await InitializeAddressables();
             await InitializeDescriptors();
             InitializeLocalization();
             await UniTask.Yield(token);
@@ -41,9 +44,9 @@ namespace Core.EntryPoints
             await _consoleService.InitializeAsync();
         }
 
-        private void InitializeAddressables()
+        private async UniTask InitializeAddressables()
         {
-            Debug.Log("Need to implement addressables");
+            await _addressablesManager.InitializeAsync();
         }
 
         private async UniTask InitializeDescriptors()
@@ -60,35 +63,5 @@ namespace Core.EntryPoints
         {
             Debug.Log("Need to implement localization");
         }
-
-        // private void Awake()
-        // {
-        //     LifetimeScope appScope = LifetimeScope.Create(ConfigureAppScope);
-        //     appScope.name = "ApplicationScope";
-        //     AppContext.ApplicationScope = appScope;
-        //     AppContext.CurrentScope = appScope;
-        //     DontDestroyOnLoad(appScope);
-        //
-        //     Debug.Log("Starting Game Application");
-        //     
-        //     appScope.Container.Resolve<SceneService>().LoadSceneAsync(SceneUtils.MAIN_MENU_SCENE).Forget();
-        // }
-
-        // private void ConfigureAppScope(IContainerBuilder builder)
-        // {
-        //     MessagePipeOptions messagePipeOptions = builder.RegisterMessagePipe(o => { o.EnableCaptureStackTrace = true; });
-        //     RegisterEvents(builder, messagePipeOptions);
-        //     
-        //     builder.Register<IResourceService, ResourceService>(Lifetime.Singleton);
-        //     builder.Register<SceneService>(Lifetime.Singleton);
-        //     builder.Register<UIService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-        //     
-        //     InitializeAddressables();
-        //     InitializeLocalization();
-        //     // await UniTask.Yield();
-        //     // await UniTask.Delay(5000, cancellationToken: token);
-        //     // InitializeMainMenu();
-        //     // builder.RegisterComponentOnNewGameObject<ApplicationPauseComponent>(Lifetime.Singleton, "AppPause").DontDestroyOnLoad();
-        // }
     }
 }

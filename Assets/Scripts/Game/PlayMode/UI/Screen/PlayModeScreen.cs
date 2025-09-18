@@ -111,7 +111,7 @@ namespace Game.PlayMode.UI.Screen
             List<HotkeySlotViewModel> hotkeyViewModel = _viewModel!.GetBaseHotkeysViewModels();
             List<UniTask<HotkeySlotView>> loadTasks = new(hotkeyViewModel.Count);
             for (int i = 0; i < hotkeyViewModel.Count; i++) {
-                loadTasks.Add(_resourceService.LoadObjectAsync<HotkeySlotView>());
+                loadTasks.Add(_resourceService.InstantiateAsync<HotkeySlotView>());
             }
 
             Transform panelTransform = _hotkeyPanel.transform;

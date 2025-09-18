@@ -34,7 +34,7 @@ namespace Game.Tools.Service
                 throw new ArgumentException($"Tool not found with id={toolId}");
             }
 
-            ToolController toolController = await _resourceService.LoadObjectAsync<ToolController>(toolsDescriptorModel.ToolPrefab);
+            ToolController toolController = await _resourceService.InstantiateAsync<ToolController>(toolsDescriptorModel.ToolPrefab);
             toolController.transform.position = position;
             toolController.name = toolsDescriptorModel.ToolId;
             return toolController;
@@ -49,7 +49,7 @@ namespace Game.Tools.Service
                 throw new ArgumentException($"Tool not found with id={toolId}");
             }
 
-            ToolController toolController = await _resourceService.LoadObjectAsync<ToolController>(toolsDescriptorModel.ToolPrefab);
+            ToolController toolController = await _resourceService.InstantiateAsync<ToolController>(toolsDescriptorModel.ToolPrefab);
             toolController.transform.SetParent(parent);
             toolController.name = toolsDescriptorModel.ToolId;
             return toolController;

@@ -19,7 +19,9 @@ namespace Core.Scopes
             AppContext.ApplicationScope = this;
             AppContext.CurrentScope = this;
             
-            builder.Register<IResourceService, ResourceService>(Lifetime.Singleton);
+            builder.Register<AddressablesManager>(Lifetime.Singleton);
+            builder.Register<PrefabBinderManager>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();;
+            builder.Register<IResourceService, AddressablesResourceService>(Lifetime.Singleton);
             builder.Register<SceneService>(Lifetime.Singleton);
             builder.Register<ConsoleService>(Lifetime.Singleton);
             builder.Register<IDescriptorService, ResourcesDescriptorsService>(Lifetime.Singleton);

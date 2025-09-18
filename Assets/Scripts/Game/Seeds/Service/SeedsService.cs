@@ -34,7 +34,7 @@ namespace Game.Seeds.Service
                 throw new ArgumentException($"Seed not found with id={seedId}");
             }
 
-            SeedBagController seedBagController = await _resourceService.LoadObjectAsync<SeedBagController>(seedsDescriptorModel.SeedPrefab);
+            SeedBagController seedBagController = await _resourceService.InstantiateAsync<SeedBagController>(seedsDescriptorModel.SeedPrefab);
             seedBagController.transform.position = position;
             seedBagController.name = seedsDescriptorModel.SeedId;
             return seedBagController;
@@ -49,7 +49,7 @@ namespace Game.Seeds.Service
                 throw new ArgumentException($"Seed not found with id={seedId}");
             }
 
-            SeedBagController seedBagController = await _resourceService.LoadObjectAsync<SeedBagController>(seedsDescriptorModel.SeedPrefab);
+            SeedBagController seedBagController = await _resourceService.InstantiateAsync<SeedBagController>(seedsDescriptorModel.SeedPrefab);
             seedBagController.transform.SetParent(parent);
             seedBagController.name = seedsDescriptorModel.SeedId;
             return seedBagController;

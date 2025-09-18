@@ -26,7 +26,7 @@ namespace Core.SceneManagement.Service
         {
             _publisher.Publish(SceneChangedEvent.SCENE_PRELOAD, new(sceneAddress));
 
-            AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(sceneAddress, mode);
+            AsyncOperationHandle<SceneInstance> handle = UnityEngine.AddressableAssets.Addressables.LoadSceneAsync(sceneAddress, mode);
             SceneInstance result = await handle.ToUniTask();
             if (handle.Status == AsyncOperationStatus.Succeeded) {
                 SceneInstance? oldScene = _loadedScene;
@@ -53,7 +53,7 @@ namespace Core.SceneManagement.Service
             string sceneName = sceneInstance.Scene.name;
             _publisher.Publish(SceneChangedEvent.SCENE_PREUNLOAD, new(sceneName));
 
-            AsyncOperationHandle<SceneInstance> handle = Addressables.UnloadSceneAsync(sceneInstance);
+            AsyncOperationHandle<SceneInstance> handle = UnityEngine.AddressableAssets.Addressables.UnloadSceneAsync(sceneInstance);
             await handle.ToUniTask();
 
             if (handle.Status == AsyncOperationStatus.Succeeded) {

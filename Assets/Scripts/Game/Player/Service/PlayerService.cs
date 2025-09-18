@@ -19,7 +19,7 @@ namespace Game.Player.Service
 
         public async UniTask<PlayerController> CreatePlayerAsync()
         {
-            PlayerController playerController = await _resourceService.LoadObjectAsync<PlayerController>();
+            PlayerController playerController = await _resourceService.InstantiateAsync<PlayerController>();
             Player = playerController;
             return playerController;
         }

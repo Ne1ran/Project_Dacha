@@ -48,7 +48,7 @@ namespace Game.Plants.PlaceStrategy
 
         private async UniTask<Transform> CreatePlantPrefab(string plantPrefab, Vector2 relativePosition)
         {
-            Transform plantVisualPrefab = await _resourceService.LoadObjectAsync<Transform>(plantPrefab);
+            Transform plantVisualPrefab = await _resourceService.InstantiateAsync<Transform>(plantPrefab);
             plantVisualPrefab.localPosition = new(relativePosition.x, plantVisualPrefab.localPosition.y, relativePosition.y); ;
             plantVisualPrefab.SetParent(_parent, false);
             return plantVisualPrefab;

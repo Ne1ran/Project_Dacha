@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Core.Addressables.Service;
 using Core.Attributes;
 using Cysharp.Threading.Tasks;
 using UnityEngine;

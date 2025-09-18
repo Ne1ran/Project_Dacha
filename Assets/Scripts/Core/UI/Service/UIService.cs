@@ -82,7 +82,7 @@ namespace Core.UI.Service
                 return _dialogs[dialogType].GetComponent<T>();
             }
 
-            T loadedDialog = await _resourceService.LoadAssetAsync<T>(_currentCanvas!.transform);
+            T loadedDialog = await _resourceService.InstantiateAsync<T>(_currentCanvas!.transform);
             _dialogs.Add(dialogType, loadedDialog.gameObject);
             return loadedDialog;
         }
@@ -114,7 +114,7 @@ namespace Core.UI.Service
                 return null;
             }
 
-            T loadedElement = await _resourceService.LoadAssetAsync<T>(_currentCanvas!.transform);
+            T loadedElement = await _resourceService.InstantiateAsync<T>(_currentCanvas!.transform);
             _elements.Add(loadedElement.gameObject);
             return loadedElement;
         }

@@ -102,7 +102,7 @@ namespace Game.GameMap.Tiles.Service
 
         private async UniTask<TileController> CreateTileAsync(SingleTileModel tileModel)
         {
-            TileController tileController = await _resourceService.LoadObjectAsync<TileController>(_gameWorldService.MapObject);
+            TileController tileController = await _resourceService.InstantiateAsync<TileController>(_gameWorldService.MapObject);
             tileController.Initialize(tileModel);
             tileController.transform.position = tileModel.Position.ToVector3();
             _mapTilesControllers.Add(tileModel.Id, tileController);
