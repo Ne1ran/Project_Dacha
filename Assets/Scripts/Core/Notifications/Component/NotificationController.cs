@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Core.Notifications.Component
 {
-    [NeedBinding("UI/Prefabs/pfNotification")]
+    [NeedBinding("pfNotification")]
     public class NotificationController : MonoBehaviour
     {
         [ComponentBinding("Icon")]

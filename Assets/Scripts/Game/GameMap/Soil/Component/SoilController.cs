@@ -10,7 +10,7 @@ using VContainer;
 
 namespace Game.GameMap.Soil.Component
 {
-    [NeedBinding("Prefabs/Soil/pfSoilController")]
+    [NeedBinding("pfSoilController")]
     public class SoilController : MonoBehaviour
     {
         [Inject]

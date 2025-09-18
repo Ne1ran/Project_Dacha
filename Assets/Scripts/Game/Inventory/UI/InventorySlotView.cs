@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Game.Inventory.UI
 {
-    [NeedBinding("UI/Dialogs/Inventory/InventorySlot")]
+    [NeedBinding("InventorySlot")]
     public class InventorySlotView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [ComponentBinding("ItemSlot")]

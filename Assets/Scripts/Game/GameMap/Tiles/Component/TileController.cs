@@ -12,7 +12,7 @@ using VContainer;
 
 namespace Game.GameMap.Tiles.Component
 {
-    [NeedBinding("Prefabs/Tiles/pfTile")]
+    [NeedBinding("pfTile")]
     public class TileController : MonoBehaviour, IInteractableComponent
     {
         [ComponentBinding("SoilHolder")]

@@ -16,7 +16,7 @@ using VContainer;
 
 namespace Game.Inventory.UI
 {
-    [NeedBinding("UI/Dialogs/Inventory/InventoryDialog")]
+    [NeedBinding("InventoryDialog")]
     public class InventoryDialog : MonoBehaviour
     {
         [ComponentBinding("CloseButton")]

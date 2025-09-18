@@ -8,7 +8,7 @@ using VContainer;
 
 namespace Game.UI.Dialogs.MainMenu
 {
-    [NeedBinding("UI/Dialogs/MainMenu/MainMenuDialog")]
+    [NeedBinding("MainMenuDialog")]
     public class MainMenuDialog : MonoBehaviour
     {
         [ComponentBinding("PlayButton")]

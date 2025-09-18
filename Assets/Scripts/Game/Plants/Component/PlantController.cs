@@ -16,7 +16,7 @@ using VContainer;
 
 namespace Game.Plants.Component
 {
-    [NeedBinding("Prefabs/Plants/pfPlantController")]
+    [NeedBinding("pfPlantController")]
     public class PlantController : MonoBehaviour, IInteractableComponent
     {
         [Inject]
