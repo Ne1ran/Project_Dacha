@@ -37,7 +37,7 @@ namespace Game.GameMap.Soil.Component
 
             _soilModel = _soilService.GetSoil(_soilId);
             _currentSkinPath = _soilModel == null
-                                       ? _visualDescriptor.BaseViewPrefab
+                                       ? _visualDescriptor.BaseViewPrefab.AssetGUID
                                        : _visualDescriptor.GetPrefabPath(_soilModel.State, _soilModel.DugRecently, _soilModel.WellWatered);
             Transform skin = await _resourceService.InstantiateAsync<Transform>(_currentSkinPath);
             skin.SetParent(_skinHolder, false);

@@ -41,8 +41,9 @@ namespace Core.Resources.Service
             }
 
             GameObject newObj = Object.Instantiate(loadedObj);
+            Transform newObjTransform = newObj.transform;
             if (parent != null) {
-                newObj.transform.SetParent(parent);
+                newObjTransform.SetParent(parent, false);
             }
 
             return newObj;

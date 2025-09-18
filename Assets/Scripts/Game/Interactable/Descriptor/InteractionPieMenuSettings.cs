@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.Conditions.Descriptor;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Game.Interactable.Descriptor
 {
@@ -18,7 +19,7 @@ namespace Game.Interactable.Descriptor
         [field: SerializeField]
         public string Description { get; set; } = string.Empty;
         [field: SerializeField]
-        public Sprite? BaseIcon { get; set; }
+        public AssetReference? BaseIcon { get; set; }
         [field: SerializeField]
         [TableList]
         public List<ConditionDescriptor> Conditions { get; set; } = new();

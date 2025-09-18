@@ -1,10 +1,13 @@
 ﻿using System;
 using Core.Resources.Binding.Attributes;
+using Core.Resources.Service;
+using Cysharp.Threading.Tasks;
 using Game.Inventory.Model;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using VContainer;
 
 namespace Game.Inventory.UI
 {
@@ -16,6 +19,9 @@ namespace Game.Inventory.UI
         [ComponentBinding("HotkeySlot")]
         private TextMeshProUGUI _hotkeySlotText = null!;
 
+        [Inject]
+        private readonly IResourceService _resourceService = null!;
+        
         private int _slotIndex;
         private int _currentHotkey;
         private bool _waitingForInput;
@@ -29,12 +35,18 @@ namespace Game.Inventory.UI
             HotkeySlotActive = false;
         }
 
-        public void Initialize(InventorySlotViewModel viewModel, int slotIndex)
+        public async UniTask InitializeAsync(InventorySlotViewModel viewModel, int slotIndex)
         {
             _slotIndex = slotIndex;
             _hasItem = !string.IsNullOrEmpty(viewModel.ItemId);
-            Image = viewModel.Image;
-            ImageVisible = viewModel.Image != null;
+
+            if (!string.IsNullOrEmpty(viewModel.Image)) {
+                Image = await _resourceService.LoadAssetAsync<Sprite>(viewModel.Image);
+                ImageVisible = true;
+            } else {
+                ImageVisible = false;
+            }
+            
             int hotkeyNumber = viewModel.HotkeyNumber;
             if (hotkeyNumber == 0) {
                 return;

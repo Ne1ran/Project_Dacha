@@ -77,7 +77,7 @@ namespace Game.PlayMode.UI.Screen
             if (_inventoryMediator.InventoryOpened) {
                 return;
             }
-            
+
             string input = Input.inputString;
             if (string.IsNullOrEmpty(input)) {
                 return;
@@ -126,17 +126,17 @@ namespace Game.PlayMode.UI.Screen
 
         private void OnHotkeyAdded(HotkeySlotViewModel newItem, int index)
         {
-            _hotkeySlotViews[index].Image = newItem.Image;
+            _hotkeySlotViews[index].SetImageAsync(newItem.ImagePath).Forget();
         }
 
         private void OnHotkeyReplaced(HotkeySlotViewModel oldItem, HotkeySlotViewModel newItem, int index)
         {
-            _hotkeySlotViews[index].Image = newItem.Image;
+            _hotkeySlotViews[index].SetImageAsync(newItem.ImagePath).Forget();
         }
 
         private void OnHotkeyRemoved(HotkeySlotViewModel oldItem, int index)
         {
-            _hotkeySlotViews[index].Image = null;
+            _hotkeySlotViews[index].SetImageAsync(null).Forget();
         }
 
         private void OnHotkeyHighlighted(int oldIndex, int newIndex)

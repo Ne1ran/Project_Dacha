@@ -1,8 +1,11 @@
 ﻿using Core.Resources.Binding.Attributes;
+using Core.Resources.Service;
+using Cysharp.Threading.Tasks;
 using Game.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace Game.PlayMode.UI.Component
 {
@@ -16,8 +19,13 @@ namespace Game.PlayMode.UI.Component
         [ComponentBinding("HotkeySlot")]
         private TextMeshProUGUI _hotkeySlotText = null!;
 
+        [Inject]
+        private readonly IResourceService _resourceService = null!;
+
         public int HotkeyNumber { get; private set; }
-        
+
+        private Sprite? _currentImage;
+
         private void Awake()
         {
             HotkeySlotActive = false;
@@ -25,8 +33,7 @@ namespace Game.PlayMode.UI.Component
 
         public void Initialize(int hotkeyNumber)
         {
-            Image = null;
-            ImageVisible = false;
+            SetImageAsync(null).Forget();
             HotkeySlotActive = true;
             HotkeyText = hotkeyNumber.ToString();
             Highlighted = false;
@@ -43,13 +50,27 @@ namespace Game.PlayMode.UI.Component
             set => _hotkeySlotText.gameObject.SetActive(value);
         }
 
-        public Sprite? Image
+        public async UniTaskVoid SetImageAsync(string? newImage)
         {
-            set
-            {
-                _itemSlotImage.sprite = value;
-                ImageVisible = value != null;
+            if (_currentImage != null) {
+                _resourceService.Release(_currentImage);
             }
+            
+            if (newImage == null) {
+                _itemSlotImage.sprite = null;
+                ImageVisible = false;
+                _currentImage = null;
+            } else {
+                _currentImage = await _resourceService.LoadAssetAsync<Sprite>(newImage);
+                ImageVisible = true;
+            }
+
+            Image = _currentImage;
+        }
+
+        private Sprite? Image
+        {
+            set => _currentImage = value;
         }
 
         private bool ImageVisible
@@ -59,7 +80,7 @@ namespace Game.PlayMode.UI.Component
 
         public bool Highlighted
         {
-            set => _hotkeyHighlight.SetActive(value);   
+            set => _hotkeyHighlight.SetActive(value);
         }
     }
 }

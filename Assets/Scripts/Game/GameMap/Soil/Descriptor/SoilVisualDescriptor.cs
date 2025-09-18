@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.GameMap.Soil.Model;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Game.GameMap.Soil.Descriptor
 {
@@ -8,22 +9,24 @@ namespace Game.GameMap.Soil.Descriptor
     public class SoilVisualDescriptor
     {
         [field: SerializeField]
-        public string BaseViewPrefab { get; set; } = "Prefabs/Soil/pfGrass";
+        public AssetReference BaseViewPrefab { get; set; } = null!;
         [field: SerializeField]
-        public string BareSoilPrefab { get; set; } = "Prefabs/Soil/pfSoil";
+        public AssetReference BareSoilPrefab { get; set; } = null!;
         [field: SerializeField]
-        public string TiltedPrefab { get; set; } = "Prefabs/Soil/pfSoilTilted";
+        public AssetReference TiltedPrefab { get; set; } = null!;
         [field: SerializeField]
-        public string TiltedAndWateredPrefab { get; set; } = "Prefabs/Soil/pfSoilTiltedWatered";
+        public AssetReference TiltedAndWateredPrefab { get; set; } = null!;
 
         public string GetPrefabPath(SoilState soilState, bool dugRecently, bool wellWatered)
         {
-            return soilState switch {
+            AssetReference assetReference = soilState switch {
                     SoilState.None => dugRecently ? BareSoilPrefab : BaseViewPrefab,
                     SoilState.Tilted => wellWatered ? TiltedAndWateredPrefab : TiltedPrefab,
                     SoilState.Planted => wellWatered ? TiltedAndWateredPrefab : TiltedPrefab,
                     _ => throw new ArgumentException($"Soil state not found={soilState.ToString()}")
             };
+
+            return assetReference.AssetGUID;
         }
     }
 }

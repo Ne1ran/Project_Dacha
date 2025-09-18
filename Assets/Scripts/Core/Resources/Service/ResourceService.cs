@@ -4,7 +4,6 @@ using System.Threading;
 using Core.Attributes;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
 
@@ -13,19 +12,17 @@ namespace Core.Resources.Service
     [Service]
     public class ResourceService : IResourceService
     {
-        private readonly IObjectResolver _objectResolver;
         private readonly PrefabBinderManager _prefabBinderManager;
 
-        public ResourceService(IObjectResolver objectResolver, PrefabBinderManager prefabBinderManager)
+        public ResourceService(PrefabBinderManager prefabBinderManager)
         {
-            _objectResolver = objectResolver;
             _prefabBinderManager = prefabBinderManager;
         }
 
         public GameObject Instantiate(GameObject baseGameObject)
         {
             GameObject newObj = Object.Instantiate(baseGameObject);
-            _objectResolver.InjectGameObject(newObj);
+            Scopes.AppContext.CurrentScope.Container.InjectGameObject(newObj);
             return newObj;
         }
 
@@ -34,7 +31,7 @@ namespace Core.Resources.Service
         {
             GameObject newObj = Instantiate(baseObject);
             if (parent != null) {
-                newObj.transform.SetParent(parent);
+                newObj.transform.SetParent(parent, false);
             }
 
             return _prefabBinderManager.DoBind<T>(newObj);
@@ -168,10 +165,10 @@ namespace Core.Resources.Service
 
             GameObject instantiated = Object.Instantiate(prefab, parent);
             if (parent != null) {
-                instantiated.transform.SetParent(parent);
+                instantiated.transform.SetParent(parent, false);
             }
 
-            _objectResolver.InjectGameObject(instantiated);
+            Scopes.AppContext.CurrentScope.Container.InjectGameObject(instantiated);
             return instantiated;
         }
     }

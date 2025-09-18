@@ -23,7 +23,10 @@ namespace Game.Harvest.Service
         private readonly IDescriptorService _descriptorService;
         private readonly IResourceService _resourceService;
 
-        public PlantHarvestService(PlantsService plantsService, InventoryService inventoryService, IDescriptorService descriptorService, IResourceService resourceService)
+        public PlantHarvestService(PlantsService plantsService,
+                                   InventoryService inventoryService,
+                                   IDescriptorService descriptorService,
+                                   IResourceService resourceService)
         {
             _plantsService = plantsService;
             _inventoryService = inventoryService;
@@ -40,7 +43,8 @@ namespace Game.Harvest.Service
                 throw new ArgumentException($"Item not found with id={itemId}");
             }
 
-            HarvestController harvestController = await _resourceService.InstantiateAsync<HarvestController>(itemDescriptorModel.ItemPrefab!);
+            HarvestController harvestController =
+                    await _resourceService.InstantiateAsync<HarvestController>(itemDescriptorModel.ItemPrefab.AssetGUID);
             harvestController.transform.position = position;
             harvestController.name = itemId;
             return harvestController;

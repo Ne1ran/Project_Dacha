@@ -1,11 +1,13 @@
 ﻿using System;
 using Core.Notifications.Model;
 using Core.Resources.Binding.Attributes;
+using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace Core.Notifications.Component
 {
@@ -21,19 +23,28 @@ namespace Core.Notifications.Component
         [ComponentBinding]
         private RectTransform _notificationRectTransform = null!;
 
+        [Inject]
+        private readonly IResourceService _resourceService = null!;
+        
         public event Action<NotificationModel>? OnNotificationShowed;
 
         private NotificationModel _model = null!;
 
-        public void Initialize(NotificationModel model)
+        public async UniTask InitializeAsync(NotificationModel model)
         {
             _model = model;
 
             TitleText = model.Title;
             DescriptionText = model.Message;
-            ImageIcon = model.Icon;
-            Alignment = model.Alignment;
 
+            if (!string.IsNullOrEmpty(model.Icon)) {
+                Sprite icon = await _resourceService.LoadAssetAsync<Sprite>(model.Icon);
+                ImageIcon = icon;
+            } else {
+                ImageIcon = null;
+            }
+            
+            Alignment = model.Alignment;
             ActivateNotificationAsync().Forget();
         }
 

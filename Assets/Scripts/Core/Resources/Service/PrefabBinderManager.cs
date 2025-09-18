@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Core.Attributes;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Binding.Binding;
 using UnityEngine;
@@ -8,7 +9,7 @@ using VContainer.Unity;
 
 namespace Core.Resources.Service
 {
-    [Serializable]
+    [Service]
     public class PrefabBinderManager : IInitializable
     {
         private readonly Dictionary<Type, PrefabBinding> _binders = new();

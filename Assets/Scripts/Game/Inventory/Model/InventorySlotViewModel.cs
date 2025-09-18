@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using UnityEngine.AddressableAssets;
 
 namespace Game.Inventory.Model
 {
@@ -6,10 +6,10 @@ namespace Game.Inventory.Model
     {
         public string? ItemId { get; }
         public ItemType ItemType { get; }
-        public Sprite? Image { get; }
+        public string? Image { get; }
         public int HotkeyNumber { get; }
 
-        public InventorySlotViewModel(string itemId, ItemType itemType, Sprite image, int hotkeyNumber)
+        public InventorySlotViewModel(string itemId, ItemType itemType, string? image, int hotkeyNumber)
         {
             ItemId = itemId;
             ItemType = itemType;

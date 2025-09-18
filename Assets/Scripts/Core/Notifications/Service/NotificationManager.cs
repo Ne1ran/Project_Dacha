@@ -34,7 +34,7 @@ namespace Core.Notifications.Service
         {
             NotificationModel notificationModel = CreateNotificationModel(notificationType);
             NotificationController notification = await _uiService.ShowElementAsync<NotificationController>();
-            notification.Initialize(notificationModel);
+            await notification.InitializeAsync(notificationModel);
             notification.OnNotificationShowed += OnNotificationShowed;
             _notifications.Add(notificationModel, notification);
         }

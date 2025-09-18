@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading;
 using Core.Attributes;
+using Core.Scopes;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using VContainer;
 using VContainer.Unity;
 
 namespace Core.Resources.Service
@@ -14,13 +14,12 @@ namespace Core.Resources.Service
     {
         private readonly AddressablesManager _addressablesManager;
         private readonly PrefabBinderManager _prefabBinderManager;
-        private readonly IObjectResolver _objectResolver;
 
         public GameObject? Instantiate(GameObject baseGameObject)
         {
             GameObject? go = _addressablesManager.Instantiate(baseGameObject);
             if (go != null) {
-                _objectResolver.InjectGameObject(go);
+                AppContext.CurrentScope.Container.InjectGameObject(go);
             }
 
             return go;
@@ -38,7 +37,7 @@ namespace Core.Resources.Service
                 go.transform.SetParent(parent);
             }
 
-            _objectResolver.InjectGameObject(go);
+            AppContext.CurrentScope.Container.InjectGameObject(go);
             return _prefabBinderManager.DoBind<T>(go);
         }
 
@@ -54,7 +53,7 @@ namespace Core.Resources.Service
                 go.transform.SetParent(parent);
             }
 
-            _objectResolver.InjectGameObject(go);
+            AppContext.CurrentScope.Container.InjectGameObject(go);
             return _prefabBinderManager.DoBind<T>(go);
         }
 
@@ -89,7 +88,7 @@ namespace Core.Resources.Service
         public async UniTask<GameObject> InstantiateAsync(string key, Transform parent, CancellationToken token = default)
         {
             GameObject go = await _addressablesManager.InstantiateAsync(key, parent, cancellationToken: token);
-            _objectResolver.InjectGameObject(go);
+            AppContext.CurrentScope.Container.InjectGameObject(go);
             return go;
         }
 
@@ -117,7 +116,7 @@ namespace Core.Resources.Service
                 go = await _addressablesManager.InstantiateAsync(key, position ?? Vector3.zero, rotation ?? Quaternion.identity,
                                                                  cancellationToken: token);
             }
-            _objectResolver.InjectGameObject(go);
+            AppContext.CurrentScope.Container.InjectGameObject(go);
             return go;
         }
 
@@ -171,11 +170,9 @@ namespace Core.Resources.Service
             return _prefabBinderManager.DoBind<T>(go);
         }
 
-        public AddressablesResourceService(IObjectResolver objectResolver,
-                                           AddressablesManager addressablesManager,
+        public AddressablesResourceService(AddressablesManager addressablesManager,
                                            PrefabBinderManager prefabBinderManager)
         {
-            _objectResolver = objectResolver;
             _addressablesManager = addressablesManager;
             _prefabBinderManager = prefabBinderManager;
         }

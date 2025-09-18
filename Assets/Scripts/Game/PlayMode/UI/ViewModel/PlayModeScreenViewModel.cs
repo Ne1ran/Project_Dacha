@@ -167,7 +167,7 @@ namespace Game.PlayMode.UI.ViewModel
         {
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
             ItemDescriptorModel itemDescriptor = itemsDescriptor.ItemDescriptors.Find(item => itemModel.Id == item.ItemId);
-            return new(itemModel.Id, itemModel.ItemType, itemDescriptor.Icon, hotkeyNumber);
+            return new(itemModel.Id, itemModel.ItemType, itemDescriptor.Icon.AssetGUID, hotkeyNumber);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Game.Inventory.ViewModel
         public List<InventorySlotViewModel> GetCurrentSlotsViewModels()
         {
             List<InventorySlotViewModel> list = new();
-
+            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
             InventoryModel inventory = _inventoryService.Inventory;
             foreach (InventorySlot inventorySlot in inventory.InventorySlots) {
                 InventoryItem? inventoryItem = inventorySlot.InventoryItem;
@@ -29,9 +29,8 @@ namespace Game.Inventory.ViewModel
                     continue;
                 }
                 
-                ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
                 ItemDescriptorModel toolDescriptor = itemsDescriptor.ItemDescriptors.Find(item => item.ItemId == inventoryItem.Id);
-                list.Add(new(inventoryItem.Id, ItemType.TOOL, toolDescriptor.Icon, inventoryItem.HotkeyNumber));
+                list.Add(new(inventoryItem.Id, ItemType.TOOL, toolDescriptor.Icon?.AssetGUID, inventoryItem.HotkeyNumber));
             }
 
             return list;

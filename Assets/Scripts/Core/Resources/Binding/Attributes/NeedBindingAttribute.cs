@@ -8,8 +8,12 @@ namespace Core.Resources.Binding.Attributes
     [AttributeUsage(AttributeTargets.Class)]
     public class NeedBindingAttribute : Attribute
     {
-        public string Path { get; }
+        public string? Path { get; }
 
         public NeedBindingAttribute(string path) => Path = path;
+
+        public NeedBindingAttribute()
+        {
+        }
     }
 }
