@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: sfx-sounds
+  m_EditorClassIdentifier: 
+  m_GroupName: sfx-sounds
+  m_GUID: efccd9a52ccc5a54fbd3ce5465e1da00
+  m_SerializeEntries:
+  - m_GUID: 06724297bd0dd644b8db49c1280f6f54
+    m_Address: Mouse Click 3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a49be82dc63cf440b6e0481432ba467
+    m_Address: Mouse Click  6
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55e10187e0aa635449ec183fbc87a49b
+    m_Address: Mouse Click 2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 827a54feac44b0143abd359952cbabba
+    m_Address: Mouse Click 4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8bcf085b2fe343e47a963a7032942607
+    m_Address: Mouse Hover 4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ed4597177498b84fa3d0e183d264f4d
+    m_Address: Mouse Click 5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bcb67f2192436e346a0960dd103c7f2d
+    m_Address: Mouse Hover 3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bee68fc13c669d141883b0441f89a0ea
+    m_Address: Mouse Hover 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbe659612ef17de498a392f12fc75cc2
+    m_Address: Mouse Hover 2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ebec140f22666da459f3128b26c35909
+    m_Address: Mouse Click 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d6ea6b5e9b078b041906f4538422b97b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 35cb518374384c84da24bb4e3fc21f3d, type: 2}
+    - {fileID: 11400000, guid: f3e8c67b4b0de28468de06966ded72d7, type: 2}
