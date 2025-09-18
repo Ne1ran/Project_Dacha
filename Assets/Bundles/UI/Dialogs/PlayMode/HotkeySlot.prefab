@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 7987684255569653561}
   - component: {fileID: 7185661460481379005}
   m_Layer: 5
-  m_Name: HotkeySlot
+  m_Name: SlotText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

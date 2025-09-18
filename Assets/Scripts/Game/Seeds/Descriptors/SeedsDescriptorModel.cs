@@ -4,6 +4,7 @@ using Game.Plants.Descriptors;
 using Game.Seeds.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Game.Seeds.Descriptors
 {
@@ -19,7 +20,7 @@ namespace Game.Seeds.Descriptors
         [field: SerializeField]
         public string SeedName { get; set; } = null!;
         [field: SerializeField]
-        public string SeedPrefab { get; set; } = null!;
+        public AssetReference SeedPrefab { get; set; } = null!;
         [field: SerializeField]
         public string UseHandler { get; set; } = null!;
         [field: SerializeField]

@@ -20,7 +20,7 @@ namespace Core.Resources.Binding.Binding
                                             + $" in prefab='{prefab.name}' at behaviour='{component.GetType().Name}'");
             }
 
-            Component childComponent = (Name == null ? prefab : GetChildByName(prefab, Name))?.GetComponent(ComponentType);
+            Component? childComponent = (string.IsNullOrEmpty(Name) ? prefab : GetChildByName(prefab, Name))?.GetComponent(ComponentType);
             if (childComponent == null) {
                 throw new ArgumentException($"Not found component for child name='{Name}' and type='{ComponentType.Name}' "
                                             + $" in prefab='{prefab.name}' at behaviour='{component.GetType().Name}'");

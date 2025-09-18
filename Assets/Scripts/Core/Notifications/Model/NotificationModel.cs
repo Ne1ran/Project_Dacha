@@ -1,5 +1,4 @@
 ﻿using Core.Notifications.Descriptor;
-using UnityEngine.AddressableAssets;
 
 namespace Core.Notifications.Model
 {

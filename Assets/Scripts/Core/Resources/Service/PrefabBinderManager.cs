@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Core.Attributes;
+using Core.Resources.Binding;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Binding.Binding;
 using UnityEngine;
@@ -12,17 +13,15 @@ namespace Core.Resources.Service
     [Service]
     public class PrefabBinderManager : IInitializable
     {
-        private readonly Dictionary<Type, PrefabBinding> _binders = new();
-
         public void Initialize()
         {
-            InitBinders();
+            PrefabBinder.InitBinders();
         }
 
         public T DoBind<T>(GameObject prefab)
                 where T : Component
         {
-            if (Binders.TryGetValue(typeof(T), out PrefabBinding binding)) {
+            if (PrefabBinder.Binders.TryGetValue(typeof(T), out PrefabBinding binding)) {
                 binding.Bind(prefab);
             }
 
@@ -46,31 +45,5 @@ namespace Core.Resources.Service
             NeedBindingAttribute prefabPathAttribute = type.GetCustomAttribute<NeedBindingAttribute>();
             return prefabPathAttribute?.Path;
         }
-
-        private void InitBinders()
-        {
-            HashSet<Assembly> assemblies = new() {
-                    Assembly.GetExecutingAssembly()
-            };
-
-            try {
-                assemblies.Add(Assembly.Load("Assembly-CSharp"));
-            } catch {
-                // ignored
-            }
-
-            foreach (Assembly assembly in assemblies) {
-                foreach (Type type in assembly.GetTypes()) {
-                    NeedBindingAttribute attribute = type.GetCustomAttribute<NeedBindingAttribute>();
-                    if (attribute == null) {
-                        continue;
-                    }
-
-                    _binders[type] = new(type);
-                }
-            }
-        }
-
-        private Dictionary<Type, PrefabBinding> Binders => _binders;
     }
 }

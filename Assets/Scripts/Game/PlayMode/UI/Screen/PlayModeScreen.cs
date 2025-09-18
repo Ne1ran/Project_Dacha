@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Core.Descriptors.Service;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
@@ -109,13 +108,8 @@ namespace Game.PlayMode.UI.Screen
             _hotkeySlotViews.Clear();
 
             List<HotkeySlotViewModel> hotkeyViewModel = _viewModel!.GetBaseHotkeysViewModels();
-            List<UniTask<HotkeySlotView>> loadTasks = new(hotkeyViewModel.Count);
-            for (int i = 0; i < hotkeyViewModel.Count; i++) {
-                loadTasks.Add(_resourceService.InstantiateAsync<HotkeySlotView>());
-            }
-
             Transform panelTransform = _hotkeyPanel.transform;
-            _hotkeySlotViews = (await UniTask.WhenAll(loadTasks)).ToList();
+            _hotkeySlotViews = await _resourceService.InstantiateAsync<HotkeySlotView>(hotkeyViewModel.Count);
             for (int i = 0; i < hotkeyViewModel.Count; i++) {
                 HotkeySlotViewModel slotViewModel = hotkeyViewModel[i];
                 HotkeySlotView view = _hotkeySlotViews[i];

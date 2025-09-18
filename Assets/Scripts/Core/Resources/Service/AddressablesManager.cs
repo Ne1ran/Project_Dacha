@@ -35,18 +35,17 @@ namespace Core.Resources.Service
 
         public async UniTask<GameObject> InstantiateAsync(object key, Transform? parent = null, CancellationToken cancellationToken = default)
         {
-            GameObject loadedObj = await Addressables.LoadAssetAsync<GameObject>(key);
+            GameObject loadedObj = await Addressables.InstantiateAsync(key);
             if (cancellationToken.IsCancellationRequested) {
                 throw new OperationCanceledException();
             }
 
-            GameObject newObj = Object.Instantiate(loadedObj);
-            Transform newObjTransform = newObj.transform;
+            Transform newObjTransform = loadedObj.transform;
             if (parent != null) {
                 newObjTransform.SetParent(parent, false);
             }
 
-            return newObj;
+            return loadedObj;
         }
 
         public async UniTask<GameObject> InstantiateAsync(object key,
@@ -54,15 +53,15 @@ namespace Core.Resources.Service
                                                           Quaternion rotation,
                                                           CancellationToken cancellationToken = default)
         {
-            GameObject loadedObj = await Addressables.LoadAssetAsync<GameObject>(key);
+            GameObject loadedObj = await Addressables.InstantiateAsync(key);
             if (cancellationToken.IsCancellationRequested) {
                 throw new OperationCanceledException();
             }
 
-            GameObject newObj = Object.Instantiate(loadedObj);
-            newObj.transform.position = position;
-            newObj.transform.rotation = rotation;
-            return newObj;
+            Transform loadedObjTransform = loadedObj.transform;
+            loadedObjTransform.position = position;
+            loadedObjTransform.rotation = rotation;
+            return loadedObj;
         }
 
         public async UniTask<T> LoadAssetAsync<T>(object key, CancellationToken token)

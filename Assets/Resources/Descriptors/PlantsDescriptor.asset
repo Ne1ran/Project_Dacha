@@ -20,9 +20,20 @@ MonoBehaviour:
     <Visualization>k__BackingField:
       <Type>k__BackingField: 1
       <Offset>k__BackingField: 0.4
+      <DeadPrefab>k__BackingField:
+        m_AssetGUID: deb2bedbebf44054091d3f090b613248
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
     <Stages>k__BackingField:
     - <Stage>k__BackingField: 5
-      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberSeedling
+      <Prefab>k__BackingField:
+        m_AssetGUID: deb2bedbebf44054091d3f090b613248
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
@@ -68,7 +79,12 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 5
         <GrowBuff>k__BackingField: 0.15
     - <Stage>k__BackingField: 10
-      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberSeedling
+      <Prefab>k__BackingField:
+        m_AssetGUID: 68e99fbad816a8343b710c3955e2bff1
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
@@ -114,7 +130,12 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 15
-      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberVegetation
+      <Prefab>k__BackingField:
+        m_AssetGUID: 68e99fbad816a8343b710c3955e2bff1
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
       <AverageGrowTime>k__BackingField: 14
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
@@ -160,7 +181,12 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 20
-      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberBlooming
+      <Prefab>k__BackingField:
+        m_AssetGUID: 9ddccdc780f22fb4d999c26b1f8b27f1
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
@@ -206,7 +232,12 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 25
-      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberMaturing
+      <Prefab>k__BackingField:
+        m_AssetGUID: 9ddccdc780f22fb4d999c26b1f8b27f1
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
@@ -252,7 +283,12 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 30
-      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberMaturing
+      <Prefab>k__BackingField:
+        m_AssetGUID: bb9b8b5d551aeba48ab7a6c7b8a11564
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
@@ -298,7 +334,12 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
     - <Stage>k__BackingField: 35
-      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberMaturing
+      <Prefab>k__BackingField:
+        m_AssetGUID: bb9b8b5d551aeba48ab7a6c7b8a11564
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
       <AverageGrowTime>k__BackingField: 14
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
@@ -344,7 +385,12 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.2
     - <Stage>k__BackingField: 40
-      <PrefabPath>k__BackingField: Prefabs/Plants/Cucumber/pfCucumberMaturing
+      <Prefab>k__BackingField:
+        m_AssetGUID: bb9b8b5d551aeba48ab7a6c7b8a11564
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
       <AverageGrowTime>k__BackingField: 14
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3

@@ -16,49 +16,84 @@ MonoBehaviour:
   - <ToolId>k__BackingField: Axe
     <ToolType>k__BackingField: 5
     <ToolName>k__BackingField: Axe
-    <ToolPrefab>k__BackingField: Prefabs/Tools/Axe
+    <ToolPrefab>k__BackingField:
+      m_AssetGUID: 77d369b1cb1e6044599ebd32e53ad708
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: 
     <CanCarryInfection>k__BackingField: 0
     <SelectorDescriptorId>k__BackingField: 
   - <ToolId>k__BackingField: Hammer
     <ToolType>k__BackingField: 4
     <ToolName>k__BackingField: Hammer
-    <ToolPrefab>k__BackingField: Prefabs/Tools/Hammer
+    <ToolPrefab>k__BackingField:
+      m_AssetGUID: 8e6678e11e3e1174182d5d89894dd187
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: 
     <CanCarryInfection>k__BackingField: 0
     <SelectorDescriptorId>k__BackingField: 
   - <ToolId>k__BackingField: Hoe
     <ToolType>k__BackingField: 2
     <ToolName>k__BackingField: Hoe
-    <ToolPrefab>k__BackingField: Prefabs/Tools/Hoe
+    <ToolPrefab>k__BackingField:
+      m_AssetGUID: 6a9c7c20364d594499fd79c643183ae4
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: Hoe
     <CanCarryInfection>k__BackingField: 1
     <SelectorDescriptorId>k__BackingField: 
   - <ToolId>k__BackingField: Pickaxe
     <ToolType>k__BackingField: 5
     <ToolName>k__BackingField: Pickaxe
-    <ToolPrefab>k__BackingField: Prefabs/Tools/Pickaxe
+    <ToolPrefab>k__BackingField:
+      m_AssetGUID: 19c116d1a4285f847a781cbc41ec5b3c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: 
     <CanCarryInfection>k__BackingField: 0
     <SelectorDescriptorId>k__BackingField: 
   - <ToolId>k__BackingField: Scythe
     <ToolType>k__BackingField: 3
     <ToolName>k__BackingField: Scythe
-    <ToolPrefab>k__BackingField: Prefabs/Tools/Scythe
+    <ToolPrefab>k__BackingField:
+      m_AssetGUID: 4431af77f82aff047b6f1c5bced96587
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: 
     <CanCarryInfection>k__BackingField: 0
     <SelectorDescriptorId>k__BackingField: 
   - <ToolId>k__BackingField: Spade
     <ToolType>k__BackingField: 2
     <ToolName>k__BackingField: Spade
-    <ToolPrefab>k__BackingField: Prefabs/Tools/Spade
+    <ToolPrefab>k__BackingField:
+      m_AssetGUID: fe87bb3c05fee9a42b605ac9b6026de6
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: Shovel
     <CanCarryInfection>k__BackingField: 1
     <SelectorDescriptorId>k__BackingField: 
   - <ToolId>k__BackingField: BucketTool
     <ToolType>k__BackingField: 1
     <ToolName>k__BackingField: Bucket
-    <ToolPrefab>k__BackingField: Prefabs/Tools/BucketTool
+    <ToolPrefab>k__BackingField:
+      m_AssetGUID: 3bdf747cd01703043b405a579f6461e6
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: Bucket
     <CanCarryInfection>k__BackingField: 0
     <SelectorDescriptorId>k__BackingField: bucket10

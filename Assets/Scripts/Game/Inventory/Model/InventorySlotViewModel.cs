@@ -1,6 +1,4 @@
-﻿using UnityEngine.AddressableAssets;
-
-namespace Game.Inventory.Model
+﻿namespace Game.Inventory.Model
 {
     public class InventorySlotViewModel
     {

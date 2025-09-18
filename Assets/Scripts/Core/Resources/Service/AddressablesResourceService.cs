@@ -37,8 +37,9 @@ namespace Core.Resources.Service
                 go.transform.SetParent(parent);
             }
 
+            T binded = _prefabBinderManager.DoBind<T>(go);
             AppContext.CurrentScope.Container.InjectGameObject(go);
-            return _prefabBinderManager.DoBind<T>(go);
+            return binded;
         }
 
         public T? Instantiate<T>(T baseObject, Transform parent)
@@ -52,16 +53,20 @@ namespace Core.Resources.Service
             if (parent != null) {
                 go.transform.SetParent(parent);
             }
-
+            
+            T binded = _prefabBinderManager.DoBind<T>(go);
             AppContext.CurrentScope.Container.InjectGameObject(go);
-            return _prefabBinderManager.DoBind<T>(go);
+            return binded;
         }
 
         public async UniTask<T> InstantiateAsync<T>(string key, Transform parent, CancellationToken token = default)
                 where T : Component
         {
-            GameObject go = await InstantiateAsync(key, parent, token);
-            return _prefabBinderManager.DoBind<T>(go);
+
+            GameObject go = await _addressablesManager.InstantiateAsync(key, parent, cancellationToken: token);
+            T binded = _prefabBinderManager.DoBind<T>(go);
+            AppContext.CurrentScope.Container.InjectGameObject(go);
+            return binded;
         }
 
         public async UniTask<T> InstantiateAsync<T>(string key,
@@ -70,8 +75,18 @@ namespace Core.Resources.Service
                                                     CancellationToken token = default)
                 where T : Component
         {
-            GameObject go = await InstantiateAsync(key, position, rotation, token);
-            return _prefabBinderManager.DoBind<T>(go);
+            GameObject go;
+            if (position == null && rotation == null) {
+                go = await _addressablesManager.InstantiateAsync(key, cancellationToken: token);
+            } else {
+                go = await _addressablesManager.InstantiateAsync(key, position ?? Vector3.zero, rotation ?? Quaternion.identity,
+                                                                 cancellationToken: token);
+            }
+
+            go.name = key;
+            T binded = _prefabBinderManager.DoBind<T>(go);
+            AppContext.CurrentScope.Container.InjectGameObject(go);
+            return binded;
         }
 
         public async UniTask<List<T>> InstantiateAsync<T>(string key, int instancesCount, CancellationToken token = default)
@@ -81,6 +96,7 @@ namespace Core.Resources.Service
             for (int i = 0; i < instancesCount; i++) {
                 result.Add(CreateInstanceAndBindAsync<T>(key, token));
             }
+            
             T[] resultedTasks = await UniTask.WhenAll(result);
             return resultedTasks.ToList();
         }
@@ -116,6 +132,8 @@ namespace Core.Resources.Service
                 go = await _addressablesManager.InstantiateAsync(key, position ?? Vector3.zero, rotation ?? Quaternion.identity,
                                                                  cancellationToken: token);
             }
+
+            go.name = key;
             AppContext.CurrentScope.Container.InjectGameObject(go);
             return go;
         }
@@ -150,28 +168,33 @@ namespace Core.Resources.Service
         public void ReleaseInstance(GameObject go)
         {
             _addressablesManager.ReleaseInstance(go);
+            Object.Destroy(go);
         }
 
         public void Release(Component component)
         {
             _addressablesManager.ReleaseInstance(component.gameObject);
+            Object.Destroy(component);
         }
 
         public void Release(Object obj)
         {
             _addressablesManager.Release(obj);
+            Object.Destroy(obj);
         }
 
         private async UniTask<T> CreateInstanceAndBindAsync<T>(string key, CancellationToken token = default)
                 where T : Component
 
         {
-            GameObject go = await InstantiateAsync(key, token: token);
-            return _prefabBinderManager.DoBind<T>(go);
+            GameObject go = await _addressablesManager.InstantiateAsync(key, cancellationToken: token);
+            go.name = key;
+            T binded = _prefabBinderManager.DoBind<T>(go);
+            AppContext.CurrentScope.Container.InjectGameObject(go);
+            return binded;
         }
 
-        public AddressablesResourceService(AddressablesManager addressablesManager,
-                                           PrefabBinderManager prefabBinderManager)
+        public AddressablesResourceService(AddressablesManager addressablesManager, PrefabBinderManager prefabBinderManager)
         {
             _addressablesManager = addressablesManager;
             _prefabBinderManager = prefabBinderManager;

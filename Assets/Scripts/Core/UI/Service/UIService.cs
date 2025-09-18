@@ -101,7 +101,7 @@ namespace Core.UI.Service
                 return UniTask.CompletedTask;
             }
 
-            _resourceService.Release(dialog);
+            _resourceService.ReleaseInstance(dialog);
             _dialogs.Remove(dialogType);
             return UniTask.CompletedTask;
         }
@@ -131,7 +131,7 @@ namespace Core.UI.Service
                 return UniTask.CompletedTask; 
             }
 
-            _resourceService.Release(element);
+            _resourceService.ReleaseInstance(element);
             _elements.Remove(element);
             return UniTask.CompletedTask;
         }

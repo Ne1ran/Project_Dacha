@@ -9,14 +9,14 @@ using VContainer;
 
 namespace Game.PlayMode.UI.Component
 {
-    [NeedBinding("UI/Dialogs/PlayMode/HotkeySlot")]
+    [NeedBinding("HotkeySlot")]
     public class HotkeySlotView : MonoBehaviour
     {
         [ComponentBinding("ItemSlot")]
         private Image _itemSlotImage = null!;
         [ComponentBinding("Highlight")]
         private Image _hotkeyHighlight = null!;
-        [ComponentBinding("HotkeySlot")]
+        [ComponentBinding("SlotText")]
         private TextMeshProUGUI _hotkeySlotText = null!;
 
         [Inject]
@@ -25,11 +25,6 @@ namespace Game.PlayMode.UI.Component
         public int HotkeyNumber { get; private set; }
 
         private Sprite? _currentImage;
-
-        private void Awake()
-        {
-            HotkeySlotActive = false;
-        }
 
         public void Initialize(int hotkeyNumber)
         {
@@ -70,7 +65,7 @@ namespace Game.PlayMode.UI.Component
 
         private Sprite? Image
         {
-            set => _currentImage = value;
+            set => _itemSlotImage.sprite = value;
         }
 
         private bool ImageVisible
