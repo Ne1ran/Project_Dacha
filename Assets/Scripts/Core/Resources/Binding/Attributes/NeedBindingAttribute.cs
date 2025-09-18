@@ -6,10 +6,10 @@ namespace Core.Resources.Binding.Attributes
     [PublicAPI]
     [MeansImplicitUse(ImplicitUseKindFlags.Assign)]
     [AttributeUsage(AttributeTargets.Class)]
-    public class PrefabPathAttribute : Attribute
+    public class NeedBindingAttribute : Attribute
     {
-        public string PrefabPath { get; }
+        public string Path { get; }
 
-        public PrefabPathAttribute(string prefabPath) => PrefabPath = prefabPath;
+        public NeedBindingAttribute(string path) => Path = path;
     }
 }

@@ -23,18 +23,6 @@ namespace Core.Resources.Binding
             }
         }
 
-        public static T Instantiate<T>(Transform parent = null)
-                where T : MonoBehaviour
-        {
-            string prefabPath = GetPrefabPath(typeof(T));
-            if (string.IsNullOrEmpty(prefabPath)) {
-                throw new InvalidOperationException("Error getting prefab path by PrefabPathAttribute");
-            }
-
-            GameObject prefab = UnityEngine.Resources.Load<GameObject>(prefabPath);
-            return DoBind<T>(prefab, parent);
-        }
-
         internal static T DoBind<T>(GameObject prefab, Transform parent = null)
                 where T : MonoBehaviour
         {
@@ -51,12 +39,6 @@ namespace Core.Resources.Binding
             return instantiated.GetComponent<T>();
         }
 
-        private static string GetPrefabPath(Type type)
-        {
-            PrefabPathAttribute prefabPathAttribute = type.GetCustomAttribute<PrefabPathAttribute>();
-            return prefabPathAttribute?.PrefabPath;
-        }
-
         private static void InitBinders()
         {
             HashSet<Assembly> assemblies = new() {
@@ -71,7 +53,7 @@ namespace Core.Resources.Binding
 
             foreach (Assembly assembly in assemblies) {
                 foreach (Type type in assembly.GetTypes()) {
-                    PrefabPathAttribute attribute = type.GetCustomAttribute<PrefabPathAttribute>();
+                    NeedBindingAttribute attribute = type.GetCustomAttribute<NeedBindingAttribute>();
                     if (attribute == null) {
                         continue;
                     }

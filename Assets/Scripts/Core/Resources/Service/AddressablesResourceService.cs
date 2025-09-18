@@ -1,43 +1,184 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using Core.Addressables.Service;
+using Core.Attributes;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 namespace Core.Resources.Service
 {
+    [Service]
     public class AddressablesResourceService : IResourceService
     {
-        public T Instantiate<T>(Transform parent = null)
-                where T : Component
+        private readonly AddressablesManager _addressablesManager;
+        private readonly PrefabBinderManager _prefabBinderManager;
+        private readonly IObjectResolver _objectResolver;
+
+        public GameObject? Instantiate(GameObject baseGameObject)
         {
-            throw new System.NotImplementedException();
+            GameObject? go = _addressablesManager.Instantiate(baseGameObject);
+            if (go != null) {
+                _objectResolver.InjectGameObject(go);
+            }
+
+            return go;
         }
 
-        public T Instantiate<T>(string prefabPath, Transform parent = null)
+        public T? Instantiate<T>(GameObject baseObject, Transform? parent = null)
                 where T : Component
         {
-            throw new System.NotImplementedException();
+            GameObject? go = _addressablesManager.Instantiate(baseObject.gameObject);
+            if (go == null) {
+                return null;
+            }
+
+            if (parent != null) {
+                go.transform.SetParent(parent);
+            }
+
+            _objectResolver.InjectGameObject(go);
+            return _prefabBinderManager.DoBind<T>(go);
         }
 
-        public UniTask<T> LoadObjectAsync<T>(Transform parent = null)
+        public T? Instantiate<T>(T baseObject, Transform parent)
                 where T : Component
         {
-            throw new System.NotImplementedException();
+            GameObject? go = _addressablesManager.Instantiate(baseObject.gameObject);
+            if (go == null) {
+                return null;
+            }
+
+            if (parent != null) {
+                go.transform.SetParent(parent);
+            }
+
+            _objectResolver.InjectGameObject(go);
+            return _prefabBinderManager.DoBind<T>(go);
         }
 
-        public UniTask<T> LoadObjectAsync<T>(string path, Transform parent = null)
+        public async UniTask<T> InstantiateAsync<T>(string key, Transform parent, CancellationToken token = default)
                 where T : Component
         {
-            throw new System.NotImplementedException();
+            GameObject go = await InstantiateAsync(key, parent, token);
+            return _prefabBinderManager.DoBind<T>(go);
         }
 
-        public void Release(GameObject obj)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Release<T>(T obj)
+        public async UniTask<T> InstantiateAsync<T>(string key,
+                                                    Vector3? position = null,
+                                                    Quaternion? rotation = null,
+                                                    CancellationToken token = default)
                 where T : Component
         {
-            throw new System.NotImplementedException();
+            GameObject go = await InstantiateAsync(key, position, rotation, token);
+            return _prefabBinderManager.DoBind<T>(go);
+        }
+
+        public async UniTask<List<T>> InstantiateAsync<T>(string key, int instancesCount, CancellationToken token = default)
+                where T : Component
+        {
+            List<UniTask<T>> result = new(instancesCount);
+            for (int i = 0; i < instancesCount; i++) {
+                result.Add(CreateInstanceAndBindAsync<T>(key, token));
+            }
+            T[] resultedTasks = await UniTask.WhenAll(result);
+            return resultedTasks.ToList();
+        }
+
+        public async UniTask<GameObject> InstantiateAsync(string key, Transform parent, CancellationToken token = default)
+        {
+            GameObject go = await _addressablesManager.InstantiateAsync(key, parent, cancellationToken: token);
+            _objectResolver.InjectGameObject(go);
+            return go;
+        }
+
+        public async UniTask<List<GameObject>> InstantiateAsync(string key, int instancesCount, CancellationToken token = default)
+        {
+            List<GameObject> result = new(instancesCount);
+            GameObject go = await InstantiateAsync(key, token: token);
+            result.Add(go);
+            for (int i = 1; i < instancesCount; i++) {
+                result.Add(Instantiate(go)!);
+            }
+
+            return result;
+        }
+
+        public async UniTask<GameObject> InstantiateAsync(string key,
+                                                          Vector3? position = null,
+                                                          Quaternion? rotation = null,
+                                                          CancellationToken token = default)
+        {
+            GameObject go;
+            if (position == null && rotation == null) {
+                go = await _addressablesManager.InstantiateAsync(key, cancellationToken: token);
+            } else {
+                go = await _addressablesManager.InstantiateAsync(key, position ?? Vector3.zero, rotation ?? Quaternion.identity,
+                                                                 cancellationToken: token);
+            }
+            _objectResolver.InjectGameObject(go);
+            return go;
+        }
+
+        public UniTask<T> InstantiateAsync<T>(Transform parent, CancellationToken token = default)
+                where T : Component
+        {
+            string path = _prefabBinderManager.RequireBindingPath<T>();
+            return InstantiateAsync<T>(path, parent, token);
+        }
+
+        public UniTask<List<T>> InstantiateAsync<T>(int instancesCount, CancellationToken token = default)
+                where T : Component
+        {
+            string path = _prefabBinderManager.RequireBindingPath<T>();
+            return InstantiateAsync<T>(path, instancesCount, token);
+        }
+
+        public UniTask<T> InstantiateAsync<T>(Vector3? position = null, Quaternion? rotation = null, CancellationToken token = default)
+                where T : Component
+        {
+            string path = _prefabBinderManager.RequireBindingPath<T>();
+            return InstantiateAsync<T>(path, position, rotation, token);
+        }
+
+        public UniTask<T> LoadAssetAsync<T>(string key, CancellationToken token = default)
+                where T : Object
+        {
+            return _addressablesManager.LoadAssetAsync<T>(key, token);
+        }
+
+        public void ReleaseInstance(GameObject go)
+        {
+            _addressablesManager.ReleaseInstance(go);
+        }
+
+        public void Release(Component component)
+        {
+            _addressablesManager.ReleaseInstance(component.gameObject);
+        }
+
+        public void Release(Object obj)
+        {
+            _addressablesManager.Release(obj);
+        }
+
+        private async UniTask<T> CreateInstanceAndBindAsync<T>(string key, CancellationToken token = default)
+                where T : Component
+
+        {
+            GameObject go = await InstantiateAsync(key, token: token);
+            return _prefabBinderManager.DoBind<T>(go);
+        }
+
+        public AddressablesResourceService(IObjectResolver objectResolver,
+                                           AddressablesManager addressablesManager,
+                                           PrefabBinderManager prefabBinderManager)
+        {
+            _objectResolver = objectResolver;
+            _addressablesManager = addressablesManager;
+            _prefabBinderManager = prefabBinderManager;
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Threading;
 using Core.Attributes;
-using Core.Resources.Binding.Attributes;
-using Core.Resources.Binding.Binding;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using VContainer;
 using VContainer.Unity;
-using AppContext = Core.Scopes.AppContext;
 using Object = UnityEngine.Object;
 
 namespace Core.Resources.Service
@@ -15,109 +13,166 @@ namespace Core.Resources.Service
     [Service]
     public class ResourceService : IResourceService
     {
-        private readonly Dictionary<Type, PrefabBinding> _binders = new();
+        private readonly IObjectResolver _objectResolver;
+        private readonly PrefabBinderManager _prefabBinderManager;
 
-        private Dictionary<Type, PrefabBinding> Binders
+        public ResourceService(IObjectResolver objectResolver, PrefabBinderManager prefabBinderManager)
         {
-            get
-            {
-                if (_binders.Count == 0) {
-                    InitBinders();
-                }
-                return _binders;
-            }
+            _objectResolver = objectResolver;
+            _prefabBinderManager = prefabBinderManager;
         }
 
-        public T Instantiate<T>(Transform? parent = null)
+        public GameObject Instantiate(GameObject baseGameObject)
+        {
+            GameObject newObj = Object.Instantiate(baseGameObject);
+            _objectResolver.InjectGameObject(newObj);
+            return newObj;
+        }
+
+        public T Instantiate<T>(GameObject baseObject, Transform? parent = null)
                 where T : Component
         {
-            string prefabPath = GetPrefabPath(typeof(T));
-            if (string.IsNullOrEmpty(prefabPath)) {
-                throw new InvalidOperationException("Error getting prefab path by PrefabPathAttribute");
+            GameObject newObj = Instantiate(baseObject);
+            if (parent != null) {
+                newObj.transform.SetParent(parent);
             }
 
-            GameObject prefab = UnityEngine.Resources.Load<GameObject>(prefabPath);
-            if (prefab == null) {
-                throw new InvalidOperationException($"Prefab not found with path={prefabPath}");
+            return _prefabBinderManager.DoBind<T>(newObj);
+        }
+
+        public UniTask<T> InstantiateAsync<T>(string key, Transform parent, CancellationToken token = default)
+                where T : Component
+        {
+            return LoadObjectAsync<T>(key, parent, token);
+        }
+
+        public UniTask<List<T>> InstantiateAsync<T>(string key, int instancesCount, CancellationToken token = default)
+                where T : Component
+        {
+            List<T> result = new(instancesCount);
+            for (int i = 0; i < instancesCount; i++) {
+                result.Add(LoadComponent<T>(key));
             }
-            return DoBind<T>(prefab, parent);
+
+            return UniTask.FromResult(result);
         }
 
-        public T Instantiate<T>(string prefabPath, Transform? parent = null)
-                where T : Component
+        public UniTask<GameObject> InstantiateAsync(string key, Transform parent, CancellationToken token = default)
         {
-            GameObject prefab = UnityEngine.Resources.Load<GameObject>(prefabPath);
-            if (prefab == null) {
-                throw new InvalidOperationException($"Prefab not found with path={prefabPath}");
+            return UniTask.FromResult(LoadObject(key, parent));
+        }
+
+        public UniTask<List<GameObject>> InstantiateAsync(string key, int instancesCount, CancellationToken token = default)
+        {
+            List<GameObject> result = new(instancesCount);
+            for (int i = 0; i < instancesCount; i++) {
+                result.Add(LoadObject(key));
             }
-            return DoBind<T>(prefab, parent);
+
+            return UniTask.FromResult(result);
         }
 
-        public UniTask<T> LoadObjectAsync<T>(Transform? parent = null)
+        public async UniTask<T> InstantiateAsync<T>(string key,
+                                                    Vector3? position = null,
+                                                    Quaternion? rotation = null,
+                                                    CancellationToken token = default)
                 where T : Component
         {
-            return UniTask.FromResult(Instantiate<T>(parent));
+            T loadedObj = await LoadObjectAsync<T>(key, token: token);
+
+            if (position == null && rotation == null) {
+                return loadedObj;
+            }
+
+            loadedObj.transform.position = position ?? Vector3.zero;
+            loadedObj.transform.rotation = rotation ?? Quaternion.identity;
+            return loadedObj;
         }
 
-        public UniTask<T> LoadObjectAsync<T>(string prefabPath, Transform? parent = null)
+        public UniTask<GameObject> InstantiateAsync(string key,
+                                                    Vector3? position = null,
+                                                    Quaternion? rotation = null,
+                                                    CancellationToken token = default)
+        {
+            GameObject loadedObj = LoadObject(key);
+            if (position == null && rotation == null) {
+                return UniTask.FromResult(loadedObj);
+            }
+
+            loadedObj.transform.position = position ?? Vector3.zero;
+            loadedObj.transform.rotation = rotation ?? Quaternion.identity;
+            return UniTask.FromResult(loadedObj);
+        }
+
+        public UniTask<T> InstantiateAsync<T>(Transform parent, CancellationToken token = default)
                 where T : Component
         {
-            return UniTask.FromResult(Instantiate<T>(prefabPath, parent));
+            string path = _prefabBinderManager.RequireBindingPath<T>();
+            return InstantiateAsync<T>(path, parent, token);
         }
 
-        public void Release(GameObject obj)
+        public UniTask<List<T>> InstantiateAsync<T>(int instancesCount, CancellationToken token = default)
+                where T : Component
+        {
+            string path = _prefabBinderManager.RequireBindingPath<T>();
+            return InstantiateAsync<T>(path, instancesCount, token);
+        }
+
+        public UniTask<T> InstantiateAsync<T>(Vector3? position = null, Quaternion? rotation = null, CancellationToken token = default)
+                where T : Component
+        {
+            string path = _prefabBinderManager.RequireBindingPath<T>();
+            return InstantiateAsync<T>(path, position, rotation, token);
+        }
+
+        public UniTask<T> LoadAssetAsync<T>(string key, CancellationToken token = default)
+                where T : Object
+        {
+            return UniTask.FromResult(UnityEngine.Resources.Load<T>(key));
+        }
+
+        public void ReleaseInstance(GameObject go)
+        {
+            Object.Destroy(go);
+        }
+
+        public void Release(Component component)
+        {
+            Object.Destroy(component);
+        }
+
+        public void Release(Object obj)
         {
             Object.Destroy(obj);
         }
 
-        public void Release<T>(T obj)
+        private UniTask<T> LoadObjectAsync<T>(string prefabPath, Transform? parent = null, CancellationToken token = default)
                 where T : Component
         {
-            Object.Destroy(obj);
+            return UniTask.FromResult(LoadComponent<T>(prefabPath, parent));
         }
 
-        public T DoBind<T>(GameObject prefab, Transform? parent = null)
+        private T LoadComponent<T>(string prefabPath, Transform? parent = null)
                 where T : Component
         {
-            prefab.SetActive(false);
+            GameObject prefab = LoadObject(prefabPath, parent);
+            return _prefabBinderManager.DoBind<T>(prefab);
+        }
+
+        private GameObject LoadObject(string prefabPath, Transform? parent = null)
+        {
+            GameObject prefab = UnityEngine.Resources.Load<GameObject>(prefabPath);
+            if (prefab == null) {
+                throw new InvalidOperationException($"Prefab not found with path={prefabPath}");
+            }
+
             GameObject instantiated = Object.Instantiate(prefab, parent);
-            AppContext.CurrentScope.Container.InjectGameObject(instantiated); // todo neiran temporary workaround. redo!
-            if (Binders.TryGetValue(typeof(T), out PrefabBinding binding)) {
-                binding.Bind(instantiated);
+            if (parent != null) {
+                instantiated.transform.SetParent(parent);
             }
 
-            instantiated.SetActive(true);
-            return instantiated.GetComponent<T>();
-        }
-
-        private string? GetPrefabPath(Type type)
-        {
-            PrefabPathAttribute prefabPathAttribute = type.GetCustomAttribute<PrefabPathAttribute>();
-            return prefabPathAttribute?.PrefabPath;
-        }
-
-        private void InitBinders()
-        {
-            HashSet<Assembly> assemblies = new() {
-                    Assembly.GetExecutingAssembly()
-            };
-
-            try {
-                assemblies.Add(Assembly.Load("Assembly-CSharp"));
-            } catch {
-                // ignored
-            }
-
-            foreach (Assembly assembly in assemblies) {
-                foreach (Type type in assembly.GetTypes()) {
-                    PrefabPathAttribute attribute = type.GetCustomAttribute<PrefabPathAttribute>();
-                    if (attribute == null) {
-                        continue;
-                    }
-
-                    _binders[type] = new(type);
-                }
-            }
+            _objectResolver.InjectGameObject(instantiated);
+            return instantiated;
         }
     }
 }

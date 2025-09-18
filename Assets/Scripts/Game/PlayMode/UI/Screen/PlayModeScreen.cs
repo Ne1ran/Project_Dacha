@@ -18,7 +18,7 @@ using VContainer;
 
 namespace Game.PlayMode.UI.Screen
 {
-    [PrefabPath("UI/Dialogs/PlayMode/PlayModeScreen")]
+    [NeedBinding("UI/Dialogs/PlayMode/PlayModeScreen")]
     public class PlayModeScreen : MonoBehaviour
     {
         [ComponentBinding("Crosshair")]

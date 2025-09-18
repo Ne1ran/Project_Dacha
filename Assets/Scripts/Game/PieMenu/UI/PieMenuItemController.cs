@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Game.PieMenu.UI
 {
-    [PrefabPath("UI/Dialogs/PieMenu/pfPieMenuItem")]
+    [NeedBinding("UI/Dialogs/PieMenu/pfPieMenuItem")]
     public class PieMenuItemController : MonoBehaviour
     {
         private static readonly int _mouseExit = Animator.StringToHash(MouseExitTrigger);

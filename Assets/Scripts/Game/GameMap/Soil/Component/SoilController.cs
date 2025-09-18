@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Core.Resources.Binding.Attributes;
+﻿using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Soil.Descriptor;
@@ -11,7 +10,7 @@ using VContainer;
 
 namespace Game.GameMap.Soil.Component
 {
-    [PrefabPath("Prefabs/Soil/pfSoilController")]
+    [NeedBinding("Prefabs/Soil/pfSoilController")]
     public class SoilController : MonoBehaviour
     {
         [Inject]

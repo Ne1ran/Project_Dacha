@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Game.PlayMode.UI.Component
 {
-    [PrefabPath("UI/Dialogs/PlayMode/HotkeySlot")]
+    [NeedBinding("UI/Dialogs/PlayMode/HotkeySlot")]
     public class HotkeySlotView : MonoBehaviour
     {
         [ComponentBinding("ItemSlot")]

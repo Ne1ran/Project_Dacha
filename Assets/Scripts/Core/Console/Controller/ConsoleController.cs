@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Console.Controller
 {
-    [PrefabPath("pfDebugConsole")]
+    [NeedBinding("pfDebugConsole")]
     public class ConsoleController : MonoBehaviour
     {
         

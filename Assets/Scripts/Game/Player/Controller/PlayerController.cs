@@ -15,7 +15,7 @@ using VContainer;
 
 namespace Game.Player.Controller
 {
-    [PrefabPath("Prefabs/Player/Player")]
+    [NeedBinding("Prefabs/Player/Player")]
     public class PlayerController : MonoBehaviour
     {
         [ComponentBinding("RightHand")]

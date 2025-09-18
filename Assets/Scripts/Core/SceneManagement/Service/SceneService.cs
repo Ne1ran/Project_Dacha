@@ -3,11 +3,9 @@ using Core.SceneManagement.Event;
 using Cysharp.Threading.Tasks;
 using MessagePipe;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
-using VContainer;
 using VContainer.Unity;
 
 namespace Core.SceneManagement.Service
@@ -17,8 +15,12 @@ namespace Core.SceneManagement.Service
     {
         private SceneInstance? _loadedScene;
         
-        [Inject]
-        private IPublisher<string, SceneChangedEvent> _publisher;
+        private readonly IPublisher<string, SceneChangedEvent> _publisher;
+
+        public SceneService(IPublisher<string, SceneChangedEvent> publisher)
+        {
+            _publisher = publisher;
+        }
 
         public async UniTask LoadSceneAsync(string sceneAddress, LoadSceneMode mode = LoadSceneMode.Single)
         {
