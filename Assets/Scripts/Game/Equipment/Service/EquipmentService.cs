@@ -48,7 +48,7 @@ namespace Game.Equipment.Service
                 throw new ArgumentException($"Descriptor for item not found! ItemId={itemId}");
             }
 
-            ItemModel newItem = new(descriptorModel.ItemId, descriptorModel.ItemPrefab, descriptorModel.ItemType, descriptorModel.DropOffsetMultiplier,
+            ItemModel newItem = new(descriptorModel.ItemId, descriptorModel.WorldItemPrefab, descriptorModel.ItemType, descriptorModel.DropOffsetMultiplier,
                                     descriptorModel.Stackable, descriptorModel.ShowInHand, descriptorModel.MaxStack);
             _equipmentChangedPublisher.Publish(EquipmentChangedEvent.EQUIPMENT_CHANGED, new(equippedItem, newItem));
             _equipmentRepo.Save(newItem);

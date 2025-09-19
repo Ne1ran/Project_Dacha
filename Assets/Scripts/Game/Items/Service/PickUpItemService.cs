@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using Core.Attributes;
 using Core.Descriptors.Service;
-using Cysharp.Threading.Tasks;
-using Game.Fertilizers.Service;
-using Game.Harvest.Service;
-using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Items.Controller;
 using Game.Items.Descriptors;
-using Game.Seeds.Service;
-using Game.Tools.Service;
 using Game.Utils;
-using UnityEngine;
 
 namespace Game.Items.Service
 {
@@ -21,24 +14,12 @@ namespace Game.Items.Service
     {
         private readonly IDescriptorService _descriptorService;
         private readonly InventoryService _inventoryService;
-        private readonly ToolsService _toolsService;
-        private readonly FertilizerService _fertilizerService;
-        private readonly SeedsService _seedsService;
-        private readonly PlantHarvestService _harvestService;
 
         public PickUpItemService(IDescriptorService descriptorService,
-                                 InventoryService inventoryService,
-                                 ToolsService toolsService,
-                                 FertilizerService fertilizerService,
-                                 SeedsService seedsService,
-                                 PlantHarvestService harvestService)
+                                 InventoryService inventoryService)
         {
             _descriptorService = descriptorService;
             _inventoryService = inventoryService;
-            _toolsService = toolsService;
-            _fertilizerService = fertilizerService;
-            _seedsService = seedsService;
-            _harvestService = harvestService;
         }
 
         public void PickUpItem(ItemController itemController)
@@ -54,17 +35,6 @@ namespace Game.Items.Service
             if (_inventoryService.TryAddItemToInventory(itemId, itemModel.ItemType)) {
                 itemController.gameObject.DestroyObject();
             }
-        }
-
-        public async UniTask<ItemController> DropItemAsync(string itemId, ItemType itemType, Vector3 position)
-        {
-            return itemType switch {
-                    ItemType.TOOL => await _toolsService.CreateTool(itemId, position),
-                    ItemType.FERTILIZER => await _fertilizerService.CreateFertilizer(itemId, position),
-                    ItemType.SEED => await _seedsService.CreateSeedBag(itemId, position),
-                    ItemType.HARVEST => await _harvestService.CreateHarvest(itemId, position),
-                    _ => throw new ArgumentException($"Unknown item type {itemType}. Need impl")
-            };
         }
     }
 }

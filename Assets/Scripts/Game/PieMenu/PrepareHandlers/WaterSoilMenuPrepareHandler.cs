@@ -57,7 +57,7 @@ namespace Game.PieMenu.PrepareHandlers
                 }
 
                 if (toolsDescriptorModel.ToolType == ToolType.WATER) {
-                    result.Add(CreateItemSelectionModel(itemDescriptorModel.Icon, tool.Id, toolsDescriptorModel.ToolName, token));
+                    result.Add(CreateItemSelectionModel(itemDescriptorModel.Icon, tool.Id, itemDescriptorModel.ItemName, token));
                 }
             }
 

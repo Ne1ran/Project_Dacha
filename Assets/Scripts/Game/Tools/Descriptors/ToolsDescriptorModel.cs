@@ -1,7 +1,6 @@
 ﻿using System;
 using Game.Tools.Model;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace Game.Tools.Descriptors
 {
@@ -12,10 +11,6 @@ namespace Game.Tools.Descriptors
         public string ToolId { get; set; } = null!;
         [field: SerializeField]
         public ToolType ToolType { get; set; } = ToolType.NONE;
-        [field: SerializeField]
-        public string ToolName { get; set; } = null!;
-        [field: SerializeField]
-        public AssetReference ToolPrefab { get; set; } = null!;
         [field: SerializeField]
         public string UseHandler { get; set; } = null!;
         [field: SerializeField]

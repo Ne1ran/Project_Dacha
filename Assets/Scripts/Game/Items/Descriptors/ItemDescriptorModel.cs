@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Inventory.Model;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -12,7 +13,11 @@ namespace Game.Items.Descriptors
         [field: SerializeField]
         public string ItemId { get; set; } = string.Empty;
         [field: SerializeField]
-        public AssetReference ItemPrefab { get; set; } = null!;
+        public string ItemName { get; set; } = string.Empty;
+        [field: SerializeField, PreviouslySerializedAs("ItemPrefab")]
+        public AssetReference WorldItemPrefab { get; set; } = null!;
+        [field: SerializeField]
+        public AssetReference HandsItemPrefab { get; set; } = null!;
         [field: SerializeField]
         public AssetReference? Icon { get; set; }
         [field: SerializeField]

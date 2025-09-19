@@ -1,20 +1,20 @@
 ﻿using System;
 using Core.Attributes;
+using Core.Descriptors.Service;
+using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Equipment.Event;
-using Game.Fertilizers.Service;
 using Game.Harvest.Service;
 using Game.Inventory.Event;
-using Game.Inventory.Model;
 using Game.Items.Controller;
+using Game.Items.Descriptors;
 using Game.Items.Model;
 using Game.Player.Controller;
 using Game.Player.Service;
 using Game.Seeds.Service;
-using Game.Tools.Service;
 using MessagePipe;
 using UnityEngine;
-using VContainer.Unity;
+using IInitializable = VContainer.Unity.IInitializable;
 
 namespace Game.Equipment.Service
 {
@@ -22,33 +22,29 @@ namespace Game.Equipment.Service
     public class WorldEquipmentManager : IInitializable, IDisposable
     {
         private readonly PlayerService _playerService;
-        private readonly ToolsService _toolsService;
-        private readonly FertilizerService _fertilizersService;
-        private readonly SeedsService _seedsService;
-        private readonly PlantHarvestService _harvestService;
         private readonly EquipmentService _equipmentService;
+        private readonly IDescriptorService _descriptorService;
+        private readonly IResourceService _resourceService;
         private readonly ISubscriber<string, EquipmentChangedEvent> _equipmentChangedSubscriber;
         private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;
 
         private IDisposable? _disposable;
 
         public WorldEquipmentManager(PlayerService playerService,
-                                     ToolsService toolsService,
                                      EquipmentService equipmentService,
-                                     FertilizerService fertilizersService,
                                      ISubscriber<string, EquipmentChangedEvent> equipmentChangedSubscriber,
                                      ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber,
                                      SeedsService seedsService,
-                                     PlantHarvestService harvestService)
+                                     PlantHarvestService harvestService,
+                                     IDescriptorService descriptorService,
+                                     IResourceService resourceService)
         {
             _playerService = playerService;
-            _toolsService = toolsService;
             _equipmentService = equipmentService;
-            _fertilizersService = fertilizersService;
             _equipmentChangedSubscriber = equipmentChangedSubscriber;
             _inventoryChangedSubscriber = inventoryChangedSubscriber;
-            _seedsService = seedsService;
-            _harvestService = harvestService;
+            _descriptorService = descriptorService;
+            _resourceService = resourceService;
         }
 
         public void Initialize()
@@ -86,21 +82,19 @@ namespace Game.Equipment.Service
 
         private async UniTaskVoid EquipItemAsync(ItemModel newItem)
         {
-            ItemController item = await CreateItemInWorldAsync(newItem, Vector3.zero);
+            ItemController item = await CreateItemInHandsAsync(newItem.ItemId, Vector3.zero);
             item.IsKinematic = true;
             PlayerController player = _playerService.Player;
             player.EquipItem(item);
         }
 
-        private async UniTask<ItemController> CreateItemInWorldAsync(ItemModel oldItem, Vector3 position)
+        private async UniTask<ItemController> CreateItemInHandsAsync(string itemId, Vector3? position = null)
         {
-            return oldItem.ItemType switch {
-                    ItemType.TOOL => (await _toolsService.CreateTool(oldItem.ItemId, position)),
-                    ItemType.FERTILIZER => (await _fertilizersService.CreateFertilizer(oldItem.ItemId, position)),
-                    ItemType.SEED => (await _seedsService.CreateSeedBag(oldItem.ItemId, position)),
-                    ItemType.HARVEST => (await _harvestService.CreateHarvest(oldItem.ItemId, position)),
-                    _ => throw new NotImplementedException("Need to implement other item types")
-            };
+            ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
+            ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
+            ItemController itemController = await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.HandsItemPrefab.AssetGUID);
+            itemController.transform.position = position ?? Vector3.zero;
+            return itemController;
         }
     }
 }

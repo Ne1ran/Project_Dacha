@@ -6,7 +6,6 @@ using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
-using Game.Fertilizers.Descriptor;
 using Game.Interactable.Descriptor;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
@@ -44,7 +43,6 @@ namespace Game.PieMenu.PrepareHandlers
 
             List<InventoryItem> fertilizers = _inventoryService.GetItemsByType(ItemType.FERTILIZER);
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            FertilizersDescriptor fertilizersDescriptor = _descriptorService.Require<FertilizersDescriptor>();
 
             foreach (InventoryItem fertilizer in fertilizers) {
                 ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.ItemDescriptors.Find(fert => fert.ItemId == fertilizer.Id);
@@ -52,13 +50,7 @@ namespace Game.PieMenu.PrepareHandlers
                     continue;
                 }
 
-                FertilizerDescriptorModel? fertilizerDescriptorModel =
-                        fertilizersDescriptor.Fertilizers.Find(fert => fert.Id == itemDescriptorModel.ItemId);
-                if (fertilizerDescriptorModel == null) {
-                    continue;
-                }
-
-                result.Add(CreateItemSelectionModel(itemDescriptorModel.Icon, fertilizer.Id, fertilizerDescriptorModel.Name, token));
+                result.Add(CreateItemSelectionModel(itemDescriptorModel.Icon, fertilizer.Id, itemDescriptorModel.ItemName, token));
             }
 
             if (result.Count == 0) {
