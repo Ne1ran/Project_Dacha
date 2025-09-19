@@ -119,22 +119,24 @@ namespace Game.PieMenu.UI
         public void OnClick()
         {
             BeforePointerExit();
-            OnClickedTrigger.Set(_itemModel);
+            OnClickedTrigger.Set(ItemModel);
         }
 
         public void OnScrollForward()
         {
-            UseSelectionItemModel(_itemModel.CurrentSelectionIndex + 1);
+            UseSelectionItemModel(ItemModel.CurrentSelectionIndex + 1);
+            DisplayDetails();
         }
 
         public void OnScrollBackwards()
         {
-            UseSelectionItemModel(_itemModel.CurrentSelectionIndex - 1);
+            UseSelectionItemModel(ItemModel.CurrentSelectionIndex - 1);
+            DisplayDetails();
         }
 
         private void UseSelectionItemModel(int selectionIndex)
         {
-            List<PieMenuItemSelectionModel> selectionModels = _itemModel.SelectionModels;
+            List<PieMenuItemSelectionModel> selectionModels = ItemModel.SelectionModels;
             if (selectionModels.Count == 0) {
                 return;
             }
@@ -147,17 +149,15 @@ namespace Game.PieMenu.UI
                 selectionIndex = selectionModels.Count - 1;
             }
 
-            if (_itemModel.CurrentSelectionIndex == selectionIndex) {
+            if (ItemModel.CurrentSelectionIndex == selectionIndex) {
                 return;
             }
 
             PieMenuItemSelectionModel itemSelectionModel = selectionModels[selectionIndex];
             
             ItemImage = itemSelectionModel.Icon;
-
             _currentDetailText = _startDetailText.Substitute("{substitute}", itemSelectionModel.DescriptionSubstituteText);
-            DisplayDetails();
-            _itemModel.CurrentSelectionIndex = selectionIndex;
+            ItemModel.CurrentSelectionIndex = selectionIndex;
         }
         
         public void ChangeColor(ColorBlock newColors)
@@ -209,5 +209,6 @@ namespace Game.PieMenu.UI
         {
             set => _itemImage.sprite = value;
         }
+        public PieMenuItemModel ItemModel => _itemModel;
     }
 }

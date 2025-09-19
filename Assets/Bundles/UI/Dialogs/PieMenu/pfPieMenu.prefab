@@ -68,7 +68,7 @@ MonoBehaviour:
   _infoPanel: {fileID: 615534387678541856}
   _header: {fileID: 887402441295827442}
   _details: {fileID: 5415400330752554688}
-  _animator: {fileID: 8618203642297443890}
+  _animator: {fileID: 0}
   _normalColor: {r: 1, g: 1, b: 1, a: 0}
   _selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _disabledColor: {r: 0.8627452, g: 0.07843138, b: 0.2352941, a: 1}
@@ -86,14 +86,13 @@ GameObject:
   m_Component:
   - component: {fileID: 376266584478053165}
   - component: {fileID: 7905632284105393761}
-  - component: {fileID: 8618203642297443890}
   m_Layer: 5
   m_Name: pfPieMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &376266584478053165
 RectTransform:
   m_ObjectHideFlags: 0
@@ -128,28 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c860d54bb5eea4e8414092e3c9f317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &8618203642297443890
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4872883021044227912}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 3cd44b2b5aeb19443bfedc2494e1eb21, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5535875290554885427
 GameObject:
   m_ObjectHideFlags: 0

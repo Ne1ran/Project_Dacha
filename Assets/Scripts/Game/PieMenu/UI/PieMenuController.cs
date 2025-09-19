@@ -11,7 +11,6 @@ using Game.PieMenu.Model;
 using Game.PieMenu.Service;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
-using Game.PieMenu.Utils;
 using Game.Player.Service;
 using Game.Utils;
 using UnityEngine;
@@ -87,14 +86,15 @@ namespace Game.PieMenu.UI
             PieMenuModel.SetActiveState(false);
             await _pieMenuInteractionService.InteractAsync(itemModel, _parameters);
             PieMenuModel.SetActiveState(true);
-            RemovePieMenu().Forget();
+            HidePieMenu().Forget();
         }
 
-        public async UniTask AddItemsAsync(List<PieMenuItemModel> items)
+        public async UniTask AddItemsAsync(List<PieMenuItemModel> items, CancellationToken token)
         {
-            await ViewModel.AddAsync(items, _itemsHolder, destroyCancellationToken);
+            CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(token, destroyCancellationToken);
+            await ViewModel.AddAsync(items, _itemsHolder, cts.Token);
             _pieMenuItemSelector.Initialize(PieMenuSettingsModel);
-            ActivateMenuAsync(true).Forget();
+            ActivateMenuAsync(true, token).Forget();
         }
 
         public void RemoveItems()
@@ -131,7 +131,17 @@ namespace Game.PieMenu.UI
             PieMenuModel.SetAnchoredPosition(anchoredPosition);
         }
 
-        private async UniTask RemovePieMenu()
+        private void TryInteractWithSelection()
+        {
+            PieMenuItemController? selectedItem = _pieMenuItemSelector.TryGetSelection();
+            if (selectedItem != null) {
+                InteractAsync(selectedItem.ItemModel).Forget();
+            } else {
+                HidePieMenu().Forget();
+            }
+        }
+
+        private async UniTaskVoid HidePieMenu()
         {
             _playerService.Player.ChangeLookActive(true);
             _playerService.Player.ChangeMovementActive(true);
@@ -144,7 +154,7 @@ namespace Game.PieMenu.UI
             if (!PieMenuModel.IsActive) {
                 return;
             }
-            
+
             if (_playerService.Player.InteractionButtonPressed) {
                 return;
             }
@@ -154,7 +164,7 @@ namespace Game.PieMenu.UI
             }
 
             _closing = true;
-            RemovePieMenu().Forget();
+            TryInteractWithSelection();
         }
 
         private async UniTask ActivateMenuAsync(bool isActive, CancellationToken token = default)
@@ -170,23 +180,20 @@ namespace Game.PieMenu.UI
         private async UniTask ShowPieMenu(CancellationToken token)
         {
             this.SetActive(true);
-            _generalSettings.PlayAnimation(PieMenuUtils.TriggerActiveTrue);
-            await WaitForAnimationFinish(true, token);
+            await _generalSettings.PlayAnimationAsync(true, token);
+            OnAnimationFinished(true);
         }
 
         private async UniTask HidePieMenu(CancellationToken token)
         {
             _pieMenuItemSelector.ToggleSelection(false);
-            _generalSettings.PlayAnimation(PieMenuUtils.TriggerActiveFalse);
-            await WaitForAnimationFinish(false, token);
+            await _generalSettings.PlayAnimationAsync(false, token);
+            OnAnimationFinished(false);
         }
 
-        private async UniTask WaitForAnimationFinish(bool isActive, CancellationToken cancellationToken)
+        private void OnAnimationFinished(bool isOpened)
         {
-            float timeToWait = CalculateTimeToWait(this);
-            await UniTask.WaitForSeconds(timeToWait, cancellationToken: cancellationToken);
-
-            if (isActive) {
+            if (isOpened) {
                 EnableInfoPanel();
                 _pieMenuItemSelector.ToggleSelection(true);
                 _pieMenuItemSelector.EnableClickDetecting();
@@ -194,7 +201,7 @@ namespace Game.PieMenu.UI
                 this.SetActive(false);
             }
 
-            PieMenuModel.SetActiveState(isActive);
+            PieMenuModel.SetActiveState(isOpened);
         }
 
         private float CalculateTimeToWait(PieMenuController pieMenu)

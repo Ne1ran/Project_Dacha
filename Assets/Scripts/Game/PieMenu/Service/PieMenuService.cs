@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Core.Attributes;
@@ -26,6 +27,7 @@ namespace Game.PieMenu.Service
         private readonly ConditionService _conditionService;
 
         private PieMenuController? _currentPieMenu;
+        private CancellationTokenSource? _cts;
 
         public PieMenuService(UIService uiService,
                               IDescriptorService descriptorService,
@@ -40,13 +42,29 @@ namespace Game.PieMenu.Service
 
         public async UniTask<PieMenuController> CreatePieMenuAsync(InteractableType interactableType, Parameters parameters)
         {
-            List<PieMenuItemModel> pieMenuItemModels = await CreateItemModelsAsync(interactableType, parameters);
-            PieMenuController pieMenu = await _uiService.ShowDialogAsync<PieMenuController>();
-            pieMenu.gameObject.SetActive(true);
-            pieMenu.Initialize(parameters);
-            _currentPieMenu = pieMenu;
-            await pieMenu.AddItemsAsync(pieMenuItemModels);
-            return pieMenu;
+            if (_currentPieMenu != null) {
+                return _currentPieMenu;
+            }
+            
+            try {
+                _cts?.Cancel();
+                _cts = new();
+
+                PieMenuController pieMenu = await _uiService.ShowDialogAsync<PieMenuController>();
+                pieMenu.gameObject.SetActive(false);
+                List<PieMenuItemModel> pieMenuItemModels = await CreateItemModelsAsync(interactableType, parameters, _cts.Token);
+                pieMenu.Initialize(parameters);
+                _currentPieMenu = pieMenu;
+                await pieMenu.AddItemsAsync(pieMenuItemModels, _cts.Token);
+                return pieMenu;
+            } catch (Exception e) {
+                _currentPieMenu = null;
+                if (e is not OperationCanceledException) {
+                    Debug.LogException(e);
+                }
+            }
+
+            return null!;
         }
 
         public void RemoveCurrentItems()
@@ -58,7 +76,7 @@ namespace Game.PieMenu.Service
             _currentPieMenu.RemoveItems();
         }
 
-        public async UniTask ChangeItemsAsync(InteractableType interactableType)
+        public async UniTask ChangeItemsAsync(InteractableType interactableType, CancellationToken token)
         {
             if (_currentPieMenu == null) {
                 Debug.LogWarning("Can't change items if pie menu is null");
@@ -66,8 +84,8 @@ namespace Game.PieMenu.Service
             }
 
             _currentPieMenu.RemoveItems();
-            List<PieMenuItemModel> pieMenuItemModels = await CreateItemModelsAsync(interactableType);
-            await _currentPieMenu.AddItemsAsync(pieMenuItemModels);
+            List<PieMenuItemModel> pieMenuItemModels = await CreateItemModelsAsync(interactableType, token: token);
+            await _currentPieMenu.AddItemsAsync(pieMenuItemModels, token);
         }
 
         public async UniTask RemovePieMenuAsync()
