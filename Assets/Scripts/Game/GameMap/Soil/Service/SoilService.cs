@@ -155,7 +155,7 @@ namespace Game.GameMap.Soil.Service
                     continue;
                 }
 
-                FertilizerDescriptorModel? fertModel = fertilizersDescriptor.Fertilizers.Find(fert => fert.Id == usedFertilizer.FertilizerId);
+                FertilizerDescriptorModel? fertModel = fertilizersDescriptor.Items.Find(fert => fert.Id == usedFertilizer.FertilizerId);
                 if (fertModel == null) {
                     throw new ArgumentException($"Fertilizer not found with id={usedFertilizer.FertilizerId}");
                 }

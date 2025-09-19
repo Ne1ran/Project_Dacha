@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45b1552717c4e3d8c6b659049a0894e, type: 3}
   m_Name: ItemsDescriptor
   m_EditorClassIdentifier: 
-  <ItemDescriptors>k__BackingField:
-  - <ItemId>k__BackingField: Axe
-    <ItemPrefab>k__BackingField:
+  <Items>k__BackingField:
+  - <Id>k__BackingField: axe
+    <Name>k__BackingField: Axe
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: 77d369b1cb1e6044599ebd32e53ad708
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: 77d369b1cb1e6044599ebd32e53ad708
       m_SubObjectName: 
       m_SubObjectType: 
@@ -26,13 +33,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 0
+    <Type>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: Hammer
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: hammer
+    <Name>k__BackingField: Hammer
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: 8e6678e11e3e1174182d5d89894dd187
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: 8e6678e11e3e1174182d5d89894dd187
       m_SubObjectName: 
       m_SubObjectType: 
@@ -44,13 +58,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 0
+    <Type>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: Hoe
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: hoe
+    <Name>k__BackingField: Hoe
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: 6a9c7c20364d594499fd79c643183ae4
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: 6a9c7c20364d594499fd79c643183ae4
       m_SubObjectName: 
       m_SubObjectType: 
@@ -62,13 +83,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 0
+    <Type>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: Pickaxe
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: pickaxe
+    <Name>k__BackingField: Pickaxe
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: 19c116d1a4285f847a781cbc41ec5b3c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: 19c116d1a4285f847a781cbc41ec5b3c
       m_SubObjectName: 
       m_SubObjectType: 
@@ -80,13 +108,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 0
+    <Type>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: Scythe
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: scythe
+    <Name>k__BackingField: Scythe
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: 4431af77f82aff047b6f1c5bced96587
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: 4431af77f82aff047b6f1c5bced96587
       m_SubObjectName: 
       m_SubObjectType: 
@@ -98,13 +133,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 0
+    <Type>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: Spade
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: spade
+    <Name>k__BackingField: Spade
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: fe87bb3c05fee9a42b605ac9b6026de6
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: fe87bb3c05fee9a42b605ac9b6026de6
       m_SubObjectName: 
       m_SubObjectType: 
@@ -116,13 +158,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 0
+    <Type>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: PotassiumMonophosphate
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: potassiumMonophosphate
+    <Name>k__BackingField: PotassiumMonophosphate
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: e5014ac998380084d80368e4236e9be7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: e5014ac998380084d80368e4236e9be7
       m_SubObjectName: 
       m_SubObjectType: 
@@ -134,13 +183,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 5
+    <Type>k__BackingField: 5
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: PotassiumSulfate
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: potassiumSulfate
+    <Name>k__BackingField: PotassiumSulfate
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: e5014ac998380084d80368e4236e9be7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: e5014ac998380084d80368e4236e9be7
       m_SubObjectName: 
       m_SubObjectType: 
@@ -152,13 +208,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 5
+    <Type>k__BackingField: 5
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: DoubleSuperphosphate
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: doubleSuperphosphate
+    <Name>k__BackingField: DoubleSuperphosphate
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: e5014ac998380084d80368e4236e9be7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: e5014ac998380084d80368e4236e9be7
       m_SubObjectName: 
       m_SubObjectType: 
@@ -170,13 +233,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 5
+    <Type>k__BackingField: 5
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: CalciumNitrate
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: calciumNitrate
+    <Name>k__BackingField: CalciumNitrate
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: e5014ac998380084d80368e4236e9be7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: e5014ac998380084d80368e4236e9be7
       m_SubObjectName: 
       m_SubObjectType: 
@@ -188,13 +258,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 5
+    <Type>k__BackingField: 5
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: cucumberSeed
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: cucumberSeed
+    <Name>k__BackingField: Cucumber Seeds
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: f35882e324116ed4095672888efc5954
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: f35882e324116ed4095672888efc5954
       m_SubObjectName: 
       m_SubObjectType: 
@@ -206,13 +283,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 3
+    <Type>k__BackingField: 3
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: watermelonSeed
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: watermelonSeed
+    <Name>k__BackingField: Watermelon Seeds
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: f35882e324116ed4095672888efc5954
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: f35882e324116ed4095672888efc5954
       m_SubObjectName: 
       m_SubObjectType: 
@@ -224,13 +308,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 3
+    <Type>k__BackingField: 3
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: beetrootSeed
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: beetrootSeed
+    <Name>k__BackingField: Beetroot Seeds
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: f35882e324116ed4095672888efc5954
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: f35882e324116ed4095672888efc5954
       m_SubObjectName: 
       m_SubObjectType: 
@@ -242,14 +333,21 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 3
+    <Type>k__BackingField: 3
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: BucketTool
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: bucketTool
+    <Name>k__BackingField: Bucket
+    <WorldPrefab>k__BackingField:
       m_AssetGUID: 3bdf747cd01703043b405a579f6461e6
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
+      m_AssetGUID: 77d369b1cb1e6044599ebd32e53ad708
       m_SubObjectName: 
       m_SubObjectType: 
       m_SubObjectGUID: 
@@ -260,13 +358,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 0
+    <Type>k__BackingField: 0
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 0
     <ShowInHand>k__BackingField: 1
     <MaxStack>k__BackingField: 1
-  - <ItemId>k__BackingField: cucumberHarvest
-    <ItemPrefab>k__BackingField:
+  - <Id>k__BackingField: cucumberHarvest
+    <Name>k__BackingField: Cucumber
+    <WorldPrefab>k__BackingField:
+      m_AssetGUID: 3253a48f3e21d6c479ba2389ce05bd16
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
+    <HandsPrefab>k__BackingField:
       m_AssetGUID: 3253a48f3e21d6c479ba2389ce05bd16
       m_SubObjectName: 
       m_SubObjectType: 
@@ -278,7 +383,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_SubObjectGUID: 
       m_EditorAssetChanged: 1
-    <ItemType>k__BackingField: 4
+    <Type>k__BackingField: 4
     <DropOffsetMultiplier>k__BackingField: 2.5
     <Stackable>k__BackingField: 1
     <ShowInHand>k__BackingField: 1

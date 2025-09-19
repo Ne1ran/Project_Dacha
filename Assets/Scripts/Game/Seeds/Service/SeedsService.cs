@@ -24,12 +24,12 @@ namespace Game.Seeds.Service
         {
             SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
             List<SeedsDescriptorModel> seeds = seedsDescriptor.Items;
-            SeedsDescriptorModel? seedsDescriptorModel = seeds.Find(seed => seed.SeedId == seedId);
+            SeedsDescriptorModel? seedsDescriptorModel = seeds.Find(seed => seed.Id == seedId);
             if (seedsDescriptorModel == null) {
                 throw new ArgumentException($"Seed not found with id={seedId}");
             }
 
-            await _sowSeedHandlerFactory.Create(seedsDescriptorModel.UseHandler).SowSeedAsync(seedsDescriptorModel.SeedId, parameters);
+            await _sowSeedHandlerFactory.Create(seedsDescriptorModel.UseHandler).SowSeedAsync(seedsDescriptorModel.Id, parameters);
         }
     }
 }

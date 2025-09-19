@@ -21,7 +21,7 @@ namespace Game.Interactable.Handlers.Soil
         {
             PieMenuItemSelectionModel pieMenuItemSelectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
             return string.IsNullOrEmpty(pieMenuItemSelectionModel.ItemId)
-                           ? _notificationManager.ShowNotification(NotificationType.TOOL_NOT_FOUND)
+                           ? _notificationManager.ShowNotification(NotificationType.ToolNotFound)
                            : _toolsService.UseToolAsync(pieMenuItemSelectionModel.ItemId, parameters);
         }
     }

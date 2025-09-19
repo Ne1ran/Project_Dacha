@@ -36,7 +36,7 @@ namespace Game.Interactable.Handlers.Soil
         {
             PieMenuItemSelectionModel pieMenuItemSelectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
             if (string.IsNullOrEmpty(pieMenuItemSelectionModel.ItemId)) {
-                await _notificationManager.ShowNotification(NotificationType.WATER_TOOL_NOT_FOUND);
+                await _notificationManager.ShowNotification(NotificationType.WaterToolNotFound);
                 return;
             }
 
@@ -44,7 +44,7 @@ namespace Game.Interactable.Handlers.Soil
             _itemId = pieMenuItemSelectionModel.ItemId;
 
             ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
-            ToolsDescriptorModel? toolsDescriptorModel = toolsDescriptor.ToolsDescriptors.Find(tool => tool.ToolId == _itemId);
+            ToolsDescriptorModel? toolsDescriptorModel = toolsDescriptor.Items.Find(tool => tool.Id == _itemId);
             if (toolsDescriptorModel == null) {
                 throw new KeyNotFoundException($"Tools descriptor not found. ToolId={_itemId}");
             }

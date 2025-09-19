@@ -41,14 +41,14 @@ namespace Game.Common.Controller
         public event Action? OnBackPressed;
         public event Action<float>? OnAcceptPressed;
 
-        private void Awake()
+        private void Start()
         {
             _acceptButton.onClick.AddListener(OnAcceptClicked);
             _rejectButton.onClick.AddListener(OnGoBack);
             _slider.onValueChanged.AddListener(OnSliderValueChanged);
             _backgroundClickable.OnClick += OnGoBack;
         }
-
+        
         private void OnSliderValueChanged(float newValue)
         {
             _currentValue = GetRealValue(newValue);

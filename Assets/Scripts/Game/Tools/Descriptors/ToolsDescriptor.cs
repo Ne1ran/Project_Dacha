@@ -11,6 +11,7 @@ namespace Game.Tools.Descriptors
     {
         [field: SerializeField]
         [TableList]
-        public List<ToolsDescriptorModel> ToolsDescriptors { get; private set; } = new();
+        public List<ToolsDescriptorModel> Items { get; private set; } = new();
+
     }
 }

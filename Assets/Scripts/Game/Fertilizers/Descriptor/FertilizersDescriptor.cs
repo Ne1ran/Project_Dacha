@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Core.Attributes;
-using Game.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,6 +11,6 @@ namespace Game.Fertilizers.Descriptor
     {
         [field: SerializeField]
         [TableList]
-        public List<FertilizerDescriptorModel> Fertilizers { get; private set; } = new();
+        public List<FertilizerDescriptorModel> Items { get; private set; } = new();
     }
 }

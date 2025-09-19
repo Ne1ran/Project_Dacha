@@ -15,7 +15,7 @@ namespace Game.Plants.Descriptors
 
         public PlantsDescriptorModel RequirePlant(string id)
         {
-            PlantsDescriptorModel? plantsDescriptorModel = Items.Find(plant => plant.PlantId == id);
+            PlantsDescriptorModel? plantsDescriptorModel = Items.Find(plant => plant.Id == id);
             if (plantsDescriptorModel == null) {
                 throw new KeyNotFoundException($"Plant not found with id={id}");
             }

@@ -14,9 +14,9 @@ namespace Game.Plants.Descriptors
                         + " Grossulariaceae - Крыжовниковые\n" + " Ericaceae - Вересковые\n" + " Hydrophyllaceae - Водолистниковые\n"
                         + " Apiaceae - Зонтичные\n" + " Allioideae - Луковые\n" + " Cucurbitaceae - Бахчевые\n" + " Polygonaceae - Гречишные\n"
                         + " Amaranthaceae - Амарантовые")]
-        public string PlantId { get; set; } = null!;
+        public string Id { get; set; } = null!;
         [field: SerializeField]
-        public string PlantName { get; set; } = null!;
+        public string Name { get; set; } = null!;
         [field: SerializeField]
         public int PlantsCount { get; set; } = 1;
         [field: SerializeField, Tooltip("Family type of a plant")]

@@ -26,8 +26,9 @@ namespace Game.Items.Service
             ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
             ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
 
-            T itemController = await _resourceService.InstantiateAsync<T>(itemDescriptorModel.WorldItemPrefab.AssetGUID);
+            T itemController = await _resourceService.InstantiateAsync<T>(itemDescriptorModel.WorldPrefab.AssetGUID);
             itemController.transform.position = position;
+            itemController.Initialize(itemId);
             return itemController;
         }
 
@@ -37,8 +38,9 @@ namespace Game.Items.Service
             ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
             ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
 
-            T itemController = await _resourceService.InstantiateAsync<T>(itemDescriptorModel.WorldItemPrefab.AssetGUID);
+            T itemController = await _resourceService.InstantiateAsync<T>(itemDescriptorModel.WorldPrefab.AssetGUID);
             itemController.transform.SetParent(parent);
+            itemController.Initialize(itemId);
             return itemController;
         }
 
@@ -46,12 +48,13 @@ namespace Game.Items.Service
         {
             ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
             ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
-            ItemController itemController = await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.WorldItemPrefab.AssetGUID);
+            ItemController itemController = await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.WorldPrefab.AssetGUID);
             if (parent != null) {
                 itemController.transform.SetParent(parent);
             }
 
             itemController.transform.position = position ?? Vector3.zero;
+            itemController.Initialize(itemId);
             return itemController;
         }
     }

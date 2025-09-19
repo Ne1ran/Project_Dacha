@@ -37,7 +37,7 @@ namespace Game.Inventory.UI
 
         private List<InventorySlotView> _inventorySlots = new();
 
-        private void Awake()
+        private void Start()
         {
             _closeButton.onClick.AddListener(OnCloseTriggered);
             _background.OnClick += OnCloseTriggered;

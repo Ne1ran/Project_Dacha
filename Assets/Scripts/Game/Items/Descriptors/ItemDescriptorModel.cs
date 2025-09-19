@@ -11,17 +11,17 @@ namespace Game.Items.Descriptors
     public class ItemDescriptorModel
     {
         [field: SerializeField]
-        public string ItemId { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
         [field: SerializeField]
-        public string ItemName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         [field: SerializeField, PreviouslySerializedAs("ItemPrefab")]
-        public AssetReference WorldItemPrefab { get; set; } = null!;
+        public AssetReference WorldPrefab { get; set; } = null!;
         [field: SerializeField]
-        public AssetReference HandsItemPrefab { get; set; } = null!;
+        public AssetReference HandsPrefab { get; set; } = null!;
         [field: SerializeField]
         public AssetReference? Icon { get; set; }
         [field: SerializeField]
-        public ItemType ItemType { get; set; }
+        public ItemType Type { get; set; }
         [field: SerializeField]
         public float DropOffsetMultiplier { get; set; } = 2.5f;
         [field: SerializeField]

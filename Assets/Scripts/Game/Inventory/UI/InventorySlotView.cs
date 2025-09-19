@@ -30,7 +30,7 @@ namespace Game.Inventory.UI
         public event Action<int>? Dropped;
         public event Action<int, int>? Binded;
         
-        private void Awake()
+        private void Start()
         {
             HotkeySlotActive = false;
         }

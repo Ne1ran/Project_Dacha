@@ -12,11 +12,11 @@ namespace Game.Items.Descriptors
     {
         [field: SerializeField]
         [TableList]
-        public List<ItemDescriptorModel> ItemDescriptors { get; private set; } = new();
+        public List<ItemDescriptorModel> Items { get; private set; } = new();
 
         public ItemDescriptorModel FindById(string id)
         {
-            ItemDescriptorModel? itemDescriptorModel = ItemDescriptors.Find(item => item.ItemId == id);
+            ItemDescriptorModel? itemDescriptorModel = Items.Find(item => item.Id == id);
             if (itemDescriptorModel == null) {
                 throw new KeyNotFoundException($"Item was not found with id {id}!");
             }
@@ -24,17 +24,16 @@ namespace Game.Items.Descriptors
             return itemDescriptorModel;
         }
         
-        
         private void OnValidate()
         {
-            foreach (ItemDescriptorModel? item in ItemDescriptors) {
-                if (!string.IsNullOrEmpty(item.ItemId)) {
+            foreach (ItemDescriptorModel? item in Items) {
+                if (!string.IsNullOrEmpty(item.Id)) {
                     continue;
                 }
                 
-                string newName = item.ItemName.Trim();
+                string newName = item.Name.Trim();
                 string[] nameSplit = newName.Split(" ");
-
+        
                 string result = "";
                 for (int i = 0; i < nameSplit.Length; i++) {
                     string part = nameSplit[i];
@@ -44,8 +43,8 @@ namespace Game.Items.Descriptors
                         result += part;
                     }
                 }
-
-                item.ItemId = result;
+        
+                item.Id = result;
             }
         }
     }

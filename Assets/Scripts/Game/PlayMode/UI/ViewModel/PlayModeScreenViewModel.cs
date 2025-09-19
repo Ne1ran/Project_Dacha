@@ -166,7 +166,7 @@ namespace Game.PlayMode.UI.ViewModel
         private HotkeySlotViewModel CreateHotkeySlotViewModel(InventoryItem itemModel, int hotkeyNumber)
         {
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptor = itemsDescriptor.ItemDescriptors.Find(item => itemModel.Id == item.ItemId);
+            ItemDescriptorModel itemDescriptor = itemsDescriptor.Items.Find(item => itemModel.Id == item.Id);
             return new(itemModel.Id, itemModel.ItemType, itemDescriptor.Icon.AssetGUID, hotkeyNumber);
         }
     }

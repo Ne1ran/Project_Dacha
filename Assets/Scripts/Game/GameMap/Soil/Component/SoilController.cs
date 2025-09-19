@@ -25,7 +25,7 @@ namespace Game.GameMap.Soil.Component
         private string _soilId = null!;
         private string _currentSkinPath = null!;
 
-        private void Awake()
+        private void Start()
         {
             _skinHolder = this.RequireComponentInChild<Transform>("Skin");
         }

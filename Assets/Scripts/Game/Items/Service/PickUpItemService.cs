@@ -24,15 +24,15 @@ namespace Game.Items.Service
 
         public void PickUpItem(ItemController itemController)
         {
-            string itemId = itemController.GetName;
+            string itemId = itemController.ItemId;
             ItemsDescriptor itemDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            List<ItemDescriptorModel> items = itemDescriptor.ItemDescriptors;
-            ItemDescriptorModel itemModel = items.Find(item => item.ItemId == itemId);
+            List<ItemDescriptorModel> items = itemDescriptor.Items;
+            ItemDescriptorModel itemModel = items.Find(item => item.Id == itemId);
             if (itemModel == null) {
                 throw new ArgumentException($"Item not found with id={itemId}");
             }
 
-            if (_inventoryService.TryAddItemToInventory(itemId, itemModel.ItemType)) {
+            if (_inventoryService.TryAddItemToInventory(itemId, itemModel.Type)) {
                 itemController.gameObject.DestroyObject();
             }
         }

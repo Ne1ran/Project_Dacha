@@ -92,8 +92,9 @@ namespace Game.Equipment.Service
         {
             ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
             ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
-            ItemController itemController = await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.HandsItemPrefab.AssetGUID);
+            ItemController itemController = await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.HandsPrefab.AssetGUID);
             itemController.transform.position = position ?? Vector3.zero;
+            itemController.Initialize(itemId);
             return itemController;
         }
     }

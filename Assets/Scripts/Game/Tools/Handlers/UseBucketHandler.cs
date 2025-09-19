@@ -22,7 +22,7 @@ namespace Game.Tools.Handlers
             string tileId = parameters.Require<string>(ParameterNames.TileId);
             float waterAmount = parameters.Require<float>(ParameterNames.WaterAmount);
             if (waterAmount <= 0) {
-                return _notificationManager.ShowNotification(NotificationType.NO_WATER);
+                return _notificationManager.ShowNotification(NotificationType.NoWater);
             }
             
             _soilService.WaterSoil(tileId, waterAmount);
