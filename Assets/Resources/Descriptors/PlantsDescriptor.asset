@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlantsDescriptor
   m_EditorClassIdentifier: 
   <Items>k__BackingField:
-  - <PlantId>k__BackingField: cucumber
-    <PlantName>k__BackingField: Cucumber
+  - <Id>k__BackingField: cucumber
+    <Name>k__BackingField: Cucumber
     <PlantsCount>k__BackingField: 4
     <FamilyType>k__BackingField: 13
     <Visualization>k__BackingField:

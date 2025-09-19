@@ -12,11 +12,11 @@ namespace Game.GameMap.Soil.Descriptor
     {
         [field: SerializeField]
         [TableList]
-        public List<SoilDescriptorModel> ItemDescriptors { get; private set; } = new();
+        public List<SoilDescriptorModel> Items { get; private set; } = new();
 
         public SoilDescriptorModel RequireByType(SoilType soilType)
         {
-            SoilDescriptorModel? soilDescriptorModel = ItemDescriptors.Find(desc => desc.SoilType == soilType);
+            SoilDescriptorModel? soilDescriptorModel = Items.Find(desc => desc.SoilType == soilType);
             if (soilDescriptorModel == null) {
                 throw new KeyNotFoundException($"Soil not found with type={soilType}");
             }

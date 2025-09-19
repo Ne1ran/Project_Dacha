@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863b2d7ec31d44ce87832950143fd0fb, type: 3}
   m_Name: SoilDescriptor
   m_EditorClassIdentifier: 
-  <ItemDescriptors>k__BackingField:
+  <Items>k__BackingField:
   - <SoilType>k__BackingField: 0
     <Ph>k__BackingField: 6.5
     <Salinity>k__BackingField: 0.05

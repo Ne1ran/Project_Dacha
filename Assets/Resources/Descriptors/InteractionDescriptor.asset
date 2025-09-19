@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f6afdb050046f79db7693007dca918, type: 3}
   m_Name: InteractionDescriptor
   m_EditorClassIdentifier: 
-  <ItemDescriptors>k__BackingField:
+  <Items>k__BackingField:
   - <InteractableType>k__BackingField: 2
     <Settings>k__BackingField:
     - <InteractionHandlerName>k__BackingField: InspectSoil
@@ -78,7 +78,7 @@ MonoBehaviour:
     <Settings>k__BackingField: []
   - <InteractableType>k__BackingField: 1
     <Settings>k__BackingField:
-    - <InteractionHandlerName>k__BackingField: 
+    - <InteractionHandlerName>k__BackingField: Open
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Open
       <Description>k__BackingField: Open door
@@ -89,7 +89,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_EditorAssetChanged: 0
       <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: 
+    - <InteractionHandlerName>k__BackingField: Close
       <PrepareHandlerName>k__BackingField: Simple
       <Title>k__BackingField: Close
       <Description>k__BackingField: Close door

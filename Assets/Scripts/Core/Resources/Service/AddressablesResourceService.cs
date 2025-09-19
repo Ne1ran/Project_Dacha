@@ -83,7 +83,7 @@ namespace Core.Resources.Service
                                                                  cancellationToken: token);
             }
 
-            go.name = key;
+            go.name = typeof(T).Name;
             T binded = _prefabBinderManager.DoBind<T>(go);
             AppContext.CurrentScope.Container.InjectGameObject(go);
             return binded;
@@ -180,7 +180,6 @@ namespace Core.Resources.Service
         public void Release(Object obj)
         {
             _addressablesManager.Release(obj);
-            Object.Destroy(obj);
         }
 
         private async UniTask<T> CreateInstanceAndBindAsync<T>(string key, CancellationToken token = default)
@@ -188,7 +187,7 @@ namespace Core.Resources.Service
 
         {
             GameObject go = await _addressablesManager.InstantiateAsync(key, cancellationToken: token);
-            go.name = key;
+            go.name = typeof(T).Name;
             T binded = _prefabBinderManager.DoBind<T>(go);
             AppContext.CurrentScope.Container.InjectGameObject(go);
             return binded;

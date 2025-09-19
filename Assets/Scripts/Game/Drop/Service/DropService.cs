@@ -1,12 +1,12 @@
 ﻿using System;
 using Core.Attributes;
 using Core.Descriptors.Service;
+using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Items.Controller;
 using Game.Items.Descriptors;
-using Game.Items.Service;
 using Game.Player.Controller;
 using Game.Player.Service;
 using MessagePipe;
@@ -18,23 +18,23 @@ namespace Game.Drop.Service
     [Service]
     public class DropService : IInitializable, IDisposable
     {
-        private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;
         private readonly PlayerService _playerService;
-        private readonly PickUpItemService _pickUpItemService;
+        private readonly IResourceService _resourceService;
         private readonly IDescriptorService _descriptorService;
+        private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;
 
         private IDisposable? _disposable;
 
         private readonly LayerMask _layerMask;
 
-        public DropService(ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber,
-                           PlayerService playerService,
-                           PickUpItemService pickUpItemService,
-                           IDescriptorService descriptorService)
+        public DropService(PlayerService playerService,
+                           IResourceService resourceService,
+                           IDescriptorService descriptorService,
+                           ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber)
         {
             _inventoryChangedSubscriber = inventoryChangedSubscriber;
             _playerService = playerService;
-            _pickUpItemService = pickUpItemService;
+            _resourceService = resourceService;
             _descriptorService = descriptorService;
             _layerMask = LayerMask.GetMask("Default", "Ground"); // todo neiran to combined layer mask to workaround
         }
@@ -59,13 +59,12 @@ namespace Game.Drop.Service
         {
             PlayerController player = _playerService.Player;
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.ItemDescriptors.Find(item => item.ItemId == inventoryItem.Id);
-            if (itemDescriptorModel == null) {
-                throw new ArgumentException($"Descriptor not found for item with id={inventoryItem.Id}");
-            }
-
+            ItemDescriptorModel itemDescriptorModel = itemsDescriptor.FindById(inventoryItem.Id);
             Vector3 dropPosition = GetDropPosition(player.transform.position, player.Forward, itemDescriptorModel.DropOffsetMultiplier);
-            return (await _pickUpItemService.DropItemAsync(itemDescriptorModel.ItemId, itemDescriptorModel.ItemType, dropPosition));
+            ItemController itemController =
+                    await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.WorldPrefab.AssetGUID, dropPosition);
+            itemController.Initialize(itemDescriptorModel.Id);
+            return itemController;
         }
 
         private Vector3 GetDropPosition(Vector3 spawnPosition, Vector3 direction, float distance)

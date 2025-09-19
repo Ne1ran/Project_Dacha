@@ -7,7 +7,7 @@ namespace Game.Common.Descriptors
     public class SelectorDescriptorModel
     {
         [field: SerializeField]
-        public string SelectorId { get; set; } = null!;
+        public string Id { get; set; } = null!;
         [field: SerializeField]
         public float MinValue { get; set; }
         [field: SerializeField]

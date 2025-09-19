@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Game.PieMenu.Model;
 using Game.PieMenu.UI.Common;
 using Game.PieMenu.UI.Model;
@@ -50,9 +53,6 @@ namespace Game.PieMenu.UI
         private TextMeshProUGUI _details = null!;
 
         [SerializeField]
-        private Animator _animator = null!;
-
-        [SerializeField]
         private Color _normalColor;
 
         [SerializeField]
@@ -67,9 +67,6 @@ namespace Game.PieMenu.UI
         [SerializeField]
         private Color _detailsColor;
 
-        [SerializeField]
-        private List<AnimatorOverrideController> _animatorOverrideControllers = new();
-
         public Transform InfoPanel => _infoPanel;
 
         public TextMeshProUGUI Header => _header;
@@ -79,11 +76,6 @@ namespace Game.PieMenu.UI
         private PieMenuController _pieMenuController = null!;
         private PieMenuModel _pieMenuModel = null!;
 
-        public List<AnimatorOverrideController> AnimatorOverrideControllers => _animatorOverrideControllers;
-
-        public int AnimationDropdownList { get; private set; }
-        public List<string> AnimationNames { get; private set; } = new();
-
         private double _previewStartTime;
 
         public void Initialize(PieMenuController pieMenuController)
@@ -92,7 +84,6 @@ namespace Game.PieMenu.UI
             _pieMenuModel = pieMenuController.PieMenuSettingsModel.PieMenuModel;
 
             ConstraintSelection(_selectionConstrained);
-            InitializeAnimationsSettings();
         }
 
         private void RestoreRotationToDefault()
@@ -127,7 +118,7 @@ namespace Game.PieMenu.UI
         {
             int iteration = 0;
             // We also remove this angle, because spacing starts not at 0 z-rotation, but x-menuItemSpacing. We remove half so it will correspond properly
-            float additionalAngle = menuItemSpacing / 2f; 
+            float additionalAngle = menuItemSpacing / 2f;
             foreach (PieMenuItemController? item in menuItems.Values) {
                 item.ChangeFillAmount(fillAmount);
                 float zAxisRotation = (fillAmount * iteration * PieMenuUtils.CircleDegreesF) + (menuItemSpacing * iteration) - additionalAngle;
@@ -200,47 +191,22 @@ namespace Game.PieMenu.UI
             return Mathf.RoundToInt(newOffset);
         }
 
-        private void InitializeAnimationsSettings()
-        {
-            InitializeList();
-            GetSelectedAnimation();
-        }
-
-        private void InitializeList()
-        {
-            AnimationNames = new();
-            foreach (AnimatorOverrideController overrideController in AnimatorOverrideControllers) {
-                AnimationClip animationClip = GetAnimation(overrideController);
-                AnimationNames.Add(animationClip.name);
-            }
-        }
-
-        private void GetSelectedAnimation()
-        {
-            RuntimeAnimatorController runtimeController = _animator.runtimeAnimatorController;
-            AnimationClip animationClip = GetAnimation(runtimeController);
-            string currentAnimationName = animationClip.name;
-
-            //if the List<T>.FindIndex method doesn't find a matching element, it returns -1
-            int index = AnimationNames.FindIndex(animationName => animationName == currentAnimationName);
-
-            if (index == -1) {
-                throw new("It's likely that you've added a new animation to your menu incorrectly."
-                          + " Please refer to the documentation to learn more.");
-            }
-
-            AnimationDropdownList = index;
-            _pieMenuModel.SetAnimation(animationClip);
-        }
-
         public AnimationClip GetAnimation(RuntimeAnimatorController runtimeController)
         {
             return runtimeController.animationClips[0];
         }
 
-        public void PlayAnimation(string trigger)
+        public async UniTask PlayAnimationAsync(bool isOpen, CancellationToken token)
         {
-            _animator.SetTrigger(trigger);
+            Transform pieMenuTransform = _pieMenuController.transform;
+
+            if (isOpen) {
+                pieMenuTransform.localScale = Vector3.zero;
+                await pieMenuTransform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack).ToUniTask(cancellationToken: token);
+            } else {
+                pieMenuTransform.localScale = Vector3.one;
+                await pieMenuTransform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack).ToUniTask(cancellationToken: token);
+            }
         }
 
         public void SetScale(float scale)
@@ -276,14 +242,6 @@ namespace Game.PieMenu.UI
         public void ModifyDetailsText(string newMessage)
         {
             Details.text = newMessage;
-        }
-
-        public void RestoreDefaultInfoPanelText(PieMenuController pieMenu)
-        {
-            string placeholderHeaderText = "Header";
-            string placeholderDetailsText = "Test text";
-            ModifyHeaderText(placeholderHeaderText);
-            ModifyDetailsText(placeholderDetailsText);
         }
 
         public void ConstraintSelection(bool selectionConstrained)

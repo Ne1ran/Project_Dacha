@@ -23,8 +23,9 @@ namespace Game.PieMenu.UI.Common
         private PieMenuModel _pieMenuModel = null!;
         private PieMenuViewModel _pieMenuViewModel = null!;
 
-        private int _selection;
-        private int _previousSelection;
+        private int _selection = -1;
+        private int _previousSelection = -1;
+
         private int _constraintMaxDistance;
 
         private bool _selectionConstrained;
@@ -90,6 +91,11 @@ namespace Game.PieMenu.UI.Common
             EventSystem.current.SetSelectedGameObject(null);
 
             _previousSelection = -1;
+        }
+
+        public PieMenuItemController? TryGetSelection()
+        {
+            return _selection <= -1 ? null : PieMenuItemsReference[_selection];
         }
 
         public void ToggleSelectionConstraint(bool selectionConstrain)

@@ -100,7 +100,7 @@ namespace Game.Plants.Service
             }
 
             SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
-            SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Items.Find(seed => seed.SeedId == seedId);
+            SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Items.Find(seed => seed.Id == seedId);
             if (seedsDescriptorModel == null) {
                 Debug.LogWarning($"Seed descriptor not found seedId={seedId}");
                 return;
@@ -108,7 +108,7 @@ namespace Game.Plants.Service
 
             string plantId = seedsDescriptorModel.PlantId;
             PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
-            PlantsDescriptorModel? plantsDescriptorModel = plantsDescriptor.Items.Find(plant => plant.PlantId == plantId);
+            PlantsDescriptorModel? plantsDescriptorModel = plantsDescriptor.Items.Find(plant => plant.Id == plantId);
             if (plantsDescriptorModel == null) {
                 Debug.LogWarning($"Plant not found seedId={seedId}, plantId={plantId}");
                 return;
@@ -126,7 +126,7 @@ namespace Game.Plants.Service
 
             PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
             foreach ((string tileId, PlantModel plant) in plants) {
-                PlantsDescriptorModel? plantsDescriptorModel = plantsDescriptor.Items.Find(plantModel => plant.PlantId == plantModel.PlantId);
+                PlantsDescriptorModel? plantsDescriptorModel = plantsDescriptor.Items.Find(plantModel => plant.PlantId == plantModel.Id);
                 if (plantsDescriptorModel == null) {
                     continue;
                 }

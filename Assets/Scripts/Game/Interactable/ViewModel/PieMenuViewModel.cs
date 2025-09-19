@@ -73,10 +73,8 @@ namespace Game.Interactable.ViewModel
         public void Redraw()
         {
             _menuItemCount = PieMenuItems.Count;
-
             _menuItemSpacing = _pieMenuModel.MenuItemSpacing;
             int rotation = _pieMenuModel.Rotation;
-
             _generalSettings.ChangeRotation(0);
             _generalSettings.UpdateButtons(_menuItemCount, _menuItemSpacing);
             ManageMenuItemSpacing();

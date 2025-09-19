@@ -11,7 +11,7 @@ namespace Game.Harvest.Descriptor
     public class PlantHarvestDescriptorModel
     {
         [field: SerializeField, ValueDropdown("GetPlantIds")]
-        public string PlantId { get; set; } = null!;
+        public string Id { get; set; } = null!;
         [field: SerializeField]
         public float BaseHarvestRate { get; set; } = 1f;
         [field: SerializeField]
@@ -26,7 +26,7 @@ namespace Game.Harvest.Descriptor
             PlantsDescriptor plantsDescriptor = Resources.Load<PlantsDescriptor>("Descriptors/PlantsDescriptor");
             List<string> result = new();
             foreach (PlantsDescriptorModel pdm in plantsDescriptor.Items) {
-                result.Add(pdm.PlantId);
+                result.Add(pdm.Id);
             }
 
             return result;
@@ -36,8 +36,8 @@ namespace Game.Harvest.Descriptor
         {
             ItemsDescriptor plantsDescriptor = Resources.Load<ItemsDescriptor>("Descriptors/ItemsDescriptor");
             List<string> result = new();
-            foreach (ItemDescriptorModel item in plantsDescriptor.ItemDescriptors) {
-                result.Add(item.ItemId);
+            foreach (ItemDescriptorModel item in plantsDescriptor.Items) {
+                result.Add(item.Id);
             }
 
             return result;

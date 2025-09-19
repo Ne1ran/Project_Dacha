@@ -21,7 +21,7 @@ namespace Game.Interactable.Handlers.Soil
         {
             PieMenuItemSelectionModel pieMenuItemSelectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
             if (string.IsNullOrEmpty(pieMenuItemSelectionModel.ItemId)) {
-                await _notificationManager.ShowNotification(NotificationType.SEEDS_NOT_FOUND);
+                await _notificationManager.ShowNotification(NotificationType.SeedsNotFound);
                 return;
             }
 

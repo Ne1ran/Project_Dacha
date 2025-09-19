@@ -11,7 +11,6 @@ using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Items.Descriptors;
 using Game.PieMenu.Model;
-using Game.Seeds.Descriptors;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using VContainer;
@@ -44,20 +43,14 @@ namespace Game.PieMenu.PrepareHandlers
 
             List<InventoryItem> seeds = _inventoryService.GetItemsByType(ItemType.SEED);
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
 
             foreach (InventoryItem seedItem in seeds) {
-                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.ItemDescriptors.Find(seed => seed.ItemId == seedItem.Id);
+                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.Items.Find(seed => seed.Id == seedItem.Id);
                 if (itemDescriptorModel == null) {
                     continue;
                 }
 
-                SeedsDescriptorModel? seedsDescriptorModel = seedsDescriptor.Items.Find(seed => seed.SeedId == itemDescriptorModel.ItemId);
-                if (seedsDescriptorModel == null) {
-                    continue;
-                }
-
-                result.Add(CreateItemSelectionModel(itemDescriptorModel.Icon, seedItem.Id, seedsDescriptorModel.SeedName, token));
+                result.Add(CreateItemSelectionModel(itemDescriptorModel.Icon, seedItem.Id, itemDescriptorModel.Name, token));
             }
 
             if (result.Count == 0) {

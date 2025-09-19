@@ -43,7 +43,7 @@ namespace Game.Movement
         private float _fovVelocity;
         private float _gravity;
         
-        private void Awake()
+        private void Start()
         {
             _gravity = 9.81f;
             _characterController = GetComponent<CharacterController>();

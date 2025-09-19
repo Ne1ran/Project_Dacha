@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DiseasesDescriptor
   m_EditorClassIdentifier: 
   <Items>k__BackingField:
-  - <Id>k__BackingField: Mildew
+  - <Id>k__BackingField: mildew
     <Name>k__BackingField: Mildew
     <DiseaseType>k__BackingField: 1
     <AffectedPlants>k__BackingField: 0d00000002000000050000000600000008000000010000000b000000
@@ -73,7 +73,7 @@ MonoBehaviour:
         <StageGrowth>k__BackingField: 25
         <BaseGrowthPerDay>k__BackingField: 3
         <HealChance>k__BackingField: 0
-  - <Id>k__BackingField: DownyMildew
+  - <Id>k__BackingField: downyMildew
     <Name>k__BackingField: Downy Mildew
     <DiseaseType>k__BackingField: 1
     <AffectedPlants>k__BackingField: 010000000d000000020000000c000000030000000f0000000500000004000000

@@ -18,7 +18,7 @@ namespace Core.Notifications.Descriptor
         {
             foreach (NotificationModelDescriptor item in Items) {
                 if (string.IsNullOrEmpty(item.Id) && !string.IsNullOrEmpty(item.Title)) {
-                    item.Id = item.Type.ToUpperFirstString();
+                    item.Id = item.Type.ToLowerFirstString();
                 }
             }
         }

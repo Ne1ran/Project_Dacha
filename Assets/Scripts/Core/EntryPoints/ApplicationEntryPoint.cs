@@ -32,7 +32,9 @@ namespace Core.EntryPoints
         {
             // todo neiran implement runner?
             await InitializeConsole();
+            await UniTask.Yield(token);
             await InitializeAddressables();
+            await UniTask.Yield(token);
             await InitializeDescriptors();
             InitializeLocalization();
             await UniTask.Yield(token);

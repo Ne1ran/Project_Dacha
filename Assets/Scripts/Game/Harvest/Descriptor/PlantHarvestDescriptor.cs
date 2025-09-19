@@ -14,7 +14,7 @@ namespace Game.Harvest.Descriptor
 
         public PlantHarvestDescriptorModel? FindItemById(string id)
         {
-            return Items.Find(hdm => hdm.PlantId == id);
+            return Items.Find(hdm => hdm.Id == id);
         }
     }
 }

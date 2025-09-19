@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SeedsDescriptor
   m_EditorClassIdentifier: 
   <Items>k__BackingField:
-  - <SeedId>k__BackingField: watermelonSeed
+  - <Id>k__BackingField: watermelonSeed
     <PlantId>k__BackingField: cucumber
     <SeedType>k__BackingField: 1
     <SeedName>k__BackingField: Watermelon seeds
@@ -27,7 +27,7 @@ MonoBehaviour:
     <CanBeInfected>k__BackingField: 1
     <StartHealth>k__BackingField: 10
     <StartImmunity>k__BackingField: 10
-  - <SeedId>k__BackingField: cucumberSeed
+  - <Id>k__BackingField: cucumberSeed
     <PlantId>k__BackingField: cucumber
     <SeedType>k__BackingField: 1
     <SeedName>k__BackingField: Cucumber seeds
@@ -41,7 +41,7 @@ MonoBehaviour:
     <CanBeInfected>k__BackingField: 1
     <StartHealth>k__BackingField: 10
     <StartImmunity>k__BackingField: 10
-  - <SeedId>k__BackingField: beetrootSeed
+  - <Id>k__BackingField: beetrootSeed
     <PlantId>k__BackingField: cucumber
     <SeedType>k__BackingField: 1
     <SeedName>k__BackingField: Beetroot seeds

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlantHarvestDescriptor
   m_EditorClassIdentifier: 
   <Items>k__BackingField:
-  - <PlantId>k__BackingField: cucumber
+  - <Id>k__BackingField: cucumber
     <BaseHarvestRate>k__BackingField: 1
     <MultiplierPerHealth>k__BackingField: 0.02
     <HarvestItemId>k__BackingField: cucumberHarvest

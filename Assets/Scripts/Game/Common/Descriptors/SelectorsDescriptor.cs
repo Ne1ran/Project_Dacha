@@ -11,11 +11,11 @@ namespace Game.Common.Descriptors
     {
         [field: SerializeField]
         [TableList]
-        public List<SelectorDescriptorModel> SelectorsDescriptors { get; private set; } = new();
+        public List<SelectorDescriptorModel> Items { get; private set; } = new();
 
         public SelectorDescriptorModel Require(string id)
         {
-            SelectorDescriptorModel? selectorDescriptorModel = SelectorsDescriptors.Find(desc => desc.SelectorId == id);
+            SelectorDescriptorModel? selectorDescriptorModel = Items.Find(desc => desc.Id == id);
             if (selectorDescriptorModel == null) {
                 throw new KeyNotFoundException($"Selector not found with id {id}!");
             }

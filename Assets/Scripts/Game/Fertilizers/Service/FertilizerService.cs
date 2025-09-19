@@ -1,11 +1,6 @@
-﻿using System;
-using Core.Attributes;
+﻿using Core.Attributes;
 using Core.Descriptors.Service;
 using Core.Resources.Service;
-using Cysharp.Threading.Tasks;
-using Game.Fertilizers.Controller;
-using Game.Fertilizers.Descriptor;
-using UnityEngine;
 
 namespace Game.Fertilizers.Service
 {
@@ -19,20 +14,6 @@ namespace Game.Fertilizers.Service
         {
             _descriptorService = descriptorService;
             _resourceService = resourceService;
-        }
-
-        public async UniTask<FertilizerController> CreateFertilizer(string fertilizerId, Vector3 position)
-        {
-            FertilizersDescriptor fertilizersDescriptor = _descriptorService.Require<FertilizersDescriptor>();
-            FertilizerDescriptorModel? fertModel = fertilizersDescriptor.Fertilizers.Find(fert => fert.Id == fertilizerId);
-            if (fertModel == null) {
-                throw new ArgumentException($"Fertilizer not found with id={fertilizerId}");
-            }
-
-            FertilizerController toolController = await _resourceService.InstantiateAsync<FertilizerController>(fertModel.Prefab.AssetGUID);
-            toolController.transform.position = position;
-            toolController.name = fertilizerId; // todo redo
-            return toolController;
         }
     }
 }

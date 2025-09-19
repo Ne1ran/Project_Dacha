@@ -12,11 +12,11 @@ namespace Game.Interactable.Descriptor
     {
         [field: SerializeField]
         [TableList]
-        public List<InteractionDescriptorModel> ItemDescriptors { get; private set; } = new();
+        public List<InteractionDescriptorModel> Items { get; private set; } = new();
 
         public InteractionDescriptorModel RequireByType(InteractableType soilType)
         {
-            InteractionDescriptorModel? descriptorModel = ItemDescriptors.Find(desc => desc.InteractableType == soilType);
+            InteractionDescriptorModel? descriptorModel = Items.Find(desc => desc.InteractableType == soilType);
             if (descriptorModel == null) {
                 throw new KeyNotFoundException($"Interaction descriptor not found with type={soilType}");
             }

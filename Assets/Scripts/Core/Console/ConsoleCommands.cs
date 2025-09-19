@@ -3,15 +3,15 @@ using Core.Notifications.Model;
 using Core.Notifications.Service;
 using Core.Scopes;
 using Cysharp.Threading.Tasks;
-using Game.Inventory.Model;
+using Game.Items.Controller;
 using Game.Items.Descriptors;
 using Game.Items.Service;
 using Game.Player.Service;
+using Game.Seeds.Component;
 using Game.Seeds.Descriptors;
-using Game.Seeds.Service;
 using Game.TimeMove.Service;
+using Game.Tools.Component;
 using Game.Tools.Descriptors;
-using Game.Tools.Service;
 using IngameDebugConsole;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -31,57 +31,57 @@ namespace Core.Console
         [ConsoleMethod("createTool", "Create tool by name and coords relative to the player position")]
         public static void CreateTool(string toolName, float x, float y, float z)
         {
-            ToolsService toolsService = Container.Resolve<ToolsService>();
+            WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
-            toolsService.CreateTool(toolName, playerService.Player.transform.position + new Vector3(x, y, z)).Forget();
+            worldItemService.CreateItemInWorldAsync<ToolController>(toolName, playerService.Player.transform.position + new Vector3(x, y, z)).Forget();
         }
 
         [ConsoleMethod("createAllTools", "Create all tools by coords relative to the player position")]
         public static void CreateAllTools(float x, float y, float z)
         {
-            ToolsService toolsService = Container.Resolve<ToolsService>();
+            WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
             IDescriptorService descriptorService = Container.Resolve<IDescriptorService>();
 
             Vector3 spawnPosition = playerService.Player.transform.position + new Vector3(x, y, z);
             ToolsDescriptor toolsDescriptor = descriptorService.Require<ToolsDescriptor>();
-            foreach (ToolsDescriptorModel descriptor in toolsDescriptor.ToolsDescriptors) {
-                toolsService.CreateTool(descriptor.ToolId, spawnPosition).Forget();
+            foreach (ToolsDescriptorModel descriptor in toolsDescriptor.Items) {
+                worldItemService.CreateItemInWorldAsync<ToolController>(descriptor.Id, spawnPosition).Forget();
             }
         }
 
         [ConsoleMethod("createAllSeeds", "Create all seeds by coords relative to the player position")]
         public static void CreateAllSeeds(float x, float y, float z)
         {
-            SeedsService seedsService = Container.Resolve<SeedsService>();
+            WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
             IDescriptorService descriptorService = Container.Resolve<IDescriptorService>();
 
             Vector3 spawnPosition = playerService.Player.transform.position + new Vector3(x, y, z);
             SeedsDescriptor seedsDescriptor = descriptorService.Require<SeedsDescriptor>();
             foreach (SeedsDescriptorModel descriptor in seedsDescriptor.Items) {
-                seedsService.CreateSeedBag(descriptor.SeedId, spawnPosition).Forget();
+                worldItemService.CreateItemInWorldAsync<SeedBagController>(descriptor.Id, spawnPosition).Forget();
             }
         }
         
         [ConsoleMethod("createItem", "Create tool by name and coords relative to the player position")]
-        public static void CreateItem(string itemName, ItemType itemType, float x, float y, float z)
+        public static void CreateItem(string itemName, float x, float y, float z)
         {
-            PickUpItemService pickUpItemService = Container.Resolve<PickUpItemService>();
+            WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
-            pickUpItemService.DropItemAsync(itemName, itemType, playerService.Player.transform.position + new Vector3(x, y, z)).Forget();
+            worldItemService.CreateItemInWorldAsync<ItemController>(itemName, playerService.Player.transform.position + new Vector3(x, y, z)).Forget();
         }
         
         [ConsoleMethod("createAllItems", "Create all items")]
         public static void CreateItems(float x, float y, float z)
         {
-            PickUpItemService pickUpItemService = Container.Resolve<PickUpItemService>();
+            WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
             IDescriptorService descriptorService = Container.Resolve<IDescriptorService>();
             ItemsDescriptor itemsDescriptor = descriptorService.Require<ItemsDescriptor>();
             Vector3 position = playerService.Player.transform.position + new Vector3(x, y, z);
-            foreach (ItemDescriptorModel itemDescriptorModel in itemsDescriptor.ItemDescriptors) {
-                pickUpItemService.DropItemAsync(itemDescriptorModel.ItemId, itemDescriptorModel.ItemType, position).Forget();
+            foreach (ItemDescriptorModel itemDescriptorModel in itemsDescriptor.Items) {
+                worldItemService.CreateItemInWorldAsync(itemDescriptorModel.Id, position).Forget();
             }
         }
 

@@ -4,7 +4,6 @@ using Game.Plants.Descriptors;
 using Game.Seeds.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace Game.Seeds.Descriptors
 {
@@ -12,15 +11,11 @@ namespace Game.Seeds.Descriptors
     public class SeedsDescriptorModel
     {
         [field: SerializeField]
-        public string SeedId { get; set; } = null!;
+        public string Id { get; set; } = null!;
         [field: SerializeField, ValueDropdown("GetPlantIds")]
         public string PlantId { get; set; } = null!;
         [field: SerializeField]
         public SeedType SeedType { get; set; } = SeedType.NONE;
-        [field: SerializeField]
-        public string SeedName { get; set; } = null!;
-        [field: SerializeField]
-        public AssetReference SeedPrefab { get; set; } = null!;
         [field: SerializeField]
         public string UseHandler { get; set; } = null!;
         [field: SerializeField]
@@ -35,7 +30,7 @@ namespace Game.Seeds.Descriptors
             PlantsDescriptor plantsDescriptor = Resources.Load<PlantsDescriptor>("Descriptors/PlantsDescriptor");
             List<string> result = new();
             foreach (PlantsDescriptorModel pdm in plantsDescriptor.Items) {
-                result.Add(pdm.PlantId);
+                result.Add(pdm.Id);
             }
 
             return result;

@@ -21,7 +21,7 @@ namespace Game.Interactable.Handlers.Soil
         {
             PieMenuItemSelectionModel pieMenuItemSelectionModel = itemModel.SelectionModels[itemModel.CurrentSelectionIndex];
             if (string.IsNullOrEmpty(pieMenuItemSelectionModel.ItemId)) {
-                _notificationManager.ShowNotification(NotificationType.FERTILIZER_NOT_FOUND).Forget();
+                _notificationManager.ShowNotification(NotificationType.FertilizerNotFound).Forget();
                 return UniTask.CompletedTask;
             }
             

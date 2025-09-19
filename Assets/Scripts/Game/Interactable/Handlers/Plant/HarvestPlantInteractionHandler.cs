@@ -23,13 +23,13 @@ namespace Game.Interactable.Handlers.Plant
         public UniTask InteractAsync(PieMenuItemModel itemModel, Parameters parameters)
         {
             if (_inventoryService.CheckIsFull()) {
-                _notificationManager.ShowNotification(NotificationType.INVENTORY_FULL).Forget();
+                _notificationManager.ShowNotification(NotificationType.InventoryFull).Forget();
                 return UniTask.CompletedTask;
             }
 
             string tileId = parameters.Require<string>(ParameterNames.TileId);
             if (!_plantHarvestService.TryHarvestPlant(tileId)) {
-                _notificationManager.ShowNotification(NotificationType.CANNOT_HARVEST_PLANT).Forget();
+                _notificationManager.ShowNotification(NotificationType.CannotHarvestPlant).Forget();
             }
             
             return UniTask.CompletedTask;

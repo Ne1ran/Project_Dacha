@@ -14,9 +14,16 @@ namespace Game.Items.Controller
         
         private Rigidbody _rigidbody = null!;
 
-        private void Awake()
+        private string _itemId = null!;
+        
+        private void Start()
         {
             _rigidbody = this.RequireComponent<Rigidbody>();
+        }
+
+        public void Initialize(string itemId)
+        {
+            _itemId = itemId;
         }
 
         public bool IsKinematic
@@ -36,6 +43,6 @@ namespace Game.Items.Controller
             return UniTask.CompletedTask;
         }
 
-        public string GetName => gameObject.name;
+        public string ItemId => _itemId;
     }
 }
