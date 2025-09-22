@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Attributes;
 using Game.Calendar.Model;
+using Game.Difficulty.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,16 +13,16 @@ namespace Game.Calendar.Descriptor
     {
         [field: SerializeField]
         [TableList]
-        public List<CalendarMonthModel> Items { get; set; } = new();
-        
-        public CalendarMonthModel FindByType(MonthType monthType)
-        {
-            CalendarMonthModel? monthDesc = Items.Find(item => item.Month == monthType);
-            if (monthDesc == null) {
-                throw new KeyNotFoundException($"Item was not found with monthType {monthType.ToString()}!");
-            }
+        public List<CalendarPlaceDescriptor> Items { get; set; } = new();
 
-            return monthDesc;
+        public CalendarMonthModel FindByType(DachaPlaceType placeType, MonthType monthType)
+        {
+            CalendarPlaceDescriptor? calendarPlaceDescriptor = Items.Find(item => item.PlaceType == placeType);
+            if (calendarPlaceDescriptor == null) {
+                throw new KeyNotFoundException($"Calendar place descriptor not found with placeType={placeType} and monthType={monthType}");
+            }
+            
+            return calendarPlaceDescriptor.FindByType(monthType);
         }
     }
 }

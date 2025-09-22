@@ -2,6 +2,7 @@
 using Core.Descriptors.Service;
 using Game.Calendar.Descriptor;
 using Game.Calendar.Model;
+using Game.Difficulty.Model;
 using UnityEngine;
 
 namespace Game.Calendar.Service
@@ -19,7 +20,7 @@ namespace Game.Calendar.Service
         public void SimulateMonth(MonthType month)
         {
             CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
-            CalendarMonthModel calendarMonth = calendarDescriptor.FindByType(month);
+            CalendarMonthModel calendarMonth = calendarDescriptor.FindByType(DachaPlaceType.Middle, month);
             if (!calendarMonth.Playable) {
                 Debug.LogWarning($"Month is not playable. MonthName={calendarMonth.Name}");
                 return;

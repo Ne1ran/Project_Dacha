@@ -139,6 +139,12 @@ namespace Core.Console
             Container.Resolve<CalendarService>().SimulateMonth(month);
         }
 
+        [ConsoleMethod("simulateMonthAdv", "Simulate month in calendar for some checks")]
+        public static void SimulateMonthAdv(int times)
+        {
+            Container.Resolve<CalendarGenerationService>().Simulate(times);
+        }
+
         private static IObjectResolver Container => AppContext.CurrentScope.Container;
     }
 }
