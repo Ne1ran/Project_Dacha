@@ -1,8 +1,8 @@
 ﻿using Core.Attributes;
 using Core.Repository;
-using Game.TimeMove.Model;
+using Game.Calendar.Model;
 
-namespace Game.TimeMove.Repo
+namespace Game.Calendar.Repo
 {
     [Repository]
     public class TimeRepo : SingleEntityMemoryRepository<TimeModel>

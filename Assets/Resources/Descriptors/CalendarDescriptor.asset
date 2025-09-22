@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 028837aaa7024f238724c2d5e8c7530e, type: 3}
+  m_Name: CalendarDescriptor
+  m_EditorClassIdentifier: 
+  <Items>k__BackingField:
+  - <Month>k__BackingField: 4
+    <Name>k__BackingField: April
+    <Playable>k__BackingField: 1
+    <WeatherSettings>k__BackingField:
+      <AverageTemperature>k__BackingField: 8
+      <StartTemperatureChangePerDay>k__BackingField: 0.1
+      <EndTemperatureChangePerDay>k__BackingField: 0.4

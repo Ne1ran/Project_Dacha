@@ -3,13 +3,14 @@ using Core.Notifications.Model;
 using Core.Notifications.Service;
 using Core.Scopes;
 using Cysharp.Threading.Tasks;
+using Game.Calendar.Model;
+using Game.Calendar.Service;
 using Game.Items.Controller;
 using Game.Items.Descriptors;
 using Game.Items.Service;
 using Game.Player.Service;
 using Game.Seeds.Component;
 using Game.Seeds.Descriptors;
-using Game.TimeMove.Service;
 using Game.Tools.Component;
 using Game.Tools.Descriptors;
 using IngameDebugConsole;
@@ -33,7 +34,8 @@ namespace Core.Console
         {
             WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
-            worldItemService.CreateItemInWorldAsync<ToolController>(toolName, playerService.Player.transform.position + new Vector3(x, y, z)).Forget();
+            worldItemService.CreateItemInWorldAsync<ToolController>(toolName, playerService.Player.transform.position + new Vector3(x, y, z))
+                            .Forget();
         }
 
         [ConsoleMethod("createAllTools", "Create all tools by coords relative to the player position")]
@@ -63,15 +65,16 @@ namespace Core.Console
                 worldItemService.CreateItemInWorldAsync<SeedBagController>(descriptor.Id, spawnPosition).Forget();
             }
         }
-        
+
         [ConsoleMethod("createItem", "Create tool by name and coords relative to the player position")]
         public static void CreateItem(string itemName, float x, float y, float z)
         {
             WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
-            worldItemService.CreateItemInWorldAsync<ItemController>(itemName, playerService.Player.transform.position + new Vector3(x, y, z)).Forget();
+            worldItemService.CreateItemInWorldAsync<ItemController>(itemName, playerService.Player.transform.position + new Vector3(x, y, z))
+                            .Forget();
         }
-        
+
         [ConsoleMethod("createAllItems", "Create all items")]
         public static void CreateItems(float x, float y, float z)
         {
@@ -129,7 +132,13 @@ namespace Core.Console
                 timeService.EndDay();
             }
         }
-        
+
+        [ConsoleMethod("simulateMonth", "Simulate month in calendar for some checks")]
+        public static void SimulateMonth(MonthType month)
+        {
+            Container.Resolve<CalendarService>().SimulateMonth(month);
+        }
+
         private static IObjectResolver Container => AppContext.CurrentScope.Container;
     }
 }

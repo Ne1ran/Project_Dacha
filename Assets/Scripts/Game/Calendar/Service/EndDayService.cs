@@ -1,11 +1,11 @@
 ﻿using System;
 using Core.Attributes;
-using Game.TimeMove.Event;
+using Game.Calendar.Event;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace Game.TimeMove.Service
+namespace Game.Calendar.Service
 {
     [Service]
     public class EndDayService : IInitializable, IDisposable
