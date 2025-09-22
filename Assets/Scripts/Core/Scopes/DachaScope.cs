@@ -77,6 +77,7 @@ namespace Core.Scopes
             builder.Register<InteractionHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<TestService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             
             DachaEntryPoint entryPoint = this.AddComponent<DachaEntryPoint>();
             builder.RegisterComponent(entryPoint);

@@ -2,11 +2,14 @@
 {
     public enum WeatherType
     {
-        Sunny = 0,
-        PartlyCloudy = 1,
-        Cloudy = 2,
-        Rain = 3,
-        HeavyRain = 4,
-        Hail = 5,
+        None = 0,
+        Sunny = 5,
+        PartlyCloudy = 10,
+        Cloudy = 15,
+        LightRain = 20,
+        Rain = 25,
+        HeavyRain = 30,
+        Hail = 35,
+        Snow = 40,
     }
 }

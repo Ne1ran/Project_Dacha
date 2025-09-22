@@ -14,6 +14,6 @@ namespace Game.Calendar.Descriptor
         [field: SerializeField]
         public bool Playable { get; set; } = true;
         [field: SerializeField]
-        public MonthWeatherSettings WeatherSettings { get; set; } = null!;
+        public MonthClimateSettings ClimateSettings { get; set; } = null!;
     }
 }

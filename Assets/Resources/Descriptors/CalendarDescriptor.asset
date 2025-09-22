@@ -13,10 +13,55 @@ MonoBehaviour:
   m_Name: CalendarDescriptor
   m_EditorClassIdentifier: 
   <Items>k__BackingField:
-  - <Month>k__BackingField: 4
-    <Name>k__BackingField: April
+  - <Month>k__BackingField: 7
+    <Name>k__BackingField: July
     <Playable>k__BackingField: 1
-    <WeatherSettings>k__BackingField:
-      <AverageTemperature>k__BackingField: 8
-      <StartTemperatureChangePerDay>k__BackingField: 0.1
-      <EndTemperatureChangePerDay>k__BackingField: 0.4
+    <ClimateSettings>k__BackingField:
+      <TemperatureNoiseStandardDeviationCelsius>k__BackingField: 1.2
+      <TemperatureNoiseCapCelsius>k__BackingField: 3
+      <SunHoursNoiseFraction>k__BackingField: 0.1
+      <RelativeHumidityNoiseFraction>k__BackingField: 0.05
+      <PrecipitationNoiseFraction>k__BackingField: 0.5
+      <RelativeHumidityTemperatureSensitivityPerCelsius>k__BackingField: 0.025
+      <AstronomicalSunHoursPerDayConstant>k__BackingField: 14
+      <Weather>k__BackingField:
+        m_Keys: 050000000f00000019000000
+        m_Values:
+        - <Chance>k__BackingField: 0.4
+          <TemperatureShift>k__BackingField: 0
+          <AirHumidity>k__BackingField: 0.5
+          <SafeProbability>k__BackingField: 0.25
+          <SunHoursMultiplier>k__BackingField: 0.9
+          <DiurnalAmplitudeTemperature>k__BackingField: 12
+          <CanHavePrecipitation>k__BackingField: 0
+          <MinPrecipitation>k__BackingField: 0
+          <MaxPrecipitation>k__BackingField: 6
+        - <Chance>k__BackingField: 0.4
+          <TemperatureShift>k__BackingField: -1.5
+          <AirHumidity>k__BackingField: 0.6
+          <SafeProbability>k__BackingField: 0.25
+          <SunHoursMultiplier>k__BackingField: 0.5
+          <DiurnalAmplitudeTemperature>k__BackingField: 8
+          <CanHavePrecipitation>k__BackingField: 1
+          <MinPrecipitation>k__BackingField: 0
+          <MaxPrecipitation>k__BackingField: 2
+        - <Chance>k__BackingField: 0.2
+          <TemperatureShift>k__BackingField: -3
+          <AirHumidity>k__BackingField: 0.8
+          <SafeProbability>k__BackingField: 0.25
+          <SunHoursMultiplier>k__BackingField: 0.2
+          <DiurnalAmplitudeTemperature>k__BackingField: 6
+          <CanHavePrecipitation>k__BackingField: 1
+          <MinPrecipitation>k__BackingField: 4
+          <MaxPrecipitation>k__BackingField: 12
+      <TemperatureControlPoints>k__BackingField:
+        m_Keys: 0100000004000000080000000c0000001000000014000000180000001c000000
+        m_Values:
+        - 20
+        - 22
+        - 24
+        - 27
+        - 26
+        - 25
+        - 28
+        - 24

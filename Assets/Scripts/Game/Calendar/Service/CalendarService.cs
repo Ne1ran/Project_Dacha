@@ -25,15 +25,15 @@ namespace Game.Calendar.Service
                 return;
             }
 
-            MonthWeatherSettings weatherSettings = calendarMonth.WeatherSettings;
-            float currentWeatherTemperature = weatherSettings.AverageTemperature;
-            for (int i = 0; i < Constants.Constants.DaysInMonth; i++) {
-                float t = (float) i / Constants.Constants.DaysInMonth;
-                float temperatureChange = Mathf.Lerp(weatherSettings.StartTemperatureChangePerDay, weatherSettings.EndTemperatureChangePerDay, t);
-                float output = currentWeatherTemperature + temperatureChange;
-                Debug.Log($"Day ={i + 1}. Temperature={output}");
-                currentWeatherTemperature = output;
-            }
+            // MonthClimateSettings climateSettings = calendarMonth.ClimateSettings;
+            // float currentWeatherTemperature = climateSettings.AverageTemperature;
+            // for (int i = 0; i < Constants.Constants.DaysInMonth; i++) {
+            //     float t = (float) i / Constants.Constants.DaysInMonth;
+            //     float temperatureChange = Mathf.Lerp(climateSettings.StartTemperatureChangePerDay, climateSettings.EndTemperatureChangePerDay, t);
+            //     float output = currentWeatherTemperature + temperatureChange;
+            //     Debug.Log($"Day ={i + 1}. Temperature={output}");
+            //     currentWeatherTemperature = output;
+            // }
         }
     }
 }
