@@ -35,7 +35,7 @@ namespace Game.Calendar.Service
             }
         }
 
-        public void Simulate(int times)
+        public void Simulate(MonthType monthType, int times)
         {
             float avgWeatherTemp = 0;
             int sunnyCounter = 0;
@@ -45,21 +45,22 @@ namespace Game.Calendar.Service
             int lightRainCounter = 0;
             int partlyCloudyCounter = 0;
             int cloudyCounter = 0;
+            int snowCounter = 0;
             float precipitations = 0;
 
             float temperatureSumm = 0f;
+            CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
+            CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(DachaPlaceType.Middle, monthType);
+
             for (int i = 0; i < times; i++) {
-                CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
-                CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(DachaPlaceType.Middle, MonthType.July);
-
                 WeatherGenerator generator = new();
-                List<DailyWeather> july = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
-                foreach (DailyWeather julyWeather in july) {
-                    Debug.Log($"CurrentDay={julyWeather.Day} \n" + $"Weather is {julyWeather.WeatherType.ToString()} \n"
-                              + $"Temperature settings are AverageTemperatureCelsius={julyWeather.AverageTemperatureCelsius}, MinTemperatureCelsius={julyWeather.MinTemperatureCelsius}, MaxTemperatureCelsius={julyWeather.MaxTemperatureCelsius} \n"
-                              + $"Other settings are SunHours={julyWeather.SunHours}, RelativeHumidity={julyWeather.RelativeHumidity}, PrecipitationMillimeters={julyWeather.PrecipitationMillimeters} \n");
+                List<DailyWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
+                foreach (DailyWeather dailyWeather in month) {
+                    Debug.Log($"CurrentDay={dailyWeather.Day} \n" + $"Weather is {dailyWeather.WeatherType.ToString()} \n"
+                              + $"Temperature settings are AverageTemperatureCelsius={dailyWeather.AverageTemperatureCelsius}, MinTemperatureCelsius={dailyWeather.MinTemperatureCelsius}, MaxTemperatureCelsius={dailyWeather.MaxTemperatureCelsius} \n"
+                              + $"Other settings are SunHours={dailyWeather.SunHours}, RelativeHumidity={dailyWeather.RelativeHumidity}, PrecipitationMillimeters={dailyWeather.PrecipitationMillimeters} \n");
 
-                    switch (julyWeather.WeatherType) {
+                    switch (dailyWeather.WeatherType) {
                         case WeatherType.Sunny:
                             sunnyCounter++;
                             break;
@@ -81,17 +82,20 @@ namespace Game.Calendar.Service
                         case WeatherType.HeavyRain:
                             heavyRainCounter++;
                             break;
+                        case WeatherType.Snow:
+                            snowCounter++;
+                            break;
                     }
 
-                    temperatureSumm += julyWeather.AverageTemperatureCelsius;
-                    precipitations += julyWeather.PrecipitationMillimeters;
+                    temperatureSumm += dailyWeather.AverageTemperatureCelsius;
+                    precipitations += dailyWeather.PrecipitationMillimeters;
                 }
             }
 
             int daysPassed = times * 28;
             avgWeatherTemp = temperatureSumm / daysPassed;
             float precipitationsPerDay = precipitations / daysPassed;
-            Debug.LogWarning($"Summary results: \n Days passed = {daysPassed} \n Sunny days = {sunnyCounter} \n "
+            Debug.LogWarning($"Summary results: \n Days passed = {daysPassed} \n Snow days = {snowCounter} \n Sunny days = {sunnyCounter} \n "
                              + $"PartlyCloudy days = {partlyCloudyCounter} \n Cloudy days = {cloudyCounter} \n "
                              + $"Light rain days = {lightRainCounter} \n Rain days = {rainCounter} \n Heavy rain days = {heavyRainCounter} \n "
                              + $"Hail days = {hailCounter} \n Avg tempo = {avgWeatherTemp} \n Total precipitations = {precipitations} \n "

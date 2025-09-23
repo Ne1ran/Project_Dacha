@@ -5,27 +5,30 @@ using Game.Calendar.Descriptor;
 using Game.Calendar.Model;
 using Game.Utils;
 using Game.Weather.Model;
+using Random = System.Random;
 
 namespace Game.Calendar.Service
 {
-    public sealed class WeatherGenerator
+    public class WeatherGenerator
     {
         private readonly Random _random = new();
 
         public List<DailyWeather> GenerateMonthlyWeather(MonthClimateSettings settings)
         {
-            float[] temperatures = GetDailyTemperatures(settings.TemperatureControlPoints, Constants.Constants.DaysInMonth, out float monthlyAverageTemperature);
-            WeatherType[] weatherStateByDay = GetAllDaysWeather(settings.Weather, Constants.Constants.DaysInMonth);
+            float[] temperatures = GetDailyTemperatures(settings.TemperatureControlPoints, Constants.Constants.DaysInMonth,
+                                                        out float monthlyAverageTemperature);
+            WeatherType[] weatherStateByDay = GetAllDaysWeather(settings.Weather, temperatures, Constants.Constants.DaysInMonth);
             List<DailyWeather> results = new(Constants.Constants.DaysInMonth);
 
             for (int i = 0; i < Constants.Constants.DaysInMonth; i++) {
+                float baseDayTemperature = temperatures[i];
                 WeatherType weatherState = weatherStateByDay[i];
                 WeatherSettings weatherSettings = settings.Weather[weatherState];
                 float temperatureShiftByState = weatherSettings.TemperatureShift;
-                float temperatureNoise = (float) Clamp(NextGaussian(0.0, settings.TemperatureNoiseStandardDeviationCelsius),
-                                                       -settings.TemperatureNoiseCapCelsius, settings.TemperatureNoiseCapCelsius);
+                float temperatureNoise = (float) Math.Clamp(NextGaussian(0f, settings.TemperatureNoise), -settings.TemperatureMaxNoise,
+                                                            settings.TemperatureMaxNoise);
 
-                float dailyAverageTemperature = temperatures[i] + temperatureShiftByState + temperatureNoise;
+                float dailyAverageTemperature = baseDayTemperature + temperatureShiftByState + temperatureNoise;
 
                 float diurnalAmplitude = weatherSettings.DiurnalAmplitudeTemperature;
 
@@ -34,37 +37,36 @@ namespace Game.Calendar.Service
 
                 float astronomicalSunHours = settings.SunHours;
                 float sunHoursFactor = weatherSettings.SunHoursMultiplier;
-                float sunHoursNoiseMultiplier =
-                        1f + (float) Lerp(-settings.SunHoursNoise, settings.SunHoursNoise, _random.NextDouble());
+                float sunHoursNoiseMultiplier = 1f + MathUtils.Lerp(-settings.SunHoursNoise, settings.SunHoursNoise, _random.NextDouble());
                 float sunHours = astronomicalSunHours * sunHoursFactor * sunHoursNoiseMultiplier;
-                sunHours = (float) Clamp(sunHours, 1f, astronomicalSunHours);
+                sunHours = Math.Clamp(sunHours, 1f, astronomicalSunHours);
 
                 float baseRelativeHumidity = weatherSettings.AirHumidity;
                 float relativeHumidityDeltaFromTemperature = (monthlyAverageTemperature - dailyAverageTemperature)
                                                              * settings.HumiditySensitivityPerCelsius;
-                float relativeHumidityNoise = (float) Lerp(-settings.HumidityNoise, settings.HumidityNoise,
-                                                           _random.NextDouble());
+                float relativeHumidityNoise = MathUtils.Lerp(-settings.HumidityNoise, settings.HumidityNoise, _random.NextDouble());
 
                 float relativeHumidity = baseRelativeHumidity + relativeHumidityDeltaFromTemperature + relativeHumidityNoise;
-                relativeHumidity = (float) Clamp(relativeHumidity, 0.1f, 0.95f);
+                relativeHumidity = Math.Clamp(relativeHumidity, 0.1f, 0.95f);
 
                 float precipitationMillimeters = 0f;
                 if (weatherSettings.CanHavePrecipitation) {
-                    float randomPrecipitationNoise =
-                            (float) Lerp(-settings.PrecipitationNoise, settings.PrecipitationNoise, _random.NextDouble());
+                    float randomPrecipitationNoise = MathUtils.Lerp(-settings.PrecipitationNoise, settings.PrecipitationNoise, _random.NextDouble());
                     float precipitationNoiseMultiplier = 1f + randomPrecipitationNoise;
                     float randomPrecipitation = UnityEngine.Random.Range(weatherSettings.MinPrecipitation, weatherSettings.MaxPrecipitation);
                     precipitationMillimeters = Math.Max(0f, randomPrecipitation * precipitationNoiseMultiplier);
                 }
 
-                results.Add(new(i + 1, weatherState, dailyAverageTemperature, dailyMaxTemperature, dailyMinTemperature, sunHours, relativeHumidity,
-                                precipitationMillimeters));
+                WeatherType validatedWeather = ValidateSelectedWeather(weatherState, baseDayTemperature, settings);
+                results.Add(new(i + 1, validatedWeather, dailyAverageTemperature, dailyMaxTemperature, dailyMinTemperature, sunHours,
+                                relativeHumidity, precipitationMillimeters));
             }
 
             return results;
         }
 
         private WeatherType[] GetAllDaysWeather(Dictionary<WeatherType, WeatherSettings> configWeather,
+                                                float[] temperatures,
                                                 int daysInMonth,
                                                 WeatherType previousWeather = WeatherType.None)
         {
@@ -76,7 +78,9 @@ namespace Game.Calendar.Service
                         weatherArray[i] = lastWeather;
                     }
                 }
-                WeatherType weatherOnDay = GetWeatherOnDay(configWeather);
+
+                float dayBaseTemperature = temperatures[i];
+                WeatherType weatherOnDay = GetWeatherOnDay(configWeather, dayBaseTemperature);
                 weatherArray[i] = weatherOnDay;
                 lastWeather = weatherOnDay;
             }
@@ -146,35 +150,59 @@ namespace Game.Calendar.Service
             return temperatureByDay;
         }
 
-        private WeatherType GetWeatherOnDay(Dictionary<WeatherType, WeatherSettings> weatherSettings)
+        private WeatherType GetWeatherOnDay(Dictionary<WeatherType, WeatherSettings> weatherSettings, float dayBaseTemperature)
         {
             List<float> weights = new();
             float totalWeight = 0f;
 
-            foreach ((WeatherType _, WeatherSettings settings) in weatherSettings) {
-                totalWeight += settings.Chance;
-                weights.Add(settings.Chance);
+            Dictionary<WeatherType, float> weatherChances = GetWeatherChances(weatherSettings, dayBaseTemperature);
+            foreach ((WeatherType _, float chance) in weatherChances) {
+                totalWeight += chance;
+                weights.Add(chance);
             }
 
             int pickedIndex = RandomUtils.PickRandomByWeights(weights, totalWeight);
-            WeatherType randomWeather = weatherSettings.Keys.ToList()[pickedIndex];
+            WeatherType randomWeather = weatherChances.Keys.ToList()[pickedIndex];
             return randomWeather;
         }
 
-        private static double Clamp(double value, double min, double max)
+        private Dictionary<WeatherType, float> GetWeatherChances(Dictionary<WeatherType, WeatherSettings> weatherSettings, float dayBaseTemperature)
         {
-            if (value < min) {
-                return min;
+            Dictionary<WeatherType, float> weatherChances = new();
+            foreach ((WeatherType weatherType, WeatherSettings settings) in weatherSettings) {
+                switch (weatherType) {
+                    case WeatherType.Snow: {
+                        if (dayBaseTemperature < 0f) {
+                            weatherChances.Add(weatherType, settings.Chance);
+                        }
+
+                        continue;
+                    }
+                    case WeatherType.LightRain or WeatherType.Rain or WeatherType.HeavyRain:
+                        if (dayBaseTemperature > 0f) {
+                            weatherChances.Add(weatherType, settings.Chance);
+                        }
+                        continue;
+                    default: {
+                        weatherChances.Add(weatherType, settings.Chance);
+                        break;
+                    }
+                }
             }
-            if (value > max) {
-                return max;
-            }
-            return value;
+            
+            return weatherChances;
         }
 
-        private static double Lerp(double a, double b, double t)
+        private WeatherType ValidateSelectedWeather(WeatherType weatherType, float baseDailyTemperature, MonthClimateSettings settings)
         {
-            return a + (b - a) * t;
+            return weatherType switch {
+                    WeatherType.Snow => baseDailyTemperature < 0f ? weatherType : settings.Weather.ContainsKey(WeatherType.Rain) ? WeatherType.Rain
+                                        : WeatherType.Sunny,
+                    WeatherType.Rain or WeatherType.LightRain or WeatherType.HeavyRain => baseDailyTemperature > 0f ? weatherType
+                                                                                                  : settings.Weather.ContainsKey(WeatherType.Snow)
+                                                                                                          ? WeatherType.Snow : WeatherType.Sunny,
+                    _ => weatherType
+            };
         }
 
         private double NextGaussian(double mean, double stdDev)

@@ -9,9 +9,9 @@ namespace Game.Calendar.Descriptor
     public class MonthClimateSettings
     {
         [field: SerializeField]
-        public float TemperatureNoiseStandardDeviationCelsius { get; set; } = 1.2f;
+        public float TemperatureNoise { get; set; } = 1.2f;
         [field: SerializeField]
-        public float TemperatureNoiseCapCelsius { get; set; } = 3f;
+        public float TemperatureMaxNoise { get; set; } = 3f;
         
         [field: SerializeField, Range(0f, 1f), Tooltip("Sunlight noise. +- random value * actual sun hours * other multipliers")]
         public float SunHoursNoise { get; set; } = 0.1f;
