@@ -224,7 +224,10 @@ namespace Game.GameMap.Soil.Service
         public void AddFertilizer(string tileId, string fertilizerId, float portionMassGramms)
         {
             SoilModel soilModel = GerOrCreate(tileId);
-            AddFertilizer(soilModel, fertilizerId, portionMassGramms / 1000f);
+            float massKg = portionMassGramms / 1000f;
+            AddFertilizer(soilModel, fertilizerId, massKg);
+            // salinity adds instantly
+            soilModel.Salinity += massKg / soilModel.Mass;
         }
 
         public void UpdateCropRotation(string tileId, PlantFamilyType plantFamilyType)
@@ -308,22 +311,22 @@ namespace Game.GameMap.Soil.Service
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Ph, soil.Ph, 0.01f)) {
                 float phDiff = soilDesc.Ph - soil.Ph;
-                soil.Ph = phDiff / dayCoeff;
+                soil.Ph += phDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Salinity, soil.Salinity, 0.01f)) {
                 float salinityDiff = soilDesc.Salinity - soil.Salinity;
-                soil.Salinity = salinityDiff / dayCoeff;
+                soil.Salinity += salinityDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Breathability, soil.Breathability, 0.1f)) {
                 float breathabilityDiff = soilDesc.Breathability - soil.Breathability;
-                soil.Breathability = breathabilityDiff / dayCoeff;
+                soil.Breathability += breathabilityDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Humus, soil.Humus, 0.01f)) {
                 float humusDiff = soilDesc.Humus - soil.Humus;
-                soil.Humus = humusDiff / dayCoeff;
+                soil.Humus += humusDiff / dayCoeff;
             }
 
             return soil;
