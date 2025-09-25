@@ -8,6 +8,8 @@ namespace Game.Calendar.Descriptor
     [Serializable]
     public class MonthClimateSettings
     {
+        [field: SerializeField, Range(0f, 31f), Tooltip("Days in month")]
+        public int DaysCount { get; set; } = 30;
         [field: SerializeField, Range(-10f, 10f), Tooltip("Min month temperature noise. Will randomise month deviation from base month temperature in control points")]
         public float MinMonthTemperatureNoise { get; set; } = -3f;
         [field: SerializeField, Range(-10f, 10f), Tooltip("Max month temperature noise. Will randomise month deviation from base month temperature in control points")]

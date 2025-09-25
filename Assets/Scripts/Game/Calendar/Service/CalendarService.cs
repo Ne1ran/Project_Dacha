@@ -1,40 +1,47 @@
-﻿using Core.Attributes;
-using Core.Descriptors.Service;
-using Game.Calendar.Descriptor;
+﻿using System.Collections.Generic;
+using Core.Attributes;
 using Game.Calendar.Model;
-using Game.Difficulty.Model;
-using UnityEngine;
+using Game.Calendar.Repo;
 
 namespace Game.Calendar.Service
 {
     [Service]
     public class CalendarService
     {
-        private readonly IDescriptorService _descriptorService;
+        private readonly CalendarGenerationService _calendarGenerationService;
+        private readonly CalendarRepo _calendarRepo;
 
-        public CalendarService(IDescriptorService descriptorService)
+        public CalendarService(CalendarGenerationService calendarGenerationService, CalendarRepo calendarRepo)
         {
-            _descriptorService = descriptorService;
+            _calendarGenerationService = calendarGenerationService;
+            _calendarRepo = calendarRepo;
         }
 
-        public void SimulateMonth(MonthType month)
+        public float GetDaySunHours(int day, int month)
         {
-            CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
-            CalendarMonthModel calendarMonth = calendarDescriptor.FindByType(DachaPlaceType.Middle, month);
-            if (!calendarMonth.Playable) {
-                Debug.LogWarning($"Month is not playable. MonthName={calendarMonth.Name}");
-                return;
+            List<CalendarDayWeather> days = GetOrCreateWeather(month);
+            CalendarDayWeather? selectedWeather = days.Find(weatherDay => weatherDay.Day == day);
+            if (selectedWeather == null) {
+                throw new KeyNotFoundException($"Selected day not found in calendar! Day={day} Month={month}");
             }
 
-            // MonthClimateSettings climateSettings = calendarMonth.ClimateSettings;
-            // float currentWeatherTemperature = climateSettings.AverageTemperature;
-            // for (int i = 0; i < Constants.Constants.DaysInMonth; i++) {
-            //     float t = (float) i / Constants.Constants.DaysInMonth;
-            //     float temperatureChange = Mathf.Lerp(climateSettings.StartTemperatureChangePerDay, climateSettings.EndTemperatureChangePerDay, t);
-            //     float output = currentWeatherTemperature + temperatureChange;
-            //     Debug.Log($"Day ={i + 1}. Temperature={output}");
-            //     currentWeatherTemperature = output;
-            // }
+            return selectedWeather.SunHours;
+        }
+
+        private List<CalendarDayWeather> GetOrCreateWeather(int month)
+        {
+            if (_calendarRepo.Exists(month)) {
+                return _calendarRepo.Require(month);
+            }
+
+            List<CalendarDayWeather> monthWeather = GenerateCalendar(month);
+            _calendarRepo.Save(month, monthWeather);
+            return monthWeather;
+        }
+
+        private List<CalendarDayWeather> GenerateCalendar(int month)
+        {
+            return _calendarGenerationService.GenerateCalendarForMonth((MonthType) month);
         }
     }
 }

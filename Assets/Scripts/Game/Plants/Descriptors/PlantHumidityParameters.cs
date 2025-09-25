@@ -6,8 +6,6 @@ namespace Game.Plants.Descriptors
     [Serializable]
     public class PlantHumidityParameters
     {
-        [field: SerializeField, Tooltip("Need to do calculation?")]
-        public bool Ignore { get; set; }
         [field: SerializeField, Range(0f, 100f), Tooltip("Min humidity for plant to survive")]
         public float MinHumidity { get; set; } = 5f;
         [field: SerializeField, Range(0f, 100f), Tooltip("Max humidity for plant to survive")]

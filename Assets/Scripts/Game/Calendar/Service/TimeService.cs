@@ -92,5 +92,11 @@ namespace Game.Calendar.Service
             TimeModel timeModel = _timeRepo.Require();
             return timeModel.CurrentDay * Constants.Constants.END_DAY_TIME + timeModel.CurrentDay;
         }
+
+        public TimeModel GetToday()
+        {
+            TimeModel timeModel = _timeRepo.Require();
+            return new(0, timeModel.CurrentDay, timeModel.CurrentMonth, 0);
+        }
     }
 }

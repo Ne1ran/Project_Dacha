@@ -12,6 +12,7 @@ using Game.Plants.Event;
 using Game.Plants.Model;
 using Game.Plants.Repo;
 using Game.Seeds.Descriptors;
+using Game.Sunlight.Service;
 using MessagePipe;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace Game.Plants.Service
     {
         private readonly PlantsRepo _plantsRepo;
         private readonly SoilService _soilService;
+        private readonly SunService _sunService;
         private readonly PlantDiseaseService _plantDiseaseService;
         private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, PlantUpdatedEvent> _plantUpdatedEvent;
@@ -33,13 +35,15 @@ namespace Game.Plants.Service
                              ISubscriber<string, DayChangedEvent> dayChangedSubscriber,
                              SoilService soilService,
                              PlantDiseaseService plantDiseaseService,
-                             IPublisher<string, PlantUpdatedEvent> plantUpdatedEvent)
+                             IPublisher<string, PlantUpdatedEvent> plantUpdatedEvent,
+                             SunService sunService)
         {
             _plantsRepo = plantsRepo;
             _descriptorService = descriptorService;
             _soilService = soilService;
             _plantDiseaseService = plantDiseaseService;
             _plantUpdatedEvent = plantUpdatedEvent;
+            _sunService = sunService;
 
             DisposableBagBuilder bag = DisposableBag.CreateBuilder();
 
@@ -151,11 +155,26 @@ namespace Game.Plants.Service
 
             PlantGrowCalculationModel growCalculationModel = new();
 
-            CalculateConsumptionMultiplier(plantStageDescriptor.PlantConsumption, soilId, ref growCalculationModel);
-            CalculateSunlightAffect(plantStageDescriptor.SunlightParameters, ref growCalculationModel);
-            CalculateTemperatureAffect(plantStageDescriptor.TemperatureParameters, ref growCalculationModel);
-            CalculateAirHumidityAffect(plantStageDescriptor.AirHumidityParameters, ref growCalculationModel);
-            CalculateSoilHumidityAffect(plantStageDescriptor.SoilHumidityParameters, soilId, ref growCalculationModel);
+            if (plantStageDescriptor.IncludeConsumption) {
+                CalculateConsumptionMultiplier(plantStageDescriptor.PlantConsumption, soilId, ref growCalculationModel);
+            }
+
+            if (plantStageDescriptor.IncludeSunlight) {
+                CalculateSunlightAffect(plantStageDescriptor.SunlightParameters, ref growCalculationModel);
+            }
+
+            if (plantStageDescriptor.IncludeTemperature) {
+                CalculateTemperatureAffect(plantStageDescriptor.TemperatureParameters, ref growCalculationModel);
+            }
+
+            if (plantStageDescriptor.IncludeAirHumidity) {
+                CalculateAirHumidityAffect(plantStageDescriptor.AirHumidityParameters, ref growCalculationModel);
+            }
+
+            if (plantStageDescriptor.IncludeSoilHumidity) {
+                CalculateSoilHumidityAffect(plantStageDescriptor.SoilHumidityParameters, soilId, ref growCalculationModel);
+            }
+
             Debug.LogWarning($"Plant life simulation. GrowCalcModel: growMultiplier={growCalculationModel.GrowMultiplier}, damage={growCalculationModel.Damage}");
 
             if (!TryApplyGrowCalculationModel(ref plant, soilId, plantStageDescriptor, growCalculationModel, dayDifference)) {
@@ -289,18 +308,14 @@ namespace Game.Plants.Service
 
         private void CalculateSunlightAffect(PlantSunlightParameters sunlightParameters, ref PlantGrowCalculationModel calculationModel)
         {
-            if (sunlightParameters.Ignore) {
-                return;
-            }
-
-            float currentSunlight = 2200f; // todo neiran integrate sunlight and weather system
-
+            float currentSunlight = _sunService.GetDailySunAmount();
+            Debug.LogWarning($"Current sunlight for plant is = {currentSunlight}");
             if (sunlightParameters.MinSunlight > currentSunlight) {
-                calculationModel.Damage += sunlightParameters.DamagePerDeviation * Mathf.Abs(currentSunlight - sunlightParameters.MinSunlight);
+                calculationModel.Damage += sunlightParameters.DamagePerDeviation * (currentSunlight - sunlightParameters.MinSunlight);
             }
 
             if (sunlightParameters.MaxSunlight < currentSunlight) {
-                calculationModel.Damage += sunlightParameters.DamagePerDeviation * Mathf.Abs(currentSunlight - sunlightParameters.MaxSunlight);
+                calculationModel.Damage += sunlightParameters.DamagePerDeviation * (sunlightParameters.MaxSunlight - currentSunlight);
             }
 
             if (sunlightParameters.MinPreferredSunlight < currentSunlight && sunlightParameters.MaxPreferredSunlight > currentSunlight) {
@@ -310,10 +325,6 @@ namespace Game.Plants.Service
 
         private void CalculateTemperatureAffect(PlantTemperatureParameters temperatureParameters, ref PlantGrowCalculationModel calculationModel)
         {
-            if (temperatureParameters.Ignore) {
-                return;
-            }
-
             float currentTemperature = 25f; // todo neiran integrate temperature and add it to soil system
 
             if (temperatureParameters.MinTemperature > currentTemperature) {
@@ -334,10 +345,6 @@ namespace Game.Plants.Service
 
         private void CalculateAirHumidityAffect(PlantHumidityParameters airHumidityParameters, ref PlantGrowCalculationModel calculationModel)
         {
-            if (airHumidityParameters.Ignore) {
-                return;
-            }
-
             float airHumidityPercent = 70f; // todo neiran integrate sunlight and weather system
 
             if (airHumidityParameters.MinHumidity > airHumidityPercent) {
@@ -359,10 +366,6 @@ namespace Game.Plants.Service
                                                  string soilId,
                                                  ref PlantGrowCalculationModel calculationModel)
         {
-            if (soilHumidityParameters.Ignore) {
-                return;
-            }
-
             float soilHumidity = _soilService.GetSoilHumidity(soilId);
 
             if (soilHumidityParameters.MinHumidity > soilHumidity) {

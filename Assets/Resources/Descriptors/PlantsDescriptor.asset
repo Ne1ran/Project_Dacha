@@ -37,8 +37,12 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <IncludeConsumption>k__BackingField: 1
+      <IncludeSunlight>k__BackingField: 0
+      <IncludeTemperature>k__BackingField: 1
+      <IncludeAirHumidity>k__BackingField: 0
+      <IncludeSoilHumidity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
-        <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 0.5
         <PotassiumUsage>k__BackingField: 0.5
         <PhosphorusUsage>k__BackingField: 0.5
@@ -47,15 +51,13 @@ MonoBehaviour:
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 2.5
       <SunlightParameters>k__BackingField:
-        <Ignore>k__BackingField: 1
-        <MinSunlight>k__BackingField: 0
-        <MaxSunlight>k__BackingField: 0
-        <MinPreferredSunlight>k__BackingField: 0
-        <MaxPreferredSunlight>k__BackingField: 0
+        <MinSunlight>k__BackingField: 1
+        <MaxSunlight>k__BackingField: 1
+        <MinPreferredSunlight>k__BackingField: 1
+        <MaxPreferredSunlight>k__BackingField: 1
         <DamagePerDeviation>k__BackingField: 0
         <GrowBuff>k__BackingField: 0
       <TemperatureParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinTemperature>k__BackingField: 12
         <MaxTemperature>k__BackingField: 30
         <MinPreferredTemperature>k__BackingField: 24
@@ -63,7 +65,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 5
         <GrowBuff>k__BackingField: 0.1
       <AirHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 1
         <MinHumidity>k__BackingField: 0
         <MaxHumidity>k__BackingField: 0
         <MinPreferredHumidity>k__BackingField: 0
@@ -71,7 +72,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0
         <GrowBuff>k__BackingField: 0
       <SoilHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 85
         <MinPreferredHumidity>k__BackingField: 50
@@ -88,8 +88,12 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <IncludeConsumption>k__BackingField: 1
+      <IncludeSunlight>k__BackingField: 1
+      <IncludeTemperature>k__BackingField: 1
+      <IncludeAirHumidity>k__BackingField: 1
+      <IncludeSoilHumidity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
-        <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 2
         <PotassiumUsage>k__BackingField: 2
         <PhosphorusUsage>k__BackingField: 3
@@ -98,15 +102,13 @@ MonoBehaviour:
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 5
       <SunlightParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
-        <MinSunlight>k__BackingField: 750
-        <MaxSunlight>k__BackingField: 3000
-        <MinPreferredSunlight>k__BackingField: 1750
-        <MaxPreferredSunlight>k__BackingField: 2500
+        <MinSunlight>k__BackingField: 2
+        <MaxSunlight>k__BackingField: 10
+        <MinPreferredSunlight>k__BackingField: 6
+        <MaxPreferredSunlight>k__BackingField: 8
         <DamagePerDeviation>k__BackingField: 0.01
         <GrowBuff>k__BackingField: 0.05
       <TemperatureParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinTemperature>k__BackingField: 15
         <MaxTemperature>k__BackingField: 35
         <MinPreferredTemperature>k__BackingField: 22
@@ -114,7 +116,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 2.5
         <GrowBuff>k__BackingField: 0.1
       <AirHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 90
         <MinPreferredHumidity>k__BackingField: 75
@@ -122,7 +123,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
       <SoilHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 15
         <MaxHumidity>k__BackingField: 85
         <MinPreferredHumidity>k__BackingField: 50
@@ -139,8 +139,12 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 14
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <IncludeConsumption>k__BackingField: 1
+      <IncludeSunlight>k__BackingField: 1
+      <IncludeTemperature>k__BackingField: 1
+      <IncludeAirHumidity>k__BackingField: 1
+      <IncludeSoilHumidity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
-        <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 5
         <PotassiumUsage>k__BackingField: 5
         <PhosphorusUsage>k__BackingField: 5
@@ -149,15 +153,13 @@ MonoBehaviour:
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 15
       <SunlightParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
-        <MinSunlight>k__BackingField: 750
-        <MaxSunlight>k__BackingField: 3500
-        <MinPreferredSunlight>k__BackingField: 1750
-        <MaxPreferredSunlight>k__BackingField: 2500
+        <MinSunlight>k__BackingField: 4
+        <MaxSunlight>k__BackingField: 14
+        <MinPreferredSunlight>k__BackingField: 8
+        <MaxPreferredSunlight>k__BackingField: 10
         <DamagePerDeviation>k__BackingField: 0.01
         <GrowBuff>k__BackingField: 0.05
       <TemperatureParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinTemperature>k__BackingField: 15
         <MaxTemperature>k__BackingField: 35
         <MinPreferredTemperature>k__BackingField: 25
@@ -165,7 +167,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 2.5
         <GrowBuff>k__BackingField: 0.1
       <AirHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 90
         <MinPreferredHumidity>k__BackingField: 75
@@ -173,7 +174,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
       <SoilHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 15
         <MaxHumidity>k__BackingField: 85
         <MinPreferredHumidity>k__BackingField: 50
@@ -190,8 +190,12 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <IncludeConsumption>k__BackingField: 1
+      <IncludeSunlight>k__BackingField: 1
+      <IncludeTemperature>k__BackingField: 1
+      <IncludeAirHumidity>k__BackingField: 1
+      <IncludeSoilHumidity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
-        <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 4
         <PotassiumUsage>k__BackingField: 8
         <PhosphorusUsage>k__BackingField: 4
@@ -200,15 +204,13 @@ MonoBehaviour:
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 20
       <SunlightParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
-        <MinSunlight>k__BackingField: 750
-        <MaxSunlight>k__BackingField: 3500
-        <MinPreferredSunlight>k__BackingField: 1750
-        <MaxPreferredSunlight>k__BackingField: 2500
+        <MinSunlight>k__BackingField: 8
+        <MaxSunlight>k__BackingField: 16
+        <MinPreferredSunlight>k__BackingField: 11
+        <MaxPreferredSunlight>k__BackingField: 13
         <DamagePerDeviation>k__BackingField: 0.01
         <GrowBuff>k__BackingField: 0.05
       <TemperatureParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinTemperature>k__BackingField: 15
         <MaxTemperature>k__BackingField: 35
         <MinPreferredTemperature>k__BackingField: 25
@@ -216,7 +218,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 2.5
         <GrowBuff>k__BackingField: 0.1
       <AirHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 90
         <MinPreferredHumidity>k__BackingField: 65
@@ -224,7 +225,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
       <SoilHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 80
         <MinPreferredHumidity>k__BackingField: 50
@@ -241,8 +241,12 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <IncludeConsumption>k__BackingField: 1
+      <IncludeSunlight>k__BackingField: 1
+      <IncludeTemperature>k__BackingField: 1
+      <IncludeAirHumidity>k__BackingField: 1
+      <IncludeSoilHumidity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
-        <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 3
         <PotassiumUsage>k__BackingField: 6
         <PhosphorusUsage>k__BackingField: 3
@@ -251,15 +255,13 @@ MonoBehaviour:
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 25
       <SunlightParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
-        <MinSunlight>k__BackingField: 1000
-        <MaxSunlight>k__BackingField: 3000
-        <MinPreferredSunlight>k__BackingField: 2000
-        <MaxPreferredSunlight>k__BackingField: 2500
+        <MinSunlight>k__BackingField: 8
+        <MaxSunlight>k__BackingField: 18
+        <MinPreferredSunlight>k__BackingField: 12
+        <MaxPreferredSunlight>k__BackingField: 13
         <DamagePerDeviation>k__BackingField: 0.01
         <GrowBuff>k__BackingField: 0.05
       <TemperatureParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinTemperature>k__BackingField: 16
         <MaxTemperature>k__BackingField: 35
         <MinPreferredTemperature>k__BackingField: 25
@@ -267,7 +269,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 2.5
         <GrowBuff>k__BackingField: 0.1
       <AirHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 90
         <MinPreferredHumidity>k__BackingField: 65
@@ -275,7 +276,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
       <SoilHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 25
         <MaxHumidity>k__BackingField: 80
         <MinPreferredHumidity>k__BackingField: 50
@@ -292,8 +292,12 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <IncludeConsumption>k__BackingField: 1
+      <IncludeSunlight>k__BackingField: 1
+      <IncludeTemperature>k__BackingField: 1
+      <IncludeAirHumidity>k__BackingField: 1
+      <IncludeSoilHumidity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
-        <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 2
         <PotassiumUsage>k__BackingField: 5
         <PhosphorusUsage>k__BackingField: 2
@@ -302,15 +306,13 @@ MonoBehaviour:
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 15
       <SunlightParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
-        <MinSunlight>k__BackingField: 1000
-        <MaxSunlight>k__BackingField: 3000
-        <MinPreferredSunlight>k__BackingField: 1750
-        <MaxPreferredSunlight>k__BackingField: 2500
+        <MinSunlight>k__BackingField: 8
+        <MaxSunlight>k__BackingField: 16
+        <MinPreferredSunlight>k__BackingField: 11
+        <MaxPreferredSunlight>k__BackingField: 13
         <DamagePerDeviation>k__BackingField: 0.01
         <GrowBuff>k__BackingField: 0.05
       <TemperatureParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinTemperature>k__BackingField: 16
         <MaxTemperature>k__BackingField: 35
         <MinPreferredTemperature>k__BackingField: 25
@@ -318,7 +320,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 2.5
         <GrowBuff>k__BackingField: 0.1
       <AirHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 85
         <MinPreferredHumidity>k__BackingField: 65
@@ -326,7 +327,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
       <SoilHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 80
         <MinPreferredHumidity>k__BackingField: 50
@@ -343,8 +343,12 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 14
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <IncludeConsumption>k__BackingField: 1
+      <IncludeSunlight>k__BackingField: 1
+      <IncludeTemperature>k__BackingField: 1
+      <IncludeAirHumidity>k__BackingField: 1
+      <IncludeSoilHumidity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
-        <Ignore>k__BackingField: 0
         <NitrogenUsage>k__BackingField: 2
         <PotassiumUsage>k__BackingField: 2
         <PhosphorusUsage>k__BackingField: 2
@@ -353,15 +357,13 @@ MonoBehaviour:
         <GrowDebuff>k__BackingField: -0.15
         <WaterUsage>k__BackingField: 15
       <SunlightParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
-        <MinSunlight>k__BackingField: 1000
-        <MaxSunlight>k__BackingField: 3000
-        <MinPreferredSunlight>k__BackingField: 2500
-        <MaxPreferredSunlight>k__BackingField: 3000
+        <MinSunlight>k__BackingField: 8
+        <MaxSunlight>k__BackingField: 16
+        <MinPreferredSunlight>k__BackingField: 10
+        <MaxPreferredSunlight>k__BackingField: 13
         <DamagePerDeviation>k__BackingField: 0.025
         <GrowBuff>k__BackingField: 0.1
       <TemperatureParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinTemperature>k__BackingField: 15
         <MaxTemperature>k__BackingField: 35
         <MinPreferredTemperature>k__BackingField: 25
@@ -369,7 +371,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 2.5
         <GrowBuff>k__BackingField: 0.2
       <AirHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 80
         <MinPreferredHumidity>k__BackingField: 75
@@ -377,7 +378,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.2
       <SoilHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 85
         <MinPreferredHumidity>k__BackingField: 65
@@ -394,8 +394,12 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 14
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <IncludeConsumption>k__BackingField: 1
+      <IncludeSunlight>k__BackingField: 0
+      <IncludeTemperature>k__BackingField: 1
+      <IncludeAirHumidity>k__BackingField: 1
+      <IncludeSoilHumidity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
-        <Ignore>k__BackingField: 1
         <NitrogenUsage>k__BackingField: 0
         <PotassiumUsage>k__BackingField: 0
         <PhosphorusUsage>k__BackingField: 0
@@ -404,15 +408,13 @@ MonoBehaviour:
         <GrowDebuff>k__BackingField: 0
         <WaterUsage>k__BackingField: 10
       <SunlightParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
-        <MinSunlight>k__BackingField: 500
-        <MaxSunlight>k__BackingField: 3000
-        <MinPreferredSunlight>k__BackingField: 1750
-        <MaxPreferredSunlight>k__BackingField: 2500
+        <MinSunlight>k__BackingField: 1
+        <MaxSunlight>k__BackingField: 1
+        <MinPreferredSunlight>k__BackingField: 1
+        <MaxPreferredSunlight>k__BackingField: 1
         <DamagePerDeviation>k__BackingField: 0.01
         <GrowBuff>k__BackingField: 0.2
       <TemperatureParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinTemperature>k__BackingField: 15
         <MaxTemperature>k__BackingField: 35
         <MinPreferredTemperature>k__BackingField: 25
@@ -420,7 +422,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 2.5
         <GrowBuff>k__BackingField: 0.2
       <AirHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 100
         <MinPreferredHumidity>k__BackingField: 75
@@ -428,7 +429,6 @@ MonoBehaviour:
         <DamagePerDeviation>k__BackingField: 1
         <GrowBuff>k__BackingField: 0.2
       <SoilHumidityParameters>k__BackingField:
-        <Ignore>k__BackingField: 0
         <MinHumidity>k__BackingField: 20
         <MaxHumidity>k__BackingField: 95
         <MinPreferredHumidity>k__BackingField: 75
