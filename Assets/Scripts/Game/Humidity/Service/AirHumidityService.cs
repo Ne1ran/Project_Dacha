@@ -1,25 +1,26 @@
 ﻿using Core.Attributes;
 using Game.Calendar.Model;
 using Game.Calendar.Service;
+using Game.Utils;
 
-namespace Game.Sunlight.Service
+namespace Game.Humidity.Service
 {
     [Service]
-    public class SunService
+    public class AirHumidityService
     {
         private readonly CalendarService _calendarService;
         private readonly TimeService _timeService;
 
-        public SunService(CalendarService calendarService, TimeService timeService)
+        public AirHumidityService(CalendarService calendarService, TimeService timeService)
         {
             _calendarService = calendarService;
             _timeService = timeService;
         }
 
-        public float GetDailySunAmount()
+        public float GetDailyAirHumidity()
         {
             TimeModel today = _timeService.GetToday();
-            return _calendarService.GetDaySunHours(today.CurrentDay, today.CurrentMonth);
+            return _calendarService.GetAirHumidity(today.CurrentDay, today.CurrentMonth).ToPercent();
         }
     }
 }

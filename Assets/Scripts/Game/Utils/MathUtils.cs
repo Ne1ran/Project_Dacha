@@ -46,6 +46,11 @@ namespace Game.Utils
             return sourceValue * (percent / 100);
         }
 
+        public static float ToPercent(this float sourceValue)
+        {
+            return sourceValue * 100f;
+        }
+
         public static float CalculateResist(float sourceValue, float resist)
         {
             return sourceValue * (1 - resist);

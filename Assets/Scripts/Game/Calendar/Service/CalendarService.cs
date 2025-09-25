@@ -28,6 +28,17 @@ namespace Game.Calendar.Service
             return selectedWeather.SunHours;
         }
 
+        public float GetAirHumidity(int day, int month)
+        {
+            List<CalendarDayWeather> days = GetOrCreateWeather(month);
+            CalendarDayWeather? selectedWeather = days.Find(weatherDay => weatherDay.Day == day);
+            if (selectedWeather == null) {
+                throw new KeyNotFoundException($"Selected day not found in calendar! Day={day} Month={month}");
+            }
+
+            return selectedWeather.RelativeHumidity;
+        }
+
         private List<CalendarDayWeather> GetOrCreateWeather(int month)
         {
             if (_calendarRepo.Exists(month)) {
