@@ -6,8 +6,6 @@ namespace Game.Plants.Descriptors
     [Serializable]
     public class PlantConsumptionDescriptor
     {
-        [field: SerializeField, Tooltip("Need to do calculation?")]
-        public bool Ignore { get; set; }
         [field: SerializeField, Range(0f, 100f), Tooltip("Amount of nitrogen elements NO3 for plant in grams")]
         public float NitrogenUsage { get; set; } = 5f;
         [field: SerializeField, Range(0f, 100f), Tooltip("Amount of potassium elements K for plant in grams")]

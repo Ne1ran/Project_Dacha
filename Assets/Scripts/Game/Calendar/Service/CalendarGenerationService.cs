@@ -11,28 +11,23 @@ using IInitializable = VContainer.Unity.IInitializable;
 namespace Game.Calendar.Service
 {
     [Service]
-    public class CalendarGenerationService : IInitializable
+    public class CalendarGenerationService
     {
         private readonly IDescriptorService _descriptorService;
-
+        
         public CalendarGenerationService(IDescriptorService descriptorService)
         {
             _descriptorService = descriptorService;
         }
 
-        public void Initialize()
+        public List<CalendarDayWeather> GenerateCalendarForMonth(MonthType month)
         {
             CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
-            CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(DachaPlaceType.Middle, MonthType.July);
-
+            // ReSharper disable once ConvertToConstant.Local
+            DachaPlaceType difficulty = DachaPlaceType.Middle; // todo neiran implement difficulty system
+            CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(difficulty, month);
             WeatherGenerator generator = new();
-            List<DailyWeather> july = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
-
-            foreach (DailyWeather julyWeather in july) {
-                Debug.Log($"CurrentDay={julyWeather.Day} \n" + $"Weather is {julyWeather.WeatherType.ToString()} \n"
-                          + $"Temperature settings are AverageTemperatureCelsius={julyWeather.AverageTemperatureCelsius}, MinTemperatureCelsius={julyWeather.MinTemperatureCelsius}, MaxTemperatureCelsius={julyWeather.MaxTemperatureCelsius} \n"
-                          + $"Other settings are SunHours={julyWeather.SunHours}, RelativeHumidity={julyWeather.RelativeHumidity}, PrecipitationMillimeters={julyWeather.PrecipitationMillimeters} \n");
-            }
+            return generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
         }
 
         public void Simulate(MonthType monthType, int times)
@@ -48,17 +43,21 @@ namespace Game.Calendar.Service
             int snowCounter = 0;
             float precipitations = 0;
 
-            float temperatureSumm = 0f;
+            float temperatureSum = 0f;
+            int days = 0;
             CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
             CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(DachaPlaceType.Middle, monthType);
 
             for (int i = 0; i < times; i++) {
                 WeatherGenerator generator = new();
-                List<DailyWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
-                foreach (DailyWeather dailyWeather in month) {
+                List<CalendarDayWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
+                foreach (CalendarDayWeather dailyWeather in month) {
+                    days++;
                     Debug.Log($"CurrentDay={dailyWeather.Day} \n" + $"Weather is {dailyWeather.WeatherType.ToString()} \n"
-                              + $"Temperature settings are AverageTemperatureCelsius={dailyWeather.AverageTemperatureCelsius}, MinTemperatureCelsius={dailyWeather.MinTemperatureCelsius}, MaxTemperatureCelsius={dailyWeather.MaxTemperatureCelsius} \n"
-                              + $"Other settings are SunHours={dailyWeather.SunHours}, RelativeHumidity={dailyWeather.RelativeHumidity}, PrecipitationMillimeters={dailyWeather.PrecipitationMillimeters} \n");
+                              + $"Temperature settings are AverageTemperatureCelsius={dailyWeather.AverageTemperature}, "
+                              + $"MinTemperatureCelsius={dailyWeather.NightTemperature}, MaxTemperatureCelsius={dailyWeather.DayTemperature} \n"
+                              + $"Other settings are SunHours={dailyWeather.SunHours}, RelativeHumidity={dailyWeather.RelativeHumidity},"
+                              + $" PrecipitationMillimeters={dailyWeather.Precipitations} \n");
 
                     switch (dailyWeather.WeatherType) {
                         case WeatherType.Sunny:
@@ -87,13 +86,13 @@ namespace Game.Calendar.Service
                             break;
                     }
 
-                    temperatureSumm += dailyWeather.AverageTemperatureCelsius;
-                    precipitations += dailyWeather.PrecipitationMillimeters;
+                    temperatureSum += dailyWeather.AverageTemperature;
+                    precipitations += dailyWeather.Precipitations;
                 }
             }
 
-            int daysPassed = times * 28;
-            avgWeatherTemp = temperatureSumm / daysPassed;
+            int daysPassed = times * days;
+            avgWeatherTemp = temperatureSum / daysPassed;
             float precipitationsPerDay = precipitations / daysPassed;
             Debug.LogWarning($"Summary results: \n Days passed = {daysPassed} \n Snow days = {snowCounter} \n Sunny days = {sunnyCounter} \n "
                              + $"PartlyCloudy days = {partlyCloudyCounter} \n Cloudy days = {cloudyCounter} \n "
@@ -132,6 +131,7 @@ namespace Game.Calendar.Service
             int globalcloudyCounter = 0;
             int globalsnowCounter = 0;
             float globalprecipitations = 0;
+            int globalDays = 0;
 
             for (int i = 1; i < 13; i++) {
                 float avgWeatherTemp = 0;
@@ -146,15 +146,17 @@ namespace Game.Calendar.Service
                 float precipitations = 0;
 
                 float temperatureSum = 0f;
+                int days = 0;
                 MonthType monthType = (MonthType) i;
                 CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(DachaPlaceType.Middle, monthType);
 
                 WeatherGenerator generator = new();
-                List<DailyWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
-                foreach (DailyWeather dailyWeather in month) {
+                List<CalendarDayWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
+                foreach (CalendarDayWeather dailyWeather in month) {
+                    days++;
                     Debug.Log($"CurrentDay={dailyWeather.Day} \n" + $"Weather is {dailyWeather.WeatherType.ToString()} \n"
-                              + $"Temperature settings are AverageTemperatureCelsius={dailyWeather.AverageTemperatureCelsius}, MinTemperatureCelsius={dailyWeather.MinTemperatureCelsius}, MaxTemperatureCelsius={dailyWeather.MaxTemperatureCelsius} \n"
-                              + $"Other settings are SunHours={dailyWeather.SunHours}, RelativeHumidity={dailyWeather.RelativeHumidity}, PrecipitationMillimeters={dailyWeather.PrecipitationMillimeters} \n");
+                              + $"Temperature settings are AverageTemperatureCelsius={dailyWeather.AverageTemperature}, MinTemperatureCelsius={dailyWeather.NightTemperature}, MaxTemperatureCelsius={dailyWeather.DayTemperature} \n"
+                              + $"Other settings are SunHours={dailyWeather.SunHours}, RelativeHumidity={dailyWeather.RelativeHumidity}, PrecipitationMillimeters={dailyWeather.Precipitations} \n");
 
                     switch (dailyWeather.WeatherType) {
                         case WeatherType.Sunny:
@@ -183,14 +185,13 @@ namespace Game.Calendar.Service
                             break;
                     }
 
-                    temperatureSum += dailyWeather.AverageTemperatureCelsius;
-                    precipitations += dailyWeather.PrecipitationMillimeters;
+                    temperatureSum += dailyWeather.AverageTemperature;
+                    precipitations += dailyWeather.Precipitations;
                 }
 
-                int daysPassed = 28;
-                avgWeatherTemp = temperatureSum / daysPassed;
-                float precipitationsPerDay = precipitations / daysPassed;
-                Debug.LogWarning($"Month Summary results: \n Days passed = {daysPassed} \n Snow days = {snowCounter} \n Sunny days = {sunnyCounter} \n "
+                avgWeatherTemp = temperatureSum / days;
+                float precipitationsPerDay = precipitations / days;
+                Debug.LogWarning($"Month Summary results: \n Days passed = {days} \n Snow days = {snowCounter} \n Sunny days = {sunnyCounter} \n "
                                  + $"PartlyCloudy days = {partlyCloudyCounter} \n Cloudy days = {cloudyCounter} \n "
                                  + $"Light rain days = {lightRainCounter} \n Rain days = {rainCounter} \n Heavy rain days = {heavyRainCounter} \n "
                                  + $"Hail days = {hailCounter} \n Avg tempo = {avgWeatherTemp} \n Total precipitations = {precipitations} \n "
@@ -206,9 +207,10 @@ namespace Game.Calendar.Service
                 globalcloudyCounter += cloudyCounter;
                 globalsnowCounter += snowCounter;
                 globalprecipitations += precipitations;
+                globalDays += days;
             }
 
-            int globalDaysPassed = 28 * 12;
+            int globalDaysPassed = globalDays;
             float globalYearTemperature = globalavgWeatherTemp / 12f;
             float globalPrecipitationsPerDay = globalprecipitations / globalDaysPassed;
             Debug.LogWarning($"Year Summary results: \n Days passed = {globalDaysPassed} \n Snow days = {globalsnowCounter} \n Sunny days = {globalsunnyCounter} \n "
@@ -233,6 +235,7 @@ namespace Game.Calendar.Service
             int globalsnowCounter = 0;
             float globalprecipitations = 0;
 
+            int globalDays = 0;
             for (int i = 0; i < times; i++) {
                 for (int i1 = 1; i1 < 13; i1++) {
                     float avgWeatherTemp = 0;
@@ -247,15 +250,18 @@ namespace Game.Calendar.Service
                     float precipitations = 0;
 
                     float temperatureSum = 0f;
+                    int days = 0;
+
                     MonthType monthType = (MonthType) i1;
                     CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(DachaPlaceType.Middle, monthType);
 
                     WeatherGenerator generator = new();
-                    List<DailyWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
-                    foreach (DailyWeather dailyWeather in month) {
+                    List<CalendarDayWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
+                    foreach (CalendarDayWeather dailyWeather in month) {
+                        days++;
                         Debug.Log($"CurrentDay={dailyWeather.Day} \n" + $"Weather is {dailyWeather.WeatherType.ToString()} \n"
-                                  + $"Temperature settings are AverageTemperatureCelsius={dailyWeather.AverageTemperatureCelsius}, MinTemperatureCelsius={dailyWeather.MinTemperatureCelsius}, MaxTemperatureCelsius={dailyWeather.MaxTemperatureCelsius} \n"
-                                  + $"Other settings are SunHours={dailyWeather.SunHours}, RelativeHumidity={dailyWeather.RelativeHumidity}, PrecipitationMillimeters={dailyWeather.PrecipitationMillimeters} \n");
+                                  + $"Temperature settings are AverageTemperatureCelsius={dailyWeather.AverageTemperature}, MinTemperatureCelsius={dailyWeather.NightTemperature}, MaxTemperatureCelsius={dailyWeather.DayTemperature} \n"
+                                  + $"Other settings are SunHours={dailyWeather.SunHours}, RelativeHumidity={dailyWeather.RelativeHumidity}, PrecipitationMillimeters={dailyWeather.Precipitations} \n");
 
                         switch (dailyWeather.WeatherType) {
                             case WeatherType.Sunny:
@@ -284,12 +290,11 @@ namespace Game.Calendar.Service
                                 break;
                         }
 
-                        temperatureSum += dailyWeather.AverageTemperatureCelsius;
-                        precipitations += dailyWeather.PrecipitationMillimeters;
+                        temperatureSum += dailyWeather.AverageTemperature;
+                        precipitations += dailyWeather.Precipitations;
                     }
 
-                    int daysPassed = 28;
-                    avgWeatherTemp = temperatureSum / daysPassed;
+                    avgWeatherTemp = temperatureSum / days;
                     globalavgWeatherTemp += avgWeatherTemp;
                     globalsunnyCounter += sunnyCounter;
                     globalhailCounter += hailCounter;
@@ -300,13 +305,13 @@ namespace Game.Calendar.Service
                     globalcloudyCounter += cloudyCounter;
                     globalsnowCounter += snowCounter;
                     globalprecipitations += precipitations;
+                    globalDays += days;
                 }
             }
 
-            int globalDaysPassed = 28 * 12 * times;
             float globalYearTemperature = globalavgWeatherTemp / (12f * times);
-            float globalPrecipitationsPerDay = globalprecipitations / globalDaysPassed;
-            Debug.LogWarning($"Year Summary results: \n Days passed = {globalDaysPassed} \n Snow days = {globalsnowCounter} \n Sunny days = {globalsunnyCounter} \n "
+            float globalPrecipitationsPerDay = globalprecipitations / globalDays;
+            Debug.LogWarning($"Year Summary results: \n Days passed = {globalDays} \n Snow days = {globalsnowCounter} \n Sunny days = {globalsunnyCounter} \n "
                              + $"PartlyCloudy days = {globalpartlyCloudyCounter} \n Cloudy days = {globalcloudyCounter} \n "
                              + $"Light rain days = {globallightRainCounter} \n Rain days = {globalrainCounter} \n Heavy rain days = {globalheavyRainCounter} \n "
                              + $"Hail days = {globalhailCounter} \n Avg tempo = {globalYearTemperature} \n Total precipitations = {globalprecipitations} \n "

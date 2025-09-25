@@ -15,15 +15,24 @@ namespace Game.Calendar.Service
     {
         private readonly Random _random = new();
 
-        public List<DailyWeather> GenerateMonthlyWeather(MonthClimateSettings settings)
+        public List<CalendarDayWeather> GenerateMonthlyWeather(MonthClimateSettings settings)
         {
-            float[] temperatures = GetDailyTemperatures(settings, Constants.Constants.DaysInMonth, out float monthlyAverageTemperature);
-            WeatherType[] dailyWeather = GetAllDaysWeather(settings.Weather, temperatures, Constants.Constants.DaysInMonth);
-            List<DailyWeather> results = new(Constants.Constants.DaysInMonth);
+            int daysCount = settings.DaysCount;
+            float[] temperatures = GetDailyTemperatures(settings, daysCount, out float monthlyAverageTemperature);
+            WeatherType[] dailyWeather = GetAllDaysWeather(settings.Weather, temperatures, daysCount);
+            return GetCalendarDayResults(settings, daysCount, temperatures, dailyWeather, monthlyAverageTemperature);
+        }
+
+        private List<CalendarDayWeather> GetCalendarDayResults(MonthClimateSettings settings,
+                                                               int daysCount,
+                                                               float[] temperatures,
+                                                               WeatherType[] dailyWeather,
+                                                               float monthlyAverageTemperature)
+        {
+            List<CalendarDayWeather> results = new(daysCount);
             float monthDiurnalAmplitude =
                     UnityEngine.Random.Range(settings.MinDiurnalTemperatureDifference, settings.MaxDiurnalTemperatureDifference);
-
-            for (int i = 0; i < Constants.Constants.DaysInMonth; i++) {
+            for (int i = 0; i < daysCount; i++) {
                 float baseDayTemperature = temperatures[i];
                 WeatherType weatherState = dailyWeather[i];
                 WeatherSettings weatherSettings = settings.Weather[weatherState];
@@ -137,13 +146,12 @@ namespace Game.Calendar.Service
             return temperatureByDay;
         }
 
-        private void AddTemperatureNoise(MonthClimateSettings settings, 
-                                         float[] temperatureByDay)
+        private void AddTemperatureNoise(MonthClimateSettings settings, float[] temperatureByDay)
         {
             float monthNoise = UnityEngine.Random.Range(settings.MinMonthTemperatureNoise, settings.MaxMonthTemperatureNoise);
             float dailyTemperatureNoise = settings.DailyTemperatureNoise;
             float maxDailyTemperatureNoise = settings.DailyTemperatureMaxNoise;
-            
+
             for (int i = 0; i < temperatureByDay.Length; i++) {
                 float dailyNoise = (float) Math.Clamp(NextGaussian(0f, dailyTemperatureNoise), -maxDailyTemperatureNoise, maxDailyTemperatureNoise);
                 temperatureByDay[i] += (monthNoise + dailyNoise);

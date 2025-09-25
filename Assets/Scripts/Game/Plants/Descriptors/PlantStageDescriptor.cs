@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.Plants.Model;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -16,17 +17,34 @@ namespace Game.Plants.Descriptors
         public float AverageGrowTime { get; set; } = 7f;
         [field: SerializeField, Tooltip("Plant regeneration every day. Consumes humus to convert into health")]
         public float DailyRegeneration { get; set; } = 3f;
-        [field: SerializeField, Tooltip("Plant immunity gain every day. Doesn't consume anything. Applies only if there was no debuffs on plant health or growth via external factors (deceases doesn't count). Decreases proportionally with health of plant")]
+        [field: SerializeField,
+                Tooltip("Plant immunity gain every day. Doesn't consume anything. Applies only if there was no debuffs on plant health or growth via external factors (deceases doesn't count). Decreases proportionally with health of plant")]
         public float DailyImmunityGain { get; set; } = 3f;
-        [field: SerializeField]
+
+        [field: SerializeField, Tooltip("Need to do calculation in consumption?")]
+        public bool IncludeConsumption { get; set; } = true;
+
+        [field: SerializeField, Tooltip("Need to do calculation in temperature?")]
+        public bool IncludeSunlight { get; set; } = true;
+
+        [field: SerializeField, Tooltip("Need to do calculation in temperature?")]
+        public bool IncludeTemperature { get; set; } = true;
+
+        [field: SerializeField, Tooltip("Need to do calculation in temperature?")]
+        public bool IncludeAirHumidity { get; set; } = true;
+
+        [field: SerializeField, Tooltip("Need to do calculation in soil humidity?")]
+        public bool IncludeSoilHumidity { get; set; } = true;
+        
+        [field: SerializeField, ShowIf("IncludeConsumption")]
         public PlantConsumptionDescriptor PlantConsumption { get; set; } = null!;
-        [field: SerializeField]
+        [field: SerializeField, ShowIf("IncludeSunlight")]
         public PlantSunlightParameters SunlightParameters { get; set; } = null!;
-        [field: SerializeField]
+        [field: SerializeField, ShowIf("IncludeTemperature")]
         public PlantTemperatureParameters TemperatureParameters { get; set; } = null!;
-        [field: SerializeField, Tooltip("Air humidity parameters for plant")]
+        [field: SerializeField, Tooltip("Air humidity parameters for plant"), ShowIf("IncludeAirHumidity")]
         public PlantHumidityParameters AirHumidityParameters { get; set; } = null!;
-        [field: SerializeField, Tooltip("Soil humidity parameters for plant")]
+        [field: SerializeField, Tooltip("Soil humidity parameters for plant"), ShowIf("IncludeSoilHumidity")]
         public PlantHumidityParameters SoilHumidityParameters { get; set; } = null!;
     }
 }

@@ -25,6 +25,7 @@ using Game.Plants.Service;
 using Game.Player.Service;
 using Game.PlayMode.Service;
 using Game.Seeds.Service;
+using Game.Sunlight.Service;
 using Game.Tools.Service;
 using Unity.VisualScripting;
 using VContainer;
@@ -56,6 +57,7 @@ namespace Core.Scopes
             builder.Register<SoilService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeRepo>(Lifetime.Singleton);
             builder.Register<CalendarService>(Lifetime.Singleton);
+            builder.Register<CalendarRepo>(Lifetime.Singleton);
             builder.Register<PickUpItemService>(Lifetime.Singleton);
             builder.Register<WorldTileService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<GameWorldService>(Lifetime.Singleton);
@@ -67,6 +69,7 @@ namespace Core.Scopes
             builder.Register<ConditionService>(Lifetime.Singleton);
             builder.Register<SeedsService>(Lifetime.Singleton);
             builder.Register<PlantsService>(Lifetime.Singleton);
+            builder.Register<SunService>(Lifetime.Singleton);
             builder.Register<PlantHarvestService>(Lifetime.Singleton);
             builder.Register<WorldPlantsService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<PlantDiseaseService>(Lifetime.Singleton);
@@ -77,7 +80,7 @@ namespace Core.Scopes
             builder.Register<InteractionHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-            builder.Register<CalendarGenerationService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<CalendarGenerationService>(Lifetime.Singleton);
             
             DachaEntryPoint entryPoint = this.AddComponent<DachaEntryPoint>();
             builder.RegisterComponent(entryPoint);

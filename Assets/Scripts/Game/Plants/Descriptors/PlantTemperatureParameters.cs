@@ -6,8 +6,6 @@ namespace Game.Plants.Descriptors
     [Serializable]
     public class PlantTemperatureParameters
     {
-        [field: SerializeField, Tooltip("Need to do calculation?")]
-        public bool Ignore { get; set; }
         [field: SerializeField, Range(-40f, 45f), Tooltip("Min temperature needed for plant to grow")]
         public float MinTemperature { get; set; } = 15f;
         [field: SerializeField, Range(-40f, 45f), Tooltip("Max temperature needed for plant to grow")]
