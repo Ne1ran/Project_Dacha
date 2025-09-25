@@ -7,6 +7,7 @@ using Game.Diseases.Model;
 using Game.Diseases.Service;
 using Game.GameMap.Soil.Model;
 using Game.GameMap.Soil.Service;
+using Game.Humidity.Service;
 using Game.Plants.Descriptors;
 using Game.Plants.Event;
 using Game.Plants.Model;
@@ -23,7 +24,8 @@ namespace Game.Plants.Service
     {
         private readonly PlantsRepo _plantsRepo;
         private readonly SoilService _soilService;
-        private readonly SunService _sunService;
+        private readonly SunlightService _sunlightService;
+        private readonly AirHumidityService _airHumidityService;
         private readonly PlantDiseaseService _plantDiseaseService;
         private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, PlantUpdatedEvent> _plantUpdatedEvent;
@@ -36,14 +38,16 @@ namespace Game.Plants.Service
                              SoilService soilService,
                              PlantDiseaseService plantDiseaseService,
                              IPublisher<string, PlantUpdatedEvent> plantUpdatedEvent,
-                             SunService sunService)
+                             SunlightService sunlightService,
+                             AirHumidityService airHumidityService)
         {
             _plantsRepo = plantsRepo;
             _descriptorService = descriptorService;
             _soilService = soilService;
             _plantDiseaseService = plantDiseaseService;
             _plantUpdatedEvent = plantUpdatedEvent;
-            _sunService = sunService;
+            _sunlightService = sunlightService;
+            _airHumidityService = airHumidityService;
 
             DisposableBagBuilder bag = DisposableBag.CreateBuilder();
 
@@ -308,7 +312,7 @@ namespace Game.Plants.Service
 
         private void CalculateSunlightAffect(PlantSunlightParameters sunlightParameters, ref PlantGrowCalculationModel calculationModel)
         {
-            float currentSunlight = _sunService.GetDailySunAmount();
+            float currentSunlight = _sunlightService.GetDailySunAmount();
             Debug.LogWarning($"Current sunlight for plant is = {currentSunlight}");
             if (sunlightParameters.MinSunlight > currentSunlight) {
                 calculationModel.Damage += sunlightParameters.DamagePerDeviation * (currentSunlight - sunlightParameters.MinSunlight);
@@ -345,16 +349,16 @@ namespace Game.Plants.Service
 
         private void CalculateAirHumidityAffect(PlantHumidityParameters airHumidityParameters, ref PlantGrowCalculationModel calculationModel)
         {
-            float airHumidityPercent = 70f; // todo neiran integrate sunlight and weather system
+            float airHumidityPercent = _airHumidityService.GetDailyAirHumidity();
 
+            Debug.Log($"Air humidity affect is = {airHumidityPercent}");
+            
             if (airHumidityParameters.MinHumidity > airHumidityPercent) {
-                calculationModel.Damage +=
-                        airHumidityParameters.DamagePerDeviation * Mathf.Abs(airHumidityPercent - airHumidityParameters.MinHumidity);
+                calculationModel.Damage += airHumidityParameters.DamagePerDeviation * (airHumidityParameters.MinHumidity - airHumidityPercent);
             }
 
             if (airHumidityParameters.MaxHumidity < airHumidityPercent) {
-                calculationModel.Damage +=
-                        airHumidityParameters.DamagePerDeviation * Mathf.Abs(airHumidityPercent - airHumidityParameters.MaxHumidity);
+                calculationModel.Damage += airHumidityParameters.DamagePerDeviation * (airHumidityPercent - airHumidityParameters.MaxHumidity);
             }
 
             if (airHumidityParameters.MinPreferredHumidity < airHumidityPercent && airHumidityParameters.MaxPreferredHumidity > airHumidityPercent) {
