@@ -1,4 +1,4 @@
-﻿namespace Game.TimeMove.Event
+﻿namespace Game.Calendar.Event
 {
     public class TimeChangeEvent
     {

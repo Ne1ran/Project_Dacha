@@ -15,5 +15,7 @@
         
         public const float MAX_HEALTH = 100.0f;
         public const float MAX_IMMUNITY = 100.0f;
+        
+        public const int DaysInMonth = 28;
     }
 }

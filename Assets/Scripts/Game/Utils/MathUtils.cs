@@ -60,7 +60,7 @@ namespace Game.Utils
         {
             return IsFuzzyEquals(a.x, b.x, fuzzy) && IsFuzzyEquals(a.y, b.y, fuzzy) && IsFuzzyEquals(a.z, b.z, fuzzy);
         }
-        
+
         public static bool IsFuzzyClose2D(Vector3 a, Vector3 b, float fuzzy = 0.0005f)
         {
             return Distance2D(a, b) <= fuzzy;
@@ -123,12 +123,12 @@ namespace Game.Utils
             float leg2 = a.z - b.z;
             return leg1 * leg1 + leg2 * leg2;
         }
-        
+
         public static Vector3 GetVector2D(Vector3 vector)
         {
             return new(vector.x, 0, vector.z);
         }
-        
+
         public static float Distance2D(Vector3 a, Vector3 b)
         {
             return Mathf.Sqrt(SqrDistance2D(a, b));
@@ -151,6 +151,11 @@ namespace Game.Utils
         public static float GetDeltaRadAngle(float radTargetAngle, float radCurAngle)
         {
             return Mathf.Atan2(Mathf.Sin(radTargetAngle - radCurAngle), Mathf.Cos(radTargetAngle - radCurAngle));
+        }
+
+        public static float Lerp(double a, double b, double t)
+        {
+            return (float) (a + (b - a) * t);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Core.Attributes;
 using Core.Descriptors.Service;
+using Game.Calendar.Event;
 using Game.Diseases.Model;
 using Game.Fertilizers.Descriptor;
 using Game.Fertilizers.Model;
@@ -11,7 +12,6 @@ using Game.GameMap.Soil.Model;
 using Game.GameMap.Soil.Repository;
 using Game.GameMap.Tiles.Event;
 using Game.Plants.Model;
-using Game.TimeMove.Event;
 using Game.Utils;
 using MessagePipe;
 using UnityEngine;

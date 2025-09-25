@@ -1,6 +1,8 @@
 ﻿using Core.Conditions.Service;
 using Core.EntryPoints;
 using Core.GameWorld.Service;
+using Game.Calendar.Repo;
+using Game.Calendar.Service;
 using Game.Diseases.Service;
 using Game.Drop.Service;
 using Game.Equipment.Repo;
@@ -23,8 +25,6 @@ using Game.Plants.Service;
 using Game.Player.Service;
 using Game.PlayMode.Service;
 using Game.Seeds.Service;
-using Game.TimeMove.Repo;
-using Game.TimeMove.Service;
 using Game.Tools.Service;
 using Unity.VisualScripting;
 using VContainer;
@@ -55,6 +55,7 @@ namespace Core.Scopes
             builder.Register<WorldSoilService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();;
             builder.Register<SoilService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeRepo>(Lifetime.Singleton);
+            builder.Register<CalendarService>(Lifetime.Singleton);
             builder.Register<PickUpItemService>(Lifetime.Singleton);
             builder.Register<WorldTileService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<GameWorldService>(Lifetime.Singleton);
@@ -76,6 +77,7 @@ namespace Core.Scopes
             builder.Register<InteractionHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<CalendarGenerationService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             
             DachaEntryPoint entryPoint = this.AddComponent<DachaEntryPoint>();
             builder.RegisterComponent(entryPoint);

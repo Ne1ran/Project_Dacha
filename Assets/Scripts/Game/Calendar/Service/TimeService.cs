@@ -1,12 +1,12 @@
 ﻿using Core.Attributes;
-using Game.TimeMove.Event;
-using Game.TimeMove.Model;
-using Game.TimeMove.Repo;
+using Game.Calendar.Event;
+using Game.Calendar.Model;
+using Game.Calendar.Repo;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace Game.TimeMove.Service
+namespace Game.Calendar.Service
 {
     [Service]
     public class TimeService : IInitializable
@@ -30,7 +30,7 @@ namespace Game.TimeMove.Service
                 return;
             }
 
-            _timeRepo.Save(new(Constants.Constants.START_DAY_TIME, 0));
+            _timeRepo.Save(new(Constants.Constants.START_DAY_TIME, 1, 4, 0));
         }
 
         public void PassTime(int minutes)
