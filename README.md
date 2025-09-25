@@ -1,5 +1,5 @@
 # Project Dacha #
-## Project Dacha is singleplayer farming game with hard time-management and realistic growth system. Plants can become ill and you have to cure them or prevent infects beforehand.
+## Project Dacha is singleplayer farming game with hard time-management and realistic growth system. Plants can become ill and you have to cure them or prevent infection beforehand.
 
 ### You (player) will be able to plant different cultures with their unique growth mechanics.
 ### Soil is changing according to the plants, that grow on it or when you use fertilizers. But they aren't applying instantly. You need to wait for some time. Did I mentioned, that some plants doesn't like different soils and fertilizers?
