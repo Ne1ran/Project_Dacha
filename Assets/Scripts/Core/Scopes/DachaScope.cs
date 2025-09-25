@@ -27,6 +27,7 @@ using Game.Player.Service;
 using Game.PlayMode.Service;
 using Game.Seeds.Service;
 using Game.Sunlight.Service;
+using Game.Temperature.Service;
 using Game.Tools.Service;
 using Unity.VisualScripting;
 using VContainer;
@@ -72,6 +73,7 @@ namespace Core.Scopes
             builder.Register<PlantsService>(Lifetime.Singleton);
             builder.Register<SunlightService>(Lifetime.Singleton);
             builder.Register<AirHumidityService>(Lifetime.Singleton);
+            builder.Register<TemperatureService>(Lifetime.Singleton);
             builder.Register<PlantHarvestService>(Lifetime.Singleton);
             builder.Register<WorldPlantsService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<PlantDiseaseService>(Lifetime.Singleton);

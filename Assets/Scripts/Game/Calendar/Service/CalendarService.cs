@@ -2,6 +2,7 @@
 using Core.Attributes;
 using Game.Calendar.Model;
 using Game.Calendar.Repo;
+using Game.Temperature.Model;
 
 namespace Game.Calendar.Service
 {
@@ -37,6 +38,50 @@ namespace Game.Calendar.Service
             }
 
             return selectedWeather.RelativeHumidity;
+        }
+
+        public float GetAverageTemperature(int day, int month)
+        {
+            List<CalendarDayWeather> days = GetOrCreateWeather(month);
+            CalendarDayWeather? selectedWeather = days.Find(weatherDay => weatherDay.Day == day);
+            if (selectedWeather == null) {
+                throw new KeyNotFoundException($"Selected day not found in calendar! Day={day} Month={month}");
+            }
+
+            return selectedWeather.AverageTemperature;
+        }
+
+        public float GetDayTemperature(int day, int month)
+        {
+            List<CalendarDayWeather> days = GetOrCreateWeather(month);
+            CalendarDayWeather? selectedWeather = days.Find(weatherDay => weatherDay.Day == day);
+            if (selectedWeather == null) {
+                throw new KeyNotFoundException($"Selected day not found in calendar! Day={day} Month={month}");
+            }
+
+            return selectedWeather.DayTemperature;
+        }
+
+        public float GetNightTemperature(int day, int month)
+        {
+            List<CalendarDayWeather> days = GetOrCreateWeather(month);
+            CalendarDayWeather? selectedWeather = days.Find(weatherDay => weatherDay.Day == day);
+            if (selectedWeather == null) {
+                throw new KeyNotFoundException($"Selected day not found in calendar! Day={day} Month={month}");
+            }
+
+            return selectedWeather.NightTemperature;
+        }
+
+        public TemperatureModel GetTemperatureModel(int day, int month)
+        {
+            List<CalendarDayWeather> days = GetOrCreateWeather(month);
+            CalendarDayWeather? selectedWeather = days.Find(weatherDay => weatherDay.Day == day);
+            if (selectedWeather == null) {
+                throw new KeyNotFoundException($"Selected day not found in calendar! Day={day} Month={month}");
+            }
+
+            return new(selectedWeather.AverageTemperature, selectedWeather.DayTemperature, selectedWeather.NightTemperature);
         }
 
         private List<CalendarDayWeather> GetOrCreateWeather(int month)

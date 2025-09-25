@@ -14,6 +14,8 @@ using Game.Plants.Model;
 using Game.Plants.Repo;
 using Game.Seeds.Descriptors;
 using Game.Sunlight.Service;
+using Game.Temperature.Model;
+using Game.Temperature.Service;
 using MessagePipe;
 using UnityEngine;
 
@@ -26,6 +28,7 @@ namespace Game.Plants.Service
         private readonly SoilService _soilService;
         private readonly SunlightService _sunlightService;
         private readonly AirHumidityService _airHumidityService;
+        private readonly TemperatureService _temperatureService;
         private readonly PlantDiseaseService _plantDiseaseService;
         private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, PlantUpdatedEvent> _plantUpdatedEvent;
@@ -39,7 +42,8 @@ namespace Game.Plants.Service
                              PlantDiseaseService plantDiseaseService,
                              IPublisher<string, PlantUpdatedEvent> plantUpdatedEvent,
                              SunlightService sunlightService,
-                             AirHumidityService airHumidityService)
+                             AirHumidityService airHumidityService,
+                             TemperatureService temperatureService)
         {
             _plantsRepo = plantsRepo;
             _descriptorService = descriptorService;
@@ -48,6 +52,7 @@ namespace Game.Plants.Service
             _plantUpdatedEvent = plantUpdatedEvent;
             _sunlightService = sunlightService;
             _airHumidityService = airHumidityService;
+            _temperatureService = temperatureService;
 
             DisposableBagBuilder bag = DisposableBag.CreateBuilder();
 
@@ -329,20 +334,22 @@ namespace Game.Plants.Service
 
         private void CalculateTemperatureAffect(PlantTemperatureParameters temperatureParameters, ref PlantGrowCalculationModel calculationModel)
         {
-            float currentTemperature = 25f; // todo neiran integrate temperature and add it to soil system
+            TemperatureModel currentTemperatureModel = _temperatureService.GetTemperatureModel();
 
-            if (temperatureParameters.MinTemperature > currentTemperature) {
-                calculationModel.Damage += temperatureParameters.DamagePerDeviation
-                                           * Mathf.Abs(currentTemperature - temperatureParameters.MinTemperature);
+            float maxDayTemperature = currentTemperatureModel.DayTemperature;
+            float minNightTemperature = currentTemperatureModel.NightTemperature;
+            float averageTemperature = currentTemperatureModel.AverageTemperature;
+
+            if (temperatureParameters.MinTemperature > minNightTemperature) {
+                calculationModel.Damage += temperatureParameters.DamagePerDeviation * (temperatureParameters.MinTemperature - minNightTemperature);
             }
 
-            if (temperatureParameters.MaxTemperature < currentTemperature) {
-                calculationModel.Damage += temperatureParameters.DamagePerDeviation
-                                           * Mathf.Abs(currentTemperature - temperatureParameters.MaxTemperature);
+            if (temperatureParameters.MaxTemperature < maxDayTemperature) {
+                calculationModel.Damage += temperatureParameters.DamagePerDeviation * (maxDayTemperature - temperatureParameters.MaxTemperature);
             }
 
-            if (temperatureParameters.MinPreferredTemperature < currentTemperature
-                && temperatureParameters.MaxPreferredTemperature > currentTemperature) {
+            if (temperatureParameters.MinPreferredTemperature < averageTemperature
+                && temperatureParameters.MaxPreferredTemperature > averageTemperature) {
                 calculationModel.GrowMultiplier += temperatureParameters.GrowBuff;
             }
         }
@@ -352,7 +359,7 @@ namespace Game.Plants.Service
             float airHumidityPercent = _airHumidityService.GetDailyAirHumidity();
 
             Debug.Log($"Air humidity affect is = {airHumidityPercent}");
-            
+
             if (airHumidityParameters.MinHumidity > airHumidityPercent) {
                 calculationModel.Damage += airHumidityParameters.DamagePerDeviation * (airHumidityParameters.MinHumidity - airHumidityPercent);
             }

@@ -11,6 +11,7 @@ using Game.Items.Service;
 using Game.Player.Service;
 using Game.Seeds.Component;
 using Game.Seeds.Descriptors;
+using Game.Temperature.Service;
 using Game.Tools.Component;
 using Game.Tools.Descriptors;
 using IngameDebugConsole;
@@ -93,6 +94,14 @@ namespace Core.Console
         {
             TimeService timeService = Container.Resolve<TimeService>();
             timeService.PassTime(minutes);
+        }
+
+        [ConsoleMethod("currentTemperature", "Passes time for N minutes")]
+        public static void CurrentTemperature()
+        {
+            TemperatureService temperatureService = Container.Resolve<TemperatureService>();
+            float currentTemperature = temperatureService.GetCurrentTemperature();
+            Debug.LogWarning($"Current temperature is {currentTemperature}!");
         }
 
         [ConsoleMethod("endDay", "Ends current day")]
