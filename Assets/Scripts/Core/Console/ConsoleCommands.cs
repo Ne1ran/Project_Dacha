@@ -133,16 +133,28 @@ namespace Core.Console
             }
         }
 
-        [ConsoleMethod("simulateMonth", "Simulate month in calendar for some checks")]
-        public static void SimulateMonth(MonthType month)
-        {
-            Container.Resolve<CalendarService>().SimulateMonth(month);
-        }
-
         [ConsoleMethod("simulateMonthAdv", "Simulate month in calendar for some checks")]
         public static void SimulateMonthAdv(MonthType monthType, int times)
         {
             Container.Resolve<CalendarGenerationService>().Simulate(monthType, times);
+        }
+
+        [ConsoleMethod("simulateAllMonths", "Simulate months in calendar for some checks")]
+        public static void SimulateAllMonths(int times)
+        {
+            Container.Resolve<CalendarGenerationService>().SimulateAll(times);
+        }
+
+        [ConsoleMethod("simulateYear", "Simulate year of calendar for some checks")]
+        public static void SimulateYear()
+        {
+            Container.Resolve<CalendarGenerationService>().SimulateYear();
+        }
+
+        [ConsoleMethod("simulateYears", "Simulate years of calendar for some checks")]
+        public static void SimulateYears(int times)
+        {
+            Container.Resolve<CalendarGenerationService>().SimulateYears(times);
         }
 
         private static IObjectResolver Container => AppContext.CurrentScope.Container;

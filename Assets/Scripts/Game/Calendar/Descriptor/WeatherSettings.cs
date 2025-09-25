@@ -17,8 +17,8 @@ namespace Game.Calendar.Descriptor
         public float SafeProbability { get; set; }
         [field: SerializeField, Range(0f, 1f), Tooltip("Multiplier to sunlight amount")]
         public float SunHoursMultiplier { get; set; }
-        [field: SerializeField, Tooltip("Amplitude of temperature during this weather")]
-        public float DiurnalAmplitudeTemperature { get; set; }
+        [field: SerializeField, Tooltip("Additional amplitude of temperature during this weather")]
+        public float AdditionalDiurnalAmplitudeTemperatureChange { get; set; }
         [field: SerializeField, Tooltip("Are precipitation possible?")]
         public bool CanHavePrecipitation { get; set; }
         [field: SerializeField, Range(0f, 24f), ShowIf("CanHavePrecipitation"), Tooltip("Min precipitations in mm")]
