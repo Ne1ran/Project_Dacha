@@ -15,6 +15,7 @@
         ConsumptionNitrogen = 51,
         ConsumptionPotassium = 52,
         ConsumptionPhosphorus = 53,
+        ConsumptionWater = 54,
         LowSunlight = 60,
         HighSunlight = 61,
         LowPh = 70,

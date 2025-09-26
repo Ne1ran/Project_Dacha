@@ -14,11 +14,15 @@ namespace Game.Plants.Descriptors
         public float PhosphorusUsage { get; set; } = 5f;
         [field: SerializeField, Range(0f, 100f), Tooltip("Amount of water needed for plant in grams")]
         public float WaterUsage { get; set; } = 5f;
-        [field: SerializeField, Range(0f, 100f), Tooltip("Multiplier for all elements. If soil contains enough, plant will receive grow buff")]
-        public float PreferredUsageMultiplier { get; set; } = 10f;
-        [field: SerializeField, Range(0f, 2f), Tooltip("Buff for plant growth if enough elements")]
-        public float GrowBuff { get; set; } = 0.05f;
-        [field: SerializeField, Range(-2f, 0f), Tooltip("Stress gain for plant if not enough elements")]
-        public float StressGain { get; set; } = 5f;
+        [field: SerializeField, Range(0f, 10f), Tooltip("Stress gain for plant if not enough elements")]
+        public float StressGainNitrogen { get; set; } = 1f;
+        [field: SerializeField, Range(0f, 10f), Tooltip("Stress gain for plant if not enough elements")]
+        public float StressGainPotassium { get; set; } = 1f;
+        [field: SerializeField, Range(0f, 10f), Tooltip("Stress gain for plant if not enough elements")]
+        public float StressGainPhosphorus { get; set; } = 1f;
+        [field: SerializeField, Range(0f, 10f), Tooltip("Stress gain for plant if not enough elements")]
+        public float StressGainWater { get; set; } = 2.5f;
+        [field: SerializeField, Range(0f, 10f), Tooltip("Stress gain for plant if no elements and water at all")]
+        public float NotEnoughStressGain { get; set; } = 5f;
     }
 }

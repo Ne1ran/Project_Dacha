@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Game.Plants.Descriptors
 {
     [Serializable]
-    public class PlantSunlightParameters
+    public class PlantSunlightParameters 
     {
         [field: SerializeField, Range(1f, 24f), Tooltip("Min hours of sunlight needed for plant to grow")]
         public float MinSunlight { get; set; } = 6f;
