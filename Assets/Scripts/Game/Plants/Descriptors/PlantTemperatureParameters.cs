@@ -1,19 +1,22 @@
 ﻿using System;
+using Game.Plants.Model;
 using UnityEngine;
 
 namespace Game.Plants.Descriptors
 {
     [Serializable]
-    public class PlantTemperatureParameters
+    public class PlantTemperatureParameters : IPlantParameters
     {
+        public PlantParametersType ParametersType => PlantParametersType.Temperature;
+
         [field: SerializeField, Range(-40f, 45f), Tooltip("Min temperature needed for plant to grow")]
-        public float MinTemperature { get; set; } = 15f;
+        public float Min { get; set; } = 15f;
         [field: SerializeField, Range(-40f, 45f), Tooltip("Max temperature needed for plant to grow")]
-        public float MaxTemperature { get; set; } = 35f;
+        public float Max { get; set; } = 35f;
         [field: SerializeField, Range(-40f, 45f), Tooltip("Preferred temperature for plant")]
-        public float MinPreferredTemperature { get; set; } = 25f;
+        public float MinPreferred { get; set; } = 25f;
         [field: SerializeField, Range(-40f, 45f), Tooltip("Preferred temperature for plant")]
-        public float MaxPreferredTemperature { get; set; } = 29f;
+        public float MaxPreferred { get; set; } = 29f;
         [field: SerializeField, Range(0f, 100f), Tooltip("Damage per 1 temperature deviation")]
         public float DamagePerDeviation { get; set; } = 2f;
         [field: SerializeField, Range(0f, 2f), Tooltip("Buff for preferred temperature")]

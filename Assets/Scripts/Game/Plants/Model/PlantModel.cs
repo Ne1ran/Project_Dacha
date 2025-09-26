@@ -3,6 +3,7 @@ using Game.Diseases.Model;
 using Game.GameMap.Soil.Model;
 using Game.Stress.Model;
 using Game.Utils;
+using UnityEngine;
 
 namespace Game.Plants.Model
 {
@@ -55,9 +56,13 @@ namespace Game.Plants.Model
             }
         }
 
-        public void AddStress(StressType stressType, float amount)
+        public void AddStress(StressType stressType, float amount, float maxStress)
         {
-            Stress.AddOrSum(stressType, amount);
+            if (Stress.TryGetValue(stressType, out float stressAmount)) {
+                Stress[stressType] = Mathf.Min(stressAmount + amount, maxStress);
+            } else {
+                Stress.Add(stressType, Mathf.Min(amount, maxStress));
+            }
         }
     }
 }

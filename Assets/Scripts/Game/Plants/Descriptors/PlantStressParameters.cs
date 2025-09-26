@@ -7,7 +7,7 @@ namespace Game.Plants.Descriptors
     [Serializable]
     public class PlantStressParameters
     {
-        [field: SerializeField, Range(0f, 200f), Tooltip("Maximum stress plant can get")]
+        [field: SerializeField, Range(0f, 200f), Tooltip("Maximum stress plant can get FROM ONE SOURCE!")]
         public float MaxStress { get; set; } = 100f;
         [field: SerializeField, Tooltip("Plant stress decrease per day")]
         public float DailyStressDecrease { get; set; } = 5f;

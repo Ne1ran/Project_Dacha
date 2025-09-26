@@ -1,7 +1,10 @@
-﻿namespace Game.Plants.Descriptors
+﻿using Game.Plants.Model;
+
+namespace Game.Plants.Descriptors
 {
     public interface IPlantParameters
     {
+        public PlantParametersType ParametersType { get; }
         public float Min { get; set; }
         public float Max { get; set; }
         public float MinPreferred { get; set; }
