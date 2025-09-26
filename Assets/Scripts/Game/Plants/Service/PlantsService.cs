@@ -137,10 +137,13 @@ namespace Game.Plants.Service
                     PlantModel plantModel = plant;
                     PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.RequirePlant(plantModel.PlantId);
                     SimulatePlantLife(ref plantModel, tileId, plantsDescriptorModel, evt.DayDifference);
-                    _plantDiseaseService.UpdatePlantDiseases(ref plantModel, plantsDescriptorModel, tileId);
+                    if (plantModel.CurrentStage != PlantGrowStage.DEAD) {
+                        _plantDiseaseService.UpdatePlantDiseases(ref plantModel, plantsDescriptorModel, tileId);
+                    }
                     _plantUpdatedEvent.Publish(PlantUpdatedEvent.Updated, new(tileId, plantModel));
                 } catch (Exception e) {
-                    Debug.LogWarning($"Exception when simulating plant life. TileId={tileId}, plantId={plant.PlantId}, e={e.Message}");
+                    Debug.LogWarning($"Exception when simulating plant life. TileId={tileId}, plantId={plant.PlantId}");
+                    Debug.LogException(e);
                 }
             }
         }
@@ -239,6 +242,10 @@ namespace Game.Plants.Service
         {
             foreach ((StressType stressType, float stressAmount) in growModel.Stress) {
                 plant.AddStress(stressType, stressAmount, stressParameters.MaxStress);
+            }
+
+            if (plant.Stress.Count == 0) {
+                return;
             }
 
             float maxStress = plant.Stress.Values.Max();
@@ -395,7 +402,7 @@ namespace Game.Plants.Service
                                     hasEnoughPhosphorus ? phosphorusUsage : 0f);
             }
 
-            return new(elementsModel, waterUsage, humusUsage);
+            return new(elementsModel, hasEnoughWater ? waterUsage : 0f, humusUsage);
         }
     }
 }
