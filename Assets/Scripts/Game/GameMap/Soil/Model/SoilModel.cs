@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.Diseases.Model;
 using Game.Fertilizers.Model;
 using Game.Plants.Model;
@@ -52,6 +53,26 @@ namespace Game.GameMap.Soil.Model
             Elements.Potassium += model.PotassiumMass;
             Elements.Phosphorus += model.PhosphorusMass;
             Debug.LogWarning($"Fertilizer used. New soil data = {Mass}, {Ph}, {Breathability}, {Humus}, {Elements.Nitrogen}, {Elements.Potassium}, {Elements.Phosphorus}");
+        }
+
+        public void Consume(float water, ElementsModel elements, float humus = 0f)
+        {
+            if (WaterAmount < water) {
+                throw new("Not enough water!");
+            }
+
+            WaterAmount -= water;
+            if (!Elements.HasEnoughElements(elements)) {
+                throw new("Not enough elements in soil!");
+            }
+            
+            Elements.SubtractIfPossible(elements);
+            
+            if (Humus < humus) {
+                throw new("Not enough humus!");
+            }
+            
+            Humus -= humus;
         }
 
         public bool TryConsume(float water, ElementsModel elements)

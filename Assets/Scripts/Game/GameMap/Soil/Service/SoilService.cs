@@ -91,7 +91,7 @@ namespace Game.GameMap.Soil.Service
             soilModel.Breathability = Mathf.Min(minBreathability, soilModel.Breathability * 1.25f);
             soilModel.State = SoilState.None;
             soilModel.DugRecently = true;
-            
+
             _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
             return true;
         }
@@ -279,6 +279,12 @@ namespace Game.GameMap.Soil.Service
             return soil.TryConsume(waterUsage, elementsModel);
         }
 
+        public void ConsumeForPlant(string soilId, float waterUsage, ElementsModel elementsModel, float humus = 0f)
+        {
+            SoilModel soil = RequireSoil(soilId);
+            soil.Consume(waterUsage, elementsModel, humus);
+        }
+
         public float GetSoilHumidity(string soilId)
         {
             SoilModel soilModel = RequireSoil(soilId);
@@ -324,7 +330,7 @@ namespace Game.GameMap.Soil.Service
                 soil.Breathability += breathabilityDiff / dayCoeff;
             }
 
-            if (!MathUtils.IsFuzzyEquals(soilDesc.Humus, soil.Humus, 0.01f)) {
+            if (soil.Humus / 1000f - soilDesc.Humus < 0.01f) {
                 float humusDiff = soilDesc.Humus - soil.Humus;
                 soil.Humus += humusDiff / dayCoeff;
             }

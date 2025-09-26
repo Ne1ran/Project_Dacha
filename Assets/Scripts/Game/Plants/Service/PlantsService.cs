@@ -17,7 +17,6 @@ using Game.Seeds.Descriptors;
 using Game.Stress.Model;
 using Game.Utils;
 using MessagePipe;
-using NUnit.Framework;
 using UnityEngine;
 
 namespace Game.Plants.Service
@@ -134,11 +133,15 @@ namespace Game.Plants.Service
 
             PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
             foreach ((string tileId, PlantModel plant) in plants) {
-                PlantModel plantModel = plant;
-                PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.RequirePlant(plantModel.PlantId);
-                SimulatePlantLife(ref plantModel, tileId, plantsDescriptorModel, evt.DayDifference);
-                _plantDiseaseService.UpdatePlantDiseases(ref plantModel, plantsDescriptorModel, tileId);
-                _plantUpdatedEvent.Publish(PlantUpdatedEvent.Updated, new(tileId, plantModel));
+                try {
+                    PlantModel plantModel = plant;
+                    PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.RequirePlant(plantModel.PlantId);
+                    SimulatePlantLife(ref plantModel, tileId, plantsDescriptorModel, evt.DayDifference);
+                    _plantDiseaseService.UpdatePlantDiseases(ref plantModel, plantsDescriptorModel, tileId);
+                    _plantUpdatedEvent.Publish(PlantUpdatedEvent.Updated, new(tileId, plantModel));
+                } catch (Exception e) {
+                    Debug.LogWarning($"Exception when simulating plant life. TileId={tileId}, plantId={plant.PlantId}, e={e.Message}");
+                }
             }
         }
 
@@ -150,13 +153,9 @@ namespace Game.Plants.Service
             }
 
             PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.RequireStage(plantCurrentStage);
-            PlantGrowCalculationModel growModel = GetGrowModel(plant, soilId, plantsDescriptorModel, plantStageDescriptor);
+            PlantGrowCalculationModel growModel = GetGrowModel(plant, soilId, dayDifference, plantsDescriptorModel, plantStageDescriptor);
+            ApplyGrowCalculationModel(plant, soilId, growModel);
             Debug.LogWarning($"Plant life simulation. GrowCalcModel: growMultiplier={growModel.GrowMultiplier}, damage={growModel.Damage}");
-
-            if (!TryApplyGrowCalculationModel(plant, soilId, plantStageDescriptor, plantStageDescriptor.PlantConsumption, growModel, dayDifference)) {
-                return;
-            }
-
             if (plant.CurrentStage == PlantGrowStage.DEAD) {
                 // if plant have died - no need for further calculations 
                 return;
@@ -195,6 +194,7 @@ namespace Game.Plants.Service
 
         private PlantGrowCalculationModel GetGrowModel(PlantModel plant,
                                                        string soilId,
+                                                       int dayDifference,
                                                        PlantsDescriptorModel plantsDescriptorModel,
                                                        PlantStageDescriptor plantStageDescriptor)
         {
@@ -228,7 +228,8 @@ namespace Game.Plants.Service
                                                .ApplyParameters(plantParameters, growModel, soilModel);
             }
 
-            CalculateConsumption(plantStageDescriptor.PlantConsumption, soilModel, ref growModel);
+            CalculateConsumption(plantStageDescriptor.PlantConsumption, soilModel, plantStageDescriptor.AverageGrowTime, dayDifference,
+                                 ref growModel);
             ApplyStress(plant, plantsDescriptorModel.StressParameters, ref growModel);
 
             return growModel;
@@ -278,28 +279,19 @@ namespace Game.Plants.Service
                                          Constants.Constants.MAX_IMMUNITY);
         }
 
-        private bool TryApplyGrowCalculationModel(PlantModel plant,
-                                                  string soilId,
-                                                  PlantStageDescriptor plantStageDescriptor,
-                                                  PlantConsumptionDescriptor plantConsumptionDescriptor,
-                                                  PlantGrowCalculationModel calculationModel,
-                                                  float dayDifference)
+        private void ApplyGrowCalculationModel(PlantModel plant, string soilId, PlantGrowCalculationModel calculationModel)
         {
-            float growth = dayDifference * calculationModel.GrowMultiplier;
-            float dayCoeff = dayDifference / plantStageDescriptor.AverageGrowTime;
-
             if (calculationModel.Damage > 0) {
                 plant.DealDamage(calculationModel.Damage);
             }
 
-            if (!TryConsumeElements(plant, soilId, plantStageDescriptor, dayCoeff)) {
-                calculationModel.Stress.TryAdd(StressType.ConsumptionOverall, plantConsumptionDescriptor.NotEnoughStressGain);
-                return false;
+            ConsumeElements(plant, soilId, calculationModel.Consumption);
+
+            if (!calculationModel.BlockGrowth) {
+                plant.StageGrowth += calculationModel.ActualGrowth;
             }
 
-            plant.StageGrowth += growth;
             Debug.Log($"Plant has grew up! PlantId={plant.PlantId}, stageGrowth={plant.StageGrowth}");
-            return true;
         }
 
         private void TryGrowToNextStage(ref PlantModel plant,
@@ -322,52 +314,46 @@ namespace Game.Plants.Service
             Debug.Log($"Plant has grew to next stage! PlantId={plant.PlantId}, newStage={newStageDescriptor.Stage}");
         }
 
-        private bool TryConsumeElements(PlantModel plant, string soilId, PlantStageDescriptor plantStageDescriptor, float dayCoeff)
+        private void ConsumeElements(PlantModel plant, string soilId, SoilConsumptionModel consumptionModel)
         {
-            float nitrogenUsage = plantStageDescriptor.PlantConsumption.NitrogenUsage * dayCoeff;
-            float potassiumUsage = plantStageDescriptor.PlantConsumption.PotassiumUsage * dayCoeff;
-            float phosphorusUsage = plantStageDescriptor.PlantConsumption.PhosphorusUsage * dayCoeff;
-            float waterUsage = plantStageDescriptor.PlantConsumption.WaterUsage * dayCoeff;
-            ElementsModel elementsModel = new(nitrogenUsage, potassiumUsage, phosphorusUsage);
-            bool result = _soilService.TryConsumeForPlant(soilId, waterUsage, elementsModel);
-            if (result) {
-                plant.TakenElements.Add(elementsModel);
-            }
-
-            Debug.Log($"Consume elements. nitrogenUsage={nitrogenUsage}, potassiumUsage={potassiumUsage}, phosphorusUsage={phosphorusUsage}, waterUsage={waterUsage} ");
-            return result;
+            _soilService.ConsumeForPlant(soilId, consumptionModel.WaterUsage, consumptionModel.ElementsUsage, consumptionModel.HumusUsage);
+            plant.TakenElements.Add(consumptionModel.ElementsUsage);
         }
 
         private void CalculateConsumption(PlantConsumptionDescriptor consumptionDescriptor,
                                           SoilModel soilModel,
+                                          float growTime,
+                                          int dayDifference,
                                           ref PlantGrowCalculationModel growModel)
         {
-            float nitrogenUsage = consumptionDescriptor.NitrogenUsage * growModel.GrowMultiplier;
-            float potassiumUsage = consumptionDescriptor.PotassiumUsage * growModel.GrowMultiplier;
-            float phosphorusUsage = consumptionDescriptor.PhosphorusUsage * growModel.GrowMultiplier;
-            float waterUsage = consumptionDescriptor.WaterUsage * growModel.GrowMultiplier;
+            float dayCoeff = (dayDifference / growTime) * growModel.GrowMultiplier;
+            float nitrogenUsage = consumptionDescriptor.NitrogenUsage * dayCoeff;
+            float potassiumUsage = consumptionDescriptor.PotassiumUsage * dayCoeff;
+            float phosphorusUsage = consumptionDescriptor.PhosphorusUsage * dayCoeff;
+            float waterUsage = consumptionDescriptor.WaterUsage * dayCoeff;
+            growModel.ActualGrowth = dayDifference * growModel.GrowMultiplier;
+            growModel.Consumption = CreateSoilConsumptionModel(soilModel, nitrogenUsage, potassiumUsage, phosphorusUsage, waterUsage,
+                                                               out bool hasEnoughWater, out bool hasEnoughNitrogen, out bool hasEnoughPotassium,
+                                                               out bool hasEnoughPhosphorus, out bool canConsumeElements);
 
-            SoilConsumptionModel soilConsumptionModel =
-                    CreateSoilConsumptionModel(soilModel, nitrogenUsage, potassiumUsage, phosphorusUsage, waterUsage);
-
-            if (!soilConsumptionModel.HasEnoughWater) {
+            if (!hasEnoughWater) {
                 growModel.Stress.AddOrSum(StressType.ConsumptionWater, consumptionDescriptor.StressGainWater);
             }
 
-            if (!soilConsumptionModel.HasEnoughNitrogen) {
+            if (!hasEnoughNitrogen) {
                 growModel.Stress.AddOrSum(StressType.ConsumptionNitrogen, consumptionDescriptor.StressGainNitrogen);
             }
 
-            if (!soilConsumptionModel.HasEnoughPotassium) {
+            if (!hasEnoughPotassium) {
                 growModel.Stress.AddOrSum(StressType.ConsumptionPotassium, consumptionDescriptor.StressGainPotassium);
             }
 
-            if (!soilConsumptionModel.HasEnoughPhosphorus) {
+            if (!hasEnoughPhosphorus) {
                 growModel.Stress.AddOrSum(StressType.ConsumptionPhosphorus, consumptionDescriptor.StressGainPhosphorus);
             }
 
-            if (soilConsumptionModel.HasNothing()) {
-                growModel.Stress.AddOrSum(StressType.ConsumptionOverall, consumptionDescriptor.NotEnoughStressGain);
+            if (!canConsumeElements) {
+                growModel.Stress.AddOrSum(StressType.ConsumptionOverall, consumptionDescriptor.NotEnoughElementsStressGain);
             }
         }
 
@@ -375,31 +361,41 @@ namespace Game.Plants.Service
                                                                 float nitrogenUsage,
                                                                 float potassiumUsage,
                                                                 float phosphorusUsage,
-                                                                float waterUsage)
+                                                                float waterUsage,
+                                                                out bool hasEnoughWater,
+                                                                out bool hasEnoughNitrogen,
+                                                                out bool hasEnoughPotassium,
+                                                                out bool hasEnoughPhosphorus,
+                                                                out bool canConsumeElements)
         {
-            bool hasWater = soilModel.WaterAmount >= waterUsage;
-            bool hasNitrogen = soilModel.Elements.Nitrogen >= nitrogenUsage;
-            bool hasPotassium = soilModel.Elements.Potassium >= potassiumUsage;
-            bool hasPhosphorus = soilModel.Elements.Phosphorus >= phosphorusUsage;
+            hasEnoughWater = soilModel.WaterAmount >= waterUsage;
+            hasEnoughNitrogen = soilModel.Elements.Nitrogen >= nitrogenUsage;
+            hasEnoughPotassium = soilModel.Elements.Potassium >= potassiumUsage;
+            hasEnoughPhosphorus = soilModel.Elements.Phosphorus >= phosphorusUsage;
 
             float humusUsage = 0f;
-            if (!hasNitrogen) {
+            if (!hasEnoughNitrogen) {
                 humusUsage += nitrogenUsage;
             }
-            if (!hasPotassium) {
+            if (!hasEnoughPotassium) {
                 humusUsage += potassiumUsage;
             }
-            if (!hasPhosphorus) {
+            if (!hasEnoughPhosphorus) {
                 humusUsage += phosphorusUsage;
             }
 
-            bool canUseHumus = soilModel.Humus >= humusUsage;
-            ElementsModel elementsModel = canUseHumus
-                                                  ? new(hasNitrogen ? nitrogenUsage : 0f, hasPotassium ? potassiumUsage : 0f,
-                                                        hasPhosphorus ? phosphorusUsage : 0f)
-                                                  : new ElementsModel(0f, 0f, 0f);
+            ElementsModel elementsModel;
+            bool allElementsPersist = hasEnoughNitrogen && hasEnoughPotassium && hasEnoughPhosphorus;
+            if (allElementsPersist) {
+                canConsumeElements = true;
+                elementsModel = new(nitrogenUsage, potassiumUsage, phosphorusUsage);
+            } else {
+                canConsumeElements = soilModel.Humus >= humusUsage;
+                elementsModel = new(hasEnoughNitrogen ? nitrogenUsage : 0f, hasEnoughPotassium ? potassiumUsage : 0f,
+                                    hasEnoughPhosphorus ? phosphorusUsage : 0f);
+            }
 
-            return new(elementsModel, waterUsage, humusUsage, hasWater, hasNitrogen, hasPotassium, hasPhosphorus);
+            return new(elementsModel, waterUsage, humusUsage);
         }
     }
 }

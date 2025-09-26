@@ -23,6 +23,6 @@ namespace Game.Plants.Descriptors
         [field: SerializeField, Range(0f, 10f), Tooltip("Stress gain for plant if not enough elements")]
         public float StressGainWater { get; set; } = 2.5f;
         [field: SerializeField, Range(0f, 10f), Tooltip("Stress gain for plant if no elements and water at all")]
-        public float NotEnoughStressGain { get; set; } = 5f;
+        public float NotEnoughElementsStressGain { get; set; } = 5f;
     }
 }

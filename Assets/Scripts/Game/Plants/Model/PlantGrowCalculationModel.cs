@@ -6,6 +6,7 @@ namespace Game.Plants.Model
 {
     public class PlantGrowCalculationModel
     {
+        public float ActualGrowth { get; set; }
         public float GrowMultiplier { get; set; } = 1f;
         public float Damage { get; set; }
         public Dictionary<StressType, float> Stress { get; set; } = new();
