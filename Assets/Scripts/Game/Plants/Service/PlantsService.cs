@@ -13,6 +13,7 @@ using Game.Plants.Event;
 using Game.Plants.Model;
 using Game.Plants.Repo;
 using Game.Seeds.Descriptors;
+using Game.Stress.Model;
 using Game.Sunlight.Service;
 using Game.Temperature.Model;
 using Game.Temperature.Service;
@@ -162,42 +163,12 @@ namespace Game.Plants.Service
                 throw new KeyNotFoundException($"Stage not found for plant={plant.PlantId}, stage={plantCurrentStage}");
             }
 
-            PlantGrowCalculationModel growCalculationModel = new();
+            PlantGrowCalculationModel growModel = GetGrowModel(plant, soilId, plantsDescriptorModel, plantStageDescriptor);
 
-            SoilModel soilModel = _soilService.RequireSoil(soilId);
-            CalculatePhAffect(plantsDescriptorModel.PhParameters, soilModel, ref growCalculationModel);
+            Debug.LogWarning($"Plant life simulation. GrowCalcModel: growMultiplier={growModel.GrowMultiplier}, damage={growModel.Damage}");
 
-            if (plantStageDescriptor.IncludeConsumption) {
-                CalculateConsumptionMultiplier(plantStageDescriptor.PlantConsumption, soilModel, ref growCalculationModel);
-            }
-
-            if (plantStageDescriptor.IncludeSunlight) {
-                CalculateSunlightAffect(plantStageDescriptor.SunlightParameters, ref growCalculationModel);
-            }
-
-            if (plantStageDescriptor.IncludeTemperature) {
-                CalculateTemperatureAffect(plantStageDescriptor.TemperatureParameters, ref growCalculationModel);
-            }
-
-            if (plantStageDescriptor.IncludeAirHumidity) {
-                CalculateAirHumidityAffect(plantStageDescriptor.AirHumidityParameters, ref growCalculationModel);
-            }
-
-            if (plantStageDescriptor.IncludeSoilHumidity) {
-                CalculateSoilHumidityAffect(plantStageDescriptor.SoilHumidityParameters, soilModel, ref growCalculationModel);
-            }
-
-            if (plantStageDescriptor.IncludeSalinity) {
-                CalculateSalinityAffect(plantStageDescriptor.SalinityParameters, soilModel, ref growCalculationModel);
-            }
-
-            if (plantStageDescriptor.IncludeSoilHumidity) {
-                CalculateSoilHumidityAffect(plantStageDescriptor.SoilHumidityParameters, soilModel, ref growCalculationModel);
-            }
-
-            Debug.LogWarning($"Plant life simulation. GrowCalcModel: growMultiplier={growCalculationModel.GrowMultiplier}, damage={growCalculationModel.Damage}");
-
-            if (!TryApplyGrowCalculationModel(ref plant, soilId, plantStageDescriptor, growCalculationModel, dayDifference)) {
+            if (!TryApplyGrowCalculationModel(ref plant, soilId, plantStageDescriptor, plantStageDescriptor.PlantConsumption, growModel,
+                                              dayDifference)) {
                 _plantDiseaseService.UpdatePlantDiseases(ref plant, plantsDescriptorModel, soilId);
                 return;
             }
@@ -207,15 +178,61 @@ namespace Game.Plants.Service
                 return;
             }
 
-            TryGrowToNextStage(plant, plantStageDescriptor, plantsDescriptorModel);
-            if (growCalculationModel.Damage <= 0) {
+            if (!growModel.BlockHealing) {
                 TryHealPlant(ref plant, plantStageDescriptor, soilId);
-                if (growCalculationModel.GrowMultiplier > 1f) {
-                    TryIncreaseImmunity(ref plant, plantStageDescriptor);
-                }
             }
 
+            if (!growModel.BlockImmunityGain) {
+                TryIncreaseImmunity(ref plant, plantStageDescriptor);
+            }
+
+            TryGrowToNextStage(plant, plantStageDescriptor, plantsDescriptorModel);
             _plantDiseaseService.UpdatePlantDiseases(ref plant, plantsDescriptorModel, soilId);
+        }
+
+        private PlantGrowCalculationModel GetGrowModel(PlantModel plant,
+                                                       string soilId,
+                                                       PlantsDescriptorModel plantsDescriptorModel,
+                                                       PlantStageDescriptor plantStageDescriptor)
+        {
+            PlantGrowCalculationModel growModel = new();
+            SoilModel soilModel = _soilService.RequireSoil(soilId);
+            CalculatePhAffect(plantsDescriptorModel.PhParameters, soilModel, ref growModel);
+
+            if (plantStageDescriptor.IncludeSunlight) {
+                CalculateSunlightAffect(plantStageDescriptor.SunlightParameters, ref growModel);
+            }
+
+            if (plantStageDescriptor.IncludeTemperature) {
+                CalculateTemperatureAffect(plantStageDescriptor.TemperatureParameters, ref growModel);
+            }
+
+            if (plantStageDescriptor.IncludeAirHumidity) {
+                CalculateAirHumidityAffect(plantStageDescriptor.AirHumidityParameters, ref growModel);
+            }
+
+            if (plantStageDescriptor.IncludeSoilHumidity) {
+                CalculateSoilHumidityAffect(plantStageDescriptor.SoilHumidityParameters, soilModel, ref growModel);
+            }
+
+            if (plantStageDescriptor.IncludeSalinity) {
+                CalculateSalinityAffect(plantStageDescriptor.SalinityParameters, soilModel, ref growModel);
+            }
+            
+            if (plantStageDescriptor.IncludeConsumption) {
+                CalculateConsumption(plantStageDescriptor.PlantConsumption, soilModel, ref growModel);
+            }
+
+            ApplyStress(plant, plantsDescriptorModel.StressParameters, ref growModel);
+
+            return growModel;
+        }
+
+        private void ApplyStress(PlantModel plant, PlantStressParameters stressParameters, ref PlantGrowCalculationModel growModel)
+        {
+            foreach ((StressType stressType, float stressAmount) in growModel.Stress) {
+                plant.AddStress(stressType, stressAmount);
+            }
         }
 
         private void TryHealPlant(ref PlantModel plant, PlantStageDescriptor plantStageDescriptor, string soilId)
@@ -244,22 +261,23 @@ namespace Game.Plants.Service
         private bool TryApplyGrowCalculationModel(ref PlantModel plant,
                                                   string soilId,
                                                   PlantStageDescriptor plantStageDescriptor,
+                                                  PlantConsumptionDescriptor plantConsumptionDescriptor,
                                                   PlantGrowCalculationModel calculationModel,
                                                   float dayDifference)
         {
-            float growthMultiplier = dayDifference * calculationModel.GrowMultiplier;
-            float dayCoeff = growthMultiplier / plantStageDescriptor.AverageGrowTime;
+            float growth = dayDifference * calculationModel.GrowMultiplier;
+            float dayCoeff = dayDifference / plantStageDescriptor.AverageGrowTime;
 
             if (calculationModel.Damage > 0) {
                 plant.DealDamage(calculationModel.Damage);
             }
 
             if (!TryConsumeElements(plant, soilId, plantStageDescriptor, dayCoeff)) {
-                // Maybe additional damage?
+                calculationModel.Stress.TryAdd(StressType.ConsumptionOverall, plantConsumptionDescriptor.StressGain);
                 return false;
             }
 
-            plant.StageGrowth += growthMultiplier;
+            plant.StageGrowth += growth;
             Debug.Log($"Plant has grew up! PlantId={plant.PlantId}, stageGrowth={plant.StageGrowth}");
             return true;
         }
@@ -303,26 +321,21 @@ namespace Game.Plants.Service
             return result;
         }
 
-        private void CalculateConsumptionMultiplier(PlantConsumptionDescriptor consumptionDescriptor,
-                                                    SoilModel soilModel,
-                                                    ref PlantGrowCalculationModel calculationModel)
+        private void CalculateConsumption(PlantConsumptionDescriptor consumptionDescriptor,
+                                          SoilModel soilModel,
+                                          ref PlantGrowCalculationModel calculationModel)
         {
-            if (consumptionDescriptor.WaterUsage > soilModel.WaterAmount) {
-                calculationModel.GrowMultiplier += consumptionDescriptor.GrowDebuff;
+            if (consumptionDescriptor.NitrogenUsage * consumptionDescriptor.PreferredUsageMultiplier < soilModel.Elements.Nitrogen) {
+                calculationModel.GrowMultiplier += consumptionDescriptor.GrowBuff;
             }
 
-            calculationModel.GrowMultiplier +=
-                    consumptionDescriptor.NitrogenUsage * consumptionDescriptor.PreferredUsageMultiplier < soilModel.Elements.Nitrogen
-                            ? consumptionDescriptor.GrowBuff
-                            : consumptionDescriptor.GrowDebuff;
-            calculationModel.GrowMultiplier +=
-                    consumptionDescriptor.PotassiumUsage * consumptionDescriptor.PreferredUsageMultiplier < soilModel.Elements.Potassium
-                            ? consumptionDescriptor.GrowBuff
-                            : consumptionDescriptor.GrowDebuff;
-            calculationModel.GrowMultiplier +=
-                    consumptionDescriptor.PhosphorusUsage * consumptionDescriptor.PreferredUsageMultiplier < soilModel.Elements.Phosphorus
-                            ? consumptionDescriptor.GrowBuff
-                            : consumptionDescriptor.GrowDebuff;
+            if (consumptionDescriptor.PotassiumUsage * consumptionDescriptor.PreferredUsageMultiplier < soilModel.Elements.Potassium) {
+                calculationModel.GrowMultiplier += consumptionDescriptor.GrowBuff;
+            }
+
+            if (consumptionDescriptor.PhosphorusUsage * consumptionDescriptor.PreferredUsageMultiplier < soilModel.Elements.Phosphorus) {
+                calculationModel.GrowMultiplier += consumptionDescriptor.GrowBuff;
+            }
         }
 
         private void CalculateSunlightAffect(PlantSunlightParameters sunlightParameters, ref PlantGrowCalculationModel calculationModel)
@@ -330,11 +343,15 @@ namespace Game.Plants.Service
             float currentSunlight = _sunlightService.GetDailySunAmount();
             Debug.LogWarning($"Current sunlight for plant is = {currentSunlight}");
             if (sunlightParameters.MinSunlight > currentSunlight) {
-                calculationModel.Damage += sunlightParameters.DamagePerDeviation * (currentSunlight - sunlightParameters.MinSunlight);
+                float deviation = currentSunlight - sunlightParameters.MinSunlight;
+                calculationModel.Damage += sunlightParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.LowSunlight, sunlightParameters.StressGain * deviation);
             }
 
             if (sunlightParameters.MaxSunlight < currentSunlight) {
-                calculationModel.Damage += sunlightParameters.DamagePerDeviation * (sunlightParameters.MaxSunlight - currentSunlight);
+                float deviation = sunlightParameters.MaxSunlight - currentSunlight;
+                calculationModel.Damage += sunlightParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.HighSunlight, sunlightParameters.StressGain * deviation);
             }
 
             if (sunlightParameters.MinPreferredSunlight < currentSunlight && sunlightParameters.MaxPreferredSunlight > currentSunlight) {
@@ -346,11 +363,15 @@ namespace Game.Plants.Service
         {
             float currentPh = soilModel.Ph;
             if (phParameters.MinPh > currentPh) {
-                calculationModel.Damage += phParameters.DamagePerDeviation * (currentPh - phParameters.MinPh);
+                float deviation = currentPh - phParameters.MinPh;
+                calculationModel.Damage += phParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.LowPh, phParameters.StressGain * deviation);
             }
 
             if (phParameters.MaxPh < currentPh) {
-                calculationModel.Damage += phParameters.DamagePerDeviation * (phParameters.MaxPh - currentPh);
+                float deviation = phParameters.MaxPh - currentPh;
+                calculationModel.Damage += phParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.HighPh, phParameters.StressGain * deviation);
             }
 
             if (phParameters.MinPreferredPh < currentPh && phParameters.MaxPreferredPh > currentPh) {
@@ -367,11 +388,15 @@ namespace Game.Plants.Service
             float averageTemperature = currentTemperatureModel.AverageTemperature;
 
             if (temperatureParameters.MinTemperature > minNightTemperature) {
-                calculationModel.Damage += temperatureParameters.DamagePerDeviation * (temperatureParameters.MinTemperature - minNightTemperature);
+                float deviation = temperatureParameters.MinTemperature - minNightTemperature;
+                calculationModel.Damage += temperatureParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.LowTemperature, temperatureParameters.StressGain * deviation);
             }
 
             if (temperatureParameters.MaxTemperature < maxDayTemperature) {
-                calculationModel.Damage += temperatureParameters.DamagePerDeviation * (maxDayTemperature - temperatureParameters.MaxTemperature);
+                float deviation = maxDayTemperature - temperatureParameters.MaxTemperature;
+                calculationModel.Damage += temperatureParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.HighTemperature, temperatureParameters.StressGain * deviation);
             }
 
             if (temperatureParameters.MinPreferredTemperature < averageTemperature
@@ -387,11 +412,15 @@ namespace Game.Plants.Service
             Debug.Log($"Air humidity affect is = {airHumidityPercent}");
 
             if (airHumidityParameters.MinHumidity > airHumidityPercent) {
-                calculationModel.Damage += airHumidityParameters.DamagePerDeviation * (airHumidityParameters.MinHumidity - airHumidityPercent);
+                float deviation = airHumidityParameters.MinHumidity - airHumidityPercent;
+                calculationModel.Damage += airHumidityParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.LowAirHumidity, airHumidityParameters.StressGain * deviation);
             }
 
             if (airHumidityParameters.MaxHumidity < airHumidityPercent) {
-                calculationModel.Damage += airHumidityParameters.DamagePerDeviation * (airHumidityPercent - airHumidityParameters.MaxHumidity);
+                float deviation = airHumidityPercent - airHumidityParameters.MaxHumidity;
+                calculationModel.Damage += airHumidityParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.HighAirHumidity, airHumidityParameters.StressGain * deviation);
             }
 
             if (airHumidityParameters.MinPreferredHumidity < airHumidityPercent && airHumidityParameters.MaxPreferredHumidity > airHumidityPercent) {
@@ -405,11 +434,15 @@ namespace Game.Plants.Service
         {
             float soilHumidity = soilModel.SoilHumidity;
             if (soilHumidityParameters.MinHumidity > soilHumidity) {
-                calculationModel.Damage += soilHumidityParameters.DamagePerDeviation * Mathf.Abs(soilHumidity - soilHumidityParameters.MinHumidity);
+                float deviation = soilHumidityParameters.MinHumidity - soilHumidity;
+                calculationModel.Damage += soilHumidityParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.LowSoilHumidity, soilHumidityParameters.StressGain * deviation);
             }
 
             if (soilHumidityParameters.MaxHumidity < soilHumidity) {
-                calculationModel.Damage += soilHumidityParameters.DamagePerDeviation * Mathf.Abs(soilHumidity - soilHumidityParameters.MaxHumidity);
+                float deviation = soilHumidity - soilHumidityParameters.MaxHumidity;
+                calculationModel.Damage += soilHumidityParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.HighSoilHumidity, soilHumidityParameters.StressGain * deviation);
             }
 
             if (soilHumidityParameters.MinPreferredHumidity < soilHumidity && soilHumidityParameters.MaxPreferredHumidity > soilHumidity) {
@@ -423,11 +456,15 @@ namespace Game.Plants.Service
         {
             float soilHumidity = soilModel.Salinity;
             if (salinityParameters.MinSalinity > soilHumidity) {
-                calculationModel.Damage += salinityParameters.DamagePerDeviation * (salinityParameters.MinSalinity - soilHumidity);
+                float deviation = salinityParameters.MinSalinity - soilHumidity;
+                calculationModel.Damage += salinityParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.LowSalinity, salinityParameters.StressGain * deviation);
             }
 
             if (salinityParameters.MaxSalinity < soilHumidity) {
-                calculationModel.Damage += salinityParameters.DamagePerDeviation * (soilHumidity - salinityParameters.MaxSalinity);
+                float deviation = soilHumidity - salinityParameters.MaxSalinity;
+                calculationModel.Damage += salinityParameters.DamagePerDeviation * deviation;
+                calculationModel.Stress.TryAdd(StressType.HighSalinity, salinityParameters.StressGain * deviation);
             }
         }
     }

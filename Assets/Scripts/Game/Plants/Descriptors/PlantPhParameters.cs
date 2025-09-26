@@ -16,6 +16,8 @@ namespace Game.Plants.Descriptors
         public float MaxPreferredPh { get; set; } = 7.25f;
         [field: SerializeField, Range(0f, 100f), Tooltip("Damage per 1 Ph deviation")]
         public float DamagePerDeviation { get; set; } = 10f;
+        [field: SerializeField, Range(0f, 100f), Tooltip("Stress gain per 1 ph deviation")]
+        public float StressGain { get; set; } = 5f;
         [field: SerializeField, Range(0f, 2f), Tooltip("Buff for preferred Ph")]
         public float GrowBuff { get; set; } = 0.05f;
     }

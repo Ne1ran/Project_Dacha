@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Game.Diseases.Model;
 using Game.GameMap.Soil.Model;
+using Game.Stress.Model;
+using Game.Utils;
 
 namespace Game.Plants.Model
 {
@@ -12,6 +14,7 @@ namespace Game.Plants.Model
         public ElementsModel TakenElements { get; set; }
         public float Health { get; set; }
         public float Immunity { get; set; }
+        public Dictionary<StressType, float> Stress { get; set; }
         public float StageGrowth { get; set; }
         public List<DiseaseModel> DiseaseModels { get; set; }
         public bool InspectedToday { get; set; }
@@ -25,6 +28,7 @@ namespace Game.Plants.Model
             Immunity = immunity;
             TakenElements = new(0f, 0f, 0f);
             DiseaseModels = new();
+            Stress = new();
         }
 
         public void AddElements(ElementsModel elements)
@@ -49,6 +53,11 @@ namespace Game.Plants.Model
                 CurrentStage = PlantGrowStage.DEAD;
                 // todo neiran throw event?
             }
+        }
+
+        public void AddStress(StressType stressType, float amount)
+        {
+            Stress.AddOrSum(stressType, amount);
         }
     }
 }

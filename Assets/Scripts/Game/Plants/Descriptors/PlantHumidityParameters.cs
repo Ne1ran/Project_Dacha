@@ -15,8 +15,10 @@ namespace Game.Plants.Descriptors
         [field: SerializeField, Range(0f, 100f), Tooltip("Max humidity preferred by plant")]
         public float MaxPreferredHumidity { get; set; } = 65f;
         [field: SerializeField, Range(0f, 100f), Tooltip("Damage per 1 humidity deviation")]
-        public float DamagePerDeviation { get; set; } = 0.5f;
-        [field: SerializeField, Range(0f, 100f), Tooltip("Grow buff for preferred humidity")]
+        public float DamagePerDeviation { get; set; } = 0.25f;
+        [field: SerializeField, Range(0f, 2), Tooltip("Grow buff for preferred humidity")]
         public float GrowBuff { get; set; } = 0.05f;
+        [field: SerializeField, Range(0f, 2), Tooltip("Stress gain per humidity deviation")]
+        public float StressGain { get; set; } = 0.1f;
     }
 }

@@ -17,6 +17,14 @@ MonoBehaviour:
     <Name>k__BackingField: Cucumber
     <PlantsCount>k__BackingField: 4
     <FamilyType>k__BackingField: 13
+    <DailyStressDecrease>k__BackingField: 3
+    <PhParameters>k__BackingField:
+      <MinPh>k__BackingField: 5.25
+      <MaxPh>k__BackingField: 7.5
+      <MinPreferredPh>k__BackingField: 6
+      <MaxPreferredPh>k__BackingField: 7
+      <DamagePerDeviation>k__BackingField: 10
+      <GrowBuff>k__BackingField: 0.05
     <Visualization>k__BackingField:
       <Type>k__BackingField: 1
       <Offset>k__BackingField: 0.4
@@ -42,6 +50,7 @@ MonoBehaviour:
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 0
       <IncludeSoilHumidity>k__BackingField: 1
+      <IncludeSalinity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
         <NitrogenUsage>k__BackingField: 0.5
         <PotassiumUsage>k__BackingField: 0.5
@@ -78,6 +87,10 @@ MonoBehaviour:
         <MaxPreferredHumidity>k__BackingField: 75
         <DamagePerDeviation>k__BackingField: 5
         <GrowBuff>k__BackingField: 0.15
+      <SalinityParameters>k__BackingField:
+        <MinSalinity>k__BackingField: 0.01
+        <MaxSalinity>k__BackingField: 0.155
+        <DamagePerDeviation>k__BackingField: 100
     - <Stage>k__BackingField: 10
       <Prefab>k__BackingField:
         m_AssetGUID: 68e99fbad816a8343b710c3955e2bff1
@@ -93,6 +106,7 @@ MonoBehaviour:
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
       <IncludeSoilHumidity>k__BackingField: 1
+      <IncludeSalinity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
         <NitrogenUsage>k__BackingField: 2
         <PotassiumUsage>k__BackingField: 2
@@ -129,6 +143,10 @@ MonoBehaviour:
         <MaxPreferredHumidity>k__BackingField: 65
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
+      <SalinityParameters>k__BackingField:
+        <MinSalinity>k__BackingField: 0.01
+        <MaxSalinity>k__BackingField: 0.2
+        <DamagePerDeviation>k__BackingField: 100
     - <Stage>k__BackingField: 15
       <Prefab>k__BackingField:
         m_AssetGUID: 68e99fbad816a8343b710c3955e2bff1
@@ -144,6 +162,7 @@ MonoBehaviour:
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
       <IncludeSoilHumidity>k__BackingField: 1
+      <IncludeSalinity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
         <NitrogenUsage>k__BackingField: 5
         <PotassiumUsage>k__BackingField: 5
@@ -180,6 +199,10 @@ MonoBehaviour:
         <MaxPreferredHumidity>k__BackingField: 65
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
+      <SalinityParameters>k__BackingField:
+        <MinSalinity>k__BackingField: 0.01
+        <MaxSalinity>k__BackingField: 0.165
+        <DamagePerDeviation>k__BackingField: 100
     - <Stage>k__BackingField: 20
       <Prefab>k__BackingField:
         m_AssetGUID: 9ddccdc780f22fb4d999c26b1f8b27f1
@@ -195,6 +218,7 @@ MonoBehaviour:
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
       <IncludeSoilHumidity>k__BackingField: 1
+      <IncludeSalinity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
         <NitrogenUsage>k__BackingField: 4
         <PotassiumUsage>k__BackingField: 8
@@ -231,6 +255,10 @@ MonoBehaviour:
         <MaxPreferredHumidity>k__BackingField: 65
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
+      <SalinityParameters>k__BackingField:
+        <MinSalinity>k__BackingField: 0.01
+        <MaxSalinity>k__BackingField: 0.175
+        <DamagePerDeviation>k__BackingField: 100
     - <Stage>k__BackingField: 25
       <Prefab>k__BackingField:
         m_AssetGUID: 9ddccdc780f22fb4d999c26b1f8b27f1
@@ -246,6 +274,7 @@ MonoBehaviour:
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
       <IncludeSoilHumidity>k__BackingField: 1
+      <IncludeSalinity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
         <NitrogenUsage>k__BackingField: 3
         <PotassiumUsage>k__BackingField: 6
@@ -282,6 +311,10 @@ MonoBehaviour:
         <MaxPreferredHumidity>k__BackingField: 65
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
+      <SalinityParameters>k__BackingField:
+        <MinSalinity>k__BackingField: 0.01
+        <MaxSalinity>k__BackingField: 0.185
+        <DamagePerDeviation>k__BackingField: 100
     - <Stage>k__BackingField: 30
       <Prefab>k__BackingField:
         m_AssetGUID: bb9b8b5d551aeba48ab7a6c7b8a11564
@@ -297,6 +330,7 @@ MonoBehaviour:
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
       <IncludeSoilHumidity>k__BackingField: 1
+      <IncludeSalinity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
         <NitrogenUsage>k__BackingField: 2
         <PotassiumUsage>k__BackingField: 5
@@ -333,6 +367,10 @@ MonoBehaviour:
         <MaxPreferredHumidity>k__BackingField: 65
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.05
+      <SalinityParameters>k__BackingField:
+        <MinSalinity>k__BackingField: 0.01
+        <MaxSalinity>k__BackingField: 0.2
+        <DamagePerDeviation>k__BackingField: 100
     - <Stage>k__BackingField: 35
       <Prefab>k__BackingField:
         m_AssetGUID: bb9b8b5d551aeba48ab7a6c7b8a11564
@@ -348,6 +386,7 @@ MonoBehaviour:
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
       <IncludeSoilHumidity>k__BackingField: 1
+      <IncludeSalinity>k__BackingField: 1
       <PlantConsumption>k__BackingField:
         <NitrogenUsage>k__BackingField: 2
         <PotassiumUsage>k__BackingField: 2
@@ -384,6 +423,10 @@ MonoBehaviour:
         <MaxPreferredHumidity>k__BackingField: 85
         <DamagePerDeviation>k__BackingField: 0.5
         <GrowBuff>k__BackingField: 0.2
+      <SalinityParameters>k__BackingField:
+        <MinSalinity>k__BackingField: 0.01
+        <MaxSalinity>k__BackingField: 0.2
+        <DamagePerDeviation>k__BackingField: 100
     - <Stage>k__BackingField: 40
       <Prefab>k__BackingField:
         m_AssetGUID: bb9b8b5d551aeba48ab7a6c7b8a11564
@@ -399,6 +442,7 @@ MonoBehaviour:
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
       <IncludeSoilHumidity>k__BackingField: 1
+      <IncludeSalinity>k__BackingField: 0
       <PlantConsumption>k__BackingField:
         <NitrogenUsage>k__BackingField: 0
         <PotassiumUsage>k__BackingField: 0
@@ -435,3 +479,7 @@ MonoBehaviour:
         <MaxPreferredHumidity>k__BackingField: 95
         <DamagePerDeviation>k__BackingField: 1
         <GrowBuff>k__BackingField: 0.2
+      <SalinityParameters>k__BackingField:
+        <MinSalinity>k__BackingField: 0.01
+        <MaxSalinity>k__BackingField: 0.2
+        <DamagePerDeviation>k__BackingField: 100
