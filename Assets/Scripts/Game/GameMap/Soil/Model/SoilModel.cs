@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.Diseases.Model;
 using Game.Fertilizers.Model;
 using Game.Plants.Model;
@@ -72,7 +71,7 @@ namespace Game.GameMap.Soil.Model
                 throw new("Not enough humus!");
             }
             
-            Humus -= humus;
+            Humus -= humus / Mass;
         }
 
         public bool TryConsume(float water, ElementsModel elements)
@@ -90,7 +89,7 @@ namespace Game.GameMap.Soil.Model
 
             float totalMass = elements.TotalMass();
             if (Humus > totalMass) {
-                Humus -= totalMass;
+                Humus -= totalMass / Mass;
                 return true;
             }
 
@@ -103,11 +102,11 @@ namespace Game.GameMap.Soil.Model
                 return false;
             }
 
-            Humus -= humus;
+            Humus -= humus / Mass;
             return true;
         }
 
         public bool WellWatered => WaterAmount > 1f && SoilHumidity > 50f;
-        public float SoilHumidity => WaterAmount * Breathability / 100f;
+        public float SoilHumidity => WaterAmount * Breathability;
     } 
 }

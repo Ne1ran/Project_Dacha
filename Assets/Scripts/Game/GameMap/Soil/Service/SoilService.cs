@@ -325,14 +325,15 @@ namespace Game.GameMap.Soil.Service
                 soil.Salinity += salinityDiff / dayCoeff;
             }
 
-            if (!MathUtils.IsFuzzyEquals(soilDesc.Breathability, soil.Breathability, 0.1f)) {
+            if (!MathUtils.IsFuzzyEquals(soilDesc.Breathability, soil.Breathability, 0.01f)) {
                 float breathabilityDiff = soilDesc.Breathability - soil.Breathability;
                 soil.Breathability += breathabilityDiff / dayCoeff;
             }
 
-            if (soil.Humus / 1000f - soilDesc.Humus < 0.01f) {
-                float humusDiff = soilDesc.Humus - soil.Humus;
-                soil.Humus += humusDiff / dayCoeff;
+            float humusProportion = soil.Humus / soil.Mass;
+            if (humusProportion - soilDesc.Humus < 0) {
+                float humusDiff = soilDesc.Humus - humusProportion;
+                soil.Humus += humusDiff * soil.Mass / dayCoeff;
             }
 
             return soil;
