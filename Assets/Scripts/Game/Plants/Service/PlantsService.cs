@@ -14,7 +14,9 @@ using Game.Plants.Model;
 using Game.Plants.PlantParams;
 using Game.Plants.Repo;
 using Game.Seeds.Descriptors;
+using Game.Stress.Descriptor;
 using Game.Stress.Model;
+using Game.Symptoms.Descriptor;
 using Game.Utils;
 using MessagePipe;
 using UnityEngine;
@@ -70,24 +72,80 @@ namespace Game.Plants.Service
             return _plantsRepo.Get(tileId);
         }
 
-        public void InspectPlant(string tileId)
+        public PlantInspectionModel? InspectPlant(string tileId)
         {
-            if (_plantsRepo.Exists(tileId)) {
+            if (!_plantsRepo.Exists(tileId)) {
                 Debug.LogWarning($"Plant doesn't exists on tile={tileId}");
-                return;
+                return null;
             }
 
             PlantModel plantModel = _plantsRepo.Require(tileId);
+            if (plantModel.CurrentStage == PlantGrowStage.SEED) {
+                return null;
+            }
+
             if (plantModel.InspectedToday) {
                 Debug.Log($"No need to double inspect plant on tile={tileId}");
-                return;
+                return new(plantModel);
             }
 
             if (plantModel.DiseaseModels.Count > 0) {
                 _plantDiseaseService.CheckSymptoms(plantModel);
             }
 
+            CheckStressSymptoms(plantModel);
             plantModel.InspectedToday = true;
+            return new(plantModel);
+        }
+
+        private void CheckStressSymptoms(PlantModel plantModel)
+        {
+            StressDescriptor stressDescriptor = _descriptorService.Require<StressDescriptor>();
+            SymptomsDescriptor symptomsDescriptor = _descriptorService.Require<SymptomsDescriptor>();
+            foreach ((StressType stressType, StressModel stressModel) in plantModel.Stress) {
+                if (!stressDescriptor.Items.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
+                    continue;
+                }
+
+                if (stressDescriptorItem.SymptomsShowThreshold > stressModel.StressValue) {
+                    continue;
+                }
+
+                float showSymptomRoll = UnityEngine.Random.Range(0f, 1f);
+                if (showSymptomRoll < stressDescriptorItem.SymptomShowChance) {
+                    continue;
+                }
+
+                List<string> allSymptoms = stressDescriptorItem.Symptoms;
+                if (stressDescriptorItem.PlantFamilySymptoms.TryGetValue(plantModel.FamilyType, out List<string> plantFamilySymptoms)) {
+                    allSymptoms.AddRange(plantFamilySymptoms);
+                }
+
+                List<string> possibleSymptoms = GetPossibleSymptoms(ref allSymptoms, symptomsDescriptor, plantModel.FamilyType);
+                if (possibleSymptoms.Count == 0) {
+                    continue;
+                }
+
+                string selectedSymptom = possibleSymptoms.PickRandom();
+                stressModel.StressSymptoms.Add(selectedSymptom);
+            }
+        }
+
+        private List<string> GetPossibleSymptoms(ref List<string> allSymptoms, SymptomsDescriptor symptomsDescriptor, PlantFamilyType plantFamilyType)
+        {
+            for (int i = 0; i < allSymptoms.Count; i++) {
+                string symptom = allSymptoms[i];
+                if (!symptomsDescriptor.Items.TryGetValue(symptom, out SymptomDescriptorModel descriptorModel)) {
+                    allSymptoms.Remove(symptom);
+                    continue;
+                }
+
+                if (descriptorModel.BannedFamilyTypes.Contains(plantFamilyType)) {
+                    allSymptoms.Remove(symptom);
+                }
+            }
+
+            return allSymptoms;
         }
 
         public void RemovePlant(string tileId)
@@ -180,12 +238,12 @@ namespace Game.Plants.Service
         {
             List<StressType> plantStressTypes = plant.Stress.Keys.ToList();
             foreach (StressType stressType in plantStressTypes) {
-                plant.Stress[stressType] -= stressParameters.DailyStressDecrease;
+                plant.Stress[stressType].StressValue -= stressParameters.DailyStressDecrease;
             }
 
             List<StressType> stressToRemove = new();
-            foreach ((StressType stressType, float value) in plant.Stress) {
-                if (value <= 0f) {
+            foreach ((StressType stressType, StressModel stressModel) in plant.Stress) {
+                if (stressModel.StressValue <= 0f) {
                     stressToRemove.Add(stressType);
                 }
             }
@@ -248,7 +306,13 @@ namespace Game.Plants.Service
                 return;
             }
 
-            float maxStress = plant.Stress.Values.Max();
+            float maxStress = 0;
+            foreach (StressModel stressModel in plant.Stress.Values) {
+                if (stressModel.StressValue > maxStress) {
+                    maxStress = stressModel.StressValue;
+                }
+            }
+
             float blockHealingThreshold = stressParameters.MaxStress * stressParameters.BlockHealingThreshold;
             float blockImmunityGainThreshold = stressParameters.MaxStress * stressParameters.BlockImmunityGainThreshold;
             float blockGrowthThreshold = stressParameters.MaxStress * stressParameters.BlockGrowthThreshold;

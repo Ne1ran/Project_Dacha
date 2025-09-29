@@ -5,9 +5,13 @@ using Core.Scopes;
 using Cysharp.Threading.Tasks;
 using Game.Calendar.Model;
 using Game.Calendar.Service;
+using Game.Common.Controller;
 using Game.Items.Controller;
 using Game.Items.Descriptors;
 using Game.Items.Service;
+using Game.Plants.Component;
+using Game.Plants.Service;
+using Game.Player.Controller;
 using Game.Player.Service;
 using Game.Seeds.Component;
 using Game.Seeds.Descriptors;
@@ -164,6 +168,23 @@ namespace Core.Console
         public static void SimulateYears(int times)
         {
             Container.Resolve<CalendarGenerationService>().SimulateYears(times);
+        }
+
+        [ConsoleMethod("inspectPlant", "Inspect plant on the tile")]
+        public static void InspectPlant(int tileId)
+        {
+            Container.Resolve<PlantsService>().InspectPlant(tileId.ToString());
+        }
+
+        [ConsoleMethod("inspectPlantOnSight", "Simulate years of calendar for some checks")]
+        public static void InspectPlant()
+        {
+            PlayerService playerService = Container.Resolve<PlayerService>();
+            PlayerController player = playerService.Player;
+            IInteractableComponent? playerCurrentLook = player.CurrentLook;
+            if (playerCurrentLook is PlantController plantController) {
+                Container.Resolve<PlantsService>().InspectPlant(plantController.TileId);
+            } 
         }
 
         private static IObjectResolver Container => AppContext.CurrentScope.Container;

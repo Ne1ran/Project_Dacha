@@ -2,7 +2,6 @@
 using Game.Diseases.Model;
 using Game.GameMap.Soil.Model;
 using Game.Stress.Model;
-using Game.Utils;
 using UnityEngine;
 
 namespace Game.Plants.Model
@@ -12,12 +11,12 @@ namespace Game.Plants.Model
         public string PlantId { get; }
         public PlantFamilyType FamilyType { get; }
         public PlantGrowStage CurrentStage { get; set; }
-        public ElementsModel TakenElements { get; set; }
+        public float StageGrowth { get; set; }
         public float Health { get; set; }
         public float Immunity { get; set; }
-        public Dictionary<StressType, float> Stress { get; set; }
-        public float StageGrowth { get; set; }
+        public Dictionary<StressType, StressModel> Stress { get; set; }
         public List<DiseaseModel> DiseaseModels { get; set; }
+        public ElementsModel TakenElements { get; set; }
         public bool InspectedToday { get; set; }
 
         public PlantModel(string plantId, PlantFamilyType familyType, PlantGrowStage stage, float health, float immunity)
@@ -58,10 +57,10 @@ namespace Game.Plants.Model
 
         public void AddStress(StressType stressType, float amount, float maxStress)
         {
-            if (Stress.TryGetValue(stressType, out float stressAmount)) {
-                Stress[stressType] = Mathf.Min(stressAmount + amount, maxStress);
+            if (Stress.TryGetValue(stressType, out StressModel stressModel)) {
+                Stress[stressType].StressValue = Mathf.Min(stressModel.StressValue + amount, maxStress);
             } else {
-                Stress.Add(stressType, Mathf.Min(amount, maxStress));
+                Stress.Add(stressType, new(Mathf.Min(amount, maxStress)));
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Core.Attributes;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Repo;
@@ -27,11 +26,10 @@ namespace Game.GameMap.Tiles.Service
             _tileRepo.Save(new());
         }
 
-        public SingleTileModel CreateTile(Vector3 position)
+        public SingleTileModel CreateTile(Vector3 position, int id)
         {
-            TilesModel tilesModel = _tileRepo.Require();
-            string tileGuid = Guid.NewGuid().ToString();
-            SingleTileModel newTileModel = new(tileGuid, position);
+            TilesModel tilesModel = _tileRepo.Require(); ;
+            SingleTileModel newTileModel = new(id.ToString(), position);
             tilesModel.AddTile(newTileModel);
             _tileRepo.Save(tilesModel);
             return newTileModel;
@@ -43,9 +41,10 @@ namespace Game.GameMap.Tiles.Service
 
             TilesModel tilesModel = _tileRepo.Require();
 
-            foreach (Vector3 tilePosition in position) {
-                string tileGuid = Guid.NewGuid().ToString();
-                SingleTileModel newTileModel = new(tileGuid, tilePosition);
+            for (int i = 0; i < position.Count; i++) {
+                Vector3 tilePosition = position[i];
+                string id = i.ToString();
+                SingleTileModel newTileModel = new(id, tilePosition);
                 newTiles.Add(newTileModel);
             }
 
@@ -54,11 +53,11 @@ namespace Game.GameMap.Tiles.Service
             return newTiles;
         }
 
-        public void RemoveTile(string guid)
+        public void RemoveTile(string id)
         {
             TilesModel tilesModel = _tileRepo.Require();
-            if (!tilesModel.TryRemoveTile(guid)) {
-                Debug.LogWarning($"Tried to remove tile but couldn't found it. Guid={guid}");
+            if (!tilesModel.TryRemoveTile(id)) {
+                Debug.LogWarning($"Tried to remove tile but couldn't found it. id={id}");
             }
         }
 
@@ -67,11 +66,11 @@ namespace Game.GameMap.Tiles.Service
             return _tileRepo.Require().Tiles;
         }
 
-        private SingleTileModel RequireTileModel(string guid, TilesModel tilesModel)
+        private SingleTileModel RequireTileModel(string id, TilesModel tilesModel)
         {
-            SingleTileModel tileModel = tilesModel.Tiles.Find(tile => tile.Id == guid);
+            SingleTileModel tileModel = tilesModel.Tiles.Find(tile => tile.Id == id);
             if (tileModel == null) {
-                throw new KeyNotFoundException($"No tile found for guid={guid}");
+                throw new KeyNotFoundException($"No tile found for id={id}");
             }
 
             return tileModel;
