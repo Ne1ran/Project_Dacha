@@ -21,6 +21,10 @@ namespace Game.Plants.Descriptors
         public int PlantsCount { get; set; } = 1;
         [field: SerializeField, Tooltip("Family type of a plant")]
         public PlantFamilyType FamilyType { get; set; } = PlantFamilyType.None;
+        [field: SerializeField, Tooltip("Plant ph parameters to grow")]
+        public PlantPhParameters PhParameters { get; set; } = null!;
+        [field: SerializeField, Tooltip("Plant stress parameters")]
+        public PlantStressParameters StressParameters { get; set; } = null!;
         [field: SerializeField]
         public PlantVisualizationDescriptor Visualization { get; set; } = null!;
         [field: SerializeField]
@@ -32,7 +36,7 @@ namespace Game.Plants.Descriptors
             if (plantStageDescriptor == null) {
                 throw new KeyNotFoundException($"Plant selected stage not found={stage}");
             }
-            
+
             return plantStageDescriptor;
         }
     }

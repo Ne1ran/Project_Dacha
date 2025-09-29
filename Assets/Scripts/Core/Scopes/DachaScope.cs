@@ -21,6 +21,7 @@ using Game.Inventory.Repo;
 using Game.Inventory.Service;
 using Game.Items.Service;
 using Game.PieMenu.Service;
+using Game.Plants.PlantParams;
 using Game.Plants.Repo;
 using Game.Plants.Service;
 using Game.Player.Service;
@@ -82,6 +83,7 @@ namespace Core.Scopes
             builder.Register<ToolUseHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<PieMenuPrepareFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<InteractionHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<PlantsParametersHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<CalendarGenerationService>(Lifetime.Singleton);

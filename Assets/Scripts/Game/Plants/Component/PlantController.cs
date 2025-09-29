@@ -102,5 +102,7 @@ namespace Game.Plants.Component
         {
             return UniTask.CompletedTask;
         }
+
+        public string TileId => _tileId;
     }
 }

@@ -11,5 +11,6 @@
         
         public const string GrowStage = "GrowStage";
         public const string Operation = "Operation";
+        public const string SoilId = "SoilId";
     }
 }

@@ -15,12 +15,11 @@ namespace Game.Calendar.Service
     {
         private readonly Random _random = new();
 
-        public List<CalendarDayWeather> GenerateMonthlyWeather(MonthClimateSettings settings)
+        public List<CalendarDayWeather> GenerateMonthlyWeather(MonthClimateSettings settings, int daysInMonth)
         {
-            int daysCount = settings.DaysCount;
-            float[] temperatures = GetDailyTemperatures(settings, daysCount, out float monthlyAverageTemperature);
-            WeatherType[] dailyWeather = GetAllDaysWeather(settings.Weather, temperatures, daysCount);
-            return GetCalendarDayResults(settings, daysCount, temperatures, dailyWeather, monthlyAverageTemperature);
+            float[] temperatures = GetDailyTemperatures(settings, daysInMonth, out float monthlyAverageTemperature);
+            WeatherType[] dailyWeather = GetAllDaysWeather(settings.Weather, temperatures, daysInMonth);
+            return GetCalendarDayResults(settings, daysInMonth, temperatures, dailyWeather, monthlyAverageTemperature);
         }
 
         private List<CalendarDayWeather> GetCalendarDayResults(MonthClimateSettings settings,

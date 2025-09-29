@@ -6,7 +6,6 @@ using Game.Calendar.Model;
 using Game.Difficulty.Model;
 using Game.Weather.Model;
 using UnityEngine;
-using IInitializable = VContainer.Unity.IInitializable;
 
 namespace Game.Calendar.Service
 {
@@ -27,7 +26,7 @@ namespace Game.Calendar.Service
             DachaPlaceType difficulty = DachaPlaceType.Middle; // todo neiran implement difficulty system
             CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(difficulty, month);
             WeatherGenerator generator = new();
-            return generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
+            return generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings, calendarMonthModel.DaysCount);
         }
 
         public void Simulate(MonthType monthType, int times)
@@ -50,7 +49,7 @@ namespace Game.Calendar.Service
 
             for (int i = 0; i < times; i++) {
                 WeatherGenerator generator = new();
-                List<CalendarDayWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
+                List<CalendarDayWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings, calendarMonthModel.DaysCount);
                 foreach (CalendarDayWeather dailyWeather in month) {
                     days++;
                     Debug.Log($"CurrentDay={dailyWeather.Day} \n" + $"Weather is {dailyWeather.WeatherType.ToString()} \n"
@@ -151,7 +150,7 @@ namespace Game.Calendar.Service
                 CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(DachaPlaceType.Middle, monthType);
 
                 WeatherGenerator generator = new();
-                List<CalendarDayWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
+                List<CalendarDayWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings, calendarMonthModel.DaysCount);
                 foreach (CalendarDayWeather dailyWeather in month) {
                     days++;
                     Debug.Log($"CurrentDay={dailyWeather.Day} \n" + $"Weather is {dailyWeather.WeatherType.ToString()} \n"
@@ -256,7 +255,7 @@ namespace Game.Calendar.Service
                     CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(DachaPlaceType.Middle, monthType);
 
                     WeatherGenerator generator = new();
-                    List<CalendarDayWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings);
+                    List<CalendarDayWeather> month = generator.GenerateMonthlyWeather(calendarMonthModel.ClimateSettings, calendarMonthModel.DaysCount);
                     foreach (CalendarDayWeather dailyWeather in month) {
                         days++;
                         Debug.Log($"CurrentDay={dailyWeather.Day} \n" + $"Weather is {dailyWeather.WeatherType.ToString()} \n"

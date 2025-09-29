@@ -1,7 +1,10 @@
 ﻿using Core.Attributes;
+using Core.Descriptors.Service;
+using Game.Calendar.Descriptor;
 using Game.Calendar.Event;
 using Game.Calendar.Model;
 using Game.Calendar.Repo;
+using Game.Difficulty.Model;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
@@ -12,16 +15,19 @@ namespace Game.Calendar.Service
     public class TimeService : IInitializable
     {
         private readonly TimeRepo _timeRepo;
+        private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, TimeChangeEvent> _timeChangePublisher;
         private readonly IPublisher<string, DayChangedEvent> _dayFinishedPublisher;
 
         public TimeService(TimeRepo timeRepo,
                            IPublisher<string, TimeChangeEvent> timeChangePublisher,
-                           IPublisher<string, DayChangedEvent> dayFinishedPublisher)
+                           IPublisher<string, DayChangedEvent> dayFinishedPublisher,
+                           IDescriptorService descriptorService)
         {
             _timeRepo = timeRepo;
             _timeChangePublisher = timeChangePublisher;
             _dayFinishedPublisher = dayFinishedPublisher;
+            _descriptorService = descriptorService;
         }
 
         public void Initialize()
@@ -48,10 +54,7 @@ namespace Game.Calendar.Service
             int savedCurrentDay = timeModel.CurrentDay;
 
             if (timeModel.CurrentMinutes >= Constants.Constants.END_DAY_TIME) {
-                timeModel.CurrentDay++;
-                timeModel.CurrentMinutes = 0;
-                _dayFinishedPublisher.Publish(DayChangedEvent.DAY_FINISHED, new(timeModel.CurrentDay, timeModel.CurrentDay - savedCurrentDay));
-                Debug.Log($"Day passed! Current time: {timeModel.CurrentMinutes}");
+                PassDay(timeModel, savedCurrentDay);
             }
 
             _timeChangePublisher.Publish(TimeChangeEvent.PASSED, new(diff, newTime));
@@ -65,10 +68,28 @@ namespace Game.Calendar.Service
             int diff = Constants.Constants.END_DAY_TIME - timeModel.CurrentMinutes;
 
             int savedCurrentDay = timeModel.CurrentDay;
+            PassDay(timeModel, savedCurrentDay);
+            _timeChangePublisher.Publish(TimeChangeEvent.PASSED, new(diff, timeModel.CurrentMinutes));
+        }
+
+        private void PassDay(TimeModel timeModel, int currentDay)
+        {
+            CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
+            CalendarMonthModel currentMonthDescriptor = calendarDescriptor.FindByType(DachaPlaceType.Middle, (MonthType) timeModel.CurrentMonth);
+            if (currentMonthDescriptor.DaysCount <= currentDay) {
+                timeModel.CurrentDay = 0;
+                if (timeModel.CurrentMonth >= 12) {
+                    timeModel.CurrentMonth = 1;
+                    timeModel.CurrentYear += 1;
+                } else {
+                    timeModel.CurrentMonth++;
+                }
+            }
+
             timeModel.CurrentDay++;
             timeModel.CurrentMinutes = 0;
-            _dayFinishedPublisher.Publish(DayChangedEvent.DAY_FINISHED, new(timeModel.CurrentDay, timeModel.CurrentDay - savedCurrentDay));
-            _timeChangePublisher.Publish(TimeChangeEvent.PASSED, new(diff, timeModel.CurrentMinutes));
+            _dayFinishedPublisher.Publish(DayChangedEvent.DAY_FINISHED, new(timeModel.CurrentDay, 1));
+            Debug.Log($"Day passed! Current time: {timeModel.CurrentMinutes}");
         }
 
         public void StartDay()

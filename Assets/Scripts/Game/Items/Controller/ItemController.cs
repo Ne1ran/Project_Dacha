@@ -1,26 +1,23 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Core.Resources.Binding.Attributes;
+using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
 using Game.Items.Service;
-using Game.Utils;
 using UnityEngine;
 using VContainer;
 
 namespace Game.Items.Controller
 {
+    [NeedBinding]
     public class ItemController : MonoBehaviour, IInteractableComponent
     {
         [Inject]
         private PickUpItemService _pickUpItemService = null!;
-        
+
+        [ComponentBinding]
         private Rigidbody _rigidbody = null!;
 
         private string _itemId = null!;
         
-        private void Start()
-        {
-            _rigidbody = this.RequireComponent<Rigidbody>();
-        }
-
         public void Initialize(string itemId)
         {
             _itemId = itemId;

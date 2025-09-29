@@ -45,14 +45,33 @@ namespace Game.GameMap.Soil.Model
         public void ApplyFertilizer(FertilizerSoilModel model)
         {
             Mass += model.Mass;
-            Salinity += model.Mass / Mass;
             Ph += model.PhChange;
             Breathability += model.BreathabilityChange;
             Humus += model.HumusMass;
             Elements.Nitrogen += model.NitrogenMass;
             Elements.Potassium += model.PotassiumMass;
             Elements.Phosphorus += model.PhosphorusMass;
-            Debug.LogWarning($"Fertilizer used. New soil data = {Mass}, {Ph}, {Salinity}, {Breathability}, {Humus}, {Elements.Nitrogen}, {Elements.Potassium}, {Elements.Phosphorus}");
+            Debug.LogWarning($"Fertilizer used. New soil data = {Mass}, {Ph}, {Breathability}, {Humus}, {Elements.Nitrogen}, {Elements.Potassium}, {Elements.Phosphorus}");
+        }
+
+        public void Consume(float water, ElementsModel elements, float humus = 0f)
+        {
+            if (WaterAmount < water) {
+                throw new("Not enough water!");
+            }
+
+            WaterAmount -= water;
+            if (!Elements.HasEnoughElements(elements)) {
+                throw new("Not enough elements in soil!");
+            }
+            
+            Elements.SubtractIfPossible(elements);
+            
+            if (Humus < humus) {
+                throw new("Not enough humus!");
+            }
+            
+            Humus -= humus / Mass;
         }
 
         public bool TryConsume(float water, ElementsModel elements)
@@ -70,7 +89,7 @@ namespace Game.GameMap.Soil.Model
 
             float totalMass = elements.TotalMass();
             if (Humus > totalMass) {
-                Humus -= totalMass;
+                Humus -= totalMass / Mass;
                 return true;
             }
 
@@ -83,11 +102,11 @@ namespace Game.GameMap.Soil.Model
                 return false;
             }
 
-            Humus -= humus;
+            Humus -= humus / Mass;
             return true;
         }
 
         public bool WellWatered => WaterAmount > 1f && SoilHumidity > 50f;
-        public float SoilHumidity => WaterAmount * Breathability / 100f;
+        public float SoilHumidity => WaterAmount * Breathability;
     } 
 }

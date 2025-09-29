@@ -91,7 +91,7 @@ namespace Game.GameMap.Soil.Service
             soilModel.Breathability = Mathf.Min(minBreathability, soilModel.Breathability * 1.25f);
             soilModel.State = SoilState.None;
             soilModel.DugRecently = true;
-            
+
             _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
             return true;
         }
@@ -224,7 +224,10 @@ namespace Game.GameMap.Soil.Service
         public void AddFertilizer(string tileId, string fertilizerId, float portionMassGramms)
         {
             SoilModel soilModel = GerOrCreate(tileId);
-            AddFertilizer(soilModel, fertilizerId, portionMassGramms / 1000f);
+            float massKg = portionMassGramms / 1000f;
+            AddFertilizer(soilModel, fertilizerId, massKg);
+            // salinity adds instantly
+            soilModel.Salinity += massKg / soilModel.Mass;
         }
 
         public void UpdateCropRotation(string tileId, PlantFamilyType plantFamilyType)
@@ -276,6 +279,12 @@ namespace Game.GameMap.Soil.Service
             return soil.TryConsume(waterUsage, elementsModel);
         }
 
+        public void ConsumeForPlant(string soilId, float waterUsage, ElementsModel elementsModel, float humus = 0f)
+        {
+            SoilModel soil = RequireSoil(soilId);
+            soil.Consume(waterUsage, elementsModel, humus);
+        }
+
         public float GetSoilHumidity(string soilId)
         {
             SoilModel soilModel = RequireSoil(soilId);
@@ -308,22 +317,23 @@ namespace Game.GameMap.Soil.Service
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Ph, soil.Ph, 0.01f)) {
                 float phDiff = soilDesc.Ph - soil.Ph;
-                soil.Ph = phDiff / dayCoeff;
+                soil.Ph += phDiff / dayCoeff;
             }
 
             if (!MathUtils.IsFuzzyEquals(soilDesc.Salinity, soil.Salinity, 0.01f)) {
                 float salinityDiff = soilDesc.Salinity - soil.Salinity;
-                soil.Salinity = salinityDiff / dayCoeff;
+                soil.Salinity += salinityDiff / dayCoeff;
             }
 
-            if (!MathUtils.IsFuzzyEquals(soilDesc.Breathability, soil.Breathability, 0.1f)) {
+            if (!MathUtils.IsFuzzyEquals(soilDesc.Breathability, soil.Breathability, 0.01f)) {
                 float breathabilityDiff = soilDesc.Breathability - soil.Breathability;
-                soil.Breathability = breathabilityDiff / dayCoeff;
+                soil.Breathability += breathabilityDiff / dayCoeff;
             }
 
-            if (!MathUtils.IsFuzzyEquals(soilDesc.Humus, soil.Humus, 0.01f)) {
-                float humusDiff = soilDesc.Humus - soil.Humus;
-                soil.Humus = humusDiff / dayCoeff;
+            float humusProportion = soil.Humus / soil.Mass;
+            if (humusProportion - soilDesc.Humus < 0) {
+                float humusDiff = soilDesc.Humus - humusProportion;
+                soil.Humus += humusDiff * soil.Mass / dayCoeff;
             }
 
             return soil;

@@ -133,5 +133,6 @@ namespace Game.Player.Controller
         public Vector3 Forward => _movementController.Forward;
 
         public bool InteractionButtonPressed => _playerInteractionComponent.InteractionPressed;
+        public IInteractableComponent? CurrentLook => _playerInteractionComponent.CurrentLook;
     }
 }

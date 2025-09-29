@@ -27,6 +27,19 @@
             Phosphorus -= elementsModel.Phosphorus;
         }
 
+        public void SubtractIfPossible(ElementsModel elementsModel)
+        {
+            if (Nitrogen > elementsModel.Nitrogen) {
+                Nitrogen -= elementsModel.Nitrogen;
+            }
+            if (Potassium > elementsModel.Potassium) {
+                Potassium -= elementsModel.Potassium;
+            }
+            if (Phosphorus > elementsModel.Phosphorus) {
+                Phosphorus -= elementsModel.Phosphorus;
+            }
+        }
+
         public bool HasEnoughElements(ElementsModel elementsModel)
         {
             return !(Phosphorus < elementsModel.Phosphorus) && !(Nitrogen < elementsModel.Nitrogen) && !(Potassium < elementsModel.Potassium);

@@ -16,42 +16,21 @@ MonoBehaviour:
   - <Id>k__BackingField: watermelonSeed
     <PlantId>k__BackingField: cucumber
     <SeedType>k__BackingField: 1
-    <SeedName>k__BackingField: Watermelon seeds
-    <SeedPrefab>k__BackingField:
-      m_AssetGUID: f35882e324116ed4095672888efc5954
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: SowSeed
     <CanBeInfected>k__BackingField: 1
-    <StartHealth>k__BackingField: 10
-    <StartImmunity>k__BackingField: 10
+    <StartHealth>k__BackingField: 100
+    <StartImmunity>k__BackingField: 100
   - <Id>k__BackingField: cucumberSeed
     <PlantId>k__BackingField: cucumber
     <SeedType>k__BackingField: 1
-    <SeedName>k__BackingField: Cucumber seeds
-    <SeedPrefab>k__BackingField:
-      m_AssetGUID: f35882e324116ed4095672888efc5954
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: SowSeed
     <CanBeInfected>k__BackingField: 1
-    <StartHealth>k__BackingField: 10
-    <StartImmunity>k__BackingField: 10
+    <StartHealth>k__BackingField: 100
+    <StartImmunity>k__BackingField: 100
   - <Id>k__BackingField: beetrootSeed
     <PlantId>k__BackingField: cucumber
     <SeedType>k__BackingField: 1
-    <SeedName>k__BackingField: Beetroot seeds
-    <SeedPrefab>k__BackingField:
-      m_AssetGUID: f35882e324116ed4095672888efc5954
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
     <UseHandler>k__BackingField: SowSeed
     <CanBeInfected>k__BackingField: 1
-    <StartHealth>k__BackingField: 10
-    <StartImmunity>k__BackingField: 10
+    <StartHealth>k__BackingField: 100
+    <StartImmunity>k__BackingField: 100

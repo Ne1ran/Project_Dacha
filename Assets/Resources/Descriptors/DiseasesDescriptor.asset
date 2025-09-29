@@ -120,10 +120,10 @@ MonoBehaviour:
       - <Stage>k__BackingField: 2
         <PlantDamagePerDay>k__BackingField: 1
         <RandomSymptoms>k__BackingField:
-        - YellowMildew
+        - YellowLeaves
         - DontGrowth
-        - MildewOnBackOfLeaves
-        - Deformation
+        - YellowMildewBackLeaves
+        - LeavesDeformation
         <StageGrowth>k__BackingField: 25
         <BaseGrowthPerDay>k__BackingField: 3
         <HealChance>k__BackingField: 0.1
@@ -133,6 +133,7 @@ MonoBehaviour:
         - YellowMildew
         - BadCondition
         - Rot
+        - DownyMildewSpotsOnLeaves
         <StageGrowth>k__BackingField: 25
         <BaseGrowthPerDay>k__BackingField: 5
         <HealChance>k__BackingField: 0.1

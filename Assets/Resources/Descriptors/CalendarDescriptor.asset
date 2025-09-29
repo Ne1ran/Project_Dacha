@@ -18,8 +18,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 1
       <Name>k__BackingField: January
       <Playable>k__BackingField: 0
+      <DaysCount>k__BackingField: 31
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 31
         <MinMonthTemperatureNoise>k__BackingField: -4
         <MaxMonthTemperatureNoise>k__BackingField: 2
         <MinDiurnalTemperatureDifference>k__BackingField: 2
@@ -111,8 +111,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 2
       <Name>k__BackingField: February
       <Playable>k__BackingField: 0
+      <DaysCount>k__BackingField: 28
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 28
         <MinMonthTemperatureNoise>k__BackingField: -4
         <MaxMonthTemperatureNoise>k__BackingField: 2
         <MinDiurnalTemperatureDifference>k__BackingField: 4
@@ -204,8 +204,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 3
       <Name>k__BackingField: March
       <Playable>k__BackingField: 0
+      <DaysCount>k__BackingField: 31
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 31
         <MinMonthTemperatureNoise>k__BackingField: -3
         <MaxMonthTemperatureNoise>k__BackingField: 3
         <MinDiurnalTemperatureDifference>k__BackingField: 3
@@ -297,8 +297,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 4
       <Name>k__BackingField: April
       <Playable>k__BackingField: 1
+      <DaysCount>k__BackingField: 30
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 30
         <MinMonthTemperatureNoise>k__BackingField: -2
         <MaxMonthTemperatureNoise>k__BackingField: 4
         <MinDiurnalTemperatureDifference>k__BackingField: 8
@@ -390,8 +390,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 5
       <Name>k__BackingField: May
       <Playable>k__BackingField: 1
+      <DaysCount>k__BackingField: 31
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 31
         <MinMonthTemperatureNoise>k__BackingField: -1
         <MaxMonthTemperatureNoise>k__BackingField: 4
         <MinDiurnalTemperatureDifference>k__BackingField: 5
@@ -483,8 +483,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 6
       <Name>k__BackingField: June
       <Playable>k__BackingField: 1
+      <DaysCount>k__BackingField: 30
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 30
         <MinMonthTemperatureNoise>k__BackingField: -2
         <MaxMonthTemperatureNoise>k__BackingField: 4
         <MinDiurnalTemperatureDifference>k__BackingField: 7
@@ -576,8 +576,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 7
       <Name>k__BackingField: July
       <Playable>k__BackingField: 1
+      <DaysCount>k__BackingField: 31
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 31
         <MinMonthTemperatureNoise>k__BackingField: -2
         <MaxMonthTemperatureNoise>k__BackingField: 3
         <MinDiurnalTemperatureDifference>k__BackingField: 6
@@ -669,8 +669,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 8
       <Name>k__BackingField: August
       <Playable>k__BackingField: 1
+      <DaysCount>k__BackingField: 31
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 31
         <MinMonthTemperatureNoise>k__BackingField: -3
         <MaxMonthTemperatureNoise>k__BackingField: 2
         <MinDiurnalTemperatureDifference>k__BackingField: 8
@@ -762,8 +762,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 9
       <Name>k__BackingField: September
       <Playable>k__BackingField: 1
+      <DaysCount>k__BackingField: 30
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 30
         <MinMonthTemperatureNoise>k__BackingField: -3
         <MaxMonthTemperatureNoise>k__BackingField: 3
         <MinDiurnalTemperatureDifference>k__BackingField: 8
@@ -855,8 +855,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 10
       <Name>k__BackingField: October
       <Playable>k__BackingField: 1
+      <DaysCount>k__BackingField: 31
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 31
         <MinMonthTemperatureNoise>k__BackingField: -3
         <MaxMonthTemperatureNoise>k__BackingField: 3
         <MinDiurnalTemperatureDifference>k__BackingField: 6
@@ -948,8 +948,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 11
       <Name>k__BackingField: November
       <Playable>k__BackingField: 0
+      <DaysCount>k__BackingField: 30
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 30
         <MinMonthTemperatureNoise>k__BackingField: -3
         <MaxMonthTemperatureNoise>k__BackingField: 1
         <MinDiurnalTemperatureDifference>k__BackingField: 4
@@ -1041,8 +1041,8 @@ MonoBehaviour:
     - <Month>k__BackingField: 12
       <Name>k__BackingField: December
       <Playable>k__BackingField: 0
+      <DaysCount>k__BackingField: 31
       <ClimateSettings>k__BackingField:
-        <DaysCount>k__BackingField: 31
         <MinMonthTemperatureNoise>k__BackingField: -4
         <MaxMonthTemperatureNoise>k__BackingField: 1
         <MinDiurnalTemperatureDifference>k__BackingField: 2

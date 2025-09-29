@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ecf8807815c43b580ed65557cba1f4d, type: 3}
+  m_Name: SymptomsDescriptor
+  m_EditorClassIdentifier: 
+  <Items>k__BackingField:
+    m_Keys:
+    - StrangeMildew
+    - SlowedGrowth
+    - WhiteMildew
+    - BadCondition
+    - BlackPounts
+    - DownyMildewSpotsOnLeaves
+    - YellowLeaves
+    - NoGrowth
+    - LeavesDeformation
+    - YellowMildewBackLeaves
+    - LeavesRot
+    - LeavesRoll
+    - RedLeaves
+    - PurpleLeaves
+    - WeakLeaves
+    - Sunburns
+    - LeavesColorChange
+    m_Values:
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - You see strange mildew on the leaves. What can it be?
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Plant is not growing properly...?
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - You see white mildew on the plant
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Plant is in really bad condition
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 0100000002000000
+        m_Values:
+        - Black points on plant?
+        - Black points on the back of the plant
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 0100000002000000
+        m_Values:
+        - Strange color spots on the leaves all around
+        - Green and yellow spots on the leaves
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Leaves are becoming yellow
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Plant has stopped growing properly
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Plant leaves are deformating
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 010000000200000003000000
+        m_Values:
+        - Something on the back of the leaves
+        - Strange mildew on the back of the leaves
+        - Yellow mildew on the back of the leaves
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Leaves started to wilt and rot
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Leaves are rolling themself
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Strange red color on leaves
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Strange purple color on leaves
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 0100000002000000
+        m_Values:
+        - Leaves are looking weak
+        - Leaves have lost turgor
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 0100000002000000
+        m_Values:
+        - Strange white spots on the leaves
+        - Sunburns on the leaves
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Leaves are changing their color
+      <BannedFamilyTypes>k__BackingField: 
