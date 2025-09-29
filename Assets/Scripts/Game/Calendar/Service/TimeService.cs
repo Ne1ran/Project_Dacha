@@ -36,7 +36,7 @@ namespace Game.Calendar.Service
                 return;
             }
 
-            _timeRepo.Save(new(Constants.Constants.START_DAY_TIME, 1, 7, 0));
+            _timeRepo.Save(new(Constants.Constants.START_DAY_TIME, 1, 4, 0));
         }
 
         public void PassTime(int minutes)

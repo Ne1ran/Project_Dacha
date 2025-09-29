@@ -27,7 +27,6 @@ MonoBehaviour:
       <GrowBuff>k__BackingField: 0.05
     <StressParameters>k__BackingField:
       <MaxStress>k__BackingField: 100
-      <DailyStressDecrease>k__BackingField: 5
       <BlockHealingThreshold>k__BackingField: 0.25
       <BlockImmunityGainThreshold>k__BackingField: 0.5
       <BlockGrowthThreshold>k__BackingField: 0.33
@@ -53,6 +52,7 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <DailyStressDecrease>k__BackingField: 0
       <IncludeSunlight>k__BackingField: 0
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 0
@@ -81,9 +81,9 @@ MonoBehaviour:
         <Max>k__BackingField: 35
         <MinPreferred>k__BackingField: 25
         <MaxPreferred>k__BackingField: 29
-        <DamagePerDeviation>k__BackingField: 5
+        <DamagePerDeviation>k__BackingField: 1
         <GrowBuff>k__BackingField: 0.1
-        <StressGain>k__BackingField: 1
+        <StressGain>k__BackingField: 2
       <AirSoilHumidityParameters>k__BackingField:
         <Min>k__BackingField: 5
         <Max>k__BackingField: 65
@@ -118,6 +118,7 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <DailyStressDecrease>k__BackingField: 2
       <IncludeSunlight>k__BackingField: 1
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
@@ -183,6 +184,7 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 14
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <DailyStressDecrease>k__BackingField: 3
       <IncludeSunlight>k__BackingField: 1
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
@@ -248,6 +250,7 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <DailyStressDecrease>k__BackingField: 4
       <IncludeSunlight>k__BackingField: 1
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
@@ -313,6 +316,7 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <DailyStressDecrease>k__BackingField: 5
       <IncludeSunlight>k__BackingField: 1
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
@@ -378,6 +382,7 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 7
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <DailyStressDecrease>k__BackingField: 3
       <IncludeSunlight>k__BackingField: 1
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
@@ -443,6 +448,7 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 14
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <DailyStressDecrease>k__BackingField: 1
       <IncludeSunlight>k__BackingField: 1
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1
@@ -508,6 +514,7 @@ MonoBehaviour:
       <AverageGrowTime>k__BackingField: 14
       <DailyRegeneration>k__BackingField: 3
       <DailyImmunityGain>k__BackingField: 3
+      <DailyStressDecrease>k__BackingField: 0
       <IncludeSunlight>k__BackingField: 0
       <IncludeTemperature>k__BackingField: 1
       <IncludeAirHumidity>k__BackingField: 1

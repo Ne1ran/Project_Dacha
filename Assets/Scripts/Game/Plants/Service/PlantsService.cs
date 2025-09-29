@@ -80,12 +80,14 @@ namespace Game.Plants.Service
             }
 
             PlantModel plantModel = _plantsRepo.Require(tileId);
-            if (plantModel.CurrentStage == PlantGrowStage.SEED) {
-                return null;
-            }
 
             if (plantModel.InspectedToday) {
                 Debug.Log($"No need to double inspect plant on tile={tileId}");
+                return new(plantModel);
+            }
+
+            if (plantModel.CurrentStage == PlantGrowStage.SEED) {
+                Debug.Log($"No need to inspect plant in seeds for now on tile={tileId}");
                 return new(plantModel);
             }
 
@@ -230,15 +232,15 @@ namespace Game.Plants.Service
                 TryIncreaseImmunity(ref plant, plantStageDescriptor);
             }
 
-            TryLowerStress(ref plant, plantsDescriptorModel.StressParameters);
+            TryLowerStress(ref plant, plantStageDescriptor);
             TryGrowToNextStage(ref plant, plantStageDescriptor, plantsDescriptorModel);
         }
 
-        private void TryLowerStress(ref PlantModel plant, PlantStressParameters stressParameters)
+        private void TryLowerStress(ref PlantModel plant, PlantStageDescriptor stageDescriptor)
         {
             List<StressType> plantStressTypes = plant.Stress.Keys.ToList();
             foreach (StressType stressType in plantStressTypes) {
-                plant.Stress[stressType].StressValue -= stressParameters.DailyStressDecrease;
+                plant.Stress[stressType].StressValue -= stageDescriptor.DailyStressDecrease;
             }
 
             List<StressType> stressToRemove = new();
@@ -291,7 +293,10 @@ namespace Game.Plants.Service
 
             CalculateConsumption(plantStageDescriptor.PlantConsumption, soilModel, plantStageDescriptor.AverageGrowTime, dayDifference,
                                  ref growModel);
-            ApplyStress(plant, plantsDescriptorModel.StressParameters, ref growModel);
+            
+            if (plant.CurrentStage != PlantGrowStage.SEED) {
+                ApplyStress(plant, plantsDescriptorModel.StressParameters, ref growModel);
+            }
 
             return growModel;
         }

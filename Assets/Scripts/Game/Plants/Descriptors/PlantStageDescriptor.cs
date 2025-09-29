@@ -19,6 +19,8 @@ namespace Game.Plants.Descriptors
         public float DailyRegeneration { get; set; } = 3f;
         [field: SerializeField, Tooltip("Plant immunity gain every day. Doesn't consume anything. Applies only if there was no stress")]
         public float DailyImmunityGain { get; set; } = 3f;
+        [field: SerializeField, Tooltip("Plant stress decrease per day")]
+        public float DailyStressDecrease { get; set; } = 5f;
 
         [field: SerializeField, Tooltip("Need to do calculation in temperature?")]
         public bool IncludeSunlight { get; set; } = true;

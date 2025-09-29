@@ -18,10 +18,10 @@ namespace Game.Plants.Descriptors
         [field: SerializeField, Range(-40f, 45f), Tooltip("Preferred temperature for plant")]
         public float MaxPreferred { get; set; } = 29f;
         [field: SerializeField, Range(0f, 100f), Tooltip("Damage per 1 temperature deviation")]
-        public float DamagePerDeviation { get; set; } = 2f;
+        public float DamagePerDeviation { get; set; } = 1f;
         [field: SerializeField, Range(0f, 2f), Tooltip("Buff for preferred temperature")]
         public float GrowBuff { get; set; } = 0.1f;
-        [field: SerializeField, Range(0f, 2f), Tooltip("Stress gain per temperature deviation")]
-        public float StressGain { get; set; } = 1f;
+        [field: SerializeField, Range(0f, 10f), Tooltip("Stress gain per temperature deviation")]
+        public float StressGain { get; set; } = 2f;
     }
 }

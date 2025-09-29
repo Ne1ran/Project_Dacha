@@ -6,10 +6,12 @@ using Cysharp.Threading.Tasks;
 using Game.Calendar.Model;
 using Game.Calendar.Service;
 using Game.Common.Controller;
+using Game.GameMap.Tiles.Component;
 using Game.Items.Controller;
 using Game.Items.Descriptors;
 using Game.Items.Service;
 using Game.Plants.Component;
+using Game.Plants.Model;
 using Game.Plants.Service;
 using Game.Player.Controller;
 using Game.Player.Service;
@@ -173,7 +175,14 @@ namespace Core.Console
         [ConsoleMethod("inspectPlant", "Inspect plant on the tile")]
         public static void InspectPlant(int tileId)
         {
-            Container.Resolve<PlantsService>().InspectPlant(tileId.ToString());
+            PlantInspectionModel? plantInspectionModel = Container.Resolve<PlantsService>().InspectPlant(tileId.ToString());
+            if (plantInspectionModel == null) {
+                Debug.LogWarning($"Plant inspection model could not be made! TileId={tileId}");
+                return;
+            }
+
+            Debug.Log($"You have inspected plant. Some parameters: Id={plantInspectionModel.PlantId} Health={plantInspectionModel.Health}, "
+                      + $"Immunity={plantInspectionModel.Immunity}, Stage={plantInspectionModel.CurrentStage}, StageGrowth={plantInspectionModel.StageGrowth}");
         }
 
         [ConsoleMethod("inspectPlantOnSight", "Simulate years of calendar for some checks")]
@@ -182,9 +191,20 @@ namespace Core.Console
             PlayerService playerService = Container.Resolve<PlayerService>();
             PlayerController player = playerService.Player;
             IInteractableComponent? playerCurrentLook = player.CurrentLook;
-            if (playerCurrentLook is PlantController plantController) {
-                Container.Resolve<PlantsService>().InspectPlant(plantController.TileId);
-            } 
+            PlantsService plantsService = Container.Resolve<PlantsService>();
+            PlantInspectionModel? plantInspectionModel = playerCurrentLook switch {
+                    PlantController plantController => plantsService.InspectPlant(plantController.TileId),
+                    TileController tileController => plantsService.InspectPlant(tileController.TileModel.Id),
+                    _ => null
+            };
+
+            if (plantInspectionModel == null) {
+                Debug.LogWarning($"Plant inspection model on current look could not be made!");
+                return;
+            }
+
+            Debug.Log($"You have inspected plant. Some parameters: Id={plantInspectionModel.PlantId} Health={plantInspectionModel.Health}, "
+                      + $"Immunity={plantInspectionModel.Immunity}, Stage={plantInspectionModel.CurrentStage}, StageGrowth={plantInspectionModel.StageGrowth}");
         }
 
         private static IObjectResolver Container => AppContext.CurrentScope.Container;

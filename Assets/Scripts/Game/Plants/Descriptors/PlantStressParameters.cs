@@ -9,8 +9,6 @@ namespace Game.Plants.Descriptors
     {
         [field: SerializeField, Range(0f, 200f), Tooltip("Maximum stress plant can get FROM ONE SOURCE!")]
         public float MaxStress { get; set; } = 100f;
-        [field: SerializeField, Tooltip("Plant stress decrease per day")]
-        public float DailyStressDecrease { get; set; } = 5f;
         [field: SerializeField, Range(0f, 1f), Tooltip("Threshold from max stress to block plant healing")]
         public float BlockHealingThreshold { get; set; } = 0.25f;
         [field: SerializeField, Range(0f, 1f), Tooltip("Threshold from max stress to block plant immunity gain")]

@@ -25,6 +25,12 @@ MonoBehaviour:
     - LeavesDeformation
     - YellowMildewBackLeaves
     - LeavesRot
+    - LeavesRoll
+    - RedLeaves
+    - PurpleLeaves
+    - WeakLeaves
+    - Sunburns
+    - LeavesColorChange
     m_Values:
     - <Descriptions>k__BackingField:
         m_Keys: 01000000
@@ -84,4 +90,36 @@ MonoBehaviour:
         m_Keys: 01000000
         m_Values:
         - Leaves started to wilt and rot
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Leaves are rolling themself
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Strange red color on leaves
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Strange purple color on leaves
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 0100000002000000
+        m_Values:
+        - Leaves are looking weak
+        - Leaves have lost turgor
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 0100000002000000
+        m_Values:
+        - Strange white spots on the leaves
+        - Sunburns on the leaves
+      <BannedFamilyTypes>k__BackingField: 
+    - <Descriptions>k__BackingField:
+        m_Keys: 01000000
+        m_Values:
+        - Leaves are changing their color
       <BannedFamilyTypes>k__BackingField: 
