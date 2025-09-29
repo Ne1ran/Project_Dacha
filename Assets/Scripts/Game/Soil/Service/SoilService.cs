@@ -7,16 +7,16 @@ using Game.Diseases.Model;
 using Game.Fertilizers.Descriptor;
 using Game.Fertilizers.Model;
 using Game.GameMap.Map.Descriptor;
-using Game.GameMap.Soil.Descriptor;
-using Game.GameMap.Soil.Model;
-using Game.GameMap.Soil.Repository;
 using Game.GameMap.Tiles.Event;
 using Game.Plants.Model;
+using Game.Soil.Descriptor;
+using Game.Soil.Model;
+using Game.Soil.Repository;
 using Game.Utils;
 using MessagePipe;
 using UnityEngine;
 
-namespace Game.GameMap.Soil.Service
+namespace Game.Soil.Service
 {
     [Service]
     public class SoilService : IDisposable

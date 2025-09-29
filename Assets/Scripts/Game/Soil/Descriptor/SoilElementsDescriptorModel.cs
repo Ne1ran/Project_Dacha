@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Game.GameMap.Soil.Descriptor
+namespace Game.Soil.Descriptor
 {
     [Serializable]
     public class SoilElementsDescriptorModel

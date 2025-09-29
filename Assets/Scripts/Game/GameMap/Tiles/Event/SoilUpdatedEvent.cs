@@ -1,4 +1,4 @@
-﻿using Game.GameMap.Soil.Model;
+﻿using Game.Soil.Model;
 
 namespace Game.GameMap.Tiles.Event
 {

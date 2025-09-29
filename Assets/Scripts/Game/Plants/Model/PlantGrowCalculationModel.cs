@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Game.GameMap.Soil.Model;
+using Game.Soil.Model;
 using Game.Stress.Model;
 
 namespace Game.Plants.Model

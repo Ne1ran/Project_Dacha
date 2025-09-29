@@ -6,15 +6,15 @@ using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Map.Descriptor;
-using Game.GameMap.Soil.Component;
-using Game.GameMap.Soil.Descriptor;
-using Game.GameMap.Soil.Event;
-using Game.GameMap.Soil.Model;
 using Game.GameMap.Tiles.Event;
 using Game.GameMap.Tiles.Model;
+using Game.Soil.Component;
+using Game.Soil.Descriptor;
+using Game.Soil.Event;
+using Game.Soil.Model;
 using MessagePipe;
 
-namespace Game.GameMap.Soil.Service
+namespace Game.Soil.Service
 {
     [Service]
     public class WorldSoilService : IDisposable

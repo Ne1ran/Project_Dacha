@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Core.Attributes;
-using Game.GameMap.Soil.Model;
+using Game.Soil.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Game.GameMap.Soil.Descriptor
+namespace Game.Soil.Descriptor
 {
     [CreateAssetMenu(fileName = "SoilDescriptor", menuName = "Dacha/Descriptors/SoilDescriptor")]
     [Descriptor("Descriptors/" + nameof(SoilDescriptor))]

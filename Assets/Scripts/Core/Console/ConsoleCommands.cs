@@ -17,6 +17,7 @@ using Game.Player.Controller;
 using Game.Player.Service;
 using Game.Seeds.Component;
 using Game.Seeds.Descriptors;
+using Game.Soil.Service;
 using Game.Temperature.Service;
 using Game.Tools.Component;
 using Game.Tools.Descriptors;
@@ -172,6 +173,12 @@ namespace Core.Console
             Container.Resolve<CalendarGenerationService>().SimulateYears(times);
         }
 
+        [ConsoleMethod("testEvaporation", "Test evaporation of water from the soil")]
+        public static void TestWaterEvaporation(float millimetersAmount)
+        {
+            Container.Resolve<WaterEvaporationService>().TestEvaporation(millimetersAmount);
+        }
+
         [ConsoleMethod("inspectPlant", "Inspect plant on the tile")]
         public static void InspectPlant(int tileId)
         {
@@ -199,7 +206,7 @@ namespace Core.Console
             };
 
             if (plantInspectionModel == null) {
-                Debug.LogWarning($"Plant inspection model on current look could not be made!");
+                Debug.LogWarning("Plant inspection model on current look could not be made!");
                 return;
             }
 

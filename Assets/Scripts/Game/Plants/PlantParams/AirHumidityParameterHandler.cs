@@ -1,8 +1,8 @@
 ﻿using Game.Common.Handlers;
-using Game.GameMap.Soil.Model;
 using Game.Humidity.Service;
 using Game.Plants.Descriptors;
 using Game.Plants.Model;
+using Game.Soil.Model;
 using Game.Stress.Model;
 using UnityEngine;
 using VContainer;
@@ -17,7 +17,7 @@ namespace Game.Plants.PlantParams
 
         public PlantGrowCalculationModel ApplyParameters(IPlantParameters plantParams, PlantGrowCalculationModel growModel, SoilModel soilModel)
         {
-            float airHumidityPercent = _airHumidityService.GetDailyAirHumidity();
+            float airHumidityPercent = _airHumidityService.GetDailyAirHumidityPercent();
 
             Debug.Log($"Air humidity affect is = {airHumidityPercent}");
 

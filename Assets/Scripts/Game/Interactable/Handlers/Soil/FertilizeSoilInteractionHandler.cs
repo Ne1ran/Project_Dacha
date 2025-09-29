@@ -3,8 +3,8 @@ using Core.Notifications.Service;
 using Core.Parameters;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
-using Game.GameMap.Soil.Service;
 using Game.PieMenu.Model;
+using Game.Soil.Service;
 using VContainer;
 
 namespace Game.Interactable.Handlers.Soil

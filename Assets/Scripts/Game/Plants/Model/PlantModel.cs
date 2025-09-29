@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Diseases.Model;
-using Game.GameMap.Soil.Model;
+using Game.Soil.Model;
 using Game.Stress.Model;
 using UnityEngine;
 

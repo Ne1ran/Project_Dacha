@@ -4,7 +4,7 @@ using Game.Fertilizers.Model;
 using Game.Plants.Model;
 using UnityEngine;
 
-namespace Game.GameMap.Soil.Model
+namespace Game.Soil.Model
 {
     public class SoilModel
     {

@@ -1,6 +1,6 @@
-﻿using Game.GameMap.Soil.Model;
-using Game.Plants.Descriptors;
+﻿using Game.Plants.Descriptors;
 using Game.Plants.Model;
+using Game.Soil.Model;
 
 namespace Game.Plants.PlantParams
 {

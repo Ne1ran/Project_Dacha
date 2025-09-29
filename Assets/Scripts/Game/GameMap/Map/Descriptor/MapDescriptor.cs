@@ -1,6 +1,6 @@
 ﻿using System;
 using Core.Attributes;
-using Game.GameMap.Soil.Model;
+using Game.Soil.Model;
 using UnityEngine;
 
 namespace Game.GameMap.Map.Descriptor

@@ -1,14 +1,14 @@
 ﻿using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
-using Game.GameMap.Soil.Descriptor;
-using Game.GameMap.Soil.Model;
-using Game.GameMap.Soil.Service;
+using Game.Soil.Descriptor;
+using Game.Soil.Model;
+using Game.Soil.Service;
 using Game.Utils;
 using UnityEngine;
 using VContainer;
 
-namespace Game.GameMap.Soil.Component
+namespace Game.Soil.Component
 {
     [NeedBinding("pfSoilController")]
     public class SoilController : MonoBehaviour

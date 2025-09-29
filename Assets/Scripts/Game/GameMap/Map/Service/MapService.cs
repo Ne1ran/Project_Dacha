@@ -3,10 +3,10 @@ using Core.Attributes;
 using Core.Descriptors.Service;
 using Cysharp.Threading.Tasks;
 using Game.GameMap.Map.Descriptor;
-using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;
 using Game.Plants.Service;
+using Game.Soil.Service;
 using UnityEngine;
 
 namespace Game.GameMap.Map.Service
