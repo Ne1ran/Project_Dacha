@@ -59,7 +59,7 @@ namespace Core.Scopes
             builder.Register<SoilRepo>(Lifetime.Singleton);
             builder.Register<WorldSoilService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();;
             builder.Register<SoilService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-            builder.Register<WaterEvaporationService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<SoilWaterService>(Lifetime.Singleton);
             builder.Register<TimeRepo>(Lifetime.Singleton);
             builder.Register<CalendarService>(Lifetime.Singleton);
             builder.Register<CalendarRepo>(Lifetime.Singleton);
