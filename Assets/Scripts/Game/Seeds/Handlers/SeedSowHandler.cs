@@ -1,8 +1,8 @@
 ﻿using Core.Parameters;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
-using Game.GameMap.Soil.Service;
 using Game.Plants.Service;
+using Game.Soil.Service;
 using VContainer;
 
 namespace Game.Seeds.Handlers

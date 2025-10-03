@@ -1,8 +1,8 @@
 ﻿using Core.Attributes;
 using Core.Repository;
-using Game.GameMap.Soil.Model;
+using Game.Soil.Model;
 
-namespace Game.GameMap.Soil.Repository
+namespace Game.Soil.Repository
 {
     [Repository]
     public class SoilRepo : MemoryRepository<string, SoilModel>

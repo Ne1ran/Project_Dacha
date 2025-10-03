@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using Game.Calendar.Model;
 using Game.Calendar.Service;
 using Game.Common.Controller;
+using Game.Evaporation.Service;
 using Game.GameMap.Tiles.Component;
 using Game.Items.Controller;
 using Game.Items.Descriptors;
@@ -17,6 +18,7 @@ using Game.Player.Controller;
 using Game.Player.Service;
 using Game.Seeds.Component;
 using Game.Seeds.Descriptors;
+using Game.Soil.Service;
 using Game.Temperature.Service;
 using Game.Tools.Component;
 using Game.Tools.Descriptors;
@@ -172,6 +174,29 @@ namespace Core.Console
             Container.Resolve<CalendarGenerationService>().SimulateYears(times);
         }
 
+        [ConsoleMethod("testEvaporation", "Test evaporation of water from the soil")]
+        public static void TestWaterEvaporation(float millimetersAmount)
+        {
+            Container.Resolve<WaterEvaporationService>().CalculateEvaporation(millimetersAmount);
+        }
+
+        [ConsoleMethod("testEvaporationYear", "Test evaporation for one year")]
+        public static void TestWaterEvaporationYear(float millimetersAmount)
+        {
+            TimeService timeService = Container.Resolve<TimeService>();
+            timeService.SetTime(1, 1);
+            WaterEvaporationService waterEvaporationService = Container.Resolve<WaterEvaporationService>();
+            float currentEvaporation = waterEvaporationService.CalculateEvaporation(millimetersAmount);
+            TimeModel today = timeService.GetToday();
+            Debug.LogWarning($"Evaporation. Month={today.CurrentMonth} Day={today.CurrentDay} StartWater={millimetersAmount}, Evaporation={currentEvaporation}");
+            for (int i = 0; i < 365; i++) {
+                TimeModel newDay = timeService.EndDay();
+                float evaporation = waterEvaporationService.CalculateEvaporation(millimetersAmount);
+                Debug.LogWarning($"Evaporation. Month={newDay.CurrentMonth} Day={newDay.CurrentDay} StartWater={millimetersAmount}, Evaporation={evaporation}");
+            }
+            
+        }
+
         [ConsoleMethod("inspectPlant", "Inspect plant on the tile")]
         public static void InspectPlant(int tileId)
         {
@@ -199,7 +224,7 @@ namespace Core.Console
             };
 
             if (plantInspectionModel == null) {
-                Debug.LogWarning($"Plant inspection model on current look could not be made!");
+                Debug.LogWarning("Plant inspection model on current look could not be made!");
                 return;
             }
 

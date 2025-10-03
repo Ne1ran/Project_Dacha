@@ -1,8 +1,8 @@
 ﻿using System;
-using Game.GameMap.Soil.Model;
+using Game.Soil.Model;
 using UnityEngine;
 
-namespace Game.GameMap.Soil.Descriptor
+namespace Game.Soil.Descriptor
 {
     [Serializable]
     public class SoilDescriptorModel

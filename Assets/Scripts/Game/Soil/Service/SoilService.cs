@@ -4,23 +4,25 @@ using Core.Attributes;
 using Core.Descriptors.Service;
 using Game.Calendar.Event;
 using Game.Diseases.Model;
+using Game.Evaporation.Service;
 using Game.Fertilizers.Descriptor;
 using Game.Fertilizers.Model;
 using Game.GameMap.Map.Descriptor;
-using Game.GameMap.Soil.Descriptor;
-using Game.GameMap.Soil.Model;
-using Game.GameMap.Soil.Repository;
 using Game.GameMap.Tiles.Event;
 using Game.Plants.Model;
+using Game.Soil.Descriptor;
+using Game.Soil.Model;
+using Game.Soil.Repository;
 using Game.Utils;
 using MessagePipe;
 using UnityEngine;
 
-namespace Game.GameMap.Soil.Service
+namespace Game.Soil.Service
 {
     [Service]
     public class SoilService : IDisposable
     {
+        private readonly WaterEvaporationService _waterEvaporationService;
         private readonly SoilRepo _soilRepo;
         private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, SoilUpdatedEvent> _soilUpdatedPublisher;
@@ -29,11 +31,13 @@ namespace Game.GameMap.Soil.Service
         public SoilService(IDescriptorService descriptorService,
                            IPublisher<string, SoilUpdatedEvent> soilUpdatedPublisher,
                            ISubscriber<string, DayChangedEvent> dayFinishedSubscriber,
-                           SoilRepo soilRepo)
+                           SoilRepo soilRepo,
+                           WaterEvaporationService waterEvaporationService)
         {
             _descriptorService = descriptorService;
             _soilUpdatedPublisher = soilUpdatedPublisher;
             _soilRepo = soilRepo;
+            _waterEvaporationService = waterEvaporationService;
 
             DisposableBagBuilder bagBuilder = DisposableBag.CreateBuilder();
             bagBuilder.Add(dayFinishedSubscriber.Subscribe(DayChangedEvent.DAY_FINISHED, OnDayFinished));
@@ -92,7 +96,7 @@ namespace Game.GameMap.Soil.Service
             soilModel.State = SoilState.None;
             soilModel.DugRecently = true;
 
-            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
+            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.Updated, new(tileId, soilModel));
             return true;
         }
 
@@ -101,7 +105,7 @@ namespace Game.GameMap.Soil.Service
             SoilModel soilModel = GerOrCreate(tileId);
             soilModel.WaterAmount += waterAmount;
             Debug.Log($"Watered soil={tileId}, waterAmount={waterAmount}, newAmount={soilModel.WaterAmount}");
-            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
+            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.Updated, new(tileId, soilModel));
         }
 
         public bool TryTiltSoil(string tileId)
@@ -113,7 +117,7 @@ namespace Game.GameMap.Soil.Service
             }
 
             soilModel.State = SoilState.Tilted;
-            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
+            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.Updated, new(tileId, soilModel));
             return true;
         }
 
@@ -134,7 +138,7 @@ namespace Game.GameMap.Soil.Service
                     break;
                 case SoilState.Tilted:
                     soilModel.State = SoilState.Planted;
-                    _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
+                    _soilUpdatedPublisher.Publish(SoilUpdatedEvent.Updated, new(tileId, soilModel));
                     return true;
             }
 
@@ -200,7 +204,9 @@ namespace Game.GameMap.Soil.Service
 
                 soilModel.DugRecently = false;
                 TryRecoverSoil(soilModel, evt.DayDifference);
-                _soilUpdatedPublisher.Publish(SoilUpdatedEvent.FullyUpdated, new(tileId, soilModel));
+                float waterEvaporation = _waterEvaporationService.CalculateEvaporation(soilModel.WaterAmount);
+                soilModel.WaterAmount = Mathf.Max(1f, soilModel.WaterAmount - waterEvaporation);
+                _soilUpdatedPublisher.Publish(SoilUpdatedEvent.Updated, new(tileId, soilModel));
             }
 
             _soilRepo.SaveAll(soilModels);

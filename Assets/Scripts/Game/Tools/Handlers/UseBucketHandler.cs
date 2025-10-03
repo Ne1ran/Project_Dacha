@@ -3,7 +3,7 @@ using Core.Notifications.Service;
 using Core.Parameters;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
-using Game.GameMap.Soil.Service;
+using Game.Soil.Service;
 using VContainer;
 
 namespace Game.Tools.Handlers

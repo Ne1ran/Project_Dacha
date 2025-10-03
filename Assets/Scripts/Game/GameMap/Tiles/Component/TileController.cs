@@ -2,11 +2,11 @@
 using Core.Resources.Binding.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
-using Game.GameMap.Soil.Component;
 using Game.GameMap.Tiles.Model;
 using Game.Interactable.Model;
 using Game.PieMenu.Service;
 using Game.Plants.Component;
+using Game.Soil.Component;
 using UnityEngine;
 using VContainer;
 

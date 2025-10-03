@@ -4,11 +4,11 @@ using Core.Attributes;
 using Core.Descriptors.Service;
 using Game.Diseases.Descriptor;
 using Game.Diseases.Model;
-using Game.GameMap.Soil.Service;
 using Game.GameMap.Tiles.Service;
 using Game.Plants.Descriptors;
 using Game.Plants.Model;
 using Game.Plants.Repo;
+using Game.Soil.Service;
 using Game.Utils;
 using UnityEngine;
 

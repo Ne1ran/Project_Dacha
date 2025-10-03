@@ -1,9 +1,9 @@
 ﻿using System;
-using Game.GameMap.Soil.Model;
+using Game.Soil.Model;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace Game.GameMap.Soil.Descriptor
+namespace Game.Soil.Descriptor
 {
     [Serializable]
     public class SoilVisualDescriptor

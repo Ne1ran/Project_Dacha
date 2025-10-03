@@ -1,6 +1,6 @@
-﻿using Game.GameMap.Soil.Component;
+﻿using Game.Soil.Component;
 
-namespace Game.GameMap.Soil.Event
+namespace Game.Soil.Event
 {
     public class SoilControllerCreatedEvent
     {

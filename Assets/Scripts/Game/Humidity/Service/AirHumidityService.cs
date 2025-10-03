@@ -17,10 +17,16 @@ namespace Game.Humidity.Service
             _timeService = timeService;
         }
 
-        public float GetDailyAirHumidity()
+        public float GetDailyAirHumidityPercent()
         {
             TimeModel today = _timeService.GetToday();
             return _calendarService.GetAirHumidity(today.CurrentDay, today.CurrentMonth).ToPercent();
+        }
+
+        public float GetDailyAirHumidity()
+        {
+            TimeModel today = _timeService.GetToday();
+            return _calendarService.GetAirHumidity(today.CurrentDay, today.CurrentMonth);
         }
     }
 }
