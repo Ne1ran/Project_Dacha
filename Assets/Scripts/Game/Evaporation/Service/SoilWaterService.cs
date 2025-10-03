@@ -1,5 +1,4 @@
-﻿using System;
-using Core.Attributes;
+﻿using Core.Attributes;
 using Core.Descriptors.Service;
 using Game.Calendar.Descriptor;
 using Game.Calendar.Model;
@@ -9,13 +8,13 @@ using Game.Evaporation.Descriptor;
 using Game.Humidity.Service;
 using Game.Sunlight.Service;
 using Game.Temperature.Service;
-using MessagePipe;
+using Game.Weather.Model;
 using UnityEngine;
 
 namespace Game.Evaporation.Service
 {
     [Service]
-    public class WaterEvaporationService : IDisposable
+    public class SoilWaterService
     {
         private const float TurcTemperatureScaleC = 15f; // Turc formula: (T / (T + 15))
         private const float TurcCoefficient = 0.013f; // Turc coeff
@@ -26,29 +25,29 @@ namespace Game.Evaporation.Service
         private readonly TemperatureService _temperatureService;
         private readonly AirHumidityService _airHumidityService;
         private readonly TimeService _timeService;
+        private readonly CalendarService _calendarService;
         private readonly IDescriptorService _descriptorService;
 
-        private IDisposable? _disposable;
-
-        public WaterEvaporationService(SunlightService sunlightService,
-                                       TemperatureService temperatureService,
-                                       AirHumidityService airHumidityService,
-                                       IDescriptorService descriptorService,
-                                       TimeService timeService)
+        public SoilWaterService(SunlightService sunlightService,
+                                TemperatureService temperatureService,
+                                AirHumidityService airHumidityService,
+                                IDescriptorService descriptorService,
+                                TimeService timeService,
+                                CalendarService calendarService)
         {
             _sunlightService = sunlightService;
             _temperatureService = temperatureService;
             _airHumidityService = airHumidityService;
             _descriptorService = descriptorService;
             _timeService = timeService;
-            DisposableBagBuilder bagBuilder = DisposableBag.CreateBuilder();
-            _disposable = bagBuilder.Build();
+            _calendarService = calendarService;
         }
 
-        public void Dispose()
+        public float CalculatePrecipitations()
         {
-            _disposable?.Dispose();
-            _disposable = null;
+            TimeModel today = _timeService.GetToday();
+            WeatherModel todayWeather = _calendarService.GetWeatherModel(today.CurrentDay, today.CurrentMonth);
+            return todayWeather.WeatherType == WeatherType.Snow ? 0f : todayWeather.Precipitations;
         }
 
         public float CalculateEvaporation(float soilWater)
@@ -61,12 +60,11 @@ namespace Game.Evaporation.Service
             float dailySunAmount = _sunlightService.GetDailySunAmount();
             float dailyAverageTemperature = _temperatureService.GetDailyAverageTemperature();
             float dailyAirHumidity = _airHumidityService.GetDailyAirHumidity();
-            float evaporation = CalculateEvaporation(ref soilWater, dailySunAmount, dailyAverageTemperature, dailyAirHumidity,
-                                                     waterEvaporationSettings);
+            float evaporation = CalculateEvaporation(soilWater, dailySunAmount, dailyAverageTemperature, dailyAirHumidity, waterEvaporationSettings);
             return evaporation;
         }
 
-        private float CalculateEvaporation(ref float soilWaterUnits,
+        private float CalculateEvaporation(float soilWater,
                                            float dailySunAmount,
                                            float dailyAverageTemperature,
                                            float dailyAirHumidity,
@@ -83,13 +81,13 @@ namespace Game.Evaporation.Service
             float currentSolarRadiation = CalculateDailySolarRadiation(dailySunAmount, monthSunHours, solarRadiation);
             float possibleEvaporation =
                     CalculatePossibleEvaporationWithTurcPotential(dailyAverageTemperature, dailyAirHumidity, currentSolarRadiation);
-            float moistureAvailability = ComputeMoistureAvailability(soilWaterUnits, wiltPoint, waterCapacityUnits);
+            float moistureAvailability = ComputeMoistureAvailability(soilWater, wiltPoint, waterCapacityUnits);
             float actualEvaporationLimiter = Mathf.Pow(moistureAvailability, evaporationLimiterValue);
             float actualEvaporationValue = possibleEvaporation * actualEvaporationLimiter;
             float soilWaterDeltaValue = actualEvaporationValue * actualSoilEvaporationMultiplier;
 
             Debug.Log($"Evaporation test. Current params: dailySun={dailySunAmount}, temp={dailyAverageTemperature}, airHumidity={dailyAirHumidity}. \n"
-                      + $"Results: SoilWater={soilWaterUnits} \n " + $"PotentialEvaporation={possibleEvaporation} \n "
+                      + $"Results: SoilWater={soilWater} \n " + $"PotentialEvaporation={possibleEvaporation} \n "
                       + $"evaporationLimiter01={actualEvaporationLimiter} \n " + $"actualEvaporationMm={actualEvaporationValue} \n "
                       + $"deltaSoilWaterUnits={soilWaterDeltaValue} \n ");
 
@@ -116,9 +114,9 @@ namespace Game.Evaporation.Service
             return TurcCoefficient * temperatureFactor * radiationWaterEquivalentMm * humidityFactor;
         }
 
-        private float ComputeMoistureAvailability(float soilWaterUnits, float wiltPoint, float waterCapacityUnits)
+        private float ComputeMoistureAvailability(float soilWater, float wiltPoint, float waterCapacityUnits)
         {
-            return waterCapacityUnits <= wiltPoint ? 1f : Mathf.Clamp01((soilWaterUnits - wiltPoint) / (waterCapacityUnits - wiltPoint));
+            return waterCapacityUnits <= wiltPoint ? 1f : Mathf.Clamp01((soilWater - wiltPoint) / (waterCapacityUnits - wiltPoint));
         }
     }
 }

@@ -22,7 +22,9 @@ namespace Game.Soil.Service
     [Service]
     public class SoilService : IDisposable
     {
-        private readonly WaterEvaporationService _waterEvaporationService;
+        private const bool EasySystem = true; // todo neiran think about impl
+
+        private readonly SoilWaterService _soilWaterService;
         private readonly SoilRepo _soilRepo;
         private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, SoilUpdatedEvent> _soilUpdatedPublisher;
@@ -32,12 +34,12 @@ namespace Game.Soil.Service
                            IPublisher<string, SoilUpdatedEvent> soilUpdatedPublisher,
                            ISubscriber<string, DayChangedEvent> dayFinishedSubscriber,
                            SoilRepo soilRepo,
-                           WaterEvaporationService waterEvaporationService)
+                           SoilWaterService soilWaterService)
         {
             _descriptorService = descriptorService;
             _soilUpdatedPublisher = soilUpdatedPublisher;
             _soilRepo = soilRepo;
-            _waterEvaporationService = waterEvaporationService;
+            _soilWaterService = soilWaterService;
 
             DisposableBagBuilder bagBuilder = DisposableBag.CreateBuilder();
             bagBuilder.Add(dayFinishedSubscriber.Subscribe(DayChangedEvent.DAY_FINISHED, OnDayFinished));
@@ -204,12 +206,27 @@ namespace Game.Soil.Service
 
                 soilModel.DugRecently = false;
                 TryRecoverSoil(soilModel, evt.DayDifference);
-                float waterEvaporation = _waterEvaporationService.CalculateEvaporation(soilModel.WaterAmount);
-                soilModel.WaterAmount = Mathf.Max(1f, soilModel.WaterAmount - waterEvaporation);
+                ChangeSoilWaterAmount(soilModel);
+
                 _soilUpdatedPublisher.Publish(SoilUpdatedEvent.Updated, new(tileId, soilModel));
             }
 
             _soilRepo.SaveAll(soilModels);
+        }
+
+        private void ChangeSoilWaterAmount(SoilModel soilModel)
+        {
+            float waterEvaporation = _soilWaterService.CalculateEvaporation(soilModel.WaterAmount);
+            float precipitations = _soilWaterService.CalculatePrecipitations();
+
+            if (EasySystem) {
+                // Don't evaporate water if there are precipitations. It will become too hard
+                soilModel.WaterAmount = precipitations > 0f
+                                                ? Mathf.Min(100f, soilModel.WaterAmount + precipitations)
+                                                : Mathf.Max(1f, soilModel.WaterAmount - waterEvaporation);
+            } else {
+                soilModel.WaterAmount = Mathf.Clamp(soilModel.WaterAmount + precipitations - waterEvaporation, 0f, 100f);
+            }
         }
 
         private void OnDayStarted(DayChangedEvent evt)
