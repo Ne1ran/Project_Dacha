@@ -4,7 +4,7 @@ namespace Game.GameMap.Tiles.Event
 {
     public class SoilUpdatedEvent
     {
-        public const string FullyUpdated = "FullyUpdated";
+        public const string Updated = "FullyUpdated";
         
         public string Id { get; }
         public SoilModel SoilModel { get; }

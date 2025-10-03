@@ -177,7 +177,7 @@ namespace Core.Console
         [ConsoleMethod("testEvaporation", "Test evaporation of water from the soil")]
         public static void TestWaterEvaporation(float millimetersAmount)
         {
-            Container.Resolve<WaterEvaporationService>().TestEvaporation(millimetersAmount);
+            Container.Resolve<WaterEvaporationService>().CalculateEvaporation(millimetersAmount);
         }
 
         [ConsoleMethod("testEvaporationYear", "Test evaporation for one year")]
@@ -186,12 +186,12 @@ namespace Core.Console
             TimeService timeService = Container.Resolve<TimeService>();
             timeService.SetTime(1, 1);
             WaterEvaporationService waterEvaporationService = Container.Resolve<WaterEvaporationService>();
-            float currentEvaporation = waterEvaporationService.TestEvaporation(millimetersAmount);
+            float currentEvaporation = waterEvaporationService.CalculateEvaporation(millimetersAmount);
             TimeModel today = timeService.GetToday();
             Debug.LogWarning($"Evaporation. Month={today.CurrentMonth} Day={today.CurrentDay} StartWater={millimetersAmount}, Evaporation={currentEvaporation}");
             for (int i = 0; i < 365; i++) {
                 TimeModel newDay = timeService.EndDay();
-                float evaporation = waterEvaporationService.TestEvaporation(millimetersAmount);
+                float evaporation = waterEvaporationService.CalculateEvaporation(millimetersAmount);
                 Debug.LogWarning($"Evaporation. Month={newDay.CurrentMonth} Day={newDay.CurrentDay} StartWater={millimetersAmount}, Evaporation={evaporation}");
             }
             

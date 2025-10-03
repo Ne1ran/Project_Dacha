@@ -37,7 +37,7 @@ namespace Game.Soil.Service
             _soilControllerCreatedPublisher = soilControllerCreatedPublisher;
 
             DisposableBagBuilder disposableBag = DisposableBag.CreateBuilder();
-            disposableBag.Add(soilUpdatedSubscriber.Subscribe(SoilUpdatedEvent.FullyUpdated, OnSoilUpdated));
+            disposableBag.Add(soilUpdatedSubscriber.Subscribe(SoilUpdatedEvent.Updated, OnSoilUpdated));
             _disposable = disposableBag.Build();
         }
 

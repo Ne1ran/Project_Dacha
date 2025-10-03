@@ -2,12 +2,10 @@
 using Core.Attributes;
 using Core.Descriptors.Service;
 using Game.Calendar.Descriptor;
-using Game.Calendar.Event;
 using Game.Calendar.Model;
 using Game.Calendar.Service;
 using Game.Difficulty.Model;
 using Game.Evaporation.Descriptor;
-using Game.GameMap.Tiles.Event;
 using Game.Humidity.Service;
 using Game.Sunlight.Service;
 using Game.Temperature.Service;
@@ -36,9 +34,7 @@ namespace Game.Evaporation.Service
                                        TemperatureService temperatureService,
                                        AirHumidityService airHumidityService,
                                        IDescriptorService descriptorService,
-                                       TimeService timeService,
-                                       IPublisher<string, SoilUpdatedEvent> soilUpdatedPublisher,
-                                       ISubscriber<string, DayChangedEvent> dayFinishedSubscriber)
+                                       TimeService timeService)
         {
             _sunlightService = sunlightService;
             _temperatureService = temperatureService;
@@ -46,7 +42,6 @@ namespace Game.Evaporation.Service
             _descriptorService = descriptorService;
             _timeService = timeService;
             DisposableBagBuilder bagBuilder = DisposableBag.CreateBuilder();
-            bagBuilder.Add(dayFinishedSubscriber.Subscribe(DayChangedEvent.DAY_FINISHED, OnDayFinished));
             _disposable = bagBuilder.Build();
         }
 
@@ -56,12 +51,7 @@ namespace Game.Evaporation.Service
             _disposable = null;
         }
 
-        private void OnDayFinished(DayChangedEvent dayChangedEvent)
-        {
-            // todo neiran integrate properly
-        }
-
-        public float TestEvaporation(float soilWater)
+        public float CalculateEvaporation(float soilWater)
         {
             CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
             MonthType currentMonth = (MonthType) _timeService.GetToday().CurrentMonth;
