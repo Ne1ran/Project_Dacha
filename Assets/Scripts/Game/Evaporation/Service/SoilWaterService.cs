@@ -47,7 +47,7 @@ namespace Game.Evaporation.Service
         {
             TimeModel today = _timeService.GetToday();
             WeatherModel todayWeather = _calendarService.GetWeatherModel(today.CurrentDay, today.CurrentMonth);
-            return todayWeather.Precipitations;
+            return todayWeather.WeatherType == WeatherType.Snow ? 0f : todayWeather.Precipitations;
         }
 
         public float CalculateEvaporation(float soilWater)
