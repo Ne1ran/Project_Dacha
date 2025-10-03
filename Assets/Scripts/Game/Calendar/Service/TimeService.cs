@@ -62,7 +62,7 @@ namespace Game.Calendar.Service
             _timeRepo.Save(timeModel);
         }
 
-        public void EndDay()
+        public TimeModel EndDay()
         {
             TimeModel timeModel = _timeRepo.Require();
             int diff = Constants.Constants.END_DAY_TIME - timeModel.CurrentMinutes;
@@ -70,6 +70,7 @@ namespace Game.Calendar.Service
             int savedCurrentDay = timeModel.CurrentDay;
             PassDay(timeModel, savedCurrentDay);
             _timeChangePublisher.Publish(TimeChangeEvent.PASSED, new(diff, timeModel.CurrentMinutes));
+            return timeModel;
         }
 
         private void PassDay(TimeModel timeModel, int currentDay)
@@ -96,6 +97,25 @@ namespace Game.Calendar.Service
         {
             TimeModel timeModel = _timeRepo.Require();
             _dayFinishedPublisher.Publish(DayChangedEvent.DAY_STARTED, new(timeModel.CurrentDay, 0));
+        }
+
+        public void SetTime(int month, int day)
+        {
+            TimeModel timeModel = _timeRepo.Require();
+            timeModel.CurrentMonth = month;
+            timeModel.CurrentDay = day;
+        }
+
+        public void SetMonth(int month)
+        {
+            TimeModel timeModel = _timeRepo.Require();
+            timeModel.CurrentMonth = month;
+        }
+
+        public void SetDay(int day)
+        {
+            TimeModel timeModel = _timeRepo.Require();
+            timeModel.CurrentDay = day;
         }
 
         public int GetTimeMinutes()

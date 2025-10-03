@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using Game.Calendar.Model;
 using Game.Calendar.Service;
 using Game.Common.Controller;
+using Game.Evaporation.Service;
 using Game.GameMap.Tiles.Component;
 using Game.Items.Controller;
 using Game.Items.Descriptors;
@@ -177,6 +178,23 @@ namespace Core.Console
         public static void TestWaterEvaporation(float millimetersAmount)
         {
             Container.Resolve<WaterEvaporationService>().TestEvaporation(millimetersAmount);
+        }
+
+        [ConsoleMethod("testEvaporationYear", "Test evaporation for one year")]
+        public static void TestWaterEvaporationYear(float millimetersAmount)
+        {
+            TimeService timeService = Container.Resolve<TimeService>();
+            timeService.SetTime(1, 1);
+            WaterEvaporationService waterEvaporationService = Container.Resolve<WaterEvaporationService>();
+            float currentEvaporation = waterEvaporationService.TestEvaporation(millimetersAmount);
+            TimeModel today = timeService.GetToday();
+            Debug.LogWarning($"Evaporation. Month={today.CurrentMonth} Day={today.CurrentDay} StartWater={millimetersAmount}, Evaporation={currentEvaporation}");
+            for (int i = 0; i < 365; i++) {
+                TimeModel newDay = timeService.EndDay();
+                float evaporation = waterEvaporationService.TestEvaporation(millimetersAmount);
+                Debug.LogWarning($"Evaporation. Month={newDay.CurrentMonth} Day={newDay.CurrentDay} StartWater={millimetersAmount}, Evaporation={evaporation}");
+            }
+            
         }
 
         [ConsoleMethod("inspectPlant", "Inspect plant on the tile")]
