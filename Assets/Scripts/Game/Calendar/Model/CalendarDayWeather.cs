@@ -11,6 +11,8 @@ namespace Game.Calendar.Model
         public float NightTemperature { get; }
         public float SunHours { get; }
         public float RelativeHumidity { get; }
+        public float WindSpeed { get; }
+        public WindType WindType { get; }
         public float Precipitations { get; }
 
         public CalendarDayWeather(int day,
@@ -20,6 +22,8 @@ namespace Game.Calendar.Model
                                   float nightTemperature,
                                   float sunHours,
                                   float relativeHumidity,
+                                  float windSpeed,
+                                  WindType windType,
                                   float precipitations)
         {
             Day = day;
@@ -29,6 +33,8 @@ namespace Game.Calendar.Model
             NightTemperature = nightTemperature;
             SunHours = sunHours;
             RelativeHumidity = relativeHumidity;
+            WindSpeed = windSpeed;
+            WindType = windType;
             Precipitations = precipitations;
         }
     }

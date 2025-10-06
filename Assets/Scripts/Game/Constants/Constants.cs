@@ -15,5 +15,8 @@
         
         public const float MAX_HEALTH = 100.0f;
         public const float MAX_IMMUNITY = 100.0f;
+        
+        public const float MIN_WIND_SPEED = 1.5f;
+        public const float MAX_WIND_SPEED = 15f;
     }
 }

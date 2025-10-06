@@ -44,12 +44,25 @@ namespace Game.Calendar.Service
                 float sunHours = GetDaySunHours(settings, weatherSettings);
                 float relativeHumidity = GetRelativeHumidity(settings, weatherSettings, monthlyAverageTemperature, dailyAverageTemperature);
                 float precipitationMillimeters = GetPrecipitations(settings, weatherSettings);
+                float windSpeed = GetWindSpeed(settings, weatherSettings);
 
                 results.Add(new(i + 1, weatherState, dailyAverageTemperature, dailyMaxTemperature, dailyMinTemperature, sunHours, relativeHumidity,
-                                precipitationMillimeters));
+                                windSpeed, WindTypeUtils.GetWindType(windSpeed), precipitationMillimeters));
             }
 
             return results;
+        }
+
+        private float GetWindSpeed(MonthClimateSettings settings, WeatherSettings weatherSettings)
+        {
+            float randomWindRoll = UnityEngine.Random.Range(0f, 1f);
+            if (randomWindRoll <= settings.RandomWindChance) {
+                return UnityEngine.Random.Range(Constants.Constants.MIN_WIND_SPEED, Constants.Constants.MAX_WIND_SPEED);
+            }
+            
+            float additionalWindNoise = UnityEngine.Random.Range(-settings.DailyTemperatureMaxNoise, settings.DailyTemperatureMaxNoise);
+            float totalWindSpeed = settings.AverageWindSpeed + additionalWindNoise + weatherSettings.WindSpeedChange;
+            return Mathf.Clamp(totalWindSpeed, Constants.Constants.MIN_WIND_SPEED, Constants.Constants.MAX_WIND_SPEED);
         }
 
         private float GetPrecipitations(MonthClimateSettings settings, WeatherSettings weatherSettings)

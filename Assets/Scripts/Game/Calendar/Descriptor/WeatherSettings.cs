@@ -19,6 +19,8 @@ namespace Game.Calendar.Descriptor
         public float SunHoursMultiplier { get; set; }
         [field: SerializeField, Tooltip("Additional amplitude of temperature during this weather")]
         public float AdditionalDiurnalAmplitudeTemperatureChange { get; set; }
+        [field: SerializeField, Tooltip("How the weather influence wind speed")]
+        public float WindSpeedChange { get; set; } = 1f;
         [field: SerializeField, Tooltip("Are precipitation possible?")]
         public bool CanHavePrecipitation { get; set; }
         [field: SerializeField, Range(0f, 24f), ShowIf("CanHavePrecipitation"), Tooltip("Min precipitations in mm")]
