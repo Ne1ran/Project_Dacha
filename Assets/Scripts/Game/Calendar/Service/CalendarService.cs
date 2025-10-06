@@ -54,7 +54,7 @@ namespace Game.Calendar.Service
         public WeatherModel GetWeatherModel(int day, int month)
         {
             CalendarDayWeather selectedWeather = GetCurrentDayWeather(day, month);
-            return new(selectedWeather.WeatherType, selectedWeather.Precipitations, WindType.Light);
+            return new(selectedWeather.WeatherType, selectedWeather.Precipitations, selectedWeather.WindType);
         }
 
         private CalendarDayWeather GetCurrentDayWeather(int day, int month)
