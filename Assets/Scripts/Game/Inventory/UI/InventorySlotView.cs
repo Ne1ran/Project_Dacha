@@ -102,7 +102,7 @@ namespace Game.Inventory.UI
                 return;
             }
 
-            if (result is <= 0 or > Constants.Constants.HOT_KEY_SLOTS) {
+            if (result is <= 0 or > Constants.Constants.HotKeySlots) {
                 return;
             }
             

@@ -18,8 +18,8 @@ using Game.Player.Controller;
 using Game.Player.Service;
 using Game.Seeds.Component;
 using Game.Seeds.Descriptors;
-using Game.Soil.Service;
 using Game.Temperature.Service;
+using Game.Testing.Service;
 using Game.Tools.Component;
 using Game.Tools.Descriptors;
 using IngameDebugConsole;
@@ -178,6 +178,17 @@ namespace Core.Console
         public static void TestWaterEvaporation(float millimetersAmount)
         {
             Container.Resolve<SoilWaterService>().CalculateEvaporation(millimetersAmount);
+        }
+
+        [ConsoleMethod("setTestEnvironment", "Set test environment")]
+        public static void SetTestEnvironment(string plantId, bool needShovel, float waterAmount)
+        {
+            TestGameService testGameService = Container.Resolve<TestGameService>();
+            testGameService.RemoveAllPlants();
+            testGameService.ShovelAll();
+            testGameService.TiltAll();
+            testGameService.WaterAll(waterAmount);
+            testGameService.PlantAll(plantId, 100f, 100f);
         }
 
         [ConsoleMethod("testEvaporationYear", "Test evaporation for one year")]

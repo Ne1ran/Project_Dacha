@@ -152,14 +152,20 @@ namespace Game.Plants.Service
 
         public void RemovePlant(string tileId)
         {
-            PlantModel plantModel = _plantsRepo.Require(tileId);
+            PlantModel? plantModel = _plantsRepo.Get(tileId);
+            if (plantModel == null) {
+                Debug.Log($"No plant on tile={tileId}");
+                return;
+            }
+
             List<SavedDiseaseModel> savedDiseaseModels = _plantDiseaseService.GetSavedDiseases(plantModel);
             _soilService.InfectSoil(tileId, savedDiseaseModels);
+            _soilService.RemovePlant(tileId);
             _plantsRepo.Delete(tileId);
             _plantUpdatedEvent.Publish(PlantUpdatedEvent.Removed, new(tileId, plantModel));
         }
 
-        public void CreatePlant(string seedId, string tileId)
+        public void CreatePlantFromSeed(string seedId, string tileId)
         {
             if (_plantsRepo.Exists(tileId)) {
                 Debug.LogWarning($"Plant already exists seedId={seedId}");
@@ -173,16 +179,19 @@ namespace Game.Plants.Service
                 return;
             }
 
-            string plantId = seedsDescriptorModel.PlantId;
+            CreatePlant(seedsDescriptorModel.PlantId, tileId, seedsDescriptorModel.StartHealth, seedsDescriptorModel.StartImmunity);
+        }
+
+        public void CreatePlant(string plantId, string tileId, float startHealth, float startImmunity)
+        {
             PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
             PlantsDescriptorModel? plantsDescriptorModel = plantsDescriptor.Items.Find(plant => plant.Id == plantId);
             if (plantsDescriptorModel == null) {
-                Debug.LogWarning($"Plant not found seedId={seedId}, plantId={plantId}");
+                Debug.LogWarning($"Plant not found plantId={plantId}");
                 return;
             }
 
-            PlantModel plantModel = new(plantId, plantsDescriptorModel.FamilyType, PlantGrowStage.SEED, seedsDescriptorModel.StartHealth,
-                                        seedsDescriptorModel.StartImmunity);
+            PlantModel plantModel = new(plantId, plantsDescriptorModel.FamilyType, PlantGrowStage.SEED, startHealth, startImmunity);
             _plantUpdatedEvent.Publish(PlantUpdatedEvent.Created, new(tileId, plantModel));
             _plantsRepo.Save(tileId, plantModel);
         }
@@ -263,6 +272,8 @@ namespace Game.Plants.Service
         {
             PlantGrowCalculationModel growModel = new();
             SoilModel soilModel = _soilService.RequireSoil(soilId);
+            float randomGrowthNoise = UnityEngine.Random.Range(-plantsDescriptorModel.PlantGrowNoise, plantsDescriptorModel.PlantGrowNoise);
+            growModel.GrowMultiplier = Mathf.Max(growModel.GrowMultiplier + randomGrowthNoise, 0f);
 
             List<IPlantParameters> parametersList = new();
             parametersList.Add(plantsDescriptorModel.PhParameters);
@@ -293,7 +304,7 @@ namespace Game.Plants.Service
 
             CalculateConsumption(plantStageDescriptor.PlantConsumption, soilModel, plantStageDescriptor.AverageGrowTime, dayDifference,
                                  ref growModel);
-            
+
             if (plant.CurrentStage != PlantGrowStage.SEED) {
                 ApplyStress(plant, plantsDescriptorModel.StressParameters, ref growModel);
             }
@@ -334,37 +345,42 @@ namespace Game.Plants.Service
 
         private void TryHealPlant(ref PlantModel plant, PlantStageDescriptor plantStageDescriptor, string soilId)
         {
-            if (plant.Health >= Constants.Constants.MAX_HEALTH) {
+            if (plant.Health >= Constants.Constants.MaxPlantHealth) {
                 return;
             }
 
-            float neededHealth = Mathf.Min(plantStageDescriptor.DailyRegeneration, Constants.Constants.MAX_HEALTH - plant.Health);
+            float neededHealth = Mathf.Min(plantStageDescriptor.DailyRegeneration, Constants.Constants.MaxPlantHealth - plant.Health);
             if (_soilService.TryConsumeHumus(soilId, neededHealth)) {
-                plant.Health = Mathf.Clamp(plant.Health + neededHealth, 0f, Constants.Constants.MAX_HEALTH);
+                plant.Health = Mathf.Clamp(plant.Health + neededHealth, 0f, Constants.Constants.MaxPlantHealth);
             }
         }
 
         private void TryIncreaseImmunity(ref PlantModel plant, PlantStageDescriptor plantStageDescriptor)
         {
-            if (plant.Immunity >= Constants.Constants.MAX_IMMUNITY) {
+            if (plant.Immunity >= Constants.Constants.MaxImmunity) {
                 return;
             }
 
-            float healthMultiplier = plant.Health / Constants.Constants.MAX_HEALTH;
+            float healthMultiplier = plant.Health / Constants.Constants.MaxPlantHealth;
             plant.Immunity = Mathf.Clamp(plant.Immunity + healthMultiplier * plantStageDescriptor.DailyImmunityGain, 0f,
-                                         Constants.Constants.MAX_IMMUNITY);
+                                         Constants.Constants.MaxImmunity);
         }
 
         private void ApplyGrowCalculationModel(PlantModel plant, string soilId, PlantGrowCalculationModel calculationModel)
         {
             if (calculationModel.Damage > 0) {
-                plant.DealDamage(calculationModel.Damage);
+                float decreaseImmunity = plant.DecreaseImmunity(calculationModel.Damage);
+                float damageChance = Mathf.Clamp(decreaseImmunity / 100f, 0.05f, 0.95f);
+                float damageRoll = UnityEngine.Random.Range(0f, 1f);
+                if (damageRoll > damageChance) {
+                    plant.DealDamage(calculationModel.Damage);
+                }
             }
 
             ConsumeElements(plant, soilId, calculationModel.Consumption);
 
             if (!calculationModel.BlockGrowth) {
-                plant.StageGrowth += calculationModel.ActualGrowth;
+                plant.StageGrowth += Mathf.Max(calculationModel.ActualGrowth, 0f);
             }
 
             Debug.Log($"Plant has grew up! PlantId={plant.PlantId}, stageGrowth={plant.StageGrowth}");

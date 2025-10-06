@@ -36,7 +36,7 @@ namespace Game.Calendar.Service
                 return;
             }
 
-            _timeRepo.Save(new(Constants.Constants.START_DAY_TIME, 1, 4, 0));
+            _timeRepo.Save(new(Constants.Constants.StartDayTime, 1, 4, 0));
         }
 
         public void PassTime(int minutes)
@@ -47,13 +47,13 @@ namespace Game.Calendar.Service
             }
 
             TimeModel timeModel = _timeRepo.Require();
-            int newTime = Mathf.Min(timeModel.CurrentMinutes + minutes, Constants.Constants.END_DAY_TIME);
+            int newTime = Mathf.Min(timeModel.CurrentMinutes + minutes, Constants.Constants.EndDayTime);
             int diff = newTime - timeModel.CurrentMinutes;
             timeModel.CurrentMinutes = newTime;
 
             int savedCurrentDay = timeModel.CurrentDay;
 
-            if (timeModel.CurrentMinutes >= Constants.Constants.END_DAY_TIME) {
+            if (timeModel.CurrentMinutes >= Constants.Constants.EndDayTime) {
                 PassDay(timeModel, savedCurrentDay);
             }
 
@@ -65,7 +65,7 @@ namespace Game.Calendar.Service
         public TimeModel EndDay()
         {
             TimeModel timeModel = _timeRepo.Require();
-            int diff = Constants.Constants.END_DAY_TIME - timeModel.CurrentMinutes;
+            int diff = Constants.Constants.EndDayTime - timeModel.CurrentMinutes;
 
             int savedCurrentDay = timeModel.CurrentDay;
             PassDay(timeModel, savedCurrentDay);
@@ -131,7 +131,7 @@ namespace Game.Calendar.Service
         public int GetPassedGlobalTime()
         {
             TimeModel timeModel = _timeRepo.Require();
-            return timeModel.CurrentDay * Constants.Constants.END_DAY_TIME + timeModel.CurrentDay;
+            return timeModel.CurrentDay * Constants.Constants.EndDayTime + timeModel.CurrentDay;
         }
 
         public TimeModel GetToday()

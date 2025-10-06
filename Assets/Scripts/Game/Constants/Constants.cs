@@ -2,21 +2,24 @@
 {
     public static class Constants
     {
-        public const int INVENTORY_SLOTS = 9;
-        public const int HOT_KEY_SLOTS = 3;
-        
-        public const int START_DAY_TIME = 420;
-        public const int END_DAY_TIME = 1380;
-        
-        public const float MAX_PH = 14.0f;
-        public const float MAX_SALINITY_PERCENT = 5.0f;
-        public const float MAX_BREATHABILITY = 100f;
-        public const float MAX_HUMUS_PERCENT = 15.0f;
-        
-        public const float MAX_HEALTH = 100.0f;
-        public const float MAX_IMMUNITY = 100.0f;
-        
-        public const float MIN_WIND_SPEED = 1.5f;
-        public const float MAX_WIND_SPEED = 15f;
+        public const int InventorySlots = 9;
+        public const int HotKeySlots = 3;
+
+        public const int StartDayTime = 420;
+        public const int EndDayTime = 1380;
+
+        public const float MaxPh = 14.0f;
+        public const float MaxSalinityPercent = 5.0f;
+        public const float MaxBreathability = 100f;
+        public const float MaxHumusPercent = 15.0f;
+
+        public const float MaxPlantHealth = 100.0f;
+        public const float MaxImmunity = 100.0f;
+
+        public const float DamageChanceMin = 0.05f;
+        public const float DamageChanceMax = 0.95f;
+
+        public const float MinWindSpeed = 1.5f;
+        public const float MaxWindSpeed = 15f;
     }
 }

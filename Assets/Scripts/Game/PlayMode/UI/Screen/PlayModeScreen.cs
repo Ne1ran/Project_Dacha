@@ -43,7 +43,7 @@ namespace Game.PlayMode.UI.Screen
         // todo neiran make it into hotkey panel, take all methods from here and plug it into new panel
         private PlayModeScreenViewModel? _viewModel;
 
-        private List<HotkeySlotView> _hotkeySlotViews = new(Constants.Constants.HOT_KEY_SLOTS);
+        private List<HotkeySlotView> _hotkeySlotViews = new(Constants.Constants.HotKeySlots);
 
         public async UniTask InitializeAsync()
         {
@@ -91,7 +91,7 @@ namespace Game.PlayMode.UI.Screen
                 return;
             }
 
-            if (result is <= 0 or > Constants.Constants.HOT_KEY_SLOTS) {
+            if (result is <= 0 or > Constants.Constants.HotKeySlots) {
                 return;
             }
 

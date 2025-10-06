@@ -31,8 +31,8 @@ namespace Game.Inventory.Service
                 return;
             }
 
-            List<InventorySlot> inventory = new(Constants.Constants.INVENTORY_SLOTS);
-            for (int i = 0; i < Constants.Constants.INVENTORY_SLOTS; i++) {
+            List<InventorySlot> inventory = new(Constants.Constants.InventorySlots);
+            for (int i = 0; i < Constants.Constants.InventorySlots; i++) {
                 inventory.Add(new());
             }
 
@@ -108,7 +108,7 @@ namespace Game.Inventory.Service
 
         private int TryAutoHotkeyItem(List<InventorySlot> inventorySlots)
         {
-            List<int> occupiedHotkeys = new(Constants.Constants.HOT_KEY_SLOTS);
+            List<int> occupiedHotkeys = new(Constants.Constants.HotKeySlots);
             foreach (InventorySlot slot in inventorySlots) {
                 if (slot.InventoryItem == null) {
                     continue;
@@ -120,7 +120,7 @@ namespace Game.Inventory.Service
                 }
             }
 
-            for (int i = 1; i <= Constants.Constants.HOT_KEY_SLOTS; i++) {
+            for (int i = 1; i <= Constants.Constants.HotKeySlots; i++) {
                 if (!occupiedHotkeys.Contains(i)) {
                     return i;
                 }

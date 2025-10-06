@@ -2,7 +2,6 @@
 using Core.Attributes;
 using Game.Calendar.Model;
 using Game.Calendar.Repo;
-using Game.Evaporation.Descriptor;
 using Game.Temperature.Model;
 using Game.Weather.Model;
 
