@@ -30,6 +30,7 @@ using Game.Soil.Repository;
 using Game.Soil.Service;
 using Game.Sunlight.Service;
 using Game.Temperature.Service;
+using Game.Testing.Service;
 using Game.Tools.Service;
 using Unity.VisualScripting;
 using VContainer;
@@ -89,6 +90,7 @@ namespace Core.Scopes
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<CalendarGenerationService>(Lifetime.Singleton);
+            builder.Register<TestGameService>(Lifetime.Singleton);
             
             DachaEntryPoint entryPoint = this.AddComponent<DachaEntryPoint>();
             builder.RegisterComponent(entryPoint);

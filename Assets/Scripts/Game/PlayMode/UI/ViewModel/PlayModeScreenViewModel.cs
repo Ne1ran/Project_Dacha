@@ -22,7 +22,7 @@ namespace Game.PlayMode.UI.ViewModel
 
         private IDisposable? _disposable;
 
-        public ReactiveCollection<HotkeySlotViewModel> Hotkeys { get; } = new(Constants.Constants.HOT_KEY_SLOTS);
+        public ReactiveCollection<HotkeySlotViewModel> Hotkeys { get; } = new(Constants.Constants.HotKeySlots);
 
         public ReactiveProperty<int> HighlightedHotkey { get; } = new(-1);
 
@@ -63,7 +63,7 @@ namespace Game.PlayMode.UI.ViewModel
         public List<HotkeySlotViewModel> GetBaseHotkeysViewModels()
         {
             List<HotkeySlotViewModel> list = new();
-            for (int i = 1; i < Constants.Constants.HOT_KEY_SLOTS + 1; i++) {
+            for (int i = 1; i < Constants.Constants.HotKeySlots + 1; i++) {
                 list.Add(new(i));
             }
 
@@ -75,7 +75,7 @@ namespace Game.PlayMode.UI.ViewModel
             List<HotkeySlotViewModel> list = new();
 
             List<InventoryItem> hotkeyItems = _inventoryService.GetHotkeyItems();
-            for (int i = 1; i < Constants.Constants.HOT_KEY_SLOTS + 1; i++) {
+            for (int i = 1; i < Constants.Constants.HotKeySlots + 1; i++) {
                 bool read = false;
                 foreach (InventoryItem hotkeyItem in hotkeyItems) {
                     if (hotkeyItem.HotkeyNumber != i) {

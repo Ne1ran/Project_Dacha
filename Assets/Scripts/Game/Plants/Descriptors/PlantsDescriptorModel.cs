@@ -19,6 +19,8 @@ namespace Game.Plants.Descriptors
         public string Name { get; set; } = null!;
         [field: SerializeField]
         public int PlantsCount { get; set; } = 1;
+        [field: SerializeField, Range(0f, 1f), Tooltip("Noise for plant to grow. ActualGrowth + Rnd(-value;value)")]
+        public float PlantGrowNoise { get; set; } = 0.1f;
         [field: SerializeField, Tooltip("Family type of a plant")]
         public PlantFamilyType FamilyType { get; set; } = PlantFamilyType.None;
         [field: SerializeField, Tooltip("Plant ph parameters to grow")]

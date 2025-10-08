@@ -18,8 +18,8 @@ using Game.Player.Controller;
 using Game.Player.Service;
 using Game.Seeds.Component;
 using Game.Seeds.Descriptors;
-using Game.Soil.Service;
 using Game.Temperature.Service;
+using Game.Testing.Service;
 using Game.Tools.Component;
 using Game.Tools.Descriptors;
 using IngameDebugConsole;
@@ -133,6 +133,14 @@ namespace Core.Console
             Debug.Log($"Current global time in minutes={timeService.GetPassedGlobalTime()}");
         }
 
+        [ConsoleMethod("getDayAndMonth", "Current day and month")]
+        public static void GetDayAndMonth()
+        {
+            TimeService timeService = Container.Resolve<TimeService>();
+            TimeModel timeModel = timeService.GetToday();
+            Debug.Log($"Today is ={(MonthType) timeModel.CurrentMonth} {timeModel.CurrentDay}");
+        }
+
         [ConsoleMethod("showNotification", "Show notification of type")]
         public static void ShowNotification(NotificationType type)
         {
@@ -180,6 +188,41 @@ namespace Core.Console
             Container.Resolve<SoilWaterService>().CalculateEvaporation(millimetersAmount);
         }
 
+        [ConsoleMethod("setTestEnvironment", "Set test environment")]
+        public static void SetTestEnvironment(int month, int day, bool needShovel)
+        {
+            Container.Resolve<TimeService>().SetTime(month, day);
+            TestGameService testGameService = Container.Resolve<TestGameService>();
+            testGameService.RemoveAllPlants();
+            if (needShovel) {
+                testGameService.ShovelAll();
+            }
+
+            testGameService.TiltAll();
+        }
+
+        [ConsoleMethod("testPlantAll", "Plant test environment with selected plant")]
+        public static void TestPlantAll(string plantId)
+        {
+            TestGameService testGameService = Container.Resolve<TestGameService>();
+            testGameService.PlantAll(plantId, 100f, 100f);
+        }
+
+        [ConsoleMethod("testOneWeek", "Test one week with test environment")]
+        public static void TestOneWeek(float waterAmount)
+        {
+            TestGameService testGameService = Container.Resolve<TestGameService>();
+            testGameService.WaterAll(waterAmount);
+            SimulateTime(7).Forget();
+        }
+
+        [ConsoleMethod("testFertilizers", "Add fertilizers on test environment")]
+        public static void TestFertilizers(string fertilizerId, float fertMass)
+        {
+            TestGameService testGameService = Container.Resolve<TestGameService>();
+            testGameService.UseFertilizer(fertilizerId, fertMass);
+        }
+
         [ConsoleMethod("testEvaporationYear", "Test evaporation for one year")]
         public static void TestWaterEvaporationYear(float millimetersAmount)
         {
@@ -194,7 +237,6 @@ namespace Core.Console
                 float evaporation = soilWaterService.CalculateEvaporation(millimetersAmount);
                 Debug.LogWarning($"Evaporation. Month={newDay.CurrentMonth} Day={newDay.CurrentDay} StartWater={millimetersAmount}, Evaporation={evaporation}");
             }
-            
         }
 
         [ConsoleMethod("inspectPlant", "Inspect plant on the tile")]

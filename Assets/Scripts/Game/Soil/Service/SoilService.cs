@@ -110,6 +110,13 @@ namespace Game.Soil.Service
             _soilUpdatedPublisher.Publish(SoilUpdatedEvent.Updated, new(tileId, soilModel));
         }
 
+        public void SetSoilWater(string tileId, float waterAmount)
+        {
+            SoilModel soilModel = GerOrCreate(tileId);
+            soilModel.WaterAmount = waterAmount;
+            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.Updated, new(tileId, soilModel));
+        }
+
         public bool TryTiltSoil(string tileId)
         {
             SoilModel soilModel = GerOrCreate(tileId);
@@ -249,6 +256,7 @@ namespace Game.Soil.Service
             SoilModel soilModel = GerOrCreate(tileId);
             float massKg = portionMassGramms / 1000f;
             AddFertilizer(soilModel, fertilizerId, massKg);
+            
             // salinity adds instantly
             soilModel.Salinity += massKg / soilModel.Mass;
         }
@@ -314,6 +322,18 @@ namespace Game.Soil.Service
             return soilModel.SoilHumidity;
         }
 
+        public void RemovePlant(string soilId)
+        {
+            SoilModel soilModel = RequireSoil(soilId);
+            soilModel.State = SoilState.None;
+            _soilUpdatedPublisher.Publish(SoilUpdatedEvent.Updated, new(soilId, soilModel));
+        }
+
+        public void InfectSoil(string soilId, List<SavedDiseaseModel> savedDiseaseModel)
+        {
+            RequireSoil(soilId).SavedDiseases.AddRange(savedDiseaseModel);
+        }
+
         public SoilModel RequireSoil(string key)
         {
             if (!_soilRepo.Exists(key)) {
@@ -321,6 +341,11 @@ namespace Game.Soil.Service
             }
 
             return _soilRepo.Require(key);
+        }
+
+        public SoilModel? GetSoil(string soilId)
+        {
+            return _soilRepo.Get(soilId);
         }
 
         private void RecoverFromDiseases(SoilModel soil, int daysPassed)
@@ -367,11 +392,6 @@ namespace Game.Soil.Service
             return _descriptorService.Require<SoilDescriptor>().RequireByType(soilType);
         }
 
-        public SoilModel? GetSoil(string soilId)
-        {
-            return _soilRepo.Get(soilId);
-        }
-
         private SoilModel GerOrCreate(string key)
         {
             if (_soilRepo.Exists(key)) {
@@ -381,11 +401,6 @@ namespace Game.Soil.Service
             SoilModel soilModel = CreateSoil();
             _soilRepo.Save(key, soilModel);
             return soilModel;
-        }
-
-        public void InfectSoil(string soilId, List<SavedDiseaseModel> savedDiseaseModel)
-        {
-            RequireSoil(soilId).SavedDiseases.AddRange(savedDiseaseModel);
         }
     }
 }

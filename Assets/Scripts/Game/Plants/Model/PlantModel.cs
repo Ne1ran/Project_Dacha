@@ -38,20 +38,18 @@ namespace Game.Plants.Model
             TakenElements.Phosphorus = elements.Phosphorus;
         }
 
+        public float DecreaseImmunity(float value)
+        {
+            Immunity = Mathf.Clamp(Immunity - value, 0f, Constants.Constants.MaxImmunity);
+            return Immunity;
+        }
+
         public void DealDamage(float damage)
         {
-            if (Immunity > damage) {
-                Immunity -= damage;
-                return;
-            }
-
-            float damageToHealth = damage - Immunity;
-            Health -= damageToHealth;
-            Immunity = 0;
-
+            Health -= damage;
             if (Health <= 0) {
+                Health = 0;
                 CurrentStage = PlantGrowStage.DEAD;
-                // todo neiran throw event?
             }
         }
 

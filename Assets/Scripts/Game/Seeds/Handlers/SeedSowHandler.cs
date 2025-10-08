@@ -22,7 +22,7 @@ namespace Game.Seeds.Handlers
                 return UniTask.CompletedTask;
             }
             
-            _plantsService.CreatePlant(seedId, tileId);
+            _plantsService.CreatePlantFromSeed(seedId, tileId);
             return UniTask.CompletedTask;
         }
     }

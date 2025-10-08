@@ -57,12 +57,12 @@ namespace Game.Calendar.Service
         {
             float randomWindRoll = UnityEngine.Random.Range(0f, 1f);
             if (randomWindRoll <= settings.RandomWindChance) {
-                return UnityEngine.Random.Range(Constants.Constants.MIN_WIND_SPEED, Constants.Constants.MAX_WIND_SPEED);
+                return UnityEngine.Random.Range(Constants.Constants.MinWindSpeed, Constants.Constants.MaxWindSpeed);
             }
             
             float additionalWindNoise = UnityEngine.Random.Range(-settings.DailyTemperatureMaxNoise, settings.DailyTemperatureMaxNoise);
             float totalWindSpeed = settings.AverageWindSpeed + additionalWindNoise + weatherSettings.WindSpeedChange;
-            return Mathf.Clamp(totalWindSpeed, Constants.Constants.MIN_WIND_SPEED, Constants.Constants.MAX_WIND_SPEED);
+            return Mathf.Clamp(totalWindSpeed, Constants.Constants.MinWindSpeed, Constants.Constants.MaxWindSpeed);
         }
 
         private float GetPrecipitations(MonthClimateSettings settings, WeatherSettings weatherSettings)

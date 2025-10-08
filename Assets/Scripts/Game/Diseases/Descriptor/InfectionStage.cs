@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Game.Symptoms.Descriptor;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace Game.Diseases.Descriptor
