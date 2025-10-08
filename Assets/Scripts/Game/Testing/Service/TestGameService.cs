@@ -71,6 +71,15 @@ namespace Game.Testing.Service
             }
         }
 
+        public void UseFertilizer(string fertilizerId, float amount)
+        {
+            List<SingleTileModel> allTiles = _tileService.GetTiles();
+            foreach (SingleTileModel tileModel in allTiles) {
+                string tileId = tileModel.Id;
+                _soilService.AddFertilizer(tileId, fertilizerId, amount);
+            }
+        }
+
         public void SetWaterAmount(float waterAmount)
         {
             List<SingleTileModel> allTiles = _tileService.GetTiles();

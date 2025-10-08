@@ -33,7 +33,7 @@ namespace Game.Calendar.Service
         private void OnDayFinished(DayChangedEvent evt)
         {
             // todo neiran impl day finish
-            Debug.LogWarning("Day finished!");
+            Debug.Log("Day finished!");
         }
     }
 }

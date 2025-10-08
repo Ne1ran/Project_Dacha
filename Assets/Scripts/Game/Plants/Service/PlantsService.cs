@@ -154,7 +154,6 @@ namespace Game.Plants.Service
         {
             PlantModel? plantModel = _plantsRepo.Get(tileId);
             if (plantModel == null) {
-                Debug.Log($"No plant on tile={tileId}");
                 return;
             }
 
@@ -227,8 +226,9 @@ namespace Game.Plants.Service
             PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.RequireStage(plantCurrentStage);
             PlantGrowCalculationModel growModel = GetGrowModel(plant, soilId, dayDifference, plantsDescriptorModel, plantStageDescriptor);
             ApplyGrowCalculationModel(plant, soilId, growModel);
-            Debug.LogWarning($"Plant life simulation. GrowCalcModel: growMultiplier={growModel.GrowMultiplier}, damage={growModel.Damage}");
+            Debug.Log($"Plant life simulation. GrowCalcModel: growMultiplier={growModel.GrowMultiplier}, damage={growModel.Damage}");
             if (plant.CurrentStage == PlantGrowStage.DEAD) {
+                Debug.LogWarning($"Plant have died. Damage={growModel.Damage}, StressReasons={string.Join(", ", growModel.Stress.Keys.ToList())}");
                 // if plant have died - no need for further calculations 
                 return;
             }
@@ -382,8 +382,6 @@ namespace Game.Plants.Service
             if (!calculationModel.BlockGrowth) {
                 plant.StageGrowth += Mathf.Max(calculationModel.ActualGrowth, 0f);
             }
-
-            Debug.Log($"Plant has grew up! PlantId={plant.PlantId}, stageGrowth={plant.StageGrowth}");
         }
 
         private void TryGrowToNextStage(ref PlantModel plant,

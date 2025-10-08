@@ -18,7 +18,6 @@ namespace Game.Plants.PlantParams
         public PlantGrowCalculationModel ApplyParameters(IPlantParameters plantParams, PlantGrowCalculationModel growModel, SoilModel soilModel)
         {
             float currentSunlight = _sunlightService.GetDailySunAmount();
-            Debug.LogWarning($"Current sunlight for plant is = {currentSunlight}");
             if (plantParams.Min > currentSunlight) {
                 float deviation = currentSunlight - plantParams.Min;
                 growModel.Damage += plantParams.DamagePerDeviation * deviation;

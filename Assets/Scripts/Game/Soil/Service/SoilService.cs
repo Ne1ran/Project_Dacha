@@ -256,6 +256,7 @@ namespace Game.Soil.Service
             SoilModel soilModel = GerOrCreate(tileId);
             float massKg = portionMassGramms / 1000f;
             AddFertilizer(soilModel, fertilizerId, massKg);
+            
             // salinity adds instantly
             soilModel.Salinity += massKg / soilModel.Mass;
         }
