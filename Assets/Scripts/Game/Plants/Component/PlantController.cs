@@ -70,11 +70,12 @@ namespace Game.Plants.Component
 
         public void UpdatePlantsIfNeeded(PlantModel newPlantModel)
         {
-            if (_plantModel.CurrentStage == _currentStage) {
+            if (newPlantModel.CurrentStage == _currentStage) {
                 return;
             }
 
-            _currentStage = _plantModel.CurrentStage;
+            _plantModel = newPlantModel;
+            _currentStage = newPlantModel.CurrentStage;
             
             if (_plantPlaceStrategy == null) {
                 Debug.LogWarning("Plant place strategy is null. This should not be possible!");
@@ -82,7 +83,7 @@ namespace Game.Plants.Component
             }
 
             _plantPlaceStrategy.RemoveAll();
-            PlaceAllPlantsAsync(_plantModel).Forget();
+            PlaceAllPlantsAsync(newPlantModel).Forget();
         }
 
         private IPlantPlaceStrategy SelectPlaceStrategy(PlantVisualizationType visualizationType)

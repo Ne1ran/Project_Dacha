@@ -14,14 +14,12 @@ namespace Game.Testing.Service
         private readonly TileService _tileService;
         private readonly SoilService _soilService;
         private readonly PlantsService _plantsService;
-        private readonly TimeService _timeService;
 
-        public TestGameService(SoilService soilService, TileService tileService, PlantsService plantsService, TimeService timeService)
+        public TestGameService(SoilService soilService, TileService tileService, PlantsService plantsService)
         {
             _soilService = soilService;
             _tileService = tileService;
             _plantsService = plantsService;
-            _timeService = timeService;
         }
 
         public void TiltAll()
