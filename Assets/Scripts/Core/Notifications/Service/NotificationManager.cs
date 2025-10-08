@@ -7,6 +7,7 @@ using Core.Notifications.Descriptor;
 using Core.Notifications.Model;
 using Core.UI.Service;
 using Cysharp.Threading.Tasks;
+using Game.Utils;
 
 namespace Core.Notifications.Service
 {
@@ -52,12 +53,12 @@ namespace Core.Notifications.Service
         private NotificationModel CreateNotificationModel(NotificationType notificationType)
         {
             NotificationsDescriptor notificationsDescriptor = _descriptorService.Require<NotificationsDescriptor>();
-            NotificationModelDescriptor modelDescriptor = notificationsDescriptor.Items.Find(notification => notification.Type == notificationType);
+            NotificationModelDescriptor modelDescriptor = notificationsDescriptor.Require(notificationType);
             if (modelDescriptor == null) {
                 throw new KeyNotFoundException($"Notification not found with type={notificationType.ToString()}");
             }
             
-            return new(modelDescriptor);
+            return new(modelDescriptor, notificationType);
         }
     }
 }

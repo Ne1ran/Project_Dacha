@@ -12,82 +12,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b043ba440cfa46d995e65bcc3889f5af, type: 3}
   m_Name: NotificationsDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <Id>k__BackingField: 
-    <Type>k__BackingField: 0
-    <Title>k__BackingField: Fertilizer not found
-    <Message>k__BackingField: There is no fertilizer in your inventory
-    <Icon>k__BackingField:
-      m_AssetGUID: 8542587de6e9f3f4a98ba85992c9f647
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
-    <Alignment>k__BackingField: 0
-    <ShowTimeSeconds>k__BackingField: 2
-    <Priority>k__BackingField: 100
-  - <Id>k__BackingField: 
-    <Type>k__BackingField: 1
-    <Title>k__BackingField: Tool not found
-    <Message>k__BackingField: There is no tool in your inventory
-    <Icon>k__BackingField:
-      m_AssetGUID: dc96280a2b2104f47afc6a317090d3bc
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
-    <Alignment>k__BackingField: 0
-    <ShowTimeSeconds>k__BackingField: 2
-    <Priority>k__BackingField: 100
-  - <Id>k__BackingField: 
-    <Type>k__BackingField: 5
-    <Title>k__BackingField: Seeds not found
-    <Message>k__BackingField: There are no Seeds in your inventory
-    <Icon>k__BackingField:
-      m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
-    <Alignment>k__BackingField: 0
-    <ShowTimeSeconds>k__BackingField: 2
-    <Priority>k__BackingField: 100
-  - <Id>k__BackingField: 
-    <Type>k__BackingField: 10
-    <Title>k__BackingField: Water container not found
-    <Message>k__BackingField: There are no water containers in your inventory
-    <Icon>k__BackingField:
-      m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
-    <Alignment>k__BackingField: 0
-    <ShowTimeSeconds>k__BackingField: 2
-    <Priority>k__BackingField: 100
-  - <Id>k__BackingField: 
-    <Type>k__BackingField: 15
-    <Title>k__BackingField: No water
-    <Message>k__BackingField: Selected container doesn't have water
-    <Icon>k__BackingField:
-      m_AssetGUID: c109338b6adfe674b83c05ec447899d9
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
-    <Alignment>k__BackingField: 0
-    <ShowTimeSeconds>k__BackingField: 2
-    <Priority>k__BackingField: 100
-  - <Id>k__BackingField: 
-    <Type>k__BackingField: 20
-    <Title>k__BackingField: Inventory is full
-    <Message>k__BackingField: Your inventory is full!
-    <Icon>k__BackingField:
-      m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_SubObjectGUID: 
-      m_EditorAssetChanged: 1
-    <Alignment>k__BackingField: 0
-    <ShowTimeSeconds>k__BackingField: 2
-    <Priority>k__BackingField: 100
+  _values:
+    m_Keys: 0000000001000000050000000a0000000f00000014000000
+    m_Values:
+    - <Title>k__BackingField: Fertilizer not found
+      <Message>k__BackingField: There is no fertilizer in your inventory
+      <Icon>k__BackingField:
+        m_AssetGUID: 8542587de6e9f3f4a98ba85992c9f647
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
+      <Alignment>k__BackingField: 0
+      <ShowTimeSeconds>k__BackingField: 2
+      <Priority>k__BackingField: 100
+    - <Title>k__BackingField: Tool not found
+      <Message>k__BackingField: There is no tool in your inventory
+      <Icon>k__BackingField:
+        m_AssetGUID: dc96280a2b2104f47afc6a317090d3bc
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
+      <Alignment>k__BackingField: 0
+      <ShowTimeSeconds>k__BackingField: 2
+      <Priority>k__BackingField: 100
+    - <Title>k__BackingField: Seeds not found
+      <Message>k__BackingField: There are no Seeds in your inventory
+      <Icon>k__BackingField:
+        m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
+      <Alignment>k__BackingField: 0
+      <ShowTimeSeconds>k__BackingField: 2
+      <Priority>k__BackingField: 100
+    - <Title>k__BackingField: Water container not found
+      <Message>k__BackingField: There are no water containers in your inventory
+      <Icon>k__BackingField:
+        m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
+      <Alignment>k__BackingField: 0
+      <ShowTimeSeconds>k__BackingField: 2
+      <Priority>k__BackingField: 100
+    - <Title>k__BackingField: No water
+      <Message>k__BackingField: Selected container doesn't have water
+      <Icon>k__BackingField:
+        m_AssetGUID: c109338b6adfe674b83c05ec447899d9
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
+      <Alignment>k__BackingField: 0
+      <ShowTimeSeconds>k__BackingField: 2
+      <Priority>k__BackingField: 100
+    - <Title>k__BackingField: Inventory is full
+      <Message>k__BackingField: Your inventory is full!
+      <Icon>k__BackingField:
+        m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
+      <Alignment>k__BackingField: 0
+      <ShowTimeSeconds>k__BackingField: 2
+      <Priority>k__BackingField: 100

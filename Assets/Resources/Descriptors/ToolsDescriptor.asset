@@ -12,39 +12,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25e7d34cdcec784cb758b37dc3fbcd7, type: 3}
   m_Name: ToolsDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <Id>k__BackingField: axe
-    <ToolType>k__BackingField: 5
-    <UseHandler>k__BackingField: 
-    <CanCarryInfection>k__BackingField: 0
-    <SelectorDescriptorId>k__BackingField: 
-  - <Id>k__BackingField: hammer
-    <ToolType>k__BackingField: 4
-    <UseHandler>k__BackingField: 
-    <CanCarryInfection>k__BackingField: 0
-    <SelectorDescriptorId>k__BackingField: 
-  - <Id>k__BackingField: hoe
-    <ToolType>k__BackingField: 2
-    <UseHandler>k__BackingField: Hoe
-    <CanCarryInfection>k__BackingField: 1
-    <SelectorDescriptorId>k__BackingField: 
-  - <Id>k__BackingField: pickaxe
-    <ToolType>k__BackingField: 5
-    <UseHandler>k__BackingField: 
-    <CanCarryInfection>k__BackingField: 0
-    <SelectorDescriptorId>k__BackingField: 
-  - <Id>k__BackingField: scythe
-    <ToolType>k__BackingField: 3
-    <UseHandler>k__BackingField: 
-    <CanCarryInfection>k__BackingField: 0
-    <SelectorDescriptorId>k__BackingField: 
-  - <Id>k__BackingField: spade
-    <ToolType>k__BackingField: 2
-    <UseHandler>k__BackingField: Shovel
-    <CanCarryInfection>k__BackingField: 1
-    <SelectorDescriptorId>k__BackingField: 
-  - <Id>k__BackingField: bucketTool
-    <ToolType>k__BackingField: 1
-    <UseHandler>k__BackingField: Bucket
-    <CanCarryInfection>k__BackingField: 0
-    <SelectorDescriptorId>k__BackingField: bucket10
+  _values:
+    m_Keys:
+    - axe
+    - hammer
+    - hoe
+    - pickaxe
+    - scythe
+    - spade
+    - bucketTool
+    m_Values:
+    - <Id>k__BackingField: axe
+      <ToolType>k__BackingField: 5
+      <UseHandler>k__BackingField: 
+      <CanCarryInfection>k__BackingField: 0
+      <SelectorDescriptorId>k__BackingField: 
+    - <Id>k__BackingField: hammer
+      <ToolType>k__BackingField: 4
+      <UseHandler>k__BackingField: 
+      <CanCarryInfection>k__BackingField: 0
+      <SelectorDescriptorId>k__BackingField: 
+    - <Id>k__BackingField: hoe
+      <ToolType>k__BackingField: 2
+      <UseHandler>k__BackingField: Hoe
+      <CanCarryInfection>k__BackingField: 1
+      <SelectorDescriptorId>k__BackingField: 
+    - <Id>k__BackingField: pickaxe
+      <ToolType>k__BackingField: 5
+      <UseHandler>k__BackingField: 
+      <CanCarryInfection>k__BackingField: 0
+      <SelectorDescriptorId>k__BackingField: 
+    - <Id>k__BackingField: scythe
+      <ToolType>k__BackingField: 3
+      <UseHandler>k__BackingField: 
+      <CanCarryInfection>k__BackingField: 0
+      <SelectorDescriptorId>k__BackingField: 
+    - <Id>k__BackingField: spade
+      <ToolType>k__BackingField: 2
+      <UseHandler>k__BackingField: Shovel
+      <CanCarryInfection>k__BackingField: 1
+      <SelectorDescriptorId>k__BackingField: 
+    - <Id>k__BackingField: bucketTool
+      <ToolType>k__BackingField: 1
+      <UseHandler>k__BackingField: Bucket
+      <CanCarryInfection>k__BackingField: 0
+      <SelectorDescriptorId>k__BackingField: bucket10
+  <Items>k__BackingField: []

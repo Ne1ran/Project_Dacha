@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 using Core.Attributes;
+using Core.Descriptors.Descriptor;
 using Game.Utils;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Game.Items.Descriptors
 {
     [CreateAssetMenu(fileName = "ItemsDescriptor", menuName = "Dacha/Descriptors/ItemsDescriptor")]
     [Descriptor("Descriptors/" + nameof(ItemsDescriptor))]
-    public class ItemsDescriptor : ScriptableObject
+    public class ItemsDescriptor : Descriptor<string, ItemDescriptorModel>
     {
         [field: SerializeField]
         [TableList]
@@ -24,28 +27,22 @@ namespace Game.Items.Descriptors
             return itemDescriptorModel;
         }
         
-        private void OnValidate()
+        public void OnValidate()
         {
-            foreach (ItemDescriptorModel? item in Items) {
-                if (!string.IsNullOrEmpty(item.Id)) {
-                    continue;
-                }
-                
-                string newName = item.Name.Trim();
-                string[] nameSplit = newName.Split(" ");
-        
-                string result = "";
-                for (int i = 0; i < nameSplit.Length; i++) {
-                    string part = nameSplit[i];
-                    if (i > 0) {
-                        result += part.ToLowerFirst();
-                    } else {
-                        result += part;
-                    }
-                }
-        
-                item.Id = result;
+            if (Items.Count == 0) {
+                return;
             }
+            SerializedDictionary<string, ItemDescriptorModel> dict = new();
+            
+            foreach (ItemDescriptorModel items in Items) {
+                dict.Add(items.Id, items);
+            }
+            
+            SetValues(dict);
+            
+            Items.Clear();
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
         }
     }
 }

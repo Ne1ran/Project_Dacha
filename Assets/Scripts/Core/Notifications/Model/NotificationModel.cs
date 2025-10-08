@@ -4,7 +4,7 @@ namespace Core.Notifications.Model
 {
     public class NotificationModel
     {
-        public string Id { get; }
+        public NotificationType Type { get; }
         public string Title { get; }
         public string Message { get; }
         public string? Icon { get; }
@@ -12,9 +12,9 @@ namespace Core.Notifications.Model
         public int ShowTime { get; }
         public int Priority { get; }
 
-        public NotificationModel(NotificationModelDescriptor descriptor)
+        public NotificationModel(NotificationModelDescriptor descriptor, NotificationType type)
         {
-            Id = descriptor.Id;
+            Type = type;
             Message = descriptor.Message;
             Title = descriptor.Title;
             Icon = descriptor.Icon?.AssetGUID;

@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 193538664bae4beba1351f759b8c997b, type: 3}
   m_Name: PlantHarvestDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <Id>k__BackingField: cucumber
-    <BaseHarvestRate>k__BackingField: 1
-    <MultiplierPerHealth>k__BackingField: 0.02
-    <HarvestItemId>k__BackingField: cucumberHarvest
+  _values:
+    m_Keys:
+    - cucumber
+    m_Values:
+    - <Id>k__BackingField: cucumber
+      <BaseHarvestRate>k__BackingField: 1
+      <MultiplierPerHealth>k__BackingField: 0.02
+      <HarvestItemId>k__BackingField: cucumberHarvest
+  <Items>k__BackingField: []

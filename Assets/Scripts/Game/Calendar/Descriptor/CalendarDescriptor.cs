@@ -1,28 +1,19 @@
-﻿using System.Collections.Generic;
-using Core.Attributes;
+﻿using Core.Attributes;
+using Core.Descriptors.Descriptor;
 using Game.Calendar.Model;
 using Game.Difficulty.Model;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Game.Calendar.Descriptor
 {
     [CreateAssetMenu(fileName = "CalendarDescriptor", menuName = "Dacha/Descriptors/CalendarDescriptor")]
     [Descriptor("Descriptors/" + nameof(CalendarDescriptor))]
-    public class CalendarDescriptor : ScriptableObject
+    public class CalendarDescriptor : Descriptor<DachaPlaceType, SerializedDictionary<MonthType, CalendarMonthModel>>
     {
-        [field: SerializeField]
-        [TableList]
-        public List<CalendarPlaceDescriptor> Items { get; set; } = new();
-
         public CalendarMonthModel FindByType(DachaPlaceType placeType, MonthType monthType)
         {
-            CalendarPlaceDescriptor? calendarPlaceDescriptor = Items.Find(item => item.PlaceType == placeType);
-            if (calendarPlaceDescriptor == null) {
-                throw new KeyNotFoundException($"Calendar place descriptor not found with placeType={placeType} and monthType={monthType}");
-            }
-            
-            return calendarPlaceDescriptor.FindByType(monthType);
+            return Require(placeType)[monthType];
         }
     }
 }

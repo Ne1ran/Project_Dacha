@@ -9,10 +9,6 @@ namespace Core.Notifications.Descriptor
     public class NotificationModelDescriptor
     {
         [field: SerializeField]
-        public string Id { get; set; } = string.Empty;
-        [field: SerializeField]
-        public NotificationType Type { get; set; }
-        [field: SerializeField]
         public string Title { get; set; } = null!;
         [field: SerializeField]
         public string Message { get; set; } = null!;

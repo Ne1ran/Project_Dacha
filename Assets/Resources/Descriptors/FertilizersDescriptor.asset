@@ -12,246 +12,271 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24092a1e7d8b48148c1f3027abe40c14, type: 3}
   m_Name: FertilizersDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <Id>k__BackingField: potassiumMonophosphate
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 250
-    <DecomposeTime>k__BackingField: 7
-    <PhChange>k__BackingField: 0
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 0
-      <PotassiumPercent>k__BackingField: 34
-      <PhosphorusPercent>k__BackingField: 52
-  - <Id>k__BackingField: potassiumSulfate
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 7
-    <PhChange>k__BackingField: -0.5
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 0
-      <PotassiumPercent>k__BackingField: 50
-      <PhosphorusPercent>k__BackingField: 0
-  - <Id>k__BackingField: doubleSuperphosphate
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 1000
-    <PhChange>k__BackingField: 0
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 10
-      <PotassiumPercent>k__BackingField: 0
-      <PhosphorusPercent>k__BackingField: 45
-  - <Id>k__BackingField: potassiumChloride
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 7
-    <PhChange>k__BackingField: -1
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 0
-      <PotassiumPercent>k__BackingField: 60
-      <PhosphorusPercent>k__BackingField: 0
-  - <Id>k__BackingField: potassiumMagnesium
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 300
-    <PhChange>k__BackingField: 0
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 0
-      <PotassiumPercent>k__BackingField: 30
-      <PhosphorusPercent>k__BackingField: 0
-  - <Id>k__BackingField: superphosphate
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 650
-    <PhChange>k__BackingField: 0
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 6
-      <PotassiumPercent>k__BackingField: 0
-      <PhosphorusPercent>k__BackingField: 20
-  - <Id>k__BackingField: ammophos
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 28
-    <PhChange>k__BackingField: 0
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 10
-      <PotassiumPercent>k__BackingField: 0
-      <PhosphorusPercent>k__BackingField: 50
-  - <Id>k__BackingField: calciumNitrate
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 14
-    <PhChange>k__BackingField: 0.5
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 15
-      <PotassiumPercent>k__BackingField: 0
-      <PhosphorusPercent>k__BackingField: 0
-  - <Id>k__BackingField: potassiumNitrate
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 14
-    <PhChange>k__BackingField: 0
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 14
-      <PotassiumPercent>k__BackingField: 45
-      <PhosphorusPercent>k__BackingField: 15
-  - <Id>k__BackingField: boroPhosPotassium
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 300
-    <PhChange>k__BackingField: 2
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 0
-      <PotassiumPercent>k__BackingField: 16
-      <PhosphorusPercent>k__BackingField: 10
-  - <Id>k__BackingField: carbamide
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 28
-    <PhChange>k__BackingField: 0
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 46
-      <PotassiumPercent>k__BackingField: 0
-      <PhosphorusPercent>k__BackingField: 0
-  - <Id>k__BackingField: ammoniumNitrate
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 21
-    <PhChange>k__BackingField: -0.5
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 35
-      <PotassiumPercent>k__BackingField: 0
-      <PhosphorusPercent>k__BackingField: 0
-  - <Id>k__BackingField: potassiumHumate
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 250
-    <DecomposeTime>k__BackingField: 28
-    <PhChange>k__BackingField: 0.5
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 0
-      <PotassiumPercent>k__BackingField: 10
-      <PhosphorusPercent>k__BackingField: 0
-  - <Id>k__BackingField: nitroPhoPotassium
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 14
-    <PhChange>k__BackingField: -0.5
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 16
-      <PotassiumPercent>k__BackingField: 16
-      <PhosphorusPercent>k__BackingField: 16
-  - <Id>k__BackingField: ammoPhoPotassium
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 28
-    <PhChange>k__BackingField: -0.5
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 15
-      <PotassiumPercent>k__BackingField: 15
-      <PhosphorusPercent>k__BackingField: 15
-  - <Id>k__BackingField: doubleAmmoPhoPotassium
-    <Type>k__BackingField: 2
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 28
-    <PhChange>k__BackingField: 0
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 10
-      <PotassiumPercent>k__BackingField: 20
-      <PhosphorusPercent>k__BackingField: 20
-  - <Id>k__BackingField: phosphateFlour
-    <Type>k__BackingField: 1
-    <StartMass>k__BackingField: 3000
-    <DecomposeTime>k__BackingField: 1000
-    <PhChange>k__BackingField: 1
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 0
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 0
-      <PotassiumPercent>k__BackingField: 0
-      <PhosphorusPercent>k__BackingField: 20
-  - <Id>k__BackingField: boneMeal
-    <Type>k__BackingField: 1
-    <StartMass>k__BackingField: 3000
-    <DecomposeTime>k__BackingField: 650
-    <PhChange>k__BackingField: 0
-    <HumusValue>k__BackingField: 25
-    <BreathabilityValue>k__BackingField: 10
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 2
-      <PotassiumPercent>k__BackingField: 0
-      <PhosphorusPercent>k__BackingField: 11
-  - <Id>k__BackingField: sunflowerAsh
-    <Type>k__BackingField: 1
-    <StartMass>k__BackingField: 1000
-    <DecomposeTime>k__BackingField: 60
-    <PhChange>k__BackingField: 1
-    <HumusValue>k__BackingField: 0
-    <BreathabilityValue>k__BackingField: 5
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 0
-      <PotassiumPercent>k__BackingField: 24
-      <PhosphorusPercent>k__BackingField: 7
-  - <Id>k__BackingField: horseManure
-    <Type>k__BackingField: 0
-    <StartMass>k__BackingField: 5000
-    <DecomposeTime>k__BackingField: 90
-    <PhChange>k__BackingField: -1
-    <HumusValue>k__BackingField: 500
-    <BreathabilityValue>k__BackingField: 10
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 0.475
-      <PotassiumPercent>k__BackingField: 0.5
-      <PhosphorusPercent>k__BackingField: 0.35
-  - <Id>k__BackingField: chickenManure
-    <Type>k__BackingField: 0
-    <StartMass>k__BackingField: 5000
-    <DecomposeTime>k__BackingField: 60
-    <PhChange>k__BackingField: -2
-    <HumusValue>k__BackingField: 200
-    <BreathabilityValue>k__BackingField: 5
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 2
-      <PotassiumPercent>k__BackingField: 1
-      <PhosphorusPercent>k__BackingField: 1.5
-  - <Id>k__BackingField: cowManure
-    <Type>k__BackingField: 0
-    <StartMass>k__BackingField: 5000
-    <DecomposeTime>k__BackingField: 75
-    <PhChange>k__BackingField: -1.5
-    <HumusValue>k__BackingField: 400
-    <BreathabilityValue>k__BackingField: 15
-    <FertilizerElements>k__BackingField:
-      <NitrogenPercent>k__BackingField: 3
-      <PotassiumPercent>k__BackingField: 1.5
-      <PhosphorusPercent>k__BackingField: 3
+  _values:
+    m_Keys:
+    - potassiumMonophosphate
+    - potassiumSulfate
+    - doubleSuperphosphate
+    - potassiumChloride
+    - potassiumMagnesium
+    - superphosphate
+    - ammophos
+    - calciumNitrate
+    - potassiumNitrate
+    - boroPhosPotassium
+    - carbamide
+    - ammoniumNitrate
+    - potassiumHumate
+    - nitroPhoPotassium
+    - ammoPhoPotassium
+    - doubleAmmoPhoPotassium
+    - phosphateFlour
+    - boneMeal
+    - sunflowerAsh
+    - horseManure
+    - chickenManure
+    - cowManure
+    m_Values:
+    - <Id>k__BackingField: potassiumMonophosphate
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 250
+      <DecomposeTime>k__BackingField: 7
+      <PhChange>k__BackingField: 0
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 0
+        <PotassiumPercent>k__BackingField: 34
+        <PhosphorusPercent>k__BackingField: 52
+    - <Id>k__BackingField: potassiumSulfate
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 7
+      <PhChange>k__BackingField: -0.5
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 0
+        <PotassiumPercent>k__BackingField: 50
+        <PhosphorusPercent>k__BackingField: 0
+    - <Id>k__BackingField: doubleSuperphosphate
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 1000
+      <PhChange>k__BackingField: 0
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 10
+        <PotassiumPercent>k__BackingField: 0
+        <PhosphorusPercent>k__BackingField: 45
+    - <Id>k__BackingField: potassiumChloride
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 7
+      <PhChange>k__BackingField: -1
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 0
+        <PotassiumPercent>k__BackingField: 60
+        <PhosphorusPercent>k__BackingField: 0
+    - <Id>k__BackingField: potassiumMagnesium
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 300
+      <PhChange>k__BackingField: 0
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 0
+        <PotassiumPercent>k__BackingField: 30
+        <PhosphorusPercent>k__BackingField: 0
+    - <Id>k__BackingField: superphosphate
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 650
+      <PhChange>k__BackingField: 0
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 6
+        <PotassiumPercent>k__BackingField: 0
+        <PhosphorusPercent>k__BackingField: 20
+    - <Id>k__BackingField: ammophos
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 28
+      <PhChange>k__BackingField: 0
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 10
+        <PotassiumPercent>k__BackingField: 0
+        <PhosphorusPercent>k__BackingField: 50
+    - <Id>k__BackingField: calciumNitrate
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 14
+      <PhChange>k__BackingField: 0.5
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 15
+        <PotassiumPercent>k__BackingField: 0
+        <PhosphorusPercent>k__BackingField: 0
+    - <Id>k__BackingField: potassiumNitrate
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 14
+      <PhChange>k__BackingField: 0
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 14
+        <PotassiumPercent>k__BackingField: 45
+        <PhosphorusPercent>k__BackingField: 15
+    - <Id>k__BackingField: boroPhosPotassium
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 300
+      <PhChange>k__BackingField: 2
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 0
+        <PotassiumPercent>k__BackingField: 16
+        <PhosphorusPercent>k__BackingField: 10
+    - <Id>k__BackingField: carbamide
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 28
+      <PhChange>k__BackingField: 0
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 46
+        <PotassiumPercent>k__BackingField: 0
+        <PhosphorusPercent>k__BackingField: 0
+    - <Id>k__BackingField: ammoniumNitrate
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 21
+      <PhChange>k__BackingField: -0.5
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 35
+        <PotassiumPercent>k__BackingField: 0
+        <PhosphorusPercent>k__BackingField: 0
+    - <Id>k__BackingField: potassiumHumate
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 250
+      <DecomposeTime>k__BackingField: 28
+      <PhChange>k__BackingField: 0.5
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 0
+        <PotassiumPercent>k__BackingField: 10
+        <PhosphorusPercent>k__BackingField: 0
+    - <Id>k__BackingField: nitroPhoPotassium
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 14
+      <PhChange>k__BackingField: -0.5
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 16
+        <PotassiumPercent>k__BackingField: 16
+        <PhosphorusPercent>k__BackingField: 16
+    - <Id>k__BackingField: ammoPhoPotassium
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 28
+      <PhChange>k__BackingField: -0.5
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 15
+        <PotassiumPercent>k__BackingField: 15
+        <PhosphorusPercent>k__BackingField: 15
+    - <Id>k__BackingField: doubleAmmoPhoPotassium
+      <Type>k__BackingField: 2
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 28
+      <PhChange>k__BackingField: 0
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 10
+        <PotassiumPercent>k__BackingField: 20
+        <PhosphorusPercent>k__BackingField: 20
+    - <Id>k__BackingField: phosphateFlour
+      <Type>k__BackingField: 1
+      <StartMass>k__BackingField: 3000
+      <DecomposeTime>k__BackingField: 1000
+      <PhChange>k__BackingField: 1
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 0
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 0
+        <PotassiumPercent>k__BackingField: 0
+        <PhosphorusPercent>k__BackingField: 20
+    - <Id>k__BackingField: boneMeal
+      <Type>k__BackingField: 1
+      <StartMass>k__BackingField: 3000
+      <DecomposeTime>k__BackingField: 650
+      <PhChange>k__BackingField: 0
+      <HumusValue>k__BackingField: 25
+      <BreathabilityValue>k__BackingField: 10
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 2
+        <PotassiumPercent>k__BackingField: 0
+        <PhosphorusPercent>k__BackingField: 11
+    - <Id>k__BackingField: sunflowerAsh
+      <Type>k__BackingField: 1
+      <StartMass>k__BackingField: 1000
+      <DecomposeTime>k__BackingField: 60
+      <PhChange>k__BackingField: 1
+      <HumusValue>k__BackingField: 0
+      <BreathabilityValue>k__BackingField: 5
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 0
+        <PotassiumPercent>k__BackingField: 24
+        <PhosphorusPercent>k__BackingField: 7
+    - <Id>k__BackingField: horseManure
+      <Type>k__BackingField: 0
+      <StartMass>k__BackingField: 5000
+      <DecomposeTime>k__BackingField: 90
+      <PhChange>k__BackingField: -1
+      <HumusValue>k__BackingField: 500
+      <BreathabilityValue>k__BackingField: 10
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 0.475
+        <PotassiumPercent>k__BackingField: 0.5
+        <PhosphorusPercent>k__BackingField: 0.35
+    - <Id>k__BackingField: chickenManure
+      <Type>k__BackingField: 0
+      <StartMass>k__BackingField: 5000
+      <DecomposeTime>k__BackingField: 60
+      <PhChange>k__BackingField: -2
+      <HumusValue>k__BackingField: 200
+      <BreathabilityValue>k__BackingField: 5
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 2
+        <PotassiumPercent>k__BackingField: 1
+        <PhosphorusPercent>k__BackingField: 1.5
+    - <Id>k__BackingField: cowManure
+      <Type>k__BackingField: 0
+      <StartMass>k__BackingField: 5000
+      <DecomposeTime>k__BackingField: 75
+      <PhChange>k__BackingField: -1.5
+      <HumusValue>k__BackingField: 400
+      <BreathabilityValue>k__BackingField: 15
+      <FertilizerElements>k__BackingField:
+        <NitrogenPercent>k__BackingField: 3
+        <PotassiumPercent>k__BackingField: 1.5
+        <PhosphorusPercent>k__BackingField: 3
+  <Items>k__BackingField: []

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.Plants.Model;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Game.Plants.Descriptors
 {
@@ -29,6 +30,10 @@ namespace Game.Plants.Descriptors
         public PlantStressParameters StressParameters { get; set; } = null!;
         [field: SerializeField]
         public PlantVisualizationDescriptor Visualization { get; set; } = null!;
+        
+        [field: SerializeField]
+        public SerializedDictionary<PlantGrowStage, PlantStageDescriptor> Stages2 { get; set; } = new();
+
         [field: SerializeField]
         public List<PlantStageDescriptor> Stages { get; set; } = new();
 

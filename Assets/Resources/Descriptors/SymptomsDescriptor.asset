@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ecf8807815c43b580ed65557cba1f4d, type: 3}
   m_Name: SymptomsDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
+  _values:
     m_Keys:
     - StrangeMildew
     - SlowedGrowth
@@ -123,3 +123,6 @@ MonoBehaviour:
         m_Values:
         - Leaves are changing their color
       <BannedFamilyTypes>k__BackingField: 
+  <Items>k__BackingField:
+    m_Keys: []
+    m_Values: []

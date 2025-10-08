@@ -12,25 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0391cdc4c6e4970b441bc1f3f714e7d, type: 3}
   m_Name: SeedsDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <Id>k__BackingField: watermelonSeed
-    <PlantId>k__BackingField: cucumber
-    <SeedType>k__BackingField: 1
-    <UseHandler>k__BackingField: SowSeed
-    <CanBeInfected>k__BackingField: 1
-    <StartHealth>k__BackingField: 100
-    <StartImmunity>k__BackingField: 100
-  - <Id>k__BackingField: cucumberSeed
-    <PlantId>k__BackingField: cucumber
-    <SeedType>k__BackingField: 1
-    <UseHandler>k__BackingField: SowSeed
-    <CanBeInfected>k__BackingField: 1
-    <StartHealth>k__BackingField: 100
-    <StartImmunity>k__BackingField: 100
-  - <Id>k__BackingField: beetrootSeed
-    <PlantId>k__BackingField: cucumber
-    <SeedType>k__BackingField: 1
-    <UseHandler>k__BackingField: SowSeed
-    <CanBeInfected>k__BackingField: 1
-    <StartHealth>k__BackingField: 100
-    <StartImmunity>k__BackingField: 100
+  _values:
+    m_Keys:
+    - watermelonSeed
+    - cucumberSeed
+    - beetrootSeed
+    m_Values:
+    - <Id>k__BackingField: watermelonSeed
+      <PlantId>k__BackingField: cucumber
+      <SeedType>k__BackingField: 1
+      <UseHandler>k__BackingField: SowSeed
+      <CanBeInfected>k__BackingField: 1
+      <StartHealth>k__BackingField: 100
+      <StartImmunity>k__BackingField: 100
+    - <Id>k__BackingField: cucumberSeed
+      <PlantId>k__BackingField: cucumber
+      <SeedType>k__BackingField: 1
+      <UseHandler>k__BackingField: SowSeed
+      <CanBeInfected>k__BackingField: 1
+      <StartHealth>k__BackingField: 100
+      <StartImmunity>k__BackingField: 100
+    - <Id>k__BackingField: beetrootSeed
+      <PlantId>k__BackingField: cucumber
+      <SeedType>k__BackingField: 1
+      <UseHandler>k__BackingField: SowSeed
+      <CanBeInfected>k__BackingField: 1
+      <StartHealth>k__BackingField: 100
+      <StartImmunity>k__BackingField: 100
+  <Items>k__BackingField: []

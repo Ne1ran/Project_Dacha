@@ -12,155 +12,158 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f6afdb050046f79db7693007dca918, type: 3}
   m_Name: InteractionDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <InteractableType>k__BackingField: 2
-    <Settings>k__BackingField:
-    - <InteractionHandlerName>k__BackingField: InspectSoil
-      <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Inspect
-      <Description>k__BackingField: Inspect soil
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 6218d182ea182704fb1261ea2fd211b4
-        m_SubObjectName: camera
-        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: FertilizeSoil
-      <PrepareHandlerName>k__BackingField: Fertilize
-      <Title>k__BackingField: Fertilize
-      <Description>k__BackingField: Improve soil with {substitute}
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 8542587de6e9f3f4a98ba85992c9f647
-        m_SubObjectName: bucket_icon
-        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: UseSoilTool
-      <PrepareHandlerName>k__BackingField: PrepareSoilTool
-      <Title>k__BackingField: Use tool on soil
-      <Description>k__BackingField: Use {substitute}
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 8f52c694ba522ef4cb0f4787ff3a32f1
-        m_SubObjectName: hoe_icon
-        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: SowSeed
-      <PrepareHandlerName>k__BackingField: PrepareSowSeed
-      <Title>k__BackingField: Sow seed
-      <Description>k__BackingField: Sow {substitute} into the soil
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 929b54ef59aaeba4a9807a6ef928457b
-        m_SubObjectName: star
-        m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: WaterSoil
-      <PrepareHandlerName>k__BackingField: PrepareWaterSoil
-      <Title>k__BackingField: Water soil
-      <Description>k__BackingField: Water soil with {substitute}
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: c109338b6adfe674b83c05ec447899d9
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField: []
-  - <InteractableType>k__BackingField: 0
-    <Settings>k__BackingField: []
-  - <InteractableType>k__BackingField: 1
-    <Settings>k__BackingField:
-    - <InteractionHandlerName>k__BackingField: Open
-      <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Open
-      <Description>k__BackingField: Open door
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: Close
-      <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Close
-      <Description>k__BackingField: Close door
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <Conditions>k__BackingField: []
-  - <InteractableType>k__BackingField: 3
-    <Settings>k__BackingField:
-    - <InteractionHandlerName>k__BackingField: InspectPlant
-      <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Inspect
-      <Description>k__BackingField: Inspect plant
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 6218d182ea182704fb1261ea2fd211b4
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: FertilizeSoil
-      <PrepareHandlerName>k__BackingField: Fertilize
-      <Title>k__BackingField: Ferilize
-      <Description>k__BackingField: Fertilize plant with {substitute}
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 8542587de6e9f3f4a98ba85992c9f647
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: WaterSoil
-      <PrepareHandlerName>k__BackingField: PrepareWaterSoil
-      <Title>k__BackingField: Water plant
-      <Description>k__BackingField: Water plant with {substitute}
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: c109338b6adfe674b83c05ec447899d9
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField: []
-    - <InteractionHandlerName>k__BackingField: HarvestPlant
-      <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Harvest
-      <Description>k__BackingField: 'Harvest '
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 2321c5e8799c0f2448bfaa82cd28f7b7
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField:
-      - <Id>k__BackingField: PlantStageCondition
-        <Inverted>k__BackingField: 0
-        <Params>k__BackingField:
-        - <Key>k__BackingField: GrowStage
-          <Value>k__BackingField: Riped
-        - <Key>k__BackingField: Operation
-          <Value>k__BackingField: GreaterOrEqual
-    - <InteractionHandlerName>k__BackingField: RemovePlant
-      <PrepareHandlerName>k__BackingField: Simple
-      <Title>k__BackingField: Remove
-      <Description>k__BackingField: Remove plant
-      <BaseIcon>k__BackingField:
-        m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <Conditions>k__BackingField: []
+  _values:
+    m_Keys: 02000000000000000100000003000000
+    m_Values:
+    - <InteractableType>k__BackingField: 2
+      <Settings>k__BackingField:
+      - <InteractionHandlerName>k__BackingField: InspectSoil
+        <PrepareHandlerName>k__BackingField: Simple
+        <Title>k__BackingField: Inspect
+        <Description>k__BackingField: Inspect soil
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 6218d182ea182704fb1261ea2fd211b4
+          m_SubObjectName: camera
+          m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField: []
+      - <InteractionHandlerName>k__BackingField: FertilizeSoil
+        <PrepareHandlerName>k__BackingField: Fertilize
+        <Title>k__BackingField: Fertilize
+        <Description>k__BackingField: Improve soil with {substitute}
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 8542587de6e9f3f4a98ba85992c9f647
+          m_SubObjectName: bucket_icon
+          m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField: []
+      - <InteractionHandlerName>k__BackingField: UseSoilTool
+        <PrepareHandlerName>k__BackingField: PrepareSoilTool
+        <Title>k__BackingField: Use tool on soil
+        <Description>k__BackingField: Use {substitute}
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 8f52c694ba522ef4cb0f4787ff3a32f1
+          m_SubObjectName: hoe_icon
+          m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField: []
+      - <InteractionHandlerName>k__BackingField: SowSeed
+        <PrepareHandlerName>k__BackingField: PrepareSowSeed
+        <Title>k__BackingField: Sow seed
+        <Description>k__BackingField: Sow {substitute} into the soil
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 929b54ef59aaeba4a9807a6ef928457b
+          m_SubObjectName: star
+          m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField: []
+      - <InteractionHandlerName>k__BackingField: WaterSoil
+        <PrepareHandlerName>k__BackingField: PrepareWaterSoil
+        <Title>k__BackingField: Water soil
+        <Description>k__BackingField: Water soil with {substitute}
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: c109338b6adfe674b83c05ec447899d9
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField: []
+    - <InteractableType>k__BackingField: 0
+      <Settings>k__BackingField: []
+    - <InteractableType>k__BackingField: 1
+      <Settings>k__BackingField:
+      - <InteractionHandlerName>k__BackingField: Open
+        <PrepareHandlerName>k__BackingField: Simple
+        <Title>k__BackingField: Open
+        <Description>k__BackingField: Open door
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <Conditions>k__BackingField: []
+      - <InteractionHandlerName>k__BackingField: Close
+        <PrepareHandlerName>k__BackingField: Simple
+        <Title>k__BackingField: Close
+        <Description>k__BackingField: Close door
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <Conditions>k__BackingField: []
+    - <InteractableType>k__BackingField: 3
+      <Settings>k__BackingField:
+      - <InteractionHandlerName>k__BackingField: InspectPlant
+        <PrepareHandlerName>k__BackingField: Simple
+        <Title>k__BackingField: Inspect
+        <Description>k__BackingField: Inspect plant
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 6218d182ea182704fb1261ea2fd211b4
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField: []
+      - <InteractionHandlerName>k__BackingField: FertilizeSoil
+        <PrepareHandlerName>k__BackingField: Fertilize
+        <Title>k__BackingField: Ferilize
+        <Description>k__BackingField: Fertilize plant with {substitute}
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 8542587de6e9f3f4a98ba85992c9f647
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField: []
+      - <InteractionHandlerName>k__BackingField: WaterSoil
+        <PrepareHandlerName>k__BackingField: PrepareWaterSoil
+        <Title>k__BackingField: Water plant
+        <Description>k__BackingField: Water plant with {substitute}
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: c109338b6adfe674b83c05ec447899d9
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField: []
+      - <InteractionHandlerName>k__BackingField: HarvestPlant
+        <PrepareHandlerName>k__BackingField: Simple
+        <Title>k__BackingField: Harvest
+        <Description>k__BackingField: 'Harvest '
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 2321c5e8799c0f2448bfaa82cd28f7b7
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField:
+        - <Id>k__BackingField: PlantStageCondition
+          <Inverted>k__BackingField: 0
+          <Params>k__BackingField:
+          - <Key>k__BackingField: GrowStage
+            <Value>k__BackingField: Riped
+          - <Key>k__BackingField: Operation
+            <Value>k__BackingField: GreaterOrEqual
+      - <InteractionHandlerName>k__BackingField: RemovePlant
+        <PrepareHandlerName>k__BackingField: Simple
+        <Title>k__BackingField: Remove
+        <Description>k__BackingField: Remove plant
+        <BaseIcon>k__BackingField:
+          m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <Conditions>k__BackingField: []
+  <Items>k__BackingField: []

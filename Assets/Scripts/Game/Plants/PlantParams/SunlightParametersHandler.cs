@@ -4,7 +4,6 @@ using Game.Plants.Model;
 using Game.Soil.Model;
 using Game.Stress.Model;
 using Game.Sunlight.Service;
-using UnityEngine;
 using VContainer;
 
 namespace Game.Plants.PlantParams

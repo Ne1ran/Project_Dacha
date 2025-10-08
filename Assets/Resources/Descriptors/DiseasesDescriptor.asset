@@ -12,128 +12,133 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9b4bd2dd40402495fa0e235f5567e0, type: 3}
   m_Name: DiseasesDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <Id>k__BackingField: mildew
-    <Name>k__BackingField: Mildew
-    <DiseaseType>k__BackingField: 1
-    <AffectedPlants>k__BackingField: 0d00000002000000050000000600000008000000010000000b000000
-    <InfectionModel>k__BackingField:
-      <StartingChance>k__BackingField: 0.001
-      <DisposeDaysNeeded>k__BackingField: 250
-      <DisposeCropRotationNeeded>k__BackingField: 2
-      <LowImmunity>k__BackingField: 5
-      <HighImmunity>k__BackingField: 50
-      <LowHealth>k__BackingField: 20
-      <HighHealth>k__BackingField: 80
-      <LowImmunityMultiplier>k__BackingField: 2
-      <HighImmunityMultiplier>k__BackingField: 0.5
-      <LowHealthMultiplier>k__BackingField: 3
-      <HighHealthMultiplier>k__BackingField: 0.5
-      <GrowthDescriptor>k__BackingField:
-        <IgnoreTemperature>k__BackingField: 0
-        <MinPreferredTemperature>k__BackingField: 17
-        <MaxPreferredTemperature>k__BackingField: 22
-        <TemperatureGrowBuff>k__BackingField: 0.15
-        <IgnoreAirHumidity>k__BackingField: 0
-        <MinPreferredAirHumidity>k__BackingField: 50
-        <MaxPreferredAirHumidity>k__BackingField: 70
-        <AirHumidityGrowBuff>k__BackingField: 0.1
-        <IgnoreSoilHumidity>k__BackingField: 1
-        <MinPreferredSoilHumidity>k__BackingField: 80
-        <MaxPreferredSoilHumidity>k__BackingField: 99
-        <SoilHumidityGrowBuff>k__BackingField: 0.15
-      <TileRangeMultipliers>k__BackingField:
-      - <TileRange>k__BackingField: 1
-        <Multiplier>k__BackingField: 2.5
-      <InfectionStages>k__BackingField:
-      - <Stage>k__BackingField: 1
-        <PlantDamagePerDay>k__BackingField: 0.05
-        <RandomSymptoms>k__BackingField:
-        - StrangeMildew
-        - InfectedNewLeaves
-        - SlowedGrowth
-        <StageGrowth>k__BackingField: 25
-        <BaseGrowthPerDay>k__BackingField: 1
-        <HealChance>k__BackingField: 0.05
-      - <Stage>k__BackingField: 2
-        <PlantDamagePerDay>k__BackingField: 1
-        <RandomSymptoms>k__BackingField:
-        - WhiteMildew
-        - DontGrowth
-        - MildewOnFrontOfLeaves
-        <StageGrowth>k__BackingField: 25
-        <BaseGrowthPerDay>k__BackingField: 2
-        <HealChance>k__BackingField: 0.01
-      - <Stage>k__BackingField: 3
-        <PlantDamagePerDay>k__BackingField: 3
-        <RandomSymptoms>k__BackingField:
-        - WhiteMildew
-        - BadCondition
-        - BlackPoints
-        <StageGrowth>k__BackingField: 25
-        <BaseGrowthPerDay>k__BackingField: 3
-        <HealChance>k__BackingField: 0
-  - <Id>k__BackingField: downyMildew
-    <Name>k__BackingField: Downy Mildew
-    <DiseaseType>k__BackingField: 1
-    <AffectedPlants>k__BackingField: 010000000d000000020000000c000000030000000f0000000500000004000000
-    <InfectionModel>k__BackingField:
-      <StartingChance>k__BackingField: 0.002
-      <DisposeDaysNeeded>k__BackingField: 400
-      <DisposeCropRotationNeeded>k__BackingField: 3
-      <LowImmunity>k__BackingField: 5
-      <HighImmunity>k__BackingField: 50
-      <LowHealth>k__BackingField: 20
-      <HighHealth>k__BackingField: 80
-      <LowImmunityMultiplier>k__BackingField: 2
-      <HighImmunityMultiplier>k__BackingField: 0.5
-      <LowHealthMultiplier>k__BackingField: 3
-      <HighHealthMultiplier>k__BackingField: 0.5
-      <GrowthDescriptor>k__BackingField:
-        <IgnoreTemperature>k__BackingField: 0
-        <MinPreferredTemperature>k__BackingField: 20
-        <MaxPreferredTemperature>k__BackingField: 24
-        <TemperatureGrowBuff>k__BackingField: 0.15
-        <IgnoreAirHumidity>k__BackingField: 0
-        <MinPreferredAirHumidity>k__BackingField: 80
-        <MaxPreferredAirHumidity>k__BackingField: 99
-        <AirHumidityGrowBuff>k__BackingField: 0.15
-        <IgnoreSoilHumidity>k__BackingField: 0
-        <MinPreferredSoilHumidity>k__BackingField: 80
-        <MaxPreferredSoilHumidity>k__BackingField: 99
-        <SoilHumidityGrowBuff>k__BackingField: 0.15
-      <TileRangeMultipliers>k__BackingField:
-      - <TileRange>k__BackingField: 1
-        <Multiplier>k__BackingField: 3.5
-      - <TileRange>k__BackingField: 2
-        <Multiplier>k__BackingField: 1.5
-      <InfectionStages>k__BackingField:
-      - <Stage>k__BackingField: 1
-        <PlantDamagePerDay>k__BackingField: 1
-        <RandomSymptoms>k__BackingField:
-        - SpotsOnLeaves
-        - SlowedGrowth
-        - InfectedAnyLeaves
-        <StageGrowth>k__BackingField: 25
-        <BaseGrowthPerDay>k__BackingField: 1
-        <HealChance>k__BackingField: 0.1
-      - <Stage>k__BackingField: 2
-        <PlantDamagePerDay>k__BackingField: 1
-        <RandomSymptoms>k__BackingField:
-        - YellowLeaves
-        - DontGrowth
-        - YellowMildewBackLeaves
-        - LeavesDeformation
-        <StageGrowth>k__BackingField: 25
-        <BaseGrowthPerDay>k__BackingField: 3
-        <HealChance>k__BackingField: 0.1
-      - <Stage>k__BackingField: 3
-        <PlantDamagePerDay>k__BackingField: 1
-        <RandomSymptoms>k__BackingField:
-        - YellowMildew
-        - BadCondition
-        - Rot
-        - DownyMildewSpotsOnLeaves
-        <StageGrowth>k__BackingField: 25
-        <BaseGrowthPerDay>k__BackingField: 5
-        <HealChance>k__BackingField: 0.1
+  _values:
+    m_Keys:
+    - mildew
+    - downyMildew
+    m_Values:
+    - <Id>k__BackingField: mildew
+      <Name>k__BackingField: Mildew
+      <DiseaseType>k__BackingField: 1
+      <AffectedPlants>k__BackingField: 0d00000002000000050000000600000008000000010000000b000000
+      <InfectionModel>k__BackingField:
+        <StartingChance>k__BackingField: 0.001
+        <DisposeDaysNeeded>k__BackingField: 250
+        <DisposeCropRotationNeeded>k__BackingField: 2
+        <LowImmunity>k__BackingField: 5
+        <HighImmunity>k__BackingField: 50
+        <LowHealth>k__BackingField: 20
+        <HighHealth>k__BackingField: 80
+        <LowImmunityMultiplier>k__BackingField: 2
+        <HighImmunityMultiplier>k__BackingField: 0.5
+        <LowHealthMultiplier>k__BackingField: 3
+        <HighHealthMultiplier>k__BackingField: 0.5
+        <GrowthDescriptor>k__BackingField:
+          <IgnoreTemperature>k__BackingField: 0
+          <MinPreferredTemperature>k__BackingField: 17
+          <MaxPreferredTemperature>k__BackingField: 22
+          <TemperatureGrowBuff>k__BackingField: 0.15
+          <IgnoreAirHumidity>k__BackingField: 0
+          <MinPreferredAirHumidity>k__BackingField: 50
+          <MaxPreferredAirHumidity>k__BackingField: 70
+          <AirHumidityGrowBuff>k__BackingField: 0.1
+          <IgnoreSoilHumidity>k__BackingField: 1
+          <MinPreferredSoilHumidity>k__BackingField: 80
+          <MaxPreferredSoilHumidity>k__BackingField: 99
+          <SoilHumidityGrowBuff>k__BackingField: 0.15
+        <TileRangeMultipliers>k__BackingField:
+        - <TileRange>k__BackingField: 1
+          <Multiplier>k__BackingField: 2.5
+        <InfectionStages>k__BackingField:
+        - <Stage>k__BackingField: 1
+          <PlantDamagePerDay>k__BackingField: 0.05
+          <RandomSymptoms>k__BackingField:
+          - StrangeMildew
+          - InfectedNewLeaves
+          - SlowedGrowth
+          <StageGrowth>k__BackingField: 25
+          <BaseGrowthPerDay>k__BackingField: 1
+          <HealChance>k__BackingField: 0.05
+        - <Stage>k__BackingField: 2
+          <PlantDamagePerDay>k__BackingField: 1
+          <RandomSymptoms>k__BackingField:
+          - WhiteMildew
+          - DontGrowth
+          - MildewOnFrontOfLeaves
+          <StageGrowth>k__BackingField: 25
+          <BaseGrowthPerDay>k__BackingField: 2
+          <HealChance>k__BackingField: 0.01
+        - <Stage>k__BackingField: 3
+          <PlantDamagePerDay>k__BackingField: 3
+          <RandomSymptoms>k__BackingField:
+          - WhiteMildew
+          - BadCondition
+          - BlackPoints
+          <StageGrowth>k__BackingField: 25
+          <BaseGrowthPerDay>k__BackingField: 3
+          <HealChance>k__BackingField: 0
+    - <Id>k__BackingField: downyMildew
+      <Name>k__BackingField: Downy Mildew
+      <DiseaseType>k__BackingField: 1
+      <AffectedPlants>k__BackingField: 010000000d000000020000000c000000030000000f0000000500000004000000
+      <InfectionModel>k__BackingField:
+        <StartingChance>k__BackingField: 0.002
+        <DisposeDaysNeeded>k__BackingField: 400
+        <DisposeCropRotationNeeded>k__BackingField: 3
+        <LowImmunity>k__BackingField: 5
+        <HighImmunity>k__BackingField: 50
+        <LowHealth>k__BackingField: 20
+        <HighHealth>k__BackingField: 80
+        <LowImmunityMultiplier>k__BackingField: 2
+        <HighImmunityMultiplier>k__BackingField: 0.5
+        <LowHealthMultiplier>k__BackingField: 3
+        <HighHealthMultiplier>k__BackingField: 0.5
+        <GrowthDescriptor>k__BackingField:
+          <IgnoreTemperature>k__BackingField: 0
+          <MinPreferredTemperature>k__BackingField: 20
+          <MaxPreferredTemperature>k__BackingField: 24
+          <TemperatureGrowBuff>k__BackingField: 0.15
+          <IgnoreAirHumidity>k__BackingField: 0
+          <MinPreferredAirHumidity>k__BackingField: 80
+          <MaxPreferredAirHumidity>k__BackingField: 99
+          <AirHumidityGrowBuff>k__BackingField: 0.15
+          <IgnoreSoilHumidity>k__BackingField: 0
+          <MinPreferredSoilHumidity>k__BackingField: 80
+          <MaxPreferredSoilHumidity>k__BackingField: 99
+          <SoilHumidityGrowBuff>k__BackingField: 0.15
+        <TileRangeMultipliers>k__BackingField:
+        - <TileRange>k__BackingField: 1
+          <Multiplier>k__BackingField: 3.5
+        - <TileRange>k__BackingField: 2
+          <Multiplier>k__BackingField: 1.5
+        <InfectionStages>k__BackingField:
+        - <Stage>k__BackingField: 1
+          <PlantDamagePerDay>k__BackingField: 1
+          <RandomSymptoms>k__BackingField:
+          - SpotsOnLeaves
+          - SlowedGrowth
+          - InfectedAnyLeaves
+          <StageGrowth>k__BackingField: 25
+          <BaseGrowthPerDay>k__BackingField: 1
+          <HealChance>k__BackingField: 0.1
+        - <Stage>k__BackingField: 2
+          <PlantDamagePerDay>k__BackingField: 1
+          <RandomSymptoms>k__BackingField:
+          - YellowLeaves
+          - DontGrowth
+          - YellowMildewBackLeaves
+          - LeavesDeformation
+          <StageGrowth>k__BackingField: 25
+          <BaseGrowthPerDay>k__BackingField: 3
+          <HealChance>k__BackingField: 0.1
+        - <Stage>k__BackingField: 3
+          <PlantDamagePerDay>k__BackingField: 1
+          <RandomSymptoms>k__BackingField:
+          - YellowMildew
+          - BadCondition
+          - Rot
+          - DownyMildewSpotsOnLeaves
+          <StageGrowth>k__BackingField: 25
+          <BaseGrowthPerDay>k__BackingField: 5
+          <HealChance>k__BackingField: 0.1
+  <Items>k__BackingField: []

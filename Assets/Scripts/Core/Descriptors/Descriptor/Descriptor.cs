@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 namespace Core.Descriptors.Descriptor
 {
-    // todo neiran finalize and use if needed
-    public class Descriptor<TKey, TModel> : SerializedScriptableObject
+    public class Descriptor<TKey, TModel> : ScriptableObject
     {
-        [OdinSerialize]
-        public Dictionary<TKey, TModel> Items { get; set; } = new();
+        [Searchable]
+        [SerializeField]
+        private SerializedDictionary<TKey, TModel> _values = new();
+
+        public SerializedDictionary<TKey, TModel> Values => _values;
 
         public TModel Require(TKey key)
         {
@@ -22,7 +26,14 @@ namespace Core.Descriptors.Descriptor
 
         public TModel? Get(TKey key)
         {
-            return Items.GetValueOrDefault(key);
+            return Values.GetValueOrDefault(key);
         }
+
+#if UNITY_EDITOR
+        public void SetValues(SerializedDictionary<TKey, TModel> values)
+        {
+            _values = values;
+        }
+#endif
     }
 }
