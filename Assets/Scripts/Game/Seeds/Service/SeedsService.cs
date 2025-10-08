@@ -5,6 +5,7 @@ using Core.Descriptors.Service;
 using Core.Parameters;
 using Cysharp.Threading.Tasks;
 using Game.Seeds.Descriptors;
+using Game.Utils;
 
 namespace Game.Seeds.Service
 {
@@ -23,12 +24,7 @@ namespace Game.Seeds.Service
         public async UniTask SowSeedAsync(string seedId, Parameters parameters)
         {
             SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
-            List<SeedsDescriptorModel> seeds = seedsDescriptor.Items;
-            SeedsDescriptorModel? seedsDescriptorModel = seeds.Find(seed => seed.Id == seedId);
-            if (seedsDescriptorModel == null) {
-                throw new ArgumentException($"Seed not found with id={seedId}");
-            }
-
+            SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Require(seedId);
             await _sowSeedHandlerFactory.Create(seedsDescriptorModel.UseHandler).SowSeedAsync(seedsDescriptorModel.Id, parameters);
         }
     }

@@ -44,7 +44,7 @@ namespace Game.Diseases.Service
         {
             DiseasesDescriptor diseasesDescriptor = _descriptorService.Require<DiseasesDescriptor>();
             foreach (DiseaseModel disease in plantModel.DiseaseModels) {
-                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Items.Find(modelDescriptor => modelDescriptor.Id == disease.Id);
+                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Get(disease.Id);
                 if (diseaseModelDescriptor == null) {
                     Debug.LogWarning($"Disease model descriptor not found with id={disease.Id}");
                     continue;
@@ -91,7 +91,7 @@ namespace Game.Diseases.Service
         {
             for (int i = 0; i < plant.DiseaseModels.Count; i++) {
                 DiseaseModel diseaseModel = plant.DiseaseModels[i];
-                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Items.Find(disease => disease.Id == diseaseModel.Id);
+                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Get(diseaseModel.Id);
                 if (diseaseModelDescriptor == null) {
                     Debug.LogWarning($"Disease model descriptor not found with id={diseaseModel.Id}");
                     continue;
@@ -204,7 +204,7 @@ namespace Game.Diseases.Service
                                     string soilId,
                                     DiseasesDescriptor diseasesDescriptor)
         {
-            foreach (DiseaseModelDescriptor diseaseModelDescriptor in diseasesDescriptor.Items) {
+            foreach (DiseaseModelDescriptor diseaseModelDescriptor in diseasesDescriptor.Values.Values) {
                 if (!diseaseModelDescriptor.AffectedPlants.Contains(plantsDescriptorModel.FamilyType)) {
                     continue;
                 }
@@ -290,7 +290,7 @@ namespace Game.Diseases.Service
             List<SavedDiseaseModel> savedDiseaseModels = new();
 
             foreach (DiseaseModel disease in plantModel.DiseaseModels) {
-                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Items.Find(diseaseModel => diseaseModel.Id == disease.Id);
+                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Get(disease.Id);
                 if (diseaseModelDescriptor == null) {
                     Debug.LogWarning($"Disease does not exist with id={disease.Id}");
                     continue;

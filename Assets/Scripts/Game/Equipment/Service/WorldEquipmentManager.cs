@@ -91,7 +91,7 @@ namespace Game.Equipment.Service
         private async UniTask<ItemController> CreateItemInHandsAsync(string itemId, Vector3? position = null)
         {
             ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
+            ItemDescriptorModel itemDescriptorModel = descriptor.Require(itemId);
             ItemController itemController = await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.HandsPrefab.AssetGUID);
             itemController.transform.position = position ?? Vector3.zero;
             itemController.Initialize(itemId);

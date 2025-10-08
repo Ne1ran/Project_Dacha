@@ -29,8 +29,8 @@ namespace Game.Seeds.Descriptors
         {
             PlantsDescriptor plantsDescriptor = Resources.Load<PlantsDescriptor>("Descriptors/PlantsDescriptor");
             List<string> result = new();
-            foreach (PlantsDescriptorModel pdm in plantsDescriptor.Items) {
-                result.Add(pdm.Id);
+            foreach (string id in plantsDescriptor.Values.Keys) {
+                result.Add(id);
             }
 
             return result;

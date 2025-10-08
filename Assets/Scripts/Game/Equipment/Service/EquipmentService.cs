@@ -43,11 +43,7 @@ namespace Game.Equipment.Service
             }
 
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel? descriptorModel = itemsDescriptor.Items.Find(descriptor => descriptor.Id == itemId);
-            if (descriptorModel == null) {
-                throw new ArgumentException($"Descriptor for item not found! ItemId={itemId}");
-            }
-
+            ItemDescriptorModel descriptorModel = itemsDescriptor.Require(itemId);
             ItemModel newItem = new(descriptorModel.Id, descriptorModel.WorldPrefab, descriptorModel.Type, descriptorModel.DropOffsetMultiplier,
                                     descriptorModel.Stackable, descriptorModel.ShowInHand, descriptorModel.MaxStack);
             _equipmentChangedPublisher.Publish(EquipmentChangedEvent.EQUIPMENT_CHANGED, new(equippedItem, newItem));

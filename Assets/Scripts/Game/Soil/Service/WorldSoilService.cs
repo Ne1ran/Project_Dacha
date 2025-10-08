@@ -5,6 +5,7 @@ using Core.Attributes;
 using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
+using Game.Difficulty.Model;
 using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Tiles.Event;
 using Game.GameMap.Tiles.Model;
@@ -51,8 +52,8 @@ namespace Game.Soil.Service
         {
             MapDescriptor mapDescriptor = _descriptorService.Require<MapDescriptor>();
             SoilDescriptor soilDescriptor = _descriptorService.Require<SoilDescriptor>();
-            SoilType defaultSoilType = mapDescriptor.SoilType;
-            SoilDescriptorModel soilDescriptorModel = soilDescriptor.RequireByType(defaultSoilType);
+            SoilType defaultSoilType = mapDescriptor.Require(DachaPlaceType.Middle).SoilType;
+            SoilDescriptorModel soilDescriptorModel = soilDescriptor.Require(defaultSoilType);
             SoilVisualDescriptor soilVisualDescriptor = soilDescriptorModel.SoilVisualDescriptor;
 
             List<UniTask<SoilController>> soilControllers = new();

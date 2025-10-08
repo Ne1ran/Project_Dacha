@@ -24,7 +24,7 @@ namespace Game.Items.Service
                 where T : ItemController
         {
             ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
+            ItemDescriptorModel itemDescriptorModel = descriptor.Require(itemId);
 
             T itemController = await _resourceService.InstantiateAsync<T>(itemDescriptorModel.WorldPrefab.AssetGUID);
             itemController.transform.position = position;
@@ -36,7 +36,7 @@ namespace Game.Items.Service
                 where T : ItemController
         {
             ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
+            ItemDescriptorModel itemDescriptorModel = descriptor.Require(itemId);
 
             T itemController = await _resourceService.InstantiateAsync<T>(itemDescriptorModel.WorldPrefab.AssetGUID);
             itemController.transform.SetParent(parent);
@@ -47,7 +47,7 @@ namespace Game.Items.Service
         public async UniTask<ItemController> CreateItemInWorldAsync(string itemId, Vector3? position = null, Transform? parent = null)
         {
             ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
+            ItemDescriptorModel itemDescriptorModel = descriptor.Require(itemId);
             ItemController itemController = await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.WorldPrefab.AssetGUID);
             if (parent != null) {
                 itemController.transform.SetParent(parent);

@@ -56,7 +56,7 @@ namespace Core.Console
 
             Vector3 spawnPosition = playerService.Player.transform.position + new Vector3(x, y, z);
             ToolsDescriptor toolsDescriptor = descriptorService.Require<ToolsDescriptor>();
-            foreach (ToolsDescriptorModel descriptor in toolsDescriptor.Items) {
+            foreach (ToolsDescriptorModel descriptor in toolsDescriptor.Values.Values) {
                 worldItemService.CreateItemInWorldAsync<ToolController>(descriptor.Id, spawnPosition).Forget();
             }
         }
@@ -70,7 +70,7 @@ namespace Core.Console
 
             Vector3 spawnPosition = playerService.Player.transform.position + new Vector3(x, y, z);
             SeedsDescriptor seedsDescriptor = descriptorService.Require<SeedsDescriptor>();
-            foreach (SeedsDescriptorModel descriptor in seedsDescriptor.Items) {
+            foreach (SeedsDescriptorModel descriptor in seedsDescriptor.Values.Values) {
                 worldItemService.CreateItemInWorldAsync<SeedBagController>(descriptor.Id, spawnPosition).Forget();
             }
         }
@@ -92,7 +92,7 @@ namespace Core.Console
             IDescriptorService descriptorService = Container.Resolve<IDescriptorService>();
             ItemsDescriptor itemsDescriptor = descriptorService.Require<ItemsDescriptor>();
             Vector3 position = playerService.Player.transform.position + new Vector3(x, y, z);
-            foreach (ItemDescriptorModel itemDescriptorModel in itemsDescriptor.Items) {
+            foreach (ItemDescriptorModel itemDescriptorModel in itemsDescriptor.Values.Values) {
                 worldItemService.CreateItemInWorldAsync(itemDescriptorModel.Id, position).Forget();
             }
         }

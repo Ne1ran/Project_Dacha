@@ -34,7 +34,7 @@ namespace Game.Harvest.Service
             }
 
             PlantHarvestDescriptor plantHarvestDescriptor = _descriptorService.Require<PlantHarvestDescriptor>();
-            PlantHarvestDescriptorModel? harvestModel = plantHarvestDescriptor.FindItemById(plantModel.PlantId);
+            PlantHarvestDescriptorModel? harvestModel = plantHarvestDescriptor.Get(plantModel.PlantId);
             if (harvestModel == null) {
                 Debug.LogWarning($"Plant harvest descriptor not found on tile={plantTileId} for plant={plantModel.PlantId}");
                 return false;

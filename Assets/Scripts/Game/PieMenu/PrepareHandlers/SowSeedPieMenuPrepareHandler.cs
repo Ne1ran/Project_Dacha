@@ -45,7 +45,7 @@ namespace Game.PieMenu.PrepareHandlers
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
 
             foreach (InventoryItem seedItem in seeds) {
-                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.Items.Find(seed => seed.Id == seedItem.Id);
+                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.Get(seedItem.Id);
                 if (itemDescriptorModel == null) {
                     continue;
                 }

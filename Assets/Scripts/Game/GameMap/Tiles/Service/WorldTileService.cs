@@ -5,6 +5,7 @@ using Core.Descriptors.Service;
 using Core.GameWorld.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
+using Game.Difficulty.Model;
 using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Tiles.Component;
 using Game.GameMap.Tiles.Model;
@@ -69,9 +70,10 @@ namespace Game.GameMap.Tiles.Service
 
             SingleTileModel centerTileModel = _mapTilesModels.Find(tile => tile.Id == centerTileId);
             MapDescriptor mapDescriptor = _descriptorService.Require<MapDescriptor>();
+            MapModelDescriptor mapModelDescriptor = mapDescriptor.Require(DachaPlaceType.Middle);
             int centerTileIndex = _mapTilesModels.IndexOf(centerTileModel);
-            int length = mapDescriptor.Length;
-            int width = mapDescriptor.Width;
+            int length = mapModelDescriptor.Length;
+            int width = mapModelDescriptor.Width;
             int centerX = centerTileIndex % width;
             int centerY = centerTileIndex / width;
             for (int dy = -range; dy <= range; dy++) {

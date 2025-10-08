@@ -44,11 +44,7 @@ namespace Game.Interactable.Handlers.Soil
             _itemId = pieMenuItemSelectionModel.ItemId;
 
             ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
-            ToolsDescriptorModel? toolsDescriptorModel = toolsDescriptor.Items.Find(tool => tool.Id == _itemId);
-            if (toolsDescriptorModel == null) {
-                throw new KeyNotFoundException($"Tools descriptor not found. ToolId={_itemId}");
-            }
-
+            ToolsDescriptorModel toolsDescriptorModel = toolsDescriptor.Require(_itemId);
             if (string.IsNullOrEmpty(toolsDescriptorModel.SelectorDescriptorId)) {
                 return;
             }

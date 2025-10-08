@@ -106,7 +106,7 @@ namespace Game.PieMenu.Service
             List<UniTask<PieMenuItemModel>> items = new();
 
             InteractionDescriptor interactionDescriptor = _descriptorService.Require<InteractionDescriptor>();
-            InteractionDescriptorModel interactionDescriptorModel = interactionDescriptor.RequireByType(interactableType);
+            InteractionDescriptorModel interactionDescriptorModel = interactionDescriptor.Require(interactableType);
 
             // todo neiran also add checker or descriptor to check if item persists or so! For now show everything, just check for item before use!
 

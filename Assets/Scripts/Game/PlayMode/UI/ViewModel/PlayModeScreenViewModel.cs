@@ -141,7 +141,7 @@ namespace Game.PlayMode.UI.ViewModel
             if (oldHotkey == 0) {
                 return;
             }
-            
+
             int oldHotkeyIndex = GetHotkeyIndex(oldHotkey);
             Hotkeys[oldHotkeyIndex] = new(oldHotkey);
             if (HighlightedHotkey.Value == oldHotkeyIndex) {
@@ -166,8 +166,8 @@ namespace Game.PlayMode.UI.ViewModel
         private HotkeySlotViewModel CreateHotkeySlotViewModel(InventoryItem itemModel, int hotkeyNumber)
         {
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptor = itemsDescriptor.Items.Find(item => itemModel.Id == item.Id);
-            return new(itemModel.Id, itemModel.ItemType, itemDescriptor.Icon.AssetGUID, hotkeyNumber);
+            ItemDescriptorModel itemDescriptor = itemsDescriptor.Require(itemModel.Id);
+            return new(itemModel.Id, itemModel.ItemType, itemDescriptor.Icon?.AssetGUID, hotkeyNumber);
         }
     }
 }

@@ -45,13 +45,12 @@ namespace Game.PieMenu.PrepareHandlers
             ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
 
             foreach (InventoryItem tool in tools) {
-                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.Items.Find(toolItem => toolItem.Id == tool.Id);
+                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.Get(tool.Id);
                 if (itemDescriptorModel == null) {
                     continue;
                 }
 
-                ToolsDescriptorModel? toolsDescriptorModel =
-                        toolsDescriptor.Items.Find(toolItem => toolItem.Id == itemDescriptorModel.Id);
+                ToolsDescriptorModel? toolsDescriptorModel = toolsDescriptor.Get(itemDescriptorModel.Id);
                 if (toolsDescriptorModel == null) {
                     continue;
                 }

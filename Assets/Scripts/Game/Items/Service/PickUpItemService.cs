@@ -26,12 +26,7 @@ namespace Game.Items.Service
         {
             string itemId = itemController.ItemId;
             ItemsDescriptor itemDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            List<ItemDescriptorModel> items = itemDescriptor.Items;
-            ItemDescriptorModel itemModel = items.Find(item => item.Id == itemId);
-            if (itemModel == null) {
-                throw new ArgumentException($"Item not found with id={itemId}");
-            }
-
+            ItemDescriptorModel itemModel = itemDescriptor.Require(itemId);
             if (_inventoryService.TryAddItemToInventory(itemId, itemModel.Type)) {
                 itemController.gameObject.DestroyObject();
             }

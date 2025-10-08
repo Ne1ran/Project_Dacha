@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.Attributes;
 using Core.Descriptors.Service;
 using Game.Calendar.Event;
+using Game.Difficulty.Model;
 using Game.Diseases.Model;
 using Game.Evaporation.Service;
 using Game.Fertilizers.Descriptor;
@@ -60,7 +61,7 @@ namespace Game.Soil.Service
 
         public SoilModel CreateSoil()
         {
-            SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().SoilType;
+            SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().Require(DachaPlaceType.Middle).SoilType;
             SoilDescriptorModel soilDesc = RequireModelByType(mapSoilType);
             SoilElementsDescriptorModel elementsDescriptor = soilDesc.ElementsDescriptorModel;
             ElementsModel elementsModel = new(elementsDescriptor.StartNitrogen,
@@ -89,7 +90,7 @@ namespace Game.Soil.Service
             }
 
             SoilDescriptor soilDescriptor = _descriptorService.Require<SoilDescriptor>();
-            SoilDescriptorModel soilDescriptorModel = soilDescriptor.RequireByType(soilModel.Type);
+            SoilDescriptorModel soilDescriptorModel = soilDescriptor.Require(soilModel.Type);
 
             float minWaterAmount = soilDescriptorModel.StartWaterAmount / 2f;
             float minBreathability = soilDescriptorModel.Breathability;
@@ -168,11 +169,7 @@ namespace Game.Soil.Service
                     continue;
                 }
 
-                FertilizerDescriptorModel? fertModel = fertilizersDescriptor.Items.Find(fert => fert.Id == usedFertilizer.FertilizerId);
-                if (fertModel == null) {
-                    throw new ArgumentException($"Fertilizer not found with id={usedFertilizer.FertilizerId}");
-                }
-
+                FertilizerDescriptorModel fertModel = fertilizersDescriptor.Require(usedFertilizer.FertilizerId);
                 FertilizerSoilModel fertilizerSoilModel = CalculateSoilFertilizerModel(usedFertilizer, fertModel);
                 soilModel.ApplyFertilizer(fertilizerSoilModel);
                 if (usedFertilizer.CurrentDecomposeDay >= fertModel.DecomposeTime) {
@@ -389,7 +386,7 @@ namespace Game.Soil.Service
 
         private SoilDescriptorModel RequireModelByType(SoilType soilType)
         {
-            return _descriptorService.Require<SoilDescriptor>().RequireByType(soilType);
+            return _descriptorService.Require<SoilDescriptor>().Require(soilType);
         }
 
         private SoilModel GerOrCreate(string key)

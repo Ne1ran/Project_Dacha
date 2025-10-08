@@ -12,25 +12,6 @@ namespace Game.Stress.Descriptor
     [Descriptor("Descriptors/" + nameof(StressDescriptor))]
     public class StressDescriptor : Descriptor<StressType, StressModelDescriptor>
     {
-        [field: SerializeField]
-        public SerializedDictionary<StressType, StressModelDescriptor> Items { get; set; } = new();
-        
-        public void OnValidate()
-        {
-            if (Items.Count == 0) {
-                return;
-            }
-            SerializedDictionary<StressType, StressModelDescriptor> dict = new();
-            
-            foreach (KeyValuePair<StressType, StressModelDescriptor> items in Items) {
-                dict.Add(items.Key, items.Value);
-            }
-            
-            SetValues(dict);
-            
-            Items.Clear();
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssets();
-        }
+       
     }
 }

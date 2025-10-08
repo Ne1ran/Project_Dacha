@@ -59,7 +59,7 @@ namespace Game.Drop.Service
         {
             PlayerController player = _playerService.Player;
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptorModel = itemsDescriptor.FindById(inventoryItem.Id);
+            ItemDescriptorModel itemDescriptorModel = itemsDescriptor.Require(inventoryItem.Id);
             Vector3 dropPosition = GetDropPosition(player.transform.position, player.Forward, itemDescriptorModel.DropOffsetMultiplier);
             ItemController itemController =
                     await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.WorldPrefab.AssetGUID, dropPosition);

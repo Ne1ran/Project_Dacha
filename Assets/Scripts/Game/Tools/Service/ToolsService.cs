@@ -23,13 +23,7 @@ namespace Game.Tools.Service
         public async UniTask UseToolAsync(string toolId, Parameters parameters)
         {
             ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
-            List<ToolsDescriptorModel> tools = toolsDescriptor.Items;
-            ToolsDescriptorModel toolsDescriptorModel = tools.Find(tool => tool.Id == toolId);
-            if (toolsDescriptorModel == null) {
-                throw new ArgumentException($"Tool not found with id={toolId}");
-            }
-
-            await _toolUseHandlerFactory.Create(toolsDescriptorModel.UseHandler).UseAsync(parameters);
+            await _toolUseHandlerFactory.Create(toolsDescriptor.Require(toolId).UseHandler).UseAsync(parameters);
         }
     }
 }

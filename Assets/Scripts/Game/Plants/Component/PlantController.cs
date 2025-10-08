@@ -5,6 +5,7 @@ using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
+using Game.Difficulty.Model;
 using Game.GameMap.Map.Descriptor;
 using Game.Interactable.Model;
 using Game.PieMenu.Service;
@@ -43,7 +44,7 @@ namespace Game.Plants.Component
         private async UniTask PlaceAllPlantsAsync(PlantModel plantModel)
         {
             PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
-            PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.RequirePlant(plantModel.PlantId);
+            PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.Require(plantModel.PlantId);
             string visualPrefabPath;
             if (plantModel.CurrentStage == PlantGrowStage.DEAD) {
                 visualPrefabPath = plantsDescriptorModel.Visualization.DeadPrefab.AssetGUID;
@@ -57,7 +58,9 @@ namespace Game.Plants.Component
             }
 
             MapDescriptor mapDescriptor = _descriptorService.Require<MapDescriptor>();
-            int tileLength = mapDescriptor.TileLength;
+            MapModelDescriptor mapModelDescriptor = mapDescriptor.Require(DachaPlaceType.Middle);
+            
+            int tileLength = mapModelDescriptor.TileLength;
             int plantsCount = plantsDescriptorModel.PlantsCount;
             PlantVisualizationDescriptor plantVisualizationDescriptor = plantsDescriptorModel.Visualization;
             if (_plantPlaceStrategy == null) {

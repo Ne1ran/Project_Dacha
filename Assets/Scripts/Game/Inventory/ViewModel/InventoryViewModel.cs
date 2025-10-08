@@ -29,7 +29,7 @@ namespace Game.Inventory.ViewModel
                     continue;
                 }
                 
-                ItemDescriptorModel toolDescriptor = itemsDescriptor.Items.Find(item => item.Id == inventoryItem.Id);
+                ItemDescriptorModel toolDescriptor = itemsDescriptor.Require(inventoryItem.Id);
                 list.Add(new(inventoryItem.Id, ItemType.TOOL, toolDescriptor.Icon?.AssetGUID, inventoryItem.HotkeyNumber));
             }
 

@@ -105,7 +105,7 @@ namespace Game.Plants.Service
             StressDescriptor stressDescriptor = _descriptorService.Require<StressDescriptor>();
             SymptomsDescriptor symptomsDescriptor = _descriptorService.Require<SymptomsDescriptor>();
             foreach ((StressType stressType, StressModel stressModel) in plantModel.Stress) {
-                if (!stressDescriptor.Items.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
+                if (!stressDescriptor.Values.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
                     continue;
                 }
 
@@ -137,7 +137,7 @@ namespace Game.Plants.Service
         {
             for (int i = 0; i < allSymptoms.Count; i++) {
                 string symptom = allSymptoms[i];
-                if (!symptomsDescriptor.Items.TryGetValue(symptom, out SymptomDescriptorModel descriptorModel)) {
+                if (!symptomsDescriptor.Values.TryGetValue(symptom, out SymptomDescriptorModel descriptorModel)) {
                     allSymptoms.Remove(symptom);
                     continue;
                 }
@@ -172,24 +172,14 @@ namespace Game.Plants.Service
             }
 
             SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
-            SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Items.Find(seed => seed.Id == seedId);
-            if (seedsDescriptorModel == null) {
-                Debug.LogWarning($"Seed descriptor not found seedId={seedId}");
-                return;
-            }
-
+            SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Require(seedId);
             CreatePlant(seedsDescriptorModel.PlantId, tileId, seedsDescriptorModel.StartHealth, seedsDescriptorModel.StartImmunity);
         }
 
         public void CreatePlant(string plantId, string tileId, float startHealth, float startImmunity)
         {
             PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
-            PlantsDescriptorModel? plantsDescriptorModel = plantsDescriptor.Items.Find(plant => plant.Id == plantId);
-            if (plantsDescriptorModel == null) {
-                Debug.LogWarning($"Plant not found plantId={plantId}");
-                return;
-            }
-
+            PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.Require(plantId);
             PlantModel plantModel = new(plantId, plantsDescriptorModel.FamilyType, PlantGrowStage.SEED, startHealth, startImmunity);
             _plantUpdatedEvent.Publish(PlantUpdatedEvent.Created, new(tileId, plantModel));
             _plantsRepo.Save(tileId, plantModel);
@@ -203,7 +193,7 @@ namespace Game.Plants.Service
             foreach ((string tileId, PlantModel plant) in plants) {
                 try {
                     PlantModel plantModel = plant;
-                    PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.RequirePlant(plantModel.PlantId);
+                    PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.Require(plantModel.PlantId);
                     SimulatePlantLife(ref plantModel, tileId, plantsDescriptorModel, evt.DayDifference);
                     if (plantModel.CurrentStage != PlantGrowStage.DEAD) {
                         _plantDiseaseService.UpdatePlantDiseases(ref plantModel, plantsDescriptorModel, tileId);

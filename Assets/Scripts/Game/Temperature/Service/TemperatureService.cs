@@ -48,9 +48,7 @@ namespace Game.Temperature.Service
             TimeModel now = _timeService.GetToday();
             TemperatureModel temperatureModel = _calendarService.GetTemperatureModel(now.CurrentDay, now.CurrentMonth);
             TemperatureDistributionDescriptor temperatureDistributionDescriptor = _descriptorService.Require<TemperatureDistributionDescriptor>();
-            TemperatureDistributionModelDescriptor distributionModelDescriptor =
-                    temperatureDistributionDescriptor.FindByPlaceType(DachaPlaceType.Middle);
-            SerializedDictionary<int, float> distribution = distributionModelDescriptor.TemperatureDistribution;
+            SerializedDictionary<int, float> distribution = temperatureDistributionDescriptor.Require(DachaPlaceType.Middle);
 
             float minTemperature = temperatureModel.NightTemperature;
             float maxTemperature = temperatureModel.DayTemperature;
