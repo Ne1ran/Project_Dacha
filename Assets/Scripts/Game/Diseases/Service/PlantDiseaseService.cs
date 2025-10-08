@@ -204,28 +204,27 @@ namespace Game.Diseases.Service
                                     string soilId,
                                     DiseasesDescriptor diseasesDescriptor)
         {
-            foreach (DiseaseModelDescriptor diseaseModelDescriptor in diseasesDescriptor.Values.Values) {
-                if (!diseaseModelDescriptor.AffectedPlants.Contains(plantsDescriptorModel.FamilyType)) {
+            foreach ((string id, DiseaseModelDescriptor descriptor) in diseasesDescriptor.Values) {
+                if (!descriptor.AffectedPlants.Contains(plantsDescriptorModel.FamilyType)) {
                     continue;
                 }
 
-                float infectionChance = CalculateInfectionChance(plant, diseaseModelDescriptor.InfectionModel);
-                float nearbyMultiplier = CalculateNearbyPlantsMultiplier(plant, diseaseModelDescriptor, soilId);
+                float infectionChance = CalculateInfectionChance(plant, descriptor.InfectionModel);
+                float nearbyMultiplier = CalculateNearbyPlantsMultiplier(plant, id, descriptor.InfectionModel, soilId);
 
                 infectionChance *= nearbyMultiplier;
 
                 float random = Random.Range(0f, 1f);
                 if (infectionChance > random) {
-                    Debug.Log($"Plant has been infected! PlantId={plant.PlantId}, infectionId={diseaseModelDescriptor.Id}, infectionChance={infectionChance}, nearbyMultiplier={nearbyMultiplier}");
-                    plant.DiseaseModels.Add(new(diseaseModelDescriptor.Id, 1, 0f));
+                    Debug.Log($"Plant has been infected! PlantId={plant.PlantId}, infectionId={id}, infectionChance={infectionChance}, nearbyMultiplier={nearbyMultiplier}");
+                    plant.DiseaseModels.Add(new(id, 1, 0f));
                 }
             }
         }
 
-        private float CalculateNearbyPlantsMultiplier(PlantModel plant, DiseaseModelDescriptor diseaseModelDescriptor, string soilId)
+        private float CalculateNearbyPlantsMultiplier(PlantModel plant, string diseaseId, DiseaseInfectionModel diseaseInfectionModel, string soilId)
         {
             float multiplier = 0f;
-            DiseaseInfectionModel diseaseInfectionModel = diseaseModelDescriptor.InfectionModel;
             int range = diseaseInfectionModel.GetMaxTileRange();
 
             Dictionary<string, int> nearbyTiles = _worldTileService.GetNearbyTiles(soilId, range);
@@ -243,14 +242,14 @@ namespace Game.Diseases.Service
                     continue;
                 }
 
-                DiseaseModel? plantDisease = nearbyPlant.DiseaseModels.Find(disease => disease.Id == diseaseModelDescriptor.Id);
+                DiseaseModel? plantDisease = nearbyPlant.DiseaseModels.Find(disease => disease.Id == diseaseId);
                 if (plantDisease == null) {
                     continue;
                 }
 
                 TileRangePair? tileRangePair = diseaseInfectionModel.TileRangeMultipliers.Find(pair => pair.TileRange == tileRange);
                 if (tileRangePair == null) {
-                    Debug.LogWarning($"Tile range multiplier mismatch. This should not be possible. PlantId={plant.PlantId}, diseaseId={diseaseModelDescriptor.Id}, tileRange={tileRange}");
+                    Debug.LogWarning($"Tile range multiplier mismatch. This should not be possible. PlantId={plant.PlantId}, diseaseId={diseaseId}, tileRange={tileRange}");
                     continue;
                 }
 

@@ -67,7 +67,7 @@ namespace Game.Soil.Service
             ElementsModel elementsModel = new(elementsDescriptor.StartNitrogen,
                                               elementsDescriptor.StartPotassium, elementsDescriptor.StartPhosphorus);
 
-            return new(soilDesc.SoilType, soilDesc.Ph, soilDesc.Salinity, soilDesc.Breathability, soilDesc.Humus * soilDesc.Mass, soilDesc.Mass,
+            return new(mapSoilType, soilDesc.Ph, soilDesc.Salinity, soilDesc.Breathability, soilDesc.Humus * soilDesc.Mass, soilDesc.Mass,
                        soilDesc.StartWaterAmount, elementsModel);
         }
 

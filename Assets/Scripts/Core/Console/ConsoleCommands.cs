@@ -1,4 +1,5 @@
-﻿using Core.Descriptors.Service;
+﻿using System.Collections.Generic;
+using Core.Descriptors.Service;
 using Core.Notifications.Model;
 using Core.Notifications.Service;
 using Core.Scopes;
@@ -56,8 +57,8 @@ namespace Core.Console
 
             Vector3 spawnPosition = playerService.Player.transform.position + new Vector3(x, y, z);
             ToolsDescriptor toolsDescriptor = descriptorService.Require<ToolsDescriptor>();
-            foreach (ToolsDescriptorModel descriptor in toolsDescriptor.Values.Values) {
-                worldItemService.CreateItemInWorldAsync<ToolController>(descriptor.Id, spawnPosition).Forget();
+            foreach (string toolId in toolsDescriptor.Values.Keys) {
+                worldItemService.CreateItemInWorldAsync<ToolController>(toolId, spawnPosition).Forget();
             }
         }
 
@@ -70,8 +71,8 @@ namespace Core.Console
 
             Vector3 spawnPosition = playerService.Player.transform.position + new Vector3(x, y, z);
             SeedsDescriptor seedsDescriptor = descriptorService.Require<SeedsDescriptor>();
-            foreach (SeedsDescriptorModel descriptor in seedsDescriptor.Values.Values) {
-                worldItemService.CreateItemInWorldAsync<SeedBagController>(descriptor.Id, spawnPosition).Forget();
+            foreach (string toolId in seedsDescriptor.Values.Keys) {
+                worldItemService.CreateItemInWorldAsync<SeedBagController>(toolId, spawnPosition).Forget();
             }
         }
 
@@ -92,8 +93,8 @@ namespace Core.Console
             IDescriptorService descriptorService = Container.Resolve<IDescriptorService>();
             ItemsDescriptor itemsDescriptor = descriptorService.Require<ItemsDescriptor>();
             Vector3 position = playerService.Player.transform.position + new Vector3(x, y, z);
-            foreach (ItemDescriptorModel itemDescriptorModel in itemsDescriptor.Values.Values) {
-                worldItemService.CreateItemInWorldAsync(itemDescriptorModel.Id, position).Forget();
+            foreach (string id in itemsDescriptor.Values.Keys) {
+                worldItemService.CreateItemInWorldAsync(id, position).Forget();
             }
         }
 

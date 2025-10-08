@@ -9,8 +9,6 @@ namespace Game.Calendar.Descriptor
     public class CalendarMonthModel
     {
         [field: SerializeField]
-        public MonthType Month { get; set; }
-        [field: SerializeField]
         public string Name { get; set; } = string.Empty;
         [field: SerializeField]
         public bool Playable { get; set; } = true;

@@ -11,8 +11,6 @@ namespace Game.Items.Descriptors
     public class ItemDescriptorModel
     {
         [field: SerializeField]
-        public string Id { get; set; } = string.Empty;
-        [field: SerializeField]
         public string Name { get; set; } = string.Empty;
         [field: SerializeField, PreviouslySerializedAs("ItemPrefab")]
         public AssetReference WorldPrefab { get; set; } = null!;

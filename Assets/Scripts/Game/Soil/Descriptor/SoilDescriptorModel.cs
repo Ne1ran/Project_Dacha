@@ -7,8 +7,6 @@ namespace Game.Soil.Descriptor
     [Serializable]
     public class SoilDescriptorModel
     {
-        [field: SerializeField]
-        public SoilType SoilType { get; set; }
         [field: SerializeField, Range(0f, 14f)]
         public float Ph { get; set; } = 6.5f;
         [field: SerializeField, Range(0f, 5f), Tooltip("Amount of salines in soil in percents. Max 5%")]

@@ -8,8 +8,6 @@ namespace Game.Tools.Descriptors
     public class ToolsDescriptorModel
     {
         [field: SerializeField]
-        public string Id { get; set; } = null!;
-        [field: SerializeField]
         public ToolType ToolType { get; set; } = ToolType.NONE;
         [field: SerializeField]
         public string UseHandler { get; set; } = null!;

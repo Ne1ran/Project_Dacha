@@ -44,7 +44,7 @@ namespace Game.Equipment.Service
 
             ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
             ItemDescriptorModel descriptorModel = itemsDescriptor.Require(itemId);
-            ItemModel newItem = new(descriptorModel.Id, descriptorModel.WorldPrefab, descriptorModel.Type, descriptorModel.DropOffsetMultiplier,
+            ItemModel newItem = new(itemId, descriptorModel.WorldPrefab, descriptorModel.Type, descriptorModel.DropOffsetMultiplier,
                                     descriptorModel.Stackable, descriptorModel.ShowInHand, descriptorModel.MaxStack);
             _equipmentChangedPublisher.Publish(EquipmentChangedEvent.EQUIPMENT_CHANGED, new(equippedItem, newItem));
             _equipmentRepo.Save(newItem);

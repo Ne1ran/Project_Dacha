@@ -10,8 +10,6 @@ namespace Game.Seeds.Descriptors
     [Serializable]
     public class SeedsDescriptorModel
     {
-        [field: SerializeField]
-        public string Id { get; set; } = null!;
         [field: SerializeField, ValueDropdown("GetPlantIds")]
         public string PlantId { get; set; } = null!;
         [field: SerializeField]

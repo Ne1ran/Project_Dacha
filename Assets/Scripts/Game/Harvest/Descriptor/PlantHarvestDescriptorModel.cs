@@ -25,8 +25,8 @@ namespace Game.Harvest.Descriptor
         {
             PlantsDescriptor plantsDescriptor = Resources.Load<PlantsDescriptor>("Descriptors/PlantsDescriptor");
             List<string> result = new();
-            foreach (PlantsDescriptorModel pdm in plantsDescriptor.Values.Values) {
-                result.Add(pdm.Id);
+            foreach (string plantId in plantsDescriptor.Values.Keys) {
+                result.Add(plantId);
             }
 
             return result;
@@ -36,8 +36,8 @@ namespace Game.Harvest.Descriptor
         {
             ItemsDescriptor plantsDescriptor = Resources.Load<ItemsDescriptor>("Descriptors/ItemsDescriptor");
             List<string> result = new();
-            foreach (ItemDescriptorModel item in plantsDescriptor.Values.Values) {
-                result.Add(item.Id);
+            foreach (string itemId in plantsDescriptor.Values.Keys) {
+                result.Add(itemId);
             }
 
             return result;

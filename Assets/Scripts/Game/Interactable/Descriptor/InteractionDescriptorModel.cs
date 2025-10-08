@@ -10,8 +10,6 @@ namespace Game.Interactable.Descriptor
     public class InteractionDescriptorModel
     {
         [field: SerializeField]
-        public InteractableType InteractableType { get; set; }
-        [field: SerializeField]
         [TableList]
         public List<InteractionPieMenuSettings> Settings { get; set; } = null!;
     }

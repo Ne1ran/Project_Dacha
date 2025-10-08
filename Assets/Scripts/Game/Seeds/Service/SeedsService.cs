@@ -25,7 +25,7 @@ namespace Game.Seeds.Service
         {
             SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
             SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Require(seedId);
-            await _sowSeedHandlerFactory.Create(seedsDescriptorModel.UseHandler).SowSeedAsync(seedsDescriptorModel.Id, parameters);
+            await _sowSeedHandlerFactory.Create(seedsDescriptorModel.UseHandler).SowSeedAsync(seedId, parameters);
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Game.Drop.Service
             Vector3 dropPosition = GetDropPosition(player.transform.position, player.Forward, itemDescriptorModel.DropOffsetMultiplier);
             ItemController itemController =
                     await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.WorldPrefab.AssetGUID, dropPosition);
-            itemController.Initialize(itemDescriptorModel.Id);
+            itemController.Initialize(inventoryItem.Id);
             return itemController;
         }
 

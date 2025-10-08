@@ -15,8 +15,6 @@ namespace Game.Plants.Descriptors
                         + " Grossulariaceae - Крыжовниковые\n" + " Ericaceae - Вересковые\n" + " Hydrophyllaceae - Водолистниковые\n"
                         + " Apiaceae - Зонтичные\n" + " Allioideae - Луковые\n" + " Cucurbitaceae - Бахчевые\n" + " Polygonaceae - Гречишные\n"
                         + " Amaranthaceae - Амарантовые")]
-        public string Id { get; set; } = null!;
-        [field: SerializeField]
         public string Name { get; set; } = null!;
         [field: SerializeField]
         public int PlantsCount { get; set; } = 1;
@@ -30,7 +28,7 @@ namespace Game.Plants.Descriptors
         public PlantStressParameters StressParameters { get; set; } = null!;
         [field: SerializeField]
         public PlantVisualizationDescriptor Visualization { get; set; } = null!;
-        
+
         [field: SerializeField]
         public SerializedDictionary<PlantGrowStage, PlantStageDescriptor> Stages2 { get; set; } = new();
 
