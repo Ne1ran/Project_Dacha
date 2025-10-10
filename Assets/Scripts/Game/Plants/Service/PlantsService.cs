@@ -6,6 +6,10 @@ using Core.Descriptors.Service;
 using Game.Calendar.Event;
 using Game.Diseases.Model;
 using Game.Diseases.Service;
+using Game.Harvest.Descriptor;
+using Game.Harvest.Service;
+using Game.Inventory.Model;
+using Game.Inventory.Service;
 using Game.Plants.Descriptors;
 using Game.Plants.Event;
 using Game.Plants.Model;
@@ -29,7 +33,9 @@ namespace Game.Plants.Service
         private readonly PlantsRepo _plantsRepo;
         private readonly PlantsParametersHandlerFactory _plantsParametersHandlerFactory;
         private readonly SoilService _soilService;
+        private readonly InventoryService _inventoryService;
         private readonly PlantDiseaseService _plantDiseaseService;
+        private readonly PlantHarvestService _plantHarvestService;
         private readonly IDescriptorService _descriptorService;
         private readonly IPublisher<string, PlantUpdatedEvent> _plantUpdatedEvent;
 
@@ -41,7 +47,9 @@ namespace Game.Plants.Service
                              SoilService soilService,
                              PlantDiseaseService plantDiseaseService,
                              IPublisher<string, PlantUpdatedEvent> plantUpdatedEvent,
-                             PlantsParametersHandlerFactory plantsParametersHandlerFactory)
+                             PlantsParametersHandlerFactory plantsParametersHandlerFactory,
+                             InventoryService inventoryService,
+                             PlantHarvestService plantHarvestService)
         {
             _plantsRepo = plantsRepo;
             _descriptorService = descriptorService;
@@ -49,6 +57,8 @@ namespace Game.Plants.Service
             _plantDiseaseService = plantDiseaseService;
             _plantUpdatedEvent = plantUpdatedEvent;
             _plantsParametersHandlerFactory = plantsParametersHandlerFactory;
+            _inventoryService = inventoryService;
+            _plantHarvestService = plantHarvestService;
 
             DisposableBagBuilder bag = DisposableBag.CreateBuilder();
 
@@ -100,55 +110,6 @@ namespace Game.Plants.Service
             return new(plantModel);
         }
 
-        private void CheckStressSymptoms(PlantModel plantModel)
-        {
-            StressDescriptor stressDescriptor = _descriptorService.Require<StressDescriptor>();
-            SymptomsDescriptor symptomsDescriptor = _descriptorService.Require<SymptomsDescriptor>();
-            foreach ((StressType stressType, StressModel stressModel) in plantModel.Stress) {
-                if (!stressDescriptor.Items.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
-                    continue;
-                }
-
-                if (stressDescriptorItem.SymptomsShowThreshold > stressModel.StressValue) {
-                    continue;
-                }
-
-                float showSymptomRoll = UnityEngine.Random.Range(0f, 1f);
-                if (showSymptomRoll < stressDescriptorItem.SymptomShowChance) {
-                    continue;
-                }
-
-                List<string> allSymptoms = stressDescriptorItem.Symptoms;
-                if (stressDescriptorItem.PlantFamilySymptoms.TryGetValue(plantModel.FamilyType, out List<string> plantFamilySymptoms)) {
-                    allSymptoms.AddRange(plantFamilySymptoms);
-                }
-
-                List<string> possibleSymptoms = GetPossibleSymptoms(ref allSymptoms, symptomsDescriptor, plantModel.FamilyType);
-                if (possibleSymptoms.Count == 0) {
-                    continue;
-                }
-
-                string selectedSymptom = possibleSymptoms.PickRandom();
-                stressModel.StressSymptoms.Add(selectedSymptom);
-            }
-        }
-
-        private List<string> GetPossibleSymptoms(ref List<string> allSymptoms, SymptomsDescriptor symptomsDescriptor, PlantFamilyType plantFamilyType)
-        {
-            for (int i = 0; i < allSymptoms.Count; i++) {
-                string symptom = allSymptoms[i];
-                if (!symptomsDescriptor.Items.TryGetValue(symptom, out SymptomDescriptorModel descriptorModel)) {
-                    allSymptoms.Remove(symptom);
-                    continue;
-                }
-
-                if (descriptorModel.BannedFamilyTypes.Contains(plantFamilyType)) {
-                    allSymptoms.Remove(symptom);
-                }
-            }
-
-            return allSymptoms;
-        }
 
         public void RemovePlant(string tileId)
         {
@@ -185,18 +146,49 @@ namespace Game.Plants.Service
             _plantsRepo.Save(tileId, plantModel);
         }
 
+        public bool TryHarvestPlant(string tileId)
+        {
+            PlantModel? plantModel = GetPlant(tileId);
+            if (plantModel == null) {
+                Debug.LogWarning($"Plant not found on tile={tileId}");
+                return false;
+            }
+
+            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
+            PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.Require(plantModel.PlantId);
+
+            PlantHarvestDescriptor plantHarvestDescriptor = _descriptorService.Require<PlantHarvestDescriptor>();
+            PlantHarvestDescriptorModel? harvestModel = plantHarvestDescriptor.Get(plantsDescriptorModel.HarvestDescriptorId);
+            if (harvestModel == null) {
+                Debug.LogWarning($"Plant harvest descriptor not found on tile={tileId} for plant={plantModel.PlantId}");
+                return false;
+            }
+
+            if (!_inventoryService.TryAddItemToInventory(harvestModel.HarvestItemId, ItemType.HARVEST)) {
+                return false;
+            }
+
+            RemovePlant(tileId);
+            return true;
+        }
+
         private void OnDayFinished(DayChangedEvent evt)
         {
             Dictionary<string, PlantModel> plants = _plantsRepo.GetAll();
 
             PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
             foreach ((string tileId, PlantModel plant) in plants) {
+                if (plant.CurrentStage == PlantGrowStage.DEAD) {
+                    return;
+                }
+
                 try {
-                    PlantModel plantModel = plant;
+                    PlantModel plantModel = plant; // foreach and ref handle
                     PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.Require(plantModel.PlantId);
-                    SimulatePlantLife(ref plantModel, tileId, plantsDescriptorModel, evt.DayDifference);
+                    PlantGrowCalculationModel growModel = SimulatePlantLife(ref plantModel, tileId, plantsDescriptorModel, evt.DayDifference);
                     if (plantModel.CurrentStage != PlantGrowStage.DEAD) {
                         _plantDiseaseService.UpdatePlantDiseases(ref plantModel, plantsDescriptorModel, tileId);
+                        _plantHarvestService.SimulateHarvestGrowth(ref plantModel, plantsDescriptorModel, growModel, tileId);
                     }
                     _plantUpdatedEvent.Publish(PlantUpdatedEvent.Updated, new(tileId, plantModel));
                 } catch (Exception e) {
@@ -206,12 +198,12 @@ namespace Game.Plants.Service
             }
         }
 
-        private void SimulatePlantLife(ref PlantModel plant, string soilId, PlantsDescriptorModel plantsDescriptorModel, int dayDifference)
+        private PlantGrowCalculationModel SimulatePlantLife(ref PlantModel plant,
+                                                            string soilId,
+                                                            PlantsDescriptorModel plantsDescriptorModel,
+                                                            int dayDifference)
         {
             PlantGrowStage plantCurrentStage = plant.CurrentStage;
-            if (plant.CurrentStage == PlantGrowStage.DEAD) {
-                return;
-            }
 
             PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.Stages[plantCurrentStage];
             PlantGrowCalculationModel growModel = GetGrowModel(plant, soilId, dayDifference, plantsDescriptorModel, plantStageDescriptor);
@@ -220,7 +212,7 @@ namespace Game.Plants.Service
             if (plant.CurrentStage == PlantGrowStage.DEAD) {
                 Debug.LogWarning($"Plant have died. Damage={growModel.Damage}, StressReasons={string.Join(", ", growModel.Stress.Keys.ToList())}");
                 // if plant have died - no need for further calculations 
-                return;
+                return growModel;
             }
 
             if (!growModel.BlockHealing) {
@@ -233,6 +225,7 @@ namespace Game.Plants.Service
 
             TryLowerStress(ref plant, plantStageDescriptor);
             TryGrowToNextStage(ref plant, plantStageDescriptor, plantsDescriptorModel);
+            return growModel;
         }
 
         private void TryLowerStress(ref PlantModel plant, PlantStageDescriptor stageDescriptor)
@@ -327,6 +320,7 @@ namespace Game.Plants.Service
             growModel.BlockHealing = maxStress > blockHealingThreshold;
             growModel.BlockImmunityGain = maxStress > blockImmunityGainThreshold;
             growModel.BlockGrowth = maxStress > blockGrowthThreshold;
+            growModel.BlockHarvestGrowth = maxStress > blockGrowthThreshold;
 
             if (maxStress > damageThreshold) {
                 growModel.Damage += maxStress * stressParameters.StressDamageMultiplier;
@@ -378,20 +372,31 @@ namespace Game.Plants.Service
                                         PlantStageDescriptor currentStageDescriptor,
                                         PlantsDescriptorModel plantsDescriptorModel)
         {
-            // if (plant.StageGrowth < currentStageDescriptor.AverageGrowTime) {
-            //     return;
-            // }
-            //
-            // int stageIndex = plantsDescriptorModel.Stages2.Values.ToList().IndexOf(currentStageDescriptor);
-            // int newStageIndex = stageIndex + 1;
-            // if (newStageIndex >= plantsDescriptorModel.Stages2.Count) {
-            //     return;
-            // }
-            //
-            // PlantStageDescriptor newStageDescriptor = plantsDescriptorModel.Stages2[newStageIndex];
-            // plant.CurrentStage = newStageDescriptor.Stage;
-            // plant.StageGrowth = 0f;
-            // Debug.Log($"Plant has grew to next stage! PlantId={plant.PlantId}, newStage={newStageDescriptor.Stage}");
+            if (plant.StageGrowth < currentStageDescriptor.AverageGrowTime) {
+                return;
+            }
+
+            PlantGrowStage plantCurrentStage = plant.CurrentStage;
+            bool takeNextStage = false;
+            PlantGrowStage newStage = plantCurrentStage;
+            foreach (PlantGrowStage stage in plantsDescriptorModel.Stages.Keys) {
+                if (stage == plantCurrentStage) {
+                    takeNextStage = true;
+                    continue;
+                }
+
+                if (takeNextStage) {
+                    newStage = stage;
+                }
+            }
+
+            if (plantCurrentStage == newStage) {
+                return;
+            }
+
+            plant.CurrentStage = newStage;
+            plant.StageGrowth = 0f;
+            Debug.Log($"Plant has grew to next stage! PlantId={plant.PlantId}, newStage={newStage}");
         }
 
         private void ConsumeElements(PlantModel plant, string soilId, SoilConsumptionModel consumptionModel)
@@ -435,6 +440,57 @@ namespace Game.Plants.Service
             if (!canConsumeElements) {
                 growModel.Stress.AddOrSum(StressType.ConsumptionOverall, consumptionDescriptor.NotEnoughElementsStressGain);
             }
+        }
+        
+        
+        private void CheckStressSymptoms(PlantModel plantModel)
+        {
+            StressDescriptor stressDescriptor = _descriptorService.Require<StressDescriptor>();
+            SymptomsDescriptor symptomsDescriptor = _descriptorService.Require<SymptomsDescriptor>();
+            foreach ((StressType stressType, StressModel stressModel) in plantModel.Stress) {
+                if (!stressDescriptor.Items.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
+                    continue;
+                }
+
+                if (stressDescriptorItem.SymptomsShowThreshold > stressModel.StressValue) {
+                    continue;
+                }
+
+                float showSymptomRoll = UnityEngine.Random.Range(0f, 1f);
+                if (showSymptomRoll < stressDescriptorItem.SymptomShowChance) {
+                    continue;
+                }
+
+                List<string> allSymptoms = stressDescriptorItem.Symptoms;
+                if (stressDescriptorItem.PlantFamilySymptoms.TryGetValue(plantModel.FamilyType, out List<string> plantFamilySymptoms)) {
+                    allSymptoms.AddRange(plantFamilySymptoms);
+                }
+
+                List<string> possibleSymptoms = GetPossibleSymptoms(ref allSymptoms, symptomsDescriptor, plantModel.FamilyType);
+                if (possibleSymptoms.Count == 0) {
+                    continue;
+                }
+
+                string selectedSymptom = possibleSymptoms.PickRandom();
+                stressModel.StressSymptoms.Add(selectedSymptom);
+            }
+        }
+
+        private List<string> GetPossibleSymptoms(ref List<string> allSymptoms, SymptomsDescriptor symptomsDescriptor, PlantFamilyType plantFamilyType)
+        {
+            for (int i = 0; i < allSymptoms.Count; i++) {
+                string symptom = allSymptoms[i];
+                if (!symptomsDescriptor.Items.TryGetValue(symptom, out SymptomDescriptorModel descriptorModel)) {
+                    allSymptoms.Remove(symptom);
+                    continue;
+                }
+
+                if (descriptorModel.BannedFamilyTypes.Contains(plantFamilyType)) {
+                    allSymptoms.Remove(symptom);
+                }
+            }
+
+            return allSymptoms;
         }
 
         private SoilConsumptionModel CreateSoilConsumptionModel(SoilModel soilModel,

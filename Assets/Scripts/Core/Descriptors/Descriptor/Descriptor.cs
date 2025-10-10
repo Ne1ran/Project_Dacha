@@ -2,7 +2,6 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 namespace Core.Descriptors.Descriptor
 {
@@ -28,12 +27,5 @@ namespace Core.Descriptors.Descriptor
         {
             return Items.GetValueOrDefault(key);
         }
-
-#if UNITY_EDITOR
-        public void SetValues(SerializedDictionary<TKey, TModel> values)
-        {
-            _items = values;
-        }
-#endif
     }
 }

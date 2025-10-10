@@ -1,4 +1,6 @@
-﻿namespace Core.Parameters
+﻿using System.Collections.Generic;
+
+namespace Core.Parameters
 {
     public static class ParameterNames
     {
@@ -12,5 +14,10 @@
         public const string GrowStage = "GrowStage";
         public const string Operation = "Operation";
         public const string SoilId = "SoilId";
+        public const string HarvestCount = "HarvestCount";
+
+        public static readonly List<string> ALL_PARAMETERS = new() {
+                TileId, ItemId, ItemType, PortionMass, NotificationType, WaterAmount, GrowStage, Operation, SoilId, HarvestCount
+        };
     }
 }

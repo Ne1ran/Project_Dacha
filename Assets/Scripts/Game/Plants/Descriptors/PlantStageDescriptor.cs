@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.Plants.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

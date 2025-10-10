@@ -13,6 +13,7 @@ namespace Game.Plants.Model
         public bool BlockGrowth { get; set; }
         public bool BlockHealing { get; set; }
         public bool BlockImmunityGain { get; set; }
+        public bool BlockHarvestGrowth { get; set; }
 
         public SoilConsumptionModel Consumption { get; set; } = null!;
     }

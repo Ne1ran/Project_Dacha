@@ -7,7 +7,6 @@ using Core.Notifications.Descriptor;
 using Core.Notifications.Model;
 using Core.UI.Service;
 using Cysharp.Threading.Tasks;
-using Game.Utils;
 
 namespace Core.Notifications.Service
 {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Harvest.Descriptor;
 using Game.Plants.Model;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -22,6 +24,10 @@ namespace Game.Plants.Descriptors
         public float PlantGrowNoise { get; set; } = 0.1f;
         [field: SerializeField, Tooltip("Family type of a plant")]
         public PlantFamilyType FamilyType { get; set; } = PlantFamilyType.None;
+        [field: SerializeField, Tooltip("LifecycleType of a plant")]
+        public PlantLifecycleType LifecycleType { get; set; } = PlantLifecycleType.OneYear;
+        [field: SerializeField, Tooltip("Harvest descriptor id"), ValueDropdown("GetHarvestIds")]
+        public string HarvestDescriptorId { get; set; } = string.Empty;
         [field: SerializeField, Tooltip("Plant ph parameters to grow")]
         public PlantPhParameters PhParameters { get; set; } = null!;
         [field: SerializeField, Tooltip("Plant stress parameters")]
@@ -31,5 +37,16 @@ namespace Game.Plants.Descriptors
 
         [field: SerializeField]
         public SerializedDictionary<PlantGrowStage, PlantStageDescriptor> Stages { get; set; } = new();
+
+        public List<string> GetHarvestIds()
+        {
+            PlantHarvestDescriptor harvestDescriptor = Resources.Load<PlantHarvestDescriptor>("Descriptors/PlantHarvestDescriptor");
+            List<string> result = new();
+            foreach (string itemId in harvestDescriptor.Items.Keys) {
+                result.Add(itemId);
+            }
+
+            return result;
+        }
     }
 }

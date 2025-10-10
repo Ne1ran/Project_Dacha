@@ -16,8 +16,52 @@ MonoBehaviour:
     m_Keys:
     - cucumber
     m_Values:
-    - <Id>k__BackingField: cucumber
-      <BaseHarvestRate>k__BackingField: 1
-      <MultiplierPerHealth>k__BackingField: 0.02
+    - <HarvestType>k__BackingField: 5
+      <HarvestGrowType>k__BackingField: 10
+      <HarvestSpawnStage>k__BackingField: 30
       <HarvestItemId>k__BackingField: cucumberHarvest
-  <Items>k__BackingField: []
+      <HarvestSpawnPerDay>k__BackingField: 3
+      <HarvestSpawnChance>k__BackingField: 0.5
+      <MultiplierPerHealth>k__BackingField: 0.02
+      <MultiplierForGrowModel>k__BackingField: 1.15
+      <TooManyHarvestPoint>k__BackingField: 10
+      <TooManyHarvestDebuffPerDeviation>k__BackingField: 0.5
+      <MaxHarvestPoint>k__BackingField: 40
+      <HarvestGrowStages>k__BackingField:
+        m_Keys: 050000000a0000000f0000001400000019000000
+        m_Values:
+        - <CurrentQuality>k__BackingField: 0
+          <HarvestConsumption>k__BackingField:
+            <NitrogenUsage>k__BackingField: 5
+            <PotassiumUsage>k__BackingField: 5
+            <PhosphorusUsage>k__BackingField: 5
+            <WaterUsage>k__BackingField: 5
+          <NextStageGrowDays>k__BackingField: 7
+        - <CurrentQuality>k__BackingField: 5
+          <HarvestConsumption>k__BackingField:
+            <NitrogenUsage>k__BackingField: 5
+            <PotassiumUsage>k__BackingField: 5
+            <PhosphorusUsage>k__BackingField: 5
+            <WaterUsage>k__BackingField: 5
+          <NextStageGrowDays>k__BackingField: 4
+        - <CurrentQuality>k__BackingField: 15
+          <HarvestConsumption>k__BackingField:
+            <NitrogenUsage>k__BackingField: 5
+            <PotassiumUsage>k__BackingField: 5
+            <PhosphorusUsage>k__BackingField: 5
+            <WaterUsage>k__BackingField: 5
+          <NextStageGrowDays>k__BackingField: 5
+        - <CurrentQuality>k__BackingField: 10
+          <HarvestConsumption>k__BackingField:
+            <NitrogenUsage>k__BackingField: 5
+            <PotassiumUsage>k__BackingField: 5
+            <PhosphorusUsage>k__BackingField: 5
+            <WaterUsage>k__BackingField: 5
+          <NextStageGrowDays>k__BackingField: 4
+        - <CurrentQuality>k__BackingField: 0
+          <HarvestConsumption>k__BackingField:
+            <NitrogenUsage>k__BackingField: 5
+            <PotassiumUsage>k__BackingField: 5
+            <PhosphorusUsage>k__BackingField: 5
+            <WaterUsage>k__BackingField: 5
+          <NextStageGrowDays>k__BackingField: 7

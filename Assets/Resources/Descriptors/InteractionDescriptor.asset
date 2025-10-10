@@ -15,8 +15,7 @@ MonoBehaviour:
   _items:
     m_Keys: 02000000000000000100000003000000
     m_Values:
-    - <InteractableType>k__BackingField: 2
-      <Settings>k__BackingField:
+    - <Settings>k__BackingField:
       - <InteractionHandlerName>k__BackingField: InspectSoil
         <PrepareHandlerName>k__BackingField: Simple
         <Title>k__BackingField: Inspect
@@ -76,10 +75,8 @@ MonoBehaviour:
           m_SubObjectGUID: 
           m_EditorAssetChanged: 1
         <Conditions>k__BackingField: []
-    - <InteractableType>k__BackingField: 0
-      <Settings>k__BackingField: []
-    - <InteractableType>k__BackingField: 1
-      <Settings>k__BackingField:
+    - <Settings>k__BackingField: []
+    - <Settings>k__BackingField:
       - <InteractionHandlerName>k__BackingField: Open
         <PrepareHandlerName>k__BackingField: Simple
         <Title>k__BackingField: Open
@@ -102,8 +99,7 @@ MonoBehaviour:
           m_SubObjectGUID: 
           m_EditorAssetChanged: 0
         <Conditions>k__BackingField: []
-    - <InteractableType>k__BackingField: 3
-      <Settings>k__BackingField:
+    - <Settings>k__BackingField:
       - <InteractionHandlerName>k__BackingField: InspectPlant
         <PrepareHandlerName>k__BackingField: Simple
         <Title>k__BackingField: Inspect
@@ -148,13 +144,11 @@ MonoBehaviour:
           m_SubObjectGUID: 
           m_EditorAssetChanged: 1
         <Conditions>k__BackingField:
-        - <Id>k__BackingField: PlantStageCondition
+        - <Id>k__BackingField: PlantHarvestCondition
           <Inverted>k__BackingField: 0
           <Params>k__BackingField:
-          - <Key>k__BackingField: GrowStage
-            <Value>k__BackingField: Riped
-          - <Key>k__BackingField: Operation
-            <Value>k__BackingField: GreaterOrEqual
+          - <Key>k__BackingField: HarvestCount
+            <Value>k__BackingField: 1
       - <InteractionHandlerName>k__BackingField: RemovePlant
         <PrepareHandlerName>k__BackingField: Simple
         <Title>k__BackingField: Remove
@@ -166,4 +160,3 @@ MonoBehaviour:
           m_SubObjectGUID: 
           m_EditorAssetChanged: 1
         <Conditions>k__BackingField: []
-  <Items>k__BackingField: []

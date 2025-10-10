@@ -14,5 +14,12 @@
             WaterUsage = waterUsage;
             HumusUsage = humusUsage;
         }
+
+        public SoilConsumptionModel()
+        {
+            ElementsUsage = new();
+            WaterUsage = 0f;
+            HumusUsage = 0f;
+        }
     }
 }

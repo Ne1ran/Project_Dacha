@@ -13,6 +13,13 @@
             Phosphorus = phosphorus;
         }
 
+        public ElementsModel()
+        {
+            Nitrogen = 0f;
+            Potassium = 0f;
+            Phosphorus = 0f;
+        }
+
         public void Add(ElementsModel elementsModel)
         {
             Nitrogen += elementsModel.Nitrogen;

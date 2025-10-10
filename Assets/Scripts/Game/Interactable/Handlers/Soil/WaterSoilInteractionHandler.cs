@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Core.Descriptors.Service;
+﻿using Core.Descriptors.Service;
 using Core.Notifications.Model;
 using Core.Notifications.Service;
 using Core.Parameters;

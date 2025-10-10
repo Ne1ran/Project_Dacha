@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Core.Attributes;
+﻿using Core.Attributes;
 using Core.Descriptors.Service;
 using Game.Inventory.Service;
 using Game.Items.Controller;

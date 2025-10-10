@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.Soil.Model;
 using UnityEngine;
 
 namespace Game.Soil.Descriptor

@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Core.Attributes;
+﻿using Core.Attributes;
 using Core.Descriptors.Descriptor;
 using Game.Difficulty.Model;
-using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.Calendar.Model;
 using Game.Evaporation.Descriptor;
 using UnityEngine;
 

@@ -1,6 +1,6 @@
 ﻿namespace Game.Harvest.Model
 {
-    public enum HarvestState
+    public enum HarvestGrowStage
     {
         None = 0,
         Blooming = 5,

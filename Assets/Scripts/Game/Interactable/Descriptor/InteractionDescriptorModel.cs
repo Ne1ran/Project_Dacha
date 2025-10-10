@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Interactable.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
