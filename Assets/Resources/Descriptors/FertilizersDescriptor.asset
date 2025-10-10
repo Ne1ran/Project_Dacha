@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24092a1e7d8b48148c1f3027abe40c14, type: 3}
   m_Name: FertilizersDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys:
     - potassiumMonophosphate
     - potassiumSulfate

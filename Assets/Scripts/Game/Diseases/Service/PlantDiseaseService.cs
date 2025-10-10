@@ -204,7 +204,7 @@ namespace Game.Diseases.Service
                                     string soilId,
                                     DiseasesDescriptor diseasesDescriptor)
         {
-            foreach ((string id, DiseaseModelDescriptor descriptor) in diseasesDescriptor.Values) {
+            foreach ((string id, DiseaseModelDescriptor descriptor) in diseasesDescriptor.Items) {
                 if (!descriptor.AffectedPlants.Contains(plantsDescriptorModel.FamilyType)) {
                     continue;
                 }

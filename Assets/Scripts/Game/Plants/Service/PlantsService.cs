@@ -105,7 +105,7 @@ namespace Game.Plants.Service
             StressDescriptor stressDescriptor = _descriptorService.Require<StressDescriptor>();
             SymptomsDescriptor symptomsDescriptor = _descriptorService.Require<SymptomsDescriptor>();
             foreach ((StressType stressType, StressModel stressModel) in plantModel.Stress) {
-                if (!stressDescriptor.Values.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
+                if (!stressDescriptor.Items.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
                     continue;
                 }
 
@@ -137,7 +137,7 @@ namespace Game.Plants.Service
         {
             for (int i = 0; i < allSymptoms.Count; i++) {
                 string symptom = allSymptoms[i];
-                if (!symptomsDescriptor.Values.TryGetValue(symptom, out SymptomDescriptorModel descriptorModel)) {
+                if (!symptomsDescriptor.Items.TryGetValue(symptom, out SymptomDescriptorModel descriptorModel)) {
                     allSymptoms.Remove(symptom);
                     continue;
                 }
@@ -213,7 +213,7 @@ namespace Game.Plants.Service
                 return;
             }
 
-            PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.RequireStage(plantCurrentStage);
+            PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.Stages[plantCurrentStage];
             PlantGrowCalculationModel growModel = GetGrowModel(plant, soilId, dayDifference, plantsDescriptorModel, plantStageDescriptor);
             ApplyGrowCalculationModel(plant, soilId, growModel);
             Debug.Log($"Plant life simulation. GrowCalcModel: growMultiplier={growModel.GrowMultiplier}, damage={growModel.Damage}");
@@ -378,20 +378,20 @@ namespace Game.Plants.Service
                                         PlantStageDescriptor currentStageDescriptor,
                                         PlantsDescriptorModel plantsDescriptorModel)
         {
-            if (plant.StageGrowth < currentStageDescriptor.AverageGrowTime) {
-                return;
-            }
-
-            int stageIndex = plantsDescriptorModel.Stages.IndexOf(currentStageDescriptor);
-            int newStageIndex = stageIndex + 1;
-            if (newStageIndex >= plantsDescriptorModel.Stages.Count) {
-                return;
-            }
-
-            PlantStageDescriptor newStageDescriptor = plantsDescriptorModel.Stages[newStageIndex];
-            plant.CurrentStage = newStageDescriptor.Stage;
-            plant.StageGrowth = 0f;
-            Debug.Log($"Plant has grew to next stage! PlantId={plant.PlantId}, newStage={newStageDescriptor.Stage}");
+            // if (plant.StageGrowth < currentStageDescriptor.AverageGrowTime) {
+            //     return;
+            // }
+            //
+            // int stageIndex = plantsDescriptorModel.Stages2.Values.ToList().IndexOf(currentStageDescriptor);
+            // int newStageIndex = stageIndex + 1;
+            // if (newStageIndex >= plantsDescriptorModel.Stages2.Count) {
+            //     return;
+            // }
+            //
+            // PlantStageDescriptor newStageDescriptor = plantsDescriptorModel.Stages2[newStageIndex];
+            // plant.CurrentStage = newStageDescriptor.Stage;
+            // plant.StageGrowth = 0f;
+            // Debug.Log($"Plant has grew to next stage! PlantId={plant.PlantId}, newStage={newStageDescriptor.Stage}");
         }
 
         private void ConsumeElements(PlantModel plant, string soilId, SoilConsumptionModel consumptionModel)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265de613de3f4c58ae1e3f3e22968c36, type: 3}
   m_Name: MapDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys: 0a000000
     m_Values:
     - <Length>k__BackingField: 20

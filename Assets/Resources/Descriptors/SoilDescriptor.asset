@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863b2d7ec31d44ce87832950143fd0fb, type: 3}
   m_Name: SoilDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys: 00000000010000000200000003000000040000000500000006000000
     m_Values:
     - <SoilType>k__BackingField: 0

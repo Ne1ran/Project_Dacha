@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25e7d34cdcec784cb758b37dc3fbcd7, type: 3}
   m_Name: ToolsDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys:
     - axe
     - hammer

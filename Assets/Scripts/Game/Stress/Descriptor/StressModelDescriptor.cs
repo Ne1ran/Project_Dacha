@@ -25,7 +25,7 @@ namespace Game.Stress.Descriptor
         {
             SymptomsDescriptor symptomsDescriptor = Resources.Load<SymptomsDescriptor>("Descriptors/SymptomsDescriptor");
             List<string> result = new();
-            foreach ((string symptomName, SymptomDescriptorModel _) in symptomsDescriptor.Values) {
+            foreach ((string symptomName, SymptomDescriptorModel _) in symptomsDescriptor.Items) {
                 result.Add(symptomName);
             }
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71ef6cfbb1b4ba9852488d13c928e46, type: 3}
   m_Name: SelectorsDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys:
     - bucket10
     m_Values:

@@ -49,7 +49,7 @@ namespace Game.Plants.Component
             if (plantModel.CurrentStage == PlantGrowStage.DEAD) {
                 visualPrefabPath = plantsDescriptorModel.Visualization.DeadPrefab.AssetGUID;
             } else {
-                PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.RequireStage(plantModel.CurrentStage);
+                PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.Stages[plantModel.CurrentStage];
                 visualPrefabPath = plantStageDescriptor.Prefab.AssetGUID;
             }
             

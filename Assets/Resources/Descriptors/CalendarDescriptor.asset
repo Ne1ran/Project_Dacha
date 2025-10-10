@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 028837aaa7024f238724c2d5e8c7530e, type: 3}
   m_Name: CalendarDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys: 0a000000
     m_Values:
     - m_Keys: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c000000

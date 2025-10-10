@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9b4bd2dd40402495fa0e235f5567e0, type: 3}
   m_Name: DiseasesDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys:
     - mildew
     - downyMildew

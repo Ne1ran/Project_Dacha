@@ -10,9 +10,9 @@ namespace Core.Descriptors.Descriptor
     {
         [Searchable]
         [SerializeField]
-        private SerializedDictionary<TKey, TModel> _values = new();
+        private SerializedDictionary<TKey, TModel> _items = new();
 
-        public SerializedDictionary<TKey, TModel> Values => _values;
+        public SerializedDictionary<TKey, TModel> Items => _items;
 
         public TModel Require(TKey key)
         {
@@ -26,13 +26,13 @@ namespace Core.Descriptors.Descriptor
 
         public TModel? Get(TKey key)
         {
-            return Values.GetValueOrDefault(key);
+            return Items.GetValueOrDefault(key);
         }
 
 #if UNITY_EDITOR
         public void SetValues(SerializedDictionary<TKey, TModel> values)
         {
-            _values = values;
+            _items = values;
         }
 #endif
     }

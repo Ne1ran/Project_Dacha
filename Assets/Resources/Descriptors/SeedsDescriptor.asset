@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0391cdc4c6e4970b441bc1f3f714e7d, type: 3}
   m_Name: SeedsDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys:
     - watermelonSeed
     - cucumberSeed

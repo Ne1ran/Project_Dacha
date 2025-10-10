@@ -10,8 +10,6 @@ namespace Game.Plants.Descriptors
     public class PlantStageDescriptor
     {
         [field: SerializeField]
-        public PlantGrowStage Stage { get; set; } = PlantGrowStage.SEED;
-        [field: SerializeField]
         public AssetReference Prefab { get; set; } = null!;
         [field: SerializeField]
         public float AverageGrowTime { get; set; } = 7f;

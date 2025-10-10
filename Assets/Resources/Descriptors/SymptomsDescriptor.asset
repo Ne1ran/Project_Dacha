@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ecf8807815c43b580ed65557cba1f4d, type: 3}
   m_Name: SymptomsDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys:
     - StrangeMildew
     - SlowedGrowth

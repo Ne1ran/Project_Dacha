@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b043ba440cfa46d995e65bcc3889f5af, type: 3}
   m_Name: NotificationsDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys: 0000000001000000050000000a0000000f00000014000000
     m_Values:
     - <Title>k__BackingField: Fertilizer not found

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f6afdb050046f79db7693007dca918, type: 3}
   m_Name: InteractionDescriptor
   m_EditorClassIdentifier: 
-  _values:
+  _items:
     m_Keys: 02000000000000000100000003000000
     m_Values:
     - <InteractableType>k__BackingField: 2
