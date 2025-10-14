@@ -3,23 +3,24 @@
     public class SoilConsumptionModel
     {
         public ElementsModel ElementsUsage { get; }
-        public float WaterUsage { get; }
-        public float HumusUsage { get; }
+        public float WaterUsage { get; private set; }
 
-        public SoilConsumptionModel(ElementsModel elementsUsage,
-                                    float waterUsage,
-                                    float humusUsage)
+        public SoilConsumptionModel(ElementsModel elementsUsage, float waterUsage)
         {
             ElementsUsage = elementsUsage;
             WaterUsage = waterUsage;
-            HumusUsage = humusUsage;
         }
 
         public SoilConsumptionModel()
         {
             ElementsUsage = new();
             WaterUsage = 0f;
-            HumusUsage = 0f;
+        }
+
+        public void Add(ElementsModel elementsModel, float waterUsage)
+        {
+            ElementsUsage.Add(elementsModel);
+            WaterUsage += waterUsage;
         }
     }
 }

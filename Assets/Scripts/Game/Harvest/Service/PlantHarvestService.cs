@@ -18,50 +18,66 @@ namespace Game.Harvest.Service
     {
         private readonly IDescriptorService _descriptorService;
         private readonly PlantHarvestHandlerFactory _plantHarvestHandlerFactory;
-        private readonly SoilService _soilService;
 
         public PlantHarvestService(IDescriptorService descriptorService,
-                                   PlantHarvestHandlerFactory plantHarvestHandlerFactory,
-                                   SoilService soilService)
+                                   PlantHarvestHandlerFactory plantHarvestHandlerFactory)
         {
             _descriptorService = descriptorService;
             _plantHarvestHandlerFactory = plantHarvestHandlerFactory;
-            _soilService = soilService;
         }
 
         public void SimulateHarvestGrowth(ref PlantModel plantModel,
                                           PlantsDescriptorModel plantsDescriptorModel,
                                           PlantGrowCalculationModel growModel,
-                                          string soilId)
+                                          int dayDifference)
         {
             string harvestDescriptorId = plantsDescriptorModel.HarvestDescriptorId;
             PlantHarvestDescriptor harvestDescriptor = _descriptorService.Require<PlantHarvestDescriptor>();
             PlantHarvestDescriptorModel harvestDescriptorModel = harvestDescriptor.Require(harvestDescriptorId);
+
+            if (!growModel.BlockHarvestGrowth) {
+                TryGrowHarvest(plantModel, harvestDescriptorModel, growModel.GrowMultiplier, dayDifference);
+            }
+
             if (plantModel.CurrentStage != harvestDescriptorModel.HarvestSpawnStage) {
                 return;
             }
 
-            TryGrowHarvest(plantModel, harvestDescriptorModel, growModel.GrowMultiplier);
-
-            if (!growModel.BlockHarvestGrowth) {
+            if (!growModel.BlockNewHarvestSpawn) {
                 TryAddNewHarvest(plantModel, harvestDescriptorModel, harvestDescriptorId);
             }
         }
 
-        public SoilConsumptionModel GetHarvestConsumption(PlantModel plantModel, PlantsDescriptorModel plantsDescriptorModel)
+        public SoilConsumptionModel GetHarvestConsumption(PlantModel plantModel,
+                                                          float growMultiplier,
+                                                          int dayDifference)
         {
             SoilConsumptionModel soilConsumptionModel = new();
+            PlantHarvestDescriptor harvestDescriptor = _descriptorService.Require<PlantHarvestDescriptor>();
 
-            foreach (var VARIABLE in plantModel.Harvest) {
-                
+            foreach (PlantHarvestModel harvest in plantModel.Harvest) {
+                PlantHarvestDescriptorModel harvestDescriptorModel = harvestDescriptor.Require(harvest.HarvestId);
+                HarvestGrowStage currentStage = harvest.Stage;
+                PlantHarvestGrowDescriptor harvestStageDescriptor = harvestDescriptorModel.HarvestGrowStages[currentStage];
+                float neededProgress = harvestStageDescriptor.NextStageGrowDays;
+
+                float stageGrowth = dayDifference * growMultiplier;
+                float usedElementsProportion = stageGrowth / neededProgress;
+                ConsumptionDescriptor harvestConsumption = harvestStageDescriptor.HarvestConsumption;
+                float nitrogenUsage = harvestConsumption.NitrogenUsage * usedElementsProportion;
+                float potassiumUsage = harvestConsumption.PotassiumUsage * usedElementsProportion;
+                float phosphorusUsage = harvestConsumption.PhosphorusUsage * usedElementsProportion;
+                float waterUsage = harvestConsumption.WaterUsage * usedElementsProportion;
+                soilConsumptionModel.Add(new(nitrogenUsage, potassiumUsage, phosphorusUsage), waterUsage);
             }
 
-            // todo neiran Подумай как правильно добавить забирание питания на урожай. Учти, что мы считаем growMultiplier из растения. Т.е. вызовы как будто должны быть разных местах?...
-            
             return soilConsumptionModel;
         }
 
-        private void TryGrowHarvest(PlantModel plantModel, PlantHarvestDescriptorModel harvestDescriptorModel, float growMultiplier)
+        private void TryGrowHarvest(PlantModel plantModel,
+                                    PlantHarvestDescriptorModel harvestDescriptorModel,
+                                    float growMultiplier,
+                                    int dayDifference)
         {
             foreach (PlantHarvestModel harvest in plantModel.Harvest) {
                 HarvestGrowStage currentStage = harvest.Stage;
@@ -70,7 +86,7 @@ namespace Game.Harvest.Service
                 float currentProgress = harvest.Progress;
                 float neededProgress = stageDescriptor.NextStageGrowDays;
                 if (currentProgress > neededProgress) {
-                    harvest.Progress += growMultiplier * 1f;
+                    harvest.Progress += growMultiplier * dayDifference;
                     break;
                 }
 

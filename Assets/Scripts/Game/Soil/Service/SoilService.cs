@@ -303,14 +303,7 @@ namespace Game.Soil.Service
 
         public bool TryConsumeForPlant(string soilId, float waterUsage, ElementsModel elementsModel)
         {
-            SoilModel soil = RequireSoil(soilId);
-            return soil.TryConsume(waterUsage, elementsModel);
-        }
-
-        public void ConsumeForPlant(string soilId, float waterUsage, ElementsModel elementsModel, float humus = 0f)
-        {
-            SoilModel soil = RequireSoil(soilId);
-            soil.Consume(waterUsage, elementsModel, humus);
+            return RequireSoil(soilId).TryConsume(waterUsage, elementsModel);
         }
 
         public float GetSoilHumidity(string soilId)
