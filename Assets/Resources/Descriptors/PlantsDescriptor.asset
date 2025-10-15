@@ -20,6 +20,8 @@ MonoBehaviour:
       <PlantsCount>k__BackingField: 4
       <PlantGrowNoise>k__BackingField: 0.1
       <FamilyType>k__BackingField: 13
+      <LifecycleType>k__BackingField: 5
+      <HarvestDescriptorId>k__BackingField: cucumber
       <PhParameters>k__BackingField:
         <Min>k__BackingField: 5
         <Max>k__BackingField: 7.5
@@ -45,10 +47,9 @@ MonoBehaviour:
           m_SubObjectGUID: 
           m_EditorAssetChanged: 1
       <Stages>k__BackingField:
-        m_Keys: 050000000a0000000f0000001e000000
+        m_Keys: 050000000a0000000f0000001e00000023000000
         m_Values:
-        - <Stage>k__BackingField: 5
-          <Prefab>k__BackingField:
+        - <Prefab>k__BackingField:
             m_AssetGUID: deb2bedbebf44054091d3f090b613248
             m_SubObjectName: 
             m_SubObjectType: 
@@ -113,8 +114,7 @@ MonoBehaviour:
             <DamagePerDeviation>k__BackingField: 100
             <GrowBuff>k__BackingField: 0.05
             <StressGain>k__BackingField: 100
-        - <Stage>k__BackingField: 10
-          <Prefab>k__BackingField:
+        - <Prefab>k__BackingField:
             m_AssetGUID: 68e99fbad816a8343b710c3955e2bff1
             m_SubObjectName: 
             m_SubObjectType: 
@@ -179,14 +179,13 @@ MonoBehaviour:
             <DamagePerDeviation>k__BackingField: 100
             <GrowBuff>k__BackingField: 0.05
             <StressGain>k__BackingField: 100
-        - <Stage>k__BackingField: 15
-          <Prefab>k__BackingField:
+        - <Prefab>k__BackingField:
             m_AssetGUID: 68e99fbad816a8343b710c3955e2bff1
             m_SubObjectName: 
             m_SubObjectType: 
             m_SubObjectGUID: 
             m_EditorAssetChanged: 1
-          <AverageGrowTime>k__BackingField: 14
+          <AverageGrowTime>k__BackingField: 15
           <DailyRegeneration>k__BackingField: 3
           <DailyImmunityGain>k__BackingField: 3
           <DailyStressDecrease>k__BackingField: 3
@@ -245,14 +244,13 @@ MonoBehaviour:
             <DamagePerDeviation>k__BackingField: 100
             <GrowBuff>k__BackingField: 0.05
             <StressGain>k__BackingField: 100
-        - <Stage>k__BackingField: 30
-          <Prefab>k__BackingField:
+        - <Prefab>k__BackingField:
             m_AssetGUID: bb9b8b5d551aeba48ab7a6c7b8a11564
             m_SubObjectName: 
             m_SubObjectType: 
             m_SubObjectGUID: 
             m_EditorAssetChanged: 1
-          <AverageGrowTime>k__BackingField: 7
+          <AverageGrowTime>k__BackingField: 30
           <DailyRegeneration>k__BackingField: 3
           <DailyImmunityGain>k__BackingField: 3
           <DailyStressDecrease>k__BackingField: 3
@@ -311,4 +309,68 @@ MonoBehaviour:
             <DamagePerDeviation>k__BackingField: 100
             <GrowBuff>k__BackingField: 0.05
             <StressGain>k__BackingField: 100
-      <Stages>k__BackingField: []
+        - <Prefab>k__BackingField:
+            m_AssetGUID: bb9b8b5d551aeba48ab7a6c7b8a11564
+            m_SubObjectName: 
+            m_SubObjectType: 
+            m_SubObjectGUID: 
+            m_EditorAssetChanged: 1
+          <AverageGrowTime>k__BackingField: 24
+          <DailyRegeneration>k__BackingField: 2
+          <DailyImmunityGain>k__BackingField: 1
+          <DailyStressDecrease>k__BackingField: 3
+          <IncludeSunlight>k__BackingField: 1
+          <IncludeTemperature>k__BackingField: 1
+          <IncludeAirHumidity>k__BackingField: 1
+          <IncludeSoilHumidity>k__BackingField: 1
+          <IncludeSalinity>k__BackingField: 1
+          <PlantConsumption>k__BackingField:
+            <NitrogenUsage>k__BackingField: 1
+            <PotassiumUsage>k__BackingField: 3
+            <PhosphorusUsage>k__BackingField: 1
+            <WaterUsage>k__BackingField: 15
+            <StressGainNitrogen>k__BackingField: 1
+            <StressGainPotassium>k__BackingField: 1
+            <StressGainPhosphorus>k__BackingField: 1
+            <StressGainWater>k__BackingField: 2.5
+            <NotEnoughElementsStressGain>k__BackingField: 5
+          <SunlightParameters>k__BackingField:
+            <Min>k__BackingField: 6
+            <Max>k__BackingField: 12
+            <MinPreferred>k__BackingField: 10
+            <MaxPreferred>k__BackingField: 12
+            <DamagePerDeviation>k__BackingField: 2
+            <GrowBuff>k__BackingField: 0.05
+            <StressGain>k__BackingField: 1
+          <TemperatureParameters>k__BackingField:
+            <Min>k__BackingField: 15
+            <Max>k__BackingField: 35
+            <MinPreferred>k__BackingField: 25
+            <MaxPreferred>k__BackingField: 29
+            <DamagePerDeviation>k__BackingField: 1
+            <GrowBuff>k__BackingField: 0.1
+            <StressGain>k__BackingField: 2
+          <AirSoilHumidityParameters>k__BackingField:
+            <Min>k__BackingField: 5
+            <Max>k__BackingField: 85
+            <MinPreferred>k__BackingField: 70
+            <MaxPreferred>k__BackingField: 85
+            <DamagePerDeviation>k__BackingField: 0.25
+            <GrowBuff>k__BackingField: 0.05
+            <StressGain>k__BackingField: 0.1
+          <SoilSoilHumidityParameters>k__BackingField:
+            <Min>k__BackingField: 5
+            <Max>k__BackingField: 85
+            <MinPreferred>k__BackingField: 70
+            <MaxPreferred>k__BackingField: 85
+            <DamagePerDeviation>k__BackingField: 0.25
+            <GrowBuff>k__BackingField: 0.05
+            <StressGain>k__BackingField: 0.1
+          <SalinityParameters>k__BackingField:
+            <Min>k__BackingField: 0.01
+            <Max>k__BackingField: 0.2
+            <MinPreferred>k__BackingField: 0.1
+            <MaxPreferred>k__BackingField: 0.125
+            <DamagePerDeviation>k__BackingField: 50
+            <GrowBuff>k__BackingField: 0.05
+            <StressGain>k__BackingField: 100

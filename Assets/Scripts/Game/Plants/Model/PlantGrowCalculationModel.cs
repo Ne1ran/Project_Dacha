@@ -17,6 +17,5 @@ namespace Game.Plants.Model
         public bool BlockNewHarvestSpawn { get; set; }
         public SoilConsumptionModel PlantConsumption { get; set; } = null!;
         public SoilConsumptionModel HarvestConsumption { get; set; } = null!;
-        public bool ConsumedForHarvest { get; set; }
     }
 }

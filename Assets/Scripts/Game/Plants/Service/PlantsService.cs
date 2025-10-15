@@ -7,6 +7,7 @@ using Game.Calendar.Event;
 using Game.Diseases.Model;
 using Game.Diseases.Service;
 using Game.Harvest.Descriptor;
+using Game.Harvest.Model;
 using Game.Harvest.Service;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
@@ -153,20 +154,17 @@ namespace Game.Plants.Service
                 return false;
             }
 
-            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
-            PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.Require(plantModel.PlantId);
+            List<HarvestModel> allHarvestFromPlant = _plantHarvestService.GetAllHarvestFromPlant(plantModel);
+            foreach (HarvestModel harvestModel in allHarvestFromPlant) {
+                Debug.Log($"Harvesting plant={plantModel.PlantId}. HarvestItemId={harvestModel.HarvestInventoryItemId}, HarvestQuality={harvestModel.HarvestQuality}");
+            }
 
-            PlantHarvestDescriptor plantHarvestDescriptor = _descriptorService.Require<PlantHarvestDescriptor>();
-            PlantHarvestDescriptorModel? harvestModel = plantHarvestDescriptor.Get(plantsDescriptorModel.HarvestDescriptorId);
-            if (harvestModel == null) {
-                Debug.LogWarning($"Plant harvest descriptor not found on tile={tileId} for plant={plantModel.PlantId}");
+            // temporary. need new inventory system. 
+            if (!_inventoryService.TryAddItemToInventory(allHarvestFromPlant[0].HarvestInventoryItemId, ItemType.HARVEST)) {
                 return false;
             }
 
-            if (!_inventoryService.TryAddItemToInventory(harvestModel.HarvestItemId, ItemType.HARVEST)) {
-                return false;
-            }
-
+            Debug.Log($"Harvested plant={plantModel.PlantId}");
             RemovePlant(tileId);
             return true;
         }
@@ -205,7 +203,7 @@ namespace Game.Plants.Service
             SoilConsumptionModel harvestConsumption = _plantHarvestService.GetHarvestConsumption(plant, growModel.GrowMultiplier, dayDifference);
             growModel.HarvestConsumption = harvestConsumption;
 
-            ApplyGrowCalculationModel(plant, soilId, growModel);
+            ApplyGrowCalculationModel(ref plant, soilId, plantsDescriptorModel, growModel, dayDifference);
             Debug.Log($"Plant life simulation. GrowCalcModel: growMultiplier={growModel.GrowMultiplier}, damage={growModel.Damage}");
             if (plant.CurrentStage == PlantGrowStage.DEAD) {
                 Debug.LogWarning($"Plant have died. Damage={growModel.Damage}, StressReasons={string.Join(", ", growModel.Stress.Keys.ToList())}");
@@ -219,10 +217,6 @@ namespace Game.Plants.Service
 
             if (!growModel.BlockImmunityGain) {
                 TryIncreaseImmunity(ref plant, plantStageDescriptor);
-            }
-
-            if (growModel.ConsumedForHarvest) {
-                _plantHarvestService.SimulateHarvestGrowth(ref plant, plantsDescriptorModel, growModel, dayDifference);
             }
 
             TryLowerStress(ref plant, plantStageDescriptor);
@@ -362,7 +356,11 @@ namespace Game.Plants.Service
                                          Constants.Constants.MaxImmunity);
         }
 
-        private void ApplyGrowCalculationModel(PlantModel plant, string soilId, PlantGrowCalculationModel growModel)
+        private void ApplyGrowCalculationModel(ref PlantModel plant,
+                                               string soilId,
+                                               PlantsDescriptorModel plantsDescriptorModel,
+                                               PlantGrowCalculationModel growModel,
+                                               int dayDifference)
         {
             if (growModel.Damage > 0) {
                 float decreaseImmunity = plant.DecreaseImmunity(growModel.Damage);
@@ -375,15 +373,19 @@ namespace Game.Plants.Service
 
             SoilConsumptionModel plantConsumption = growModel.PlantConsumption;
             bool hasEnoughForPlant = _soilService.TryConsumeForPlant(soilId, plantConsumption.WaterUsage, plantConsumption.ElementsUsage);
-            if (hasEnoughForPlant) {
-                plant.TakenElements.Add(plantConsumption.ElementsUsage);
+            if (!hasEnoughForPlant) {
+                return;
+            }
+
+            plant.TakenElements.Add(plantConsumption.ElementsUsage);
+            if (!growModel.BlockGrowth) {
+                plant.StageGrowth += Mathf.Max(growModel.ActualGrowth, 0f);
             }
 
             SoilConsumptionModel harvestConsumption = growModel.HarvestConsumption;
-            growModel.ConsumedForHarvest = _soilService.TryConsumeForPlant(soilId, harvestConsumption.WaterUsage, harvestConsumption.ElementsUsage);
-
-            if (!growModel.BlockGrowth && hasEnoughForPlant) {
-                plant.StageGrowth += Mathf.Max(growModel.ActualGrowth, 0f);
+            bool consumedForHarvest = _soilService.TryConsumeForPlant(soilId, harvestConsumption.WaterUsage, harvestConsumption.ElementsUsage);
+            if (consumedForHarvest) {
+                _plantHarvestService.SimulateHarvestGrowth(ref plant, plantsDescriptorModel, growModel, dayDifference);
             }
         }
 
@@ -406,6 +408,7 @@ namespace Game.Plants.Service
 
                 if (takeNextStage) {
                     newStage = stage;
+                    break;
                 }
             }
 

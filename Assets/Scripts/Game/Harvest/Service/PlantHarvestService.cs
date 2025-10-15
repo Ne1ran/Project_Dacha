@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Core.Attributes;
 using Core.Common.Descriptor;
 using Core.Descriptors.Service;
@@ -8,7 +9,6 @@ using Game.Harvest.PlantHarvest;
 using Game.Plants.Descriptors;
 using Game.Plants.Model;
 using Game.Soil.Model;
-using Game.Soil.Service;
 using UnityEngine;
 
 namespace Game.Harvest.Service
@@ -74,6 +74,23 @@ namespace Game.Harvest.Service
             return soilConsumptionModel;
         }
 
+        public List<HarvestModel> GetAllHarvestFromPlant(PlantModel plantModel)
+        {
+            List<HarvestModel> harvest = new();
+            PlantHarvestDescriptor harvestDescriptor = _descriptorService.Require<PlantHarvestDescriptor>();
+
+            foreach (PlantHarvestModel harvestModel in plantModel.Harvest) {
+                PlantHarvestDescriptorModel plantHarvestDescriptorModel = harvestDescriptor.Require(harvestModel.HarvestId);
+                PlantHarvestGrowDescriptor harvestGrowStage = plantHarvestDescriptorModel.HarvestGrowStages[harvestModel.Stage];
+                HarvestQuality currentQuality = harvestGrowStage.CurrentQuality;
+                if (currentQuality != HarvestQuality.None) {
+                    harvest.Add(new(plantHarvestDescriptorModel.HarvestItemId, currentQuality, 1));
+                }
+            }
+            
+            return harvest;
+        }
+
         private void TryGrowHarvest(PlantModel plantModel,
                                     PlantHarvestDescriptorModel harvestDescriptorModel,
                                     float growMultiplier,
@@ -85,9 +102,9 @@ namespace Game.Harvest.Service
 
                 float currentProgress = harvest.Progress;
                 float neededProgress = stageDescriptor.NextStageGrowDays;
-                if (currentProgress > neededProgress) {
+                if (currentProgress < neededProgress) {
                     harvest.Progress += growMultiplier * dayDifference;
-                    break;
+                    continue;
                 }
 
                 UpdateHarvestStage(harvestDescriptorModel, currentStage, harvest);
@@ -143,7 +160,7 @@ namespace Game.Harvest.Service
             }
 
             for (int i = 0; i < actualNewHarvest; i++) {
-                plantModel.Harvest.Add(new(harvestDescriptorId, 1f, harvestDescriptorModel.HarvestGrowStages.First().Key));
+                plantModel.Harvest.Add(new(harvestDescriptorId, 0f, harvestDescriptorModel.HarvestGrowStages.First().Key));
             }
         }
     }
