@@ -12,6 +12,7 @@ using Game.Fertilizers.Service;
 using Game.GameMap.Map.Service;
 using Game.GameMap.Tiles.Repo;
 using Game.GameMap.Tiles.Service;
+using Game.Harvest.PlantHarvest;
 using Game.Harvest.Service;
 using Game.Humidity.Service;
 using Game.Interactable.Handlers;
@@ -87,6 +88,7 @@ namespace Core.Scopes
             builder.Register<PieMenuPrepareFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<InteractionHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<PlantsParametersHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+            builder.Register<PlantHarvestHandlerFactory>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<EndDayService>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
             builder.Register<CalendarGenerationService>(Lifetime.Singleton);

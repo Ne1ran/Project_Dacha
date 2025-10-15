@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
+using Game.Difficulty.Model;
 using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Tiles.Event;
 using Game.GameMap.Tiles.Model;
@@ -20,7 +20,8 @@ namespace Game.Soil.Service
     public class WorldSoilService : IDisposable
     {
         private readonly IResourceService _resourceService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly MapDescriptor _mapDescriptor;
+        private readonly SoilDescriptor _soilDescriptor;
         private readonly IPublisher<string, SoilControllerCreatedEvent> _soilControllerCreatedPublisher;
 
         private readonly Dictionary<string, SoilController> _soilControllers = new();
@@ -28,13 +29,15 @@ namespace Game.Soil.Service
         private IDisposable? _disposable;
 
         public WorldSoilService(IResourceService resourceService,
-                                IDescriptorService descriptorService,
                                 IPublisher<string, SoilControllerCreatedEvent> soilControllerCreatedPublisher,
-                                ISubscriber<string, SoilUpdatedEvent> soilUpdatedSubscriber)
+                                ISubscriber<string, SoilUpdatedEvent> soilUpdatedSubscriber,
+                                MapDescriptor mapDescriptor,
+                                SoilDescriptor soilDescriptor)
         {
             _resourceService = resourceService;
-            _descriptorService = descriptorService;
             _soilControllerCreatedPublisher = soilControllerCreatedPublisher;
+            _mapDescriptor = mapDescriptor;
+            _soilDescriptor = soilDescriptor;
 
             DisposableBagBuilder disposableBag = DisposableBag.CreateBuilder();
             disposableBag.Add(soilUpdatedSubscriber.Subscribe(SoilUpdatedEvent.Updated, OnSoilUpdated));
@@ -49,10 +52,8 @@ namespace Game.Soil.Service
 
         public async UniTask<List<SoilController>> CreateSoilControllers(List<SingleTileModel> tiles)
         {
-            MapDescriptor mapDescriptor = _descriptorService.Require<MapDescriptor>();
-            SoilDescriptor soilDescriptor = _descriptorService.Require<SoilDescriptor>();
-            SoilType defaultSoilType = mapDescriptor.SoilType;
-            SoilDescriptorModel soilDescriptorModel = soilDescriptor.RequireByType(defaultSoilType);
+            SoilType defaultSoilType = _mapDescriptor.Require(DachaPlaceType.Middle).SoilType;
+            SoilDescriptorModel soilDescriptorModel = _soilDescriptor.Require(defaultSoilType);
             SoilVisualDescriptor soilVisualDescriptor = soilDescriptorModel.SoilVisualDescriptor;
 
             List<UniTask<SoilController>> soilControllers = new();

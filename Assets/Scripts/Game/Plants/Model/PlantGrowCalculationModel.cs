@@ -13,7 +13,9 @@ namespace Game.Plants.Model
         public bool BlockGrowth { get; set; }
         public bool BlockHealing { get; set; }
         public bool BlockImmunityGain { get; set; }
-
-        public SoilConsumptionModel Consumption { get; set; } = null!;
+        public bool BlockHarvestGrowth { get; set; }
+        public bool BlockNewHarvestSpawn { get; set; }
+        public SoilConsumptionModel PlantConsumption { get; set; } = null!;
+        public SoilConsumptionModel HarvestConsumption { get; set; } = null!;
     }
 }

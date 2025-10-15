@@ -12,263 +12,266 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863b2d7ec31d44ce87832950143fd0fb, type: 3}
   m_Name: SoilDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <SoilType>k__BackingField: 0
-    <Ph>k__BackingField: 6.5
-    <Salinity>k__BackingField: 0.05
-    <Breathability>k__BackingField: 0.65
-    <Humus>k__BackingField: 0.1
-    <Mass>k__BackingField: 1000
-    <RecoveryDays>k__BackingField: 180
-    <StartWaterAmount>k__BackingField: 50
-    <ElementsDescriptorModel>k__BackingField:
-      <StartNitrogen>k__BackingField: 350
-      <StartPotassium>k__BackingField: 300
-      <StartPhosphorus>k__BackingField: 250
-    <SoilVisualDescriptor>k__BackingField:
-      <BaseViewPrefab>k__BackingField:
-        m_AssetGUID: e41f2185f1c11a8409ff3cd219f789a1
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <BareSoilPrefab>k__BackingField:
-        m_AssetGUID: 93726edd0d284704eb79e85bd28de41e
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <TiltedPrefab>k__BackingField:
-        m_AssetGUID: 5c3ce9325b3e94e4ea46b4cad7ae2a44
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-      <TiltedAndWateredPrefab>k__BackingField:
-        m_AssetGUID: 8d59287f4b13e5446bf1c31c7c600f55
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-  - <SoilType>k__BackingField: 1
-    <Ph>k__BackingField: 3.5
-    <Salinity>k__BackingField: 0.05
-    <Breathability>k__BackingField: 0.1
-    <Humus>k__BackingField: 0.05
-    <Mass>k__BackingField: 750
-    <RecoveryDays>k__BackingField: 180
-    <StartWaterAmount>k__BackingField: 80
-    <ElementsDescriptorModel>k__BackingField:
-      <StartNitrogen>k__BackingField: 350
-      <StartPotassium>k__BackingField: 300
-      <StartPhosphorus>k__BackingField: 250
-    <SoilVisualDescriptor>k__BackingField:
-      <BaseViewPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <BareSoilPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedAndWateredPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-  - <SoilType>k__BackingField: 2
-    <Ph>k__BackingField: 6
-    <Salinity>k__BackingField: 0.1
-    <Breathability>k__BackingField: 0.25
-    <Humus>k__BackingField: 0.05
-    <Mass>k__BackingField: 1800
-    <RecoveryDays>k__BackingField: 180
-    <StartWaterAmount>k__BackingField: 65
-    <ElementsDescriptorModel>k__BackingField:
-      <StartNitrogen>k__BackingField: 350
-      <StartPotassium>k__BackingField: 300
-      <StartPhosphorus>k__BackingField: 250
-    <SoilVisualDescriptor>k__BackingField:
-      <BaseViewPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <BareSoilPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedAndWateredPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-  - <SoilType>k__BackingField: 3
-    <Ph>k__BackingField: 7
-    <Salinity>k__BackingField: 0.15
-    <Breathability>k__BackingField: 0.75
-    <Humus>k__BackingField: 0.015
-    <Mass>k__BackingField: 1200
-    <RecoveryDays>k__BackingField: 180
-    <StartWaterAmount>k__BackingField: 35
-    <ElementsDescriptorModel>k__BackingField:
-      <StartNitrogen>k__BackingField: 350
-      <StartPotassium>k__BackingField: 300
-      <StartPhosphorus>k__BackingField: 250
-    <SoilVisualDescriptor>k__BackingField:
-      <BaseViewPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <BareSoilPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedAndWateredPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-  - <SoilType>k__BackingField: 4
-    <Ph>k__BackingField: 6.5
-    <Salinity>k__BackingField: 0.15
-    <Breathability>k__BackingField: 0.1
-    <Humus>k__BackingField: 0.02
-    <Mass>k__BackingField: 2400
-    <RecoveryDays>k__BackingField: 180
-    <StartWaterAmount>k__BackingField: 85
-    <ElementsDescriptorModel>k__BackingField:
-      <StartNitrogen>k__BackingField: 350
-      <StartPotassium>k__BackingField: 300
-      <StartPhosphorus>k__BackingField: 250
-    <SoilVisualDescriptor>k__BackingField:
-      <BaseViewPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <BareSoilPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedAndWateredPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-  - <SoilType>k__BackingField: 5
-    <Ph>k__BackingField: 8.25
-    <Salinity>k__BackingField: 0.5
-    <Breathability>k__BackingField: 0.6
-    <Humus>k__BackingField: 0.025
-    <Mass>k__BackingField: 1400
-    <RecoveryDays>k__BackingField: 180
-    <StartWaterAmount>k__BackingField: 60
-    <ElementsDescriptorModel>k__BackingField:
-      <StartNitrogen>k__BackingField: 350
-      <StartPotassium>k__BackingField: 300
-      <StartPhosphorus>k__BackingField: 250
-    <SoilVisualDescriptor>k__BackingField:
-      <BaseViewPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <BareSoilPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedAndWateredPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-  - <SoilType>k__BackingField: 6
-    <Ph>k__BackingField: 5
-    <Salinity>k__BackingField: 0.1
-    <Breathability>k__BackingField: 0.2
-    <Humus>k__BackingField: 0.03
-    <Mass>k__BackingField: 1300
-    <RecoveryDays>k__BackingField: 180
-    <StartWaterAmount>k__BackingField: 70
-    <ElementsDescriptorModel>k__BackingField:
-      <StartNitrogen>k__BackingField: 350
-      <StartPotassium>k__BackingField: 300
-      <StartPhosphorus>k__BackingField: 250
-    <SoilVisualDescriptor>k__BackingField:
-      <BaseViewPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <BareSoilPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
-      <TiltedAndWateredPrefab>k__BackingField:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 0
+  _items:
+    m_Keys: 00000000010000000200000003000000040000000500000006000000
+    m_Values:
+    - <SoilType>k__BackingField: 0
+      <Ph>k__BackingField: 6.5
+      <Salinity>k__BackingField: 0.05
+      <Breathability>k__BackingField: 0.65
+      <Humus>k__BackingField: 0.1
+      <Mass>k__BackingField: 1000
+      <RecoveryDays>k__BackingField: 180
+      <StartWaterAmount>k__BackingField: 50
+      <ElementsDescriptorModel>k__BackingField:
+        <StartNitrogen>k__BackingField: 350
+        <StartPotassium>k__BackingField: 300
+        <StartPhosphorus>k__BackingField: 250
+      <SoilVisualDescriptor>k__BackingField:
+        <BaseViewPrefab>k__BackingField:
+          m_AssetGUID: e41f2185f1c11a8409ff3cd219f789a1
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <BareSoilPrefab>k__BackingField:
+          m_AssetGUID: 93726edd0d284704eb79e85bd28de41e
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <TiltedPrefab>k__BackingField:
+          m_AssetGUID: 5c3ce9325b3e94e4ea46b4cad7ae2a44
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+        <TiltedAndWateredPrefab>k__BackingField:
+          m_AssetGUID: 8d59287f4b13e5446bf1c31c7c600f55
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 1
+    - <SoilType>k__BackingField: 1
+      <Ph>k__BackingField: 3.5
+      <Salinity>k__BackingField: 0.05
+      <Breathability>k__BackingField: 0.1
+      <Humus>k__BackingField: 0.05
+      <Mass>k__BackingField: 750
+      <RecoveryDays>k__BackingField: 180
+      <StartWaterAmount>k__BackingField: 80
+      <ElementsDescriptorModel>k__BackingField:
+        <StartNitrogen>k__BackingField: 350
+        <StartPotassium>k__BackingField: 300
+        <StartPhosphorus>k__BackingField: 250
+      <SoilVisualDescriptor>k__BackingField:
+        <BaseViewPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <BareSoilPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedAndWateredPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+    - <SoilType>k__BackingField: 2
+      <Ph>k__BackingField: 6
+      <Salinity>k__BackingField: 0.1
+      <Breathability>k__BackingField: 0.25
+      <Humus>k__BackingField: 0.05
+      <Mass>k__BackingField: 1800
+      <RecoveryDays>k__BackingField: 180
+      <StartWaterAmount>k__BackingField: 65
+      <ElementsDescriptorModel>k__BackingField:
+        <StartNitrogen>k__BackingField: 350
+        <StartPotassium>k__BackingField: 300
+        <StartPhosphorus>k__BackingField: 250
+      <SoilVisualDescriptor>k__BackingField:
+        <BaseViewPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <BareSoilPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedAndWateredPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+    - <SoilType>k__BackingField: 3
+      <Ph>k__BackingField: 7
+      <Salinity>k__BackingField: 0.15
+      <Breathability>k__BackingField: 0.75
+      <Humus>k__BackingField: 0.015
+      <Mass>k__BackingField: 1200
+      <RecoveryDays>k__BackingField: 180
+      <StartWaterAmount>k__BackingField: 35
+      <ElementsDescriptorModel>k__BackingField:
+        <StartNitrogen>k__BackingField: 350
+        <StartPotassium>k__BackingField: 300
+        <StartPhosphorus>k__BackingField: 250
+      <SoilVisualDescriptor>k__BackingField:
+        <BaseViewPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <BareSoilPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedAndWateredPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+    - <SoilType>k__BackingField: 4
+      <Ph>k__BackingField: 6.5
+      <Salinity>k__BackingField: 0.15
+      <Breathability>k__BackingField: 0.1
+      <Humus>k__BackingField: 0.02
+      <Mass>k__BackingField: 2400
+      <RecoveryDays>k__BackingField: 180
+      <StartWaterAmount>k__BackingField: 85
+      <ElementsDescriptorModel>k__BackingField:
+        <StartNitrogen>k__BackingField: 350
+        <StartPotassium>k__BackingField: 300
+        <StartPhosphorus>k__BackingField: 250
+      <SoilVisualDescriptor>k__BackingField:
+        <BaseViewPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <BareSoilPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedAndWateredPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+    - <SoilType>k__BackingField: 5
+      <Ph>k__BackingField: 8.25
+      <Salinity>k__BackingField: 0.5
+      <Breathability>k__BackingField: 0.6
+      <Humus>k__BackingField: 0.025
+      <Mass>k__BackingField: 1400
+      <RecoveryDays>k__BackingField: 180
+      <StartWaterAmount>k__BackingField: 60
+      <ElementsDescriptorModel>k__BackingField:
+        <StartNitrogen>k__BackingField: 350
+        <StartPotassium>k__BackingField: 300
+        <StartPhosphorus>k__BackingField: 250
+      <SoilVisualDescriptor>k__BackingField:
+        <BaseViewPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <BareSoilPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedAndWateredPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+    - <SoilType>k__BackingField: 6
+      <Ph>k__BackingField: 5
+      <Salinity>k__BackingField: 0.1
+      <Breathability>k__BackingField: 0.2
+      <Humus>k__BackingField: 0.03
+      <Mass>k__BackingField: 1300
+      <RecoveryDays>k__BackingField: 180
+      <StartWaterAmount>k__BackingField: 70
+      <ElementsDescriptorModel>k__BackingField:
+        <StartNitrogen>k__BackingField: 350
+        <StartPotassium>k__BackingField: 300
+        <StartPhosphorus>k__BackingField: 250
+      <SoilVisualDescriptor>k__BackingField:
+        <BaseViewPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <BareSoilPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+        <TiltedAndWateredPrefab>k__BackingField:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_SubObjectGUID: 
+          m_EditorAssetChanged: 0
+  <Items>k__BackingField: []

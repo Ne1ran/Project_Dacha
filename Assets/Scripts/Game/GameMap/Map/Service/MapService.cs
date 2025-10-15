@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Cysharp.Threading.Tasks;
+using Game.Difficulty.Model;
 using Game.GameMap.Map.Descriptor;
 using Game.GameMap.Tiles.Model;
 using Game.GameMap.Tiles.Service;
@@ -18,29 +18,28 @@ namespace Game.GameMap.Map.Service
         private readonly WorldTileService _worldTileService;
         private readonly WorldSoilService _worldSoilService;
         private readonly WorldPlantsService _worldPlantsService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly MapDescriptor _mapDescriptor;
 
         public MapService(TileService tileService,
                           WorldTileService worldTileService,
-                          IDescriptorService descriptorService,
                           WorldSoilService worldSoilService,
-                          WorldPlantsService worldPlantsService)
+                          WorldPlantsService worldPlantsService,
+                          MapDescriptor mapDescriptor)
         {
             _tileService = tileService;
             _worldTileService = worldTileService;
-            _descriptorService = descriptorService;
             _worldSoilService = worldSoilService;
             _worldPlantsService = worldPlantsService;
+            _mapDescriptor = mapDescriptor;
         }
 
         public async UniTask InitializeMapAsync()
         {
-            MapDescriptor mapDescriptor = _descriptorService.Require<MapDescriptor>();
-
+            MapModelDescriptor mapModelDescriptor = _mapDescriptor.Require(DachaPlaceType.Middle);
             List<SingleTileModel> tiles = _tileService.GetTiles();
             if (tiles.Count == 0) {
-                List<Vector3> mapTilesPositions =
-                        CreateMapTilesPositions(mapDescriptor.TileMainPoint, mapDescriptor.TileLength, mapDescriptor.Length, mapDescriptor.Width);
+                List<Vector3> mapTilesPositions = CreateMapTilesPositions(mapModelDescriptor.TileMainPoint, mapModelDescriptor.TileLength,
+                                                                          mapModelDescriptor.Length, mapModelDescriptor.Width);
                 tiles = _tileService.CreateTiles(mapTilesPositions);
             }
 

@@ -10,8 +10,6 @@ namespace Game.Seeds.Descriptors
     [Serializable]
     public class SeedsDescriptorModel
     {
-        [field: SerializeField]
-        public string Id { get; set; } = null!;
         [field: SerializeField, ValueDropdown("GetPlantIds")]
         public string PlantId { get; set; } = null!;
         [field: SerializeField]
@@ -29,8 +27,8 @@ namespace Game.Seeds.Descriptors
         {
             PlantsDescriptor plantsDescriptor = Resources.Load<PlantsDescriptor>("Descriptors/PlantsDescriptor");
             List<string> result = new();
-            foreach (PlantsDescriptorModel pdm in plantsDescriptor.Items) {
-                result.Add(pdm.Id);
+            foreach (string id in plantsDescriptor.Items.Keys) {
+                result.Add(id);
             }
 
             return result;

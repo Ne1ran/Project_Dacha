@@ -3,9 +3,9 @@ using Core.Notifications.Service;
 using Core.Parameters;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
-using Game.Harvest.Service;
 using Game.Inventory.Service;
 using Game.PieMenu.Model;
+using Game.Plants.Service;
 using VContainer;
 
 namespace Game.Interactable.Handlers.Plant
@@ -16,7 +16,7 @@ namespace Game.Interactable.Handlers.Plant
         [Inject]
         private readonly InventoryService _inventoryService = null!;
         [Inject]
-        private readonly PlantHarvestService _plantHarvestService = null!;
+        private readonly PlantsService _plantsService = null!;
         [Inject]
         private readonly NotificationManager _notificationManager = null!;
 
@@ -28,7 +28,7 @@ namespace Game.Interactable.Handlers.Plant
             }
 
             string tileId = parameters.Require<string>(ParameterNames.TileId);
-            if (!_plantHarvestService.TryHarvestPlant(tileId)) {
+            if (!_plantsService.TryHarvestPlant(tileId)) {
                 _notificationManager.ShowNotification(NotificationType.CannotHarvestPlant).Forget();
             }
             

@@ -8,8 +8,6 @@ namespace Game.Fertilizers.Descriptor
     public class FertilizerDescriptorModel
     {
         [field: SerializeField]
-        public string Id { get; set; } = string.Empty;
-        [field: SerializeField]
         public FertilizerType Type { get; set; } = FertilizerType.Mineral;
         [field: SerializeField, Range(100f, 5000f), Tooltip("Starting fertilizer mass")]
         public float StartMass { get; set; } = 1000f;

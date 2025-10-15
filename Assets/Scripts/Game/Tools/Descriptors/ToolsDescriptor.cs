@@ -1,17 +1,13 @@
-using System.Collections.Generic;
 using Core.Attributes;
-using Sirenix.OdinInspector;
+using Core.Descriptors.Descriptor;
 using UnityEngine;
 
 namespace Game.Tools.Descriptors
 {
     [CreateAssetMenu(fileName = "ToolsDescriptor", menuName = "Dacha/Descriptors/ToolsDescriptor")]
     [Descriptor("Descriptors/" + nameof(ToolsDescriptor))]
-    public class ToolsDescriptor : ScriptableObject
+    public class ToolsDescriptor : Descriptor<string, ToolsDescriptorModel>
     {
-        [field: SerializeField]
-        [TableList]
-        public List<ToolsDescriptorModel> Items { get; private set; } = new();
-
+        
     }
 }

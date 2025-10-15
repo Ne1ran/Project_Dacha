@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ee2618a4574b4bb717d0589c3af96c, type: 3}
   m_Name: StressDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
+  _items:
     m_Keys: 0a0000000b00000014000000
     m_Values:
     - <SymptomsShowThreshold>k__BackingField: 0.25
@@ -39,3 +39,6 @@ MonoBehaviour:
       <Symptoms>k__BackingField:
       - BadGrowth
       - LeavesColorChange
+  <Items>k__BackingField:
+    m_Keys: 
+    m_Values: []

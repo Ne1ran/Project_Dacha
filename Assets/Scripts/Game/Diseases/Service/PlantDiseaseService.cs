@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Game.Diseases.Descriptor;
 using Game.Diseases.Model;
 using Game.GameMap.Tiles.Service;
@@ -17,34 +16,32 @@ namespace Game.Diseases.Service
     [Service]
     public class PlantDiseaseService
     {
-        private readonly IDescriptorService _descriptorService;
         private readonly PlantsRepo _plantsRepo;
         private readonly SoilService _soilService;
         private readonly WorldTileService _worldTileService;
+        private readonly DiseasesDescriptor _diseasesDescriptor;
 
-        public PlantDiseaseService(IDescriptorService descriptorService,
-                                   PlantsRepo plantsRepo,
+        public PlantDiseaseService(PlantsRepo plantsRepo,
                                    WorldTileService worldTileService,
-                                   SoilService soilService)
+                                   SoilService soilService,
+                                   DiseasesDescriptor diseasesDescriptor)
         {
-            _descriptorService = descriptorService;
             _plantsRepo = plantsRepo;
             _worldTileService = worldTileService;
             _soilService = soilService;
+            _diseasesDescriptor = diseasesDescriptor;
         }
 
         public void UpdatePlantDiseases(ref PlantModel plant, PlantsDescriptorModel plantsDescriptorModel, string soilId)
         {
-            DiseasesDescriptor diseasesDescriptor = _descriptorService.Require<DiseasesDescriptor>();
-            TryIncreaseDiseasesGrowth(ref plant, diseasesDescriptor, soilId);
-            TryGetInfected(ref plant, plantsDescriptorModel, soilId, diseasesDescriptor);
+            TryIncreaseDiseasesGrowth(ref plant, soilId);
+            TryGetInfected(ref plant, plantsDescriptorModel, soilId);
         }
 
         public void CheckSymptoms(PlantModel plantModel)
         {
-            DiseasesDescriptor diseasesDescriptor = _descriptorService.Require<DiseasesDescriptor>();
             foreach (DiseaseModel disease in plantModel.DiseaseModels) {
-                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Items.Find(modelDescriptor => modelDescriptor.Id == disease.Id);
+                DiseaseModelDescriptor? diseaseModelDescriptor = _diseasesDescriptor.Get(disease.Id);
                 if (diseaseModelDescriptor == null) {
                     Debug.LogWarning($"Disease model descriptor not found with id={disease.Id}");
                     continue;
@@ -87,11 +84,11 @@ namespace Game.Diseases.Service
             disease.KnownSymptoms.Add(randomUnknownSymptom);
         }
 
-        private void TryIncreaseDiseasesGrowth(ref PlantModel plant, DiseasesDescriptor diseasesDescriptor, string soilId)
+        private void TryIncreaseDiseasesGrowth(ref PlantModel plant, string soilId)
         {
             for (int i = 0; i < plant.DiseaseModels.Count; i++) {
                 DiseaseModel diseaseModel = plant.DiseaseModels[i];
-                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Items.Find(disease => disease.Id == diseaseModel.Id);
+                DiseaseModelDescriptor? diseaseModelDescriptor = _diseasesDescriptor.Get(diseaseModel.Id);
                 if (diseaseModelDescriptor == null) {
                     Debug.LogWarning($"Disease model descriptor not found with id={diseaseModel.Id}");
                     continue;
@@ -199,33 +196,29 @@ namespace Game.Diseases.Service
             diseaseModel.CurrentGrowth = 0f;
         }
 
-        private void TryGetInfected(ref PlantModel plant,
-                                    PlantsDescriptorModel plantsDescriptorModel,
-                                    string soilId,
-                                    DiseasesDescriptor diseasesDescriptor)
+        private void TryGetInfected(ref PlantModel plant, PlantsDescriptorModel plantsDescriptorModel, string soilId)
         {
-            foreach (DiseaseModelDescriptor diseaseModelDescriptor in diseasesDescriptor.Items) {
-                if (!diseaseModelDescriptor.AffectedPlants.Contains(plantsDescriptorModel.FamilyType)) {
+            foreach ((string id, DiseaseModelDescriptor descriptor) in _diseasesDescriptor.Items) {
+                if (!descriptor.AffectedPlants.Contains(plantsDescriptorModel.FamilyType)) {
                     continue;
                 }
 
-                float infectionChance = CalculateInfectionChance(plant, diseaseModelDescriptor.InfectionModel);
-                float nearbyMultiplier = CalculateNearbyPlantsMultiplier(plant, diseaseModelDescriptor, soilId);
+                float infectionChance = CalculateInfectionChance(plant, descriptor.InfectionModel);
+                float nearbyMultiplier = CalculateNearbyPlantsMultiplier(plant, id, descriptor.InfectionModel, soilId);
 
                 infectionChance *= nearbyMultiplier;
 
                 float random = Random.Range(0f, 1f);
                 if (infectionChance > random) {
-                    Debug.Log($"Plant has been infected! PlantId={plant.PlantId}, infectionId={diseaseModelDescriptor.Id}, infectionChance={infectionChance}, nearbyMultiplier={nearbyMultiplier}");
-                    plant.DiseaseModels.Add(new(diseaseModelDescriptor.Id, 1, 0f));
+                    Debug.Log($"Plant has been infected! PlantId={plant.PlantId}, infectionId={id}, infectionChance={infectionChance}, nearbyMultiplier={nearbyMultiplier}");
+                    plant.DiseaseModels.Add(new(id, 1, 0f));
                 }
             }
         }
 
-        private float CalculateNearbyPlantsMultiplier(PlantModel plant, DiseaseModelDescriptor diseaseModelDescriptor, string soilId)
+        private float CalculateNearbyPlantsMultiplier(PlantModel plant, string diseaseId, DiseaseInfectionModel diseaseInfectionModel, string soilId)
         {
             float multiplier = 0f;
-            DiseaseInfectionModel diseaseInfectionModel = diseaseModelDescriptor.InfectionModel;
             int range = diseaseInfectionModel.GetMaxTileRange();
 
             Dictionary<string, int> nearbyTiles = _worldTileService.GetNearbyTiles(soilId, range);
@@ -243,14 +236,14 @@ namespace Game.Diseases.Service
                     continue;
                 }
 
-                DiseaseModel? plantDisease = nearbyPlant.DiseaseModels.Find(disease => disease.Id == diseaseModelDescriptor.Id);
+                DiseaseModel? plantDisease = nearbyPlant.DiseaseModels.Find(disease => disease.Id == diseaseId);
                 if (plantDisease == null) {
                     continue;
                 }
 
                 TileRangePair? tileRangePair = diseaseInfectionModel.TileRangeMultipliers.Find(pair => pair.TileRange == tileRange);
                 if (tileRangePair == null) {
-                    Debug.LogWarning($"Tile range multiplier mismatch. This should not be possible. PlantId={plant.PlantId}, diseaseId={diseaseModelDescriptor.Id}, tileRange={tileRange}");
+                    Debug.LogWarning($"Tile range multiplier mismatch. This should not be possible. PlantId={plant.PlantId}, diseaseId={diseaseId}, tileRange={tileRange}");
                     continue;
                 }
 
@@ -285,12 +278,10 @@ namespace Game.Diseases.Service
 
         public List<SavedDiseaseModel> GetSavedDiseases(PlantModel plantModel)
         {
-            DiseasesDescriptor diseasesDescriptor = _descriptorService.Require<DiseasesDescriptor>();
-
             List<SavedDiseaseModel> savedDiseaseModels = new();
 
             foreach (DiseaseModel disease in plantModel.DiseaseModels) {
-                DiseaseModelDescriptor? diseaseModelDescriptor = diseasesDescriptor.Items.Find(diseaseModel => diseaseModel.Id == disease.Id);
+                DiseaseModelDescriptor? diseaseModelDescriptor = _diseasesDescriptor.Get(disease.Id);
                 if (diseaseModelDescriptor == null) {
                     Debug.LogWarning($"Disease does not exist with id={disease.Id}");
                     continue;

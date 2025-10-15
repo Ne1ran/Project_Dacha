@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.Calendar.Model;
 using Game.Evaporation.Descriptor;
 using UnityEngine;
 
@@ -8,8 +7,6 @@ namespace Game.Calendar.Descriptor
     [Serializable]
     public class CalendarMonthModel
     {
-        [field: SerializeField]
-        public MonthType Month { get; set; }
         [field: SerializeField]
         public string Name { get; set; } = string.Empty;
         [field: SerializeField]

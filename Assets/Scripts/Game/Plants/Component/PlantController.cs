@@ -1,10 +1,10 @@
 ﻿using System;
-using Core.Descriptors.Service;
 using Core.Parameters;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Common.Controller;
+using Game.Difficulty.Model;
 using Game.GameMap.Map.Descriptor;
 using Game.Interactable.Model;
 using Game.PieMenu.Service;
@@ -20,7 +20,9 @@ namespace Game.Plants.Component
     public class PlantController : MonoBehaviour, IInteractableComponent
     {
         [Inject]
-        private readonly IDescriptorService _descriptorService = null!;
+        private readonly MapDescriptor _mapDescriptor = null!;
+        [Inject]
+        private readonly PlantsDescriptor _plantsDescriptor = null!;
         [Inject]
         private readonly IResourceService _resourceService = null!;
         [Inject]
@@ -42,13 +44,12 @@ namespace Game.Plants.Component
 
         private async UniTask PlaceAllPlantsAsync(PlantModel plantModel)
         {
-            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
-            PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.RequirePlant(plantModel.PlantId);
+            PlantsDescriptorModel plantsDescriptorModel = _plantsDescriptor.Require(plantModel.PlantId);
             string visualPrefabPath;
             if (plantModel.CurrentStage == PlantGrowStage.DEAD) {
                 visualPrefabPath = plantsDescriptorModel.Visualization.DeadPrefab.AssetGUID;
             } else {
-                PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.RequireStage(plantModel.CurrentStage);
+                PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.Stages[plantModel.CurrentStage];
                 visualPrefabPath = plantStageDescriptor.Prefab.AssetGUID;
             }
             
@@ -56,8 +57,9 @@ namespace Game.Plants.Component
                 return;
             }
 
-            MapDescriptor mapDescriptor = _descriptorService.Require<MapDescriptor>();
-            int tileLength = mapDescriptor.TileLength;
+            MapModelDescriptor mapModelDescriptor = _mapDescriptor.Require(DachaPlaceType.Middle);
+            
+            int tileLength = mapModelDescriptor.TileLength;
             int plantsCount = plantsDescriptorModel.PlantsCount;
             PlantVisualizationDescriptor plantVisualizationDescriptor = plantsDescriptorModel.Visualization;
             if (_plantPlaceStrategy == null) {
@@ -70,11 +72,12 @@ namespace Game.Plants.Component
 
         public void UpdatePlantsIfNeeded(PlantModel newPlantModel)
         {
-            if (_plantModel.CurrentStage == _currentStage) {
+            if (newPlantModel.CurrentStage == _currentStage) {
                 return;
             }
 
-            _currentStage = _plantModel.CurrentStage;
+            _plantModel = newPlantModel;
+            _currentStage = newPlantModel.CurrentStage;
             
             if (_plantPlaceStrategy == null) {
                 Debug.LogWarning("Plant place strategy is null. This should not be possible!");
@@ -82,7 +85,7 @@ namespace Game.Plants.Component
             }
 
             _plantPlaceStrategy.RemoveAll();
-            PlaceAllPlantsAsync(_plantModel).Forget();
+            PlaceAllPlantsAsync(newPlantModel).Forget();
         }
 
         private IPlantPlaceStrategy SelectPlaceStrategy(PlantVisualizationType visualizationType)

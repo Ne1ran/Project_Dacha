@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f40a2955ad4a31859d64755bf78f3a, type: 3}
   m_Name: TemperatureDistributionDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <PlaceType>k__BackingField: 5
-    <TemperatureDistribution>k__BackingField:
-      m_Keys: 01000000030000000500000006000000070000000a0000000e00000010000000120000001500000018000000
+  _items:
+    m_Keys: 050000000a0000000f000000
+    m_Values:
+    - m_Keys: 01000000030000000500000006000000070000000a0000000e00000010000000120000001500000018000000
       m_Values:
       - -0.75
       - 0
@@ -28,9 +28,7 @@ MonoBehaviour:
       - 0
       - 0
       - 0
-  - <PlaceType>k__BackingField: 10
-    <TemperatureDistribution>k__BackingField:
-      m_Keys: 01000000030000000400000005000000080000000c0000000f000000120000001500000018000000
+    - m_Keys: 01000000030000000400000005000000080000000c0000000f000000120000001500000018000000
       m_Values:
       - 0.25
       - 0.4
@@ -42,9 +40,7 @@ MonoBehaviour:
       - 0.85
       - 0.6
       - 0.3
-  - <PlaceType>k__BackingField: 15
-    <TemperatureDistribution>k__BackingField:
-      m_Keys: 010000000300000005000000070000000c0000000f000000120000001500000018000000
+    - m_Keys: 010000000300000005000000070000000c0000000f000000120000001500000018000000
       m_Values:
       - 0
       - 0
@@ -55,3 +51,4 @@ MonoBehaviour:
       - 0
       - 0
       - 0
+  <Items>k__BackingField: []

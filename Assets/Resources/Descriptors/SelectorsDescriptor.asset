@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71ef6cfbb1b4ba9852488d13c928e46, type: 3}
   m_Name: SelectorsDescriptor
   m_EditorClassIdentifier: 
-  <Items>k__BackingField:
-  - <Id>k__BackingField: bucket10
-    <MinValue>k__BackingField: 1
-    <MaxValue>k__BackingField: 10
-    <StartValue>k__BackingField: 5
-    <StepValue>k__BackingField: 0.5
-    <RoundDigits>k__BackingField: 1
+  _items:
+    m_Keys:
+    - bucket10
+    m_Values:
+    - <Id>k__BackingField: bucket10
+      <MinValue>k__BackingField: 1
+      <MaxValue>k__BackingField: 10
+      <StartValue>k__BackingField: 5
+      <StepValue>k__BackingField: 0.5
+      <RoundDigits>k__BackingField: 1
+  <Items>k__BackingField: []

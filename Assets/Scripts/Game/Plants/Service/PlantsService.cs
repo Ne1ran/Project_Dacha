@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Game.Calendar.Event;
 using Game.Diseases.Model;
 using Game.Diseases.Service;
+using Game.Harvest.Model;
+using Game.Harvest.Service;
+using Game.Inventory.Model;
+using Game.Inventory.Service;
 using Game.Plants.Descriptors;
 using Game.Plants.Event;
 using Game.Plants.Model;
@@ -29,26 +32,41 @@ namespace Game.Plants.Service
         private readonly PlantsRepo _plantsRepo;
         private readonly PlantsParametersHandlerFactory _plantsParametersHandlerFactory;
         private readonly SoilService _soilService;
+        private readonly InventoryService _inventoryService;
         private readonly PlantDiseaseService _plantDiseaseService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly PlantHarvestService _plantHarvestService;
+        private readonly PlantsDescriptor _plantsDescriptor;
+        private readonly SeedsDescriptor _seedsDescriptor;
+        private readonly StressDescriptor _stressDescriptor;
+        private readonly SymptomsDescriptor _symptomsDescriptor;
         private readonly IPublisher<string, PlantUpdatedEvent> _plantUpdatedEvent;
 
         private IDisposable? _disposable;
 
         public PlantsService(PlantsRepo plantsRepo,
-                             IDescriptorService descriptorService,
                              ISubscriber<string, DayChangedEvent> dayChangedSubscriber,
                              SoilService soilService,
                              PlantDiseaseService plantDiseaseService,
                              IPublisher<string, PlantUpdatedEvent> plantUpdatedEvent,
-                             PlantsParametersHandlerFactory plantsParametersHandlerFactory)
+                             PlantsParametersHandlerFactory plantsParametersHandlerFactory,
+                             InventoryService inventoryService,
+                             PlantHarvestService plantHarvestService,
+                             PlantsDescriptor plantsDescriptor,
+                             SeedsDescriptor seedsDescriptor,
+                             StressDescriptor stressDescriptor,
+                             SymptomsDescriptor symptomsDescriptor)
         {
             _plantsRepo = plantsRepo;
-            _descriptorService = descriptorService;
             _soilService = soilService;
             _plantDiseaseService = plantDiseaseService;
             _plantUpdatedEvent = plantUpdatedEvent;
             _plantsParametersHandlerFactory = plantsParametersHandlerFactory;
+            _inventoryService = inventoryService;
+            _plantHarvestService = plantHarvestService;
+            _plantsDescriptor = plantsDescriptor;
+            _seedsDescriptor = seedsDescriptor;
+            _stressDescriptor = stressDescriptor;
+            _symptomsDescriptor = symptomsDescriptor;
 
             DisposableBagBuilder bag = DisposableBag.CreateBuilder();
 
@@ -100,56 +118,6 @@ namespace Game.Plants.Service
             return new(plantModel);
         }
 
-        private void CheckStressSymptoms(PlantModel plantModel)
-        {
-            StressDescriptor stressDescriptor = _descriptorService.Require<StressDescriptor>();
-            SymptomsDescriptor symptomsDescriptor = _descriptorService.Require<SymptomsDescriptor>();
-            foreach ((StressType stressType, StressModel stressModel) in plantModel.Stress) {
-                if (!stressDescriptor.Items.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
-                    continue;
-                }
-
-                if (stressDescriptorItem.SymptomsShowThreshold > stressModel.StressValue) {
-                    continue;
-                }
-
-                float showSymptomRoll = UnityEngine.Random.Range(0f, 1f);
-                if (showSymptomRoll < stressDescriptorItem.SymptomShowChance) {
-                    continue;
-                }
-
-                List<string> allSymptoms = stressDescriptorItem.Symptoms;
-                if (stressDescriptorItem.PlantFamilySymptoms.TryGetValue(plantModel.FamilyType, out List<string> plantFamilySymptoms)) {
-                    allSymptoms.AddRange(plantFamilySymptoms);
-                }
-
-                List<string> possibleSymptoms = GetPossibleSymptoms(ref allSymptoms, symptomsDescriptor, plantModel.FamilyType);
-                if (possibleSymptoms.Count == 0) {
-                    continue;
-                }
-
-                string selectedSymptom = possibleSymptoms.PickRandom();
-                stressModel.StressSymptoms.Add(selectedSymptom);
-            }
-        }
-
-        private List<string> GetPossibleSymptoms(ref List<string> allSymptoms, SymptomsDescriptor symptomsDescriptor, PlantFamilyType plantFamilyType)
-        {
-            for (int i = 0; i < allSymptoms.Count; i++) {
-                string symptom = allSymptoms[i];
-                if (!symptomsDescriptor.Items.TryGetValue(symptom, out SymptomDescriptorModel descriptorModel)) {
-                    allSymptoms.Remove(symptom);
-                    continue;
-                }
-
-                if (descriptorModel.BannedFamilyTypes.Contains(plantFamilyType)) {
-                    allSymptoms.Remove(symptom);
-                }
-            }
-
-            return allSymptoms;
-        }
-
         public void RemovePlant(string tileId)
         {
             PlantModel? plantModel = _plantsRepo.Get(tileId);
@@ -171,39 +139,54 @@ namespace Game.Plants.Service
                 return;
             }
 
-            SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
-            SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Items.Find(seed => seed.Id == seedId);
-            if (seedsDescriptorModel == null) {
-                Debug.LogWarning($"Seed descriptor not found seedId={seedId}");
-                return;
-            }
-
+            SeedsDescriptorModel seedsDescriptorModel = _seedsDescriptor.Require(seedId);
             CreatePlant(seedsDescriptorModel.PlantId, tileId, seedsDescriptorModel.StartHealth, seedsDescriptorModel.StartImmunity);
         }
 
         public void CreatePlant(string plantId, string tileId, float startHealth, float startImmunity)
         {
-            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
-            PlantsDescriptorModel? plantsDescriptorModel = plantsDescriptor.Items.Find(plant => plant.Id == plantId);
-            if (plantsDescriptorModel == null) {
-                Debug.LogWarning($"Plant not found plantId={plantId}");
-                return;
-            }
-
+            PlantsDescriptorModel plantsDescriptorModel = _plantsDescriptor.Require(plantId);
             PlantModel plantModel = new(plantId, plantsDescriptorModel.FamilyType, PlantGrowStage.SEED, startHealth, startImmunity);
             _plantUpdatedEvent.Publish(PlantUpdatedEvent.Created, new(tileId, plantModel));
             _plantsRepo.Save(tileId, plantModel);
+        }
+
+        public bool TryHarvestPlant(string tileId)
+        {
+            PlantModel? plantModel = GetPlant(tileId);
+            if (plantModel == null) {
+                Debug.LogWarning($"Plant not found on tile={tileId}");
+                return false;
+            }
+
+            List<HarvestModel> allHarvestFromPlant = _plantHarvestService.GetAllHarvestFromPlant(plantModel);
+            foreach (HarvestModel harvestModel in allHarvestFromPlant) {
+                Debug.Log($"Harvesting plant={plantModel.PlantId}. HarvestItemId={harvestModel.HarvestInventoryItemId}, HarvestQuality={harvestModel.HarvestQuality}");
+            }
+
+            // temporary. need new inventory system. 
+            if (!_inventoryService.TryAddItemToInventory(allHarvestFromPlant[0].HarvestInventoryItemId, ItemType.HARVEST)) {
+                return false;
+            }
+
+            Debug.Log($"Harvested plant={plantModel.PlantId}");
+            // todo neiran add check if plant should be removed after harvest
+            RemovePlant(tileId);
+            return true;
         }
 
         private void OnDayFinished(DayChangedEvent evt)
         {
             Dictionary<string, PlantModel> plants = _plantsRepo.GetAll();
 
-            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
             foreach ((string tileId, PlantModel plant) in plants) {
+                if (plant.CurrentStage == PlantGrowStage.DEAD) {
+                    return;
+                }
+
                 try {
-                    PlantModel plantModel = plant;
-                    PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.RequirePlant(plantModel.PlantId);
+                    PlantModel plantModel = plant; // foreach and ref handle
+                    PlantsDescriptorModel plantsDescriptorModel = _plantsDescriptor.Require(plantModel.PlantId);
                     SimulatePlantLife(ref plantModel, tileId, plantsDescriptorModel, evt.DayDifference);
                     if (plantModel.CurrentStage != PlantGrowStage.DEAD) {
                         _plantDiseaseService.UpdatePlantDiseases(ref plantModel, plantsDescriptorModel, tileId);
@@ -219,13 +202,13 @@ namespace Game.Plants.Service
         private void SimulatePlantLife(ref PlantModel plant, string soilId, PlantsDescriptorModel plantsDescriptorModel, int dayDifference)
         {
             PlantGrowStage plantCurrentStage = plant.CurrentStage;
-            if (plant.CurrentStage == PlantGrowStage.DEAD) {
-                return;
-            }
 
-            PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.RequireStage(plantCurrentStage);
+            PlantStageDescriptor plantStageDescriptor = plantsDescriptorModel.Stages[plantCurrentStage];
             PlantGrowCalculationModel growModel = GetGrowModel(plant, soilId, dayDifference, plantsDescriptorModel, plantStageDescriptor);
-            ApplyGrowCalculationModel(plant, soilId, growModel);
+            SoilConsumptionModel harvestConsumption = _plantHarvestService.GetHarvestConsumption(plant, growModel.GrowMultiplier, dayDifference);
+            growModel.HarvestConsumption = harvestConsumption;
+
+            ApplyGrowCalculationModel(ref plant, soilId, plantsDescriptorModel, growModel, dayDifference);
             Debug.Log($"Plant life simulation. GrowCalcModel: growMultiplier={growModel.GrowMultiplier}, damage={growModel.Damage}");
             if (plant.CurrentStage == PlantGrowStage.DEAD) {
                 Debug.LogWarning($"Plant have died. Damage={growModel.Damage}, StressReasons={string.Join(", ", growModel.Stress.Keys.ToList())}");
@@ -275,8 +258,29 @@ namespace Game.Plants.Service
             float randomGrowthNoise = UnityEngine.Random.Range(-plantsDescriptorModel.PlantGrowNoise, plantsDescriptorModel.PlantGrowNoise);
             growModel.GrowMultiplier = Mathf.Max(growModel.GrowMultiplier + randomGrowthNoise, 0f);
 
-            List<IPlantParameters> parametersList = new();
-            parametersList.Add(plantsDescriptorModel.PhParameters);
+            List<IPlantParameters> parametersList = GetPlantParameters(plantsDescriptorModel, plantStageDescriptor);
+
+            foreach (IPlantParameters plantParameters in parametersList) {
+                _plantsParametersHandlerFactory.Create(plantParameters.ParametersType.ToString())
+                                               .ApplyParameters(plantParameters, growModel, soilModel);
+            }
+
+            CalculatePlantConsumption(plantStageDescriptor.PlantConsumption, soilModel, plantStageDescriptor.AverageGrowTime, dayDifference,
+                                      ref growModel);
+
+            if (plant.CurrentStage != PlantGrowStage.SEED) {
+                ApplyStress(plant, plantsDescriptorModel.StressParameters, ref growModel);
+            }
+
+            return growModel;
+        }
+
+        private List<IPlantParameters> GetPlantParameters(PlantsDescriptorModel plantsDescriptorModel, PlantStageDescriptor plantStageDescriptor)
+        {
+            List<IPlantParameters> parametersList = new() {
+                    plantsDescriptorModel.PhParameters
+            };
+
             if (plantStageDescriptor.IncludeSunlight) {
                 parametersList.Add(plantStageDescriptor.SunlightParameters);
             }
@@ -296,20 +300,7 @@ namespace Game.Plants.Service
             if (plantStageDescriptor.IncludeSalinity) {
                 parametersList.Add(plantStageDescriptor.SalinityParameters);
             }
-
-            foreach (IPlantParameters plantParameters in parametersList) {
-                _plantsParametersHandlerFactory.Create(plantParameters.ParametersType.ToString())
-                                               .ApplyParameters(plantParameters, growModel, soilModel);
-            }
-
-            CalculateConsumption(plantStageDescriptor.PlantConsumption, soilModel, plantStageDescriptor.AverageGrowTime, dayDifference,
-                                 ref growModel);
-
-            if (plant.CurrentStage != PlantGrowStage.SEED) {
-                ApplyStress(plant, plantsDescriptorModel.StressParameters, ref growModel);
-            }
-
-            return growModel;
+            return parametersList;
         }
 
         private void ApplyStress(PlantModel plant, PlantStressParameters stressParameters, ref PlantGrowCalculationModel growModel)
@@ -334,11 +325,15 @@ namespace Game.Plants.Service
             float blockGrowthThreshold = stressParameters.MaxStress * stressParameters.BlockGrowthThreshold;
             float damageThreshold = stressParameters.MaxStress * stressParameters.DealDamageThreshold;
 
+            bool isDamaging = maxStress > damageThreshold;
+
             growModel.BlockHealing = maxStress > blockHealingThreshold;
             growModel.BlockImmunityGain = maxStress > blockImmunityGainThreshold;
             growModel.BlockGrowth = maxStress > blockGrowthThreshold;
+            growModel.BlockHarvestGrowth = maxStress > blockGrowthThreshold;
+            growModel.BlockNewHarvestSpawn = isDamaging;
 
-            if (maxStress > damageThreshold) {
+            if (isDamaging) {
                 growModel.Damage += maxStress * stressParameters.StressDamageMultiplier;
             }
         }
@@ -366,21 +361,36 @@ namespace Game.Plants.Service
                                          Constants.Constants.MaxImmunity);
         }
 
-        private void ApplyGrowCalculationModel(PlantModel plant, string soilId, PlantGrowCalculationModel calculationModel)
+        private void ApplyGrowCalculationModel(ref PlantModel plant,
+                                               string soilId,
+                                               PlantsDescriptorModel plantsDescriptorModel,
+                                               PlantGrowCalculationModel growModel,
+                                               int dayDifference)
         {
-            if (calculationModel.Damage > 0) {
-                float decreaseImmunity = plant.DecreaseImmunity(calculationModel.Damage);
+            if (growModel.Damage > 0) {
+                float decreaseImmunity = plant.DecreaseImmunity(growModel.Damage);
                 float damageChance = Mathf.Clamp(decreaseImmunity / 100f, 0.05f, 0.95f);
                 float damageRoll = UnityEngine.Random.Range(0f, 1f);
                 if (damageRoll > damageChance) {
-                    plant.DealDamage(calculationModel.Damage);
+                    plant.DealDamage(growModel.Damage);
                 }
             }
 
-            ConsumeElements(plant, soilId, calculationModel.Consumption);
+            SoilConsumptionModel plantConsumption = growModel.PlantConsumption;
+            bool hasEnoughForPlant = _soilService.TryConsumeForPlant(soilId, plantConsumption.WaterUsage, plantConsumption.ElementsUsage);
+            if (!hasEnoughForPlant) {
+                return;
+            }
 
-            if (!calculationModel.BlockGrowth) {
-                plant.StageGrowth += Mathf.Max(calculationModel.ActualGrowth, 0f);
+            plant.TakenElements.Add(plantConsumption.ElementsUsage);
+            if (!growModel.BlockGrowth) {
+                plant.StageGrowth += Mathf.Max(growModel.ActualGrowth, 0f);
+            }
+
+            SoilConsumptionModel harvestConsumption = growModel.HarvestConsumption;
+            bool consumedForHarvest = _soilService.TryConsumeForPlant(soilId, harvestConsumption.WaterUsage, harvestConsumption.ElementsUsage);
+            if (consumedForHarvest) {
+                _plantHarvestService.SimulateHarvestGrowth(ref plant, plantsDescriptorModel, growModel, dayDifference);
             }
         }
 
@@ -392,29 +402,35 @@ namespace Game.Plants.Service
                 return;
             }
 
-            int stageIndex = plantsDescriptorModel.Stages.IndexOf(currentStageDescriptor);
-            int newStageIndex = stageIndex + 1;
-            if (newStageIndex >= plantsDescriptorModel.Stages.Count) {
+            PlantGrowStage plantCurrentStage = plant.CurrentStage;
+            bool takeNextStage = false;
+            PlantGrowStage newStage = plantCurrentStage;
+            foreach (PlantGrowStage stage in plantsDescriptorModel.Stages.Keys) {
+                if (stage == plantCurrentStage) {
+                    takeNextStage = true;
+                    continue;
+                }
+
+                if (takeNextStage) {
+                    newStage = stage;
+                    break;
+                }
+            }
+
+            if (plantCurrentStage == newStage) {
                 return;
             }
 
-            PlantStageDescriptor newStageDescriptor = plantsDescriptorModel.Stages[newStageIndex];
-            plant.CurrentStage = newStageDescriptor.Stage;
+            plant.CurrentStage = newStage;
             plant.StageGrowth = 0f;
-            Debug.Log($"Plant has grew to next stage! PlantId={plant.PlantId}, newStage={newStageDescriptor.Stage}");
+            Debug.Log($"Plant has grew to next stage! PlantId={plant.PlantId}, newStage={newStage}");
         }
 
-        private void ConsumeElements(PlantModel plant, string soilId, SoilConsumptionModel consumptionModel)
-        {
-            _soilService.ConsumeForPlant(soilId, consumptionModel.WaterUsage, consumptionModel.ElementsUsage, consumptionModel.HumusUsage);
-            plant.TakenElements.Add(consumptionModel.ElementsUsage);
-        }
-
-        private void CalculateConsumption(PlantConsumptionDescriptor consumptionDescriptor,
-                                          SoilModel soilModel,
-                                          float growTime,
-                                          int dayDifference,
-                                          ref PlantGrowCalculationModel growModel)
+        private void CalculatePlantConsumption(PlantConsumptionDescriptor consumptionDescriptor,
+                                               SoilModel soilModel,
+                                               float growTime,
+                                               int dayDifference,
+                                               ref PlantGrowCalculationModel growModel)
         {
             float dayCoeff = (dayDifference / growTime) * growModel.GrowMultiplier;
             float nitrogenUsage = consumptionDescriptor.NitrogenUsage * dayCoeff;
@@ -422,9 +438,9 @@ namespace Game.Plants.Service
             float phosphorusUsage = consumptionDescriptor.PhosphorusUsage * dayCoeff;
             float waterUsage = consumptionDescriptor.WaterUsage * dayCoeff;
             growModel.ActualGrowth = dayDifference * growModel.GrowMultiplier;
-            growModel.Consumption = CreateSoilConsumptionModel(soilModel, nitrogenUsage, potassiumUsage, phosphorusUsage, waterUsage,
-                                                               out bool hasEnoughWater, out bool hasEnoughNitrogen, out bool hasEnoughPotassium,
-                                                               out bool hasEnoughPhosphorus, out bool canConsumeElements);
+            growModel.PlantConsumption = CreateSoilConsumptionModel(soilModel, nitrogenUsage, potassiumUsage, phosphorusUsage, waterUsage,
+                                                                    out bool hasEnoughWater, out bool hasEnoughNitrogen, out bool hasEnoughPotassium,
+                                                                    out bool hasEnoughPhosphorus, out bool canConsumeElements);
 
             if (!hasEnoughWater) {
                 growModel.Stress.AddOrSum(StressType.ConsumptionWater, consumptionDescriptor.StressGainWater);
@@ -447,6 +463,54 @@ namespace Game.Plants.Service
             }
         }
 
+        private void CheckStressSymptoms(PlantModel plantModel)
+        {
+            foreach ((StressType stressType, StressModel stressModel) in plantModel.Stress) {
+                if (!_stressDescriptor.Items.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
+                    continue;
+                }
+
+                if (stressDescriptorItem.SymptomsShowThreshold > stressModel.StressValue) {
+                    continue;
+                }
+
+                float showSymptomRoll = UnityEngine.Random.Range(0f, 1f);
+                if (showSymptomRoll < stressDescriptorItem.SymptomShowChance) {
+                    continue;
+                }
+
+                List<string> allSymptoms = stressDescriptorItem.Symptoms;
+                if (stressDescriptorItem.PlantFamilySymptoms.TryGetValue(plantModel.FamilyType, out List<string> plantFamilySymptoms)) {
+                    allSymptoms.AddRange(plantFamilySymptoms);
+                }
+
+                List<string> possibleSymptoms = GetPossibleSymptoms(ref allSymptoms, _symptomsDescriptor, plantModel.FamilyType);
+                if (possibleSymptoms.Count == 0) {
+                    continue;
+                }
+
+                string selectedSymptom = possibleSymptoms.PickRandom();
+                stressModel.StressSymptoms.Add(selectedSymptom);
+            }
+        }
+
+        private List<string> GetPossibleSymptoms(ref List<string> allSymptoms, SymptomsDescriptor symptomsDescriptor, PlantFamilyType plantFamilyType)
+        {
+            for (int i = 0; i < allSymptoms.Count; i++) {
+                string symptom = allSymptoms[i];
+                if (!symptomsDescriptor.Items.TryGetValue(symptom, out SymptomDescriptorModel descriptorModel)) {
+                    allSymptoms.Remove(symptom);
+                    continue;
+                }
+
+                if (descriptorModel.BannedFamilyTypes.Contains(plantFamilyType)) {
+                    allSymptoms.Remove(symptom);
+                }
+            }
+
+            return allSymptoms;
+        }
+
         private SoilConsumptionModel CreateSoilConsumptionModel(SoilModel soilModel,
                                                                 float nitrogenUsage,
                                                                 float potassiumUsage,
@@ -463,29 +527,16 @@ namespace Game.Plants.Service
             hasEnoughPotassium = soilModel.Elements.Potassium >= potassiumUsage;
             hasEnoughPhosphorus = soilModel.Elements.Phosphorus >= phosphorusUsage;
 
-            float humusUsage = 0f;
-            if (!hasEnoughNitrogen) {
-                humusUsage += nitrogenUsage;
-            }
-            if (!hasEnoughPotassium) {
-                humusUsage += potassiumUsage;
-            }
-            if (!hasEnoughPhosphorus) {
-                humusUsage += phosphorusUsage;
-            }
-
+            canConsumeElements = hasEnoughNitrogen && hasEnoughPotassium && hasEnoughPhosphorus;
             ElementsModel elementsModel;
-            bool allElementsPersist = hasEnoughNitrogen && hasEnoughPotassium && hasEnoughPhosphorus;
-            if (allElementsPersist) {
-                canConsumeElements = true;
+            if (canConsumeElements) {
                 elementsModel = new(nitrogenUsage, potassiumUsage, phosphorusUsage);
             } else {
-                canConsumeElements = soilModel.Humus >= humusUsage;
                 elementsModel = new(hasEnoughNitrogen ? nitrogenUsage : 0f, hasEnoughPotassium ? potassiumUsage : 0f,
                                     hasEnoughPhosphorus ? phosphorusUsage : 0f);
             }
 
-            return new(elementsModel, hasEnoughWater ? waterUsage : 0f, humusUsage);
+            return new(elementsModel, waterUsage);
         }
     }
 }

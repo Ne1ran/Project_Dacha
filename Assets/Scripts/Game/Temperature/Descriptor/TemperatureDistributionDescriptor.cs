@@ -1,28 +1,16 @@
-﻿using System.Collections.Generic;
-using Core.Attributes;
+﻿using Core.Attributes;
+using Core.Descriptors.Descriptor;
 using Game.Difficulty.Model;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Game.Temperature.Descriptor
 {
     
     [CreateAssetMenu(fileName = "TemperatureDistributionDescriptor", menuName = "Dacha/Descriptors/TemperatureDistributionDescriptor")]
     [Descriptor("Descriptors/" + nameof(TemperatureDistributionDescriptor))]
-    public class TemperatureDistributionDescriptor : ScriptableObject
+    public class TemperatureDistributionDescriptor : Descriptor<DachaPlaceType, SerializedDictionary<int, float>>
     {
-        [TableList]
-        [field: SerializeField]
-        public List<TemperatureDistributionModelDescriptor> Items { get; set; } = new();
-
-        public TemperatureDistributionModelDescriptor FindByPlaceType(DachaPlaceType placeType)
-        {
-            TemperatureDistributionModelDescriptor? distributionModelDescriptor = Items.Find(x => x.PlaceType == placeType);
-            if (distributionModelDescriptor == null) {
-                throw new KeyNotFoundException($"There is no temperature distribution definition for {placeType.ToString()}");
-            }
-
-            return distributionModelDescriptor;
-        }
+        
     }
 }

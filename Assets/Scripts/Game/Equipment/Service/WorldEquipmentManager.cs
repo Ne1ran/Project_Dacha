@@ -1,6 +1,5 @@
 ﻿using System;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Equipment.Event;
@@ -23,7 +22,7 @@ namespace Game.Equipment.Service
     {
         private readonly PlayerService _playerService;
         private readonly EquipmentService _equipmentService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly ItemsDescriptor _itemsDescriptor;
         private readonly IResourceService _resourceService;
         private readonly ISubscriber<string, EquipmentChangedEvent> _equipmentChangedSubscriber;
         private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;
@@ -36,15 +35,15 @@ namespace Game.Equipment.Service
                                      ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber,
                                      SeedsService seedsService,
                                      PlantHarvestService harvestService,
-                                     IDescriptorService descriptorService,
-                                     IResourceService resourceService)
+                                     IResourceService resourceService,
+                                     ItemsDescriptor itemsDescriptor)
         {
             _playerService = playerService;
             _equipmentService = equipmentService;
             _equipmentChangedSubscriber = equipmentChangedSubscriber;
             _inventoryChangedSubscriber = inventoryChangedSubscriber;
-            _descriptorService = descriptorService;
             _resourceService = resourceService;
+            _itemsDescriptor = itemsDescriptor;
         }
 
         public void Initialize()
@@ -90,8 +89,7 @@ namespace Game.Equipment.Service
 
         private async UniTask<ItemController> CreateItemInHandsAsync(string itemId, Vector3? position = null)
         {
-            ItemsDescriptor descriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptorModel = descriptor.FindById(itemId);
+            ItemDescriptorModel itemDescriptorModel = _itemsDescriptor.Require(itemId);
             ItemController itemController = await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.HandsPrefab.AssetGUID);
             itemController.transform.position = position ?? Vector3.zero;
             itemController.Initialize(itemId);

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Core.Descriptors.Service;
-using Core.Notifications.Model;
+﻿using Core.Notifications.Model;
 using Core.Notifications.Service;
 using Core.Parameters;
 using Core.UI.Service;
@@ -23,7 +21,9 @@ namespace Game.Interactable.Handlers.Soil
         [Inject]
         private readonly NotificationManager _notificationManager = null!;
         [Inject]
-        private readonly IDescriptorService _descriptorService = null!;
+        private readonly ToolsDescriptor _toolsDescriptor = null!;
+        [Inject]
+        private readonly SelectorsDescriptor _selectorsDescriptor = null!;
         [Inject]
         private readonly UIService _uiService = null!;
 
@@ -43,18 +43,12 @@ namespace Game.Interactable.Handlers.Soil
             _parameters = parameters;
             _itemId = pieMenuItemSelectionModel.ItemId;
 
-            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
-            ToolsDescriptorModel? toolsDescriptorModel = toolsDescriptor.Items.Find(tool => tool.Id == _itemId);
-            if (toolsDescriptorModel == null) {
-                throw new KeyNotFoundException($"Tools descriptor not found. ToolId={_itemId}");
-            }
-
+            ToolsDescriptorModel toolsDescriptorModel = _toolsDescriptor.Require(_itemId);
             if (string.IsNullOrEmpty(toolsDescriptorModel.SelectorDescriptorId)) {
                 return;
             }
 
-            SelectorsDescriptor selectorDescriptor = _descriptorService.Require<SelectorsDescriptor>();
-            SelectorDescriptorModel selectorDescriptorModel = selectorDescriptor.Require(toolsDescriptorModel.SelectorDescriptorId);
+            SelectorDescriptorModel selectorDescriptorModel = _selectorsDescriptor.Require(toolsDescriptorModel.SelectorDescriptorId);
 
             _sliderSelector = await _uiService.ShowElementAsync<SliderSelectorComponent>();
             _sliderSelector.Initialize(new(selectorDescriptorModel.MinValue, selectorDescriptorModel.MaxValue, selectorDescriptorModel.StartValue,

@@ -1,6 +1,5 @@
 ﻿using System;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Game.Equipment.Event;
 using Game.Equipment.Repo;
 using Game.Items.Descriptors;
@@ -14,18 +13,18 @@ namespace Game.Equipment.Service
     public class EquipmentService
     {
         private readonly EquipmentRepo _equipmentRepo;
-        private readonly IDescriptorService _descriptorService;
+        private readonly ItemsDescriptor _itemsDescriptor;
         private readonly IPublisher<string, EquipmentChangedEvent> _equipmentChangedPublisher;
 
         private IDisposable? _disposable;
         
-        public EquipmentService(IDescriptorService descriptorService,
-                                IPublisher<string, EquipmentChangedEvent> equipmentChangedPublisher,
-                                EquipmentRepo equipmentRepo)
+        public EquipmentService(IPublisher<string, EquipmentChangedEvent> equipmentChangedPublisher,
+                                EquipmentRepo equipmentRepo,
+                                ItemsDescriptor itemsDescriptor)
         {
-            _descriptorService = descriptorService;
             _equipmentChangedPublisher = equipmentChangedPublisher;
             _equipmentRepo = equipmentRepo;
+            _itemsDescriptor = itemsDescriptor;
         }
         
         public bool TryEquipItem(string itemId)
@@ -42,13 +41,8 @@ namespace Game.Equipment.Service
                 return false;
             }
 
-            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel? descriptorModel = itemsDescriptor.Items.Find(descriptor => descriptor.Id == itemId);
-            if (descriptorModel == null) {
-                throw new ArgumentException($"Descriptor for item not found! ItemId={itemId}");
-            }
-
-            ItemModel newItem = new(descriptorModel.Id, descriptorModel.WorldPrefab, descriptorModel.Type, descriptorModel.DropOffsetMultiplier,
+            ItemDescriptorModel descriptorModel = _itemsDescriptor.Require(itemId);
+            ItemModel newItem = new(itemId, descriptorModel.WorldPrefab, descriptorModel.Type, descriptorModel.DropOffsetMultiplier,
                                     descriptorModel.Stackable, descriptorModel.ShowInHand, descriptorModel.MaxStack);
             _equipmentChangedPublisher.Publish(EquipmentChangedEvent.EQUIPMENT_CHANGED, new(equippedItem, newItem));
             _equipmentRepo.Save(newItem);

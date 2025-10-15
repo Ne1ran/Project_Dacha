@@ -1,5 +1,4 @@
 ﻿using Core.Attributes;
-using Core.Descriptors.Service;
 using Game.Calendar.Model;
 using Game.Calendar.Service;
 using Game.Difficulty.Model;
@@ -14,15 +13,15 @@ namespace Game.Temperature.Service
     [Service]
     public class TemperatureService
     {
-        private readonly IDescriptorService _descriptorService;
+        private readonly TemperatureDistributionDescriptor _temperatureDistributionDescriptor;
         private readonly TimeService _timeService;
         private readonly CalendarService _calendarService;
 
-        public TemperatureService(IDescriptorService descriptorService, TimeService timeService, CalendarService calendarService)
+        public TemperatureService(TimeService timeService, CalendarService calendarService, TemperatureDistributionDescriptor temperatureDistributionDescriptor)
         {
-            _descriptorService = descriptorService;
             _timeService = timeService;
             _calendarService = calendarService;
+            _temperatureDistributionDescriptor = temperatureDistributionDescriptor;
         }
 
         public float GetDailyAverageTemperature()
@@ -47,10 +46,7 @@ namespace Game.Temperature.Service
         {
             TimeModel now = _timeService.GetToday();
             TemperatureModel temperatureModel = _calendarService.GetTemperatureModel(now.CurrentDay, now.CurrentMonth);
-            TemperatureDistributionDescriptor temperatureDistributionDescriptor = _descriptorService.Require<TemperatureDistributionDescriptor>();
-            TemperatureDistributionModelDescriptor distributionModelDescriptor =
-                    temperatureDistributionDescriptor.FindByPlaceType(DachaPlaceType.Middle);
-            SerializedDictionary<int, float> distribution = distributionModelDescriptor.TemperatureDistribution;
+            SerializedDictionary<int, float> distribution = _temperatureDistributionDescriptor.Require(DachaPlaceType.Middle);
 
             float minTemperature = temperatureModel.NightTemperature;
             float maxTemperature = temperatureModel.DayTemperature;

@@ -5,6 +5,7 @@ using Core.Attributes;
 using Cysharp.Threading.Tasks;
 using Game.Utils;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Core.Descriptors.Service
 {
@@ -43,9 +44,14 @@ namespace Core.Descriptors.Service
             foreach (Type type in typesWithDescriptor)
             {
                 DescriptorAttribute descriptorAttribute = ReflectionUtils.RequireAttribute<DescriptorAttribute>(type);
-                ScriptableObject descriptor = UnityEngine.Resources.Load(descriptorAttribute.DescriptorPath, type) as ScriptableObject;
-                if (descriptor == null) {
+                Object? descObj = UnityEngine.Resources.Load(descriptorAttribute.DescriptorPath, type);
+                if (descObj == null) {
                     throw new ArgumentException($"Descriptor not found on path={descriptorAttribute.DescriptorPath}");
+                }
+
+                ScriptableObject? descriptor = descObj as ScriptableObject;
+                if (descriptor == null) {
+                    throw new ArgumentException($"Descriptor is not castable on path={descriptorAttribute.DescriptorPath}");
                 }
                 
                 _cachedDescriptors.TryAdd(type, descriptor);

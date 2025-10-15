@@ -1,26 +1,24 @@
-﻿using Core.Notifications.Descriptor;
-
-namespace Core.Notifications.Model
+﻿namespace Core.Notifications.Model
 {
     public class NotificationModel
     {
-        public string Id { get; }
+        public NotificationType Type { get; }
         public string Title { get; }
         public string Message { get; }
         public string? Icon { get; }
         public NotificationAlignment Alignment { get; }
-        public int ShowTime { get; }
+        public float ShowTime { get; }
         public int Priority { get; }
 
-        public NotificationModel(NotificationModelDescriptor descriptor)
+        public NotificationModel(NotificationType type, string message, string title, string? icon, NotificationAlignment alignment, float showTime, int priority)
         {
-            Id = descriptor.Id;
-            Message = descriptor.Message;
-            Title = descriptor.Title;
-            Icon = descriptor.Icon?.AssetGUID;
-            Alignment = descriptor.Alignment;
-            ShowTime = descriptor.ShowTimeSeconds;
-            Priority = descriptor.Priority;
+            Type = type;
+            Message = message;
+            Title = title;
+            Icon = icon;
+            Alignment = alignment;
+            ShowTime = showTime;
+            Priority = priority;
         }
     }
 }

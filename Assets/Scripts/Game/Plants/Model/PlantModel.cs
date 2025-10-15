@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Diseases.Model;
+using Game.Harvest.Model;
 using Game.Soil.Model;
 using Game.Stress.Model;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Game.Plants.Model
         public float Immunity { get; set; }
         public Dictionary<StressType, StressModel> Stress { get; set; }
         public List<DiseaseModel> DiseaseModels { get; set; }
+        public List<PlantHarvestModel> Harvest { get; set; }
         public ElementsModel TakenElements { get; set; }
         public bool InspectedToday { get; set; }
 
@@ -28,6 +30,7 @@ namespace Game.Plants.Model
             Immunity = immunity;
             TakenElements = new(0f, 0f, 0f);
             DiseaseModels = new();
+            Harvest = new();
             Stress = new();
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.Plants.Model;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,8 +8,6 @@ namespace Game.Plants.Descriptors
     [Serializable]
     public class PlantStageDescriptor
     {
-        [field: SerializeField]
-        public PlantGrowStage Stage { get; set; } = PlantGrowStage.SEED;
         [field: SerializeField]
         public AssetReference Prefab { get; set; } = null!;
         [field: SerializeField]

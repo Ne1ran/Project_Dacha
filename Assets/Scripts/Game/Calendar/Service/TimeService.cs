@@ -1,5 +1,4 @@
 ﻿using Core.Attributes;
-using Core.Descriptors.Service;
 using Game.Calendar.Descriptor;
 using Game.Calendar.Event;
 using Game.Calendar.Model;
@@ -15,19 +14,19 @@ namespace Game.Calendar.Service
     public class TimeService : IInitializable
     {
         private readonly TimeRepo _timeRepo;
-        private readonly IDescriptorService _descriptorService;
+        private readonly CalendarDescriptor _calendarDescriptor;
         private readonly IPublisher<string, TimeChangeEvent> _timeChangePublisher;
         private readonly IPublisher<string, DayChangedEvent> _dayFinishedPublisher;
 
         public TimeService(TimeRepo timeRepo,
                            IPublisher<string, TimeChangeEvent> timeChangePublisher,
                            IPublisher<string, DayChangedEvent> dayFinishedPublisher,
-                           IDescriptorService descriptorService)
+                           CalendarDescriptor calendarDescriptor)
         {
             _timeRepo = timeRepo;
             _timeChangePublisher = timeChangePublisher;
             _dayFinishedPublisher = dayFinishedPublisher;
-            _descriptorService = descriptorService;
+            _calendarDescriptor = calendarDescriptor;
         }
 
         public void Initialize()
@@ -75,8 +74,7 @@ namespace Game.Calendar.Service
 
         private void PassDay(TimeModel timeModel, int currentDay)
         {
-            CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
-            CalendarMonthModel currentMonthDescriptor = calendarDescriptor.FindByType(DachaPlaceType.Middle, (MonthType) timeModel.CurrentMonth);
+            CalendarMonthModel currentMonthDescriptor = _calendarDescriptor.FindByType(DachaPlaceType.Middle, (MonthType) timeModel.CurrentMonth);
             if (currentMonthDescriptor.DaysCount <= currentDay) {
                 timeModel.CurrentDay = 0;
                 if (timeModel.CurrentMonth >= 12) {

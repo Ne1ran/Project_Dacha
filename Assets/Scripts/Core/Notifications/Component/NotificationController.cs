@@ -50,9 +50,9 @@ namespace Core.Notifications.Component
 
         private async UniTaskVoid ActivateNotificationAsync()
         {
-            Debug.LogWarning($"Showing notification={_model.Id}");
+            Debug.LogWarning($"Showing notification={_model.Type}");
             await UniTask.WaitForSeconds(_model.ShowTime);
-            Debug.LogWarning($"Showed notification={_model.Id}");
+            Debug.LogWarning($"Showed notification={_model.Type}");
             ShowEnded();
         }
 

@@ -1,16 +1,13 @@
-﻿using System.Collections.Generic;
-using Core.Attributes;
-using Sirenix.OdinInspector;
+﻿using Core.Attributes;
+using Core.Descriptors.Descriptor;
 using UnityEngine;
 
 namespace Game.Seeds.Descriptors
 {
     [CreateAssetMenu(fileName = "SeedsDescriptor", menuName = "Dacha/Descriptors/SeedsDescriptor")]
     [Descriptor("Descriptors/" + nameof(SeedsDescriptor))]
-    public class SeedsDescriptor : ScriptableObject
+    public class SeedsDescriptor : Descriptor<string, SeedsDescriptorModel>
     {
-        [field: SerializeField]
-        [TableList]
-        public List<SeedsDescriptorModel> Items { get; private set; } = new();
+        
     }
 }
