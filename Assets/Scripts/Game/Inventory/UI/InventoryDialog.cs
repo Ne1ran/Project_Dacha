@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Core.Descriptors.Service;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
@@ -9,6 +8,7 @@ using Game.Inventory.Event;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Inventory.ViewModel;
+using Game.Items.Descriptors;
 using MessagePipe;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,7 +31,7 @@ namespace Game.Inventory.UI
         [Inject]
         private IResourceService _resourceService = null!;
         [Inject]
-        private IDescriptorService _descriptorService = null!;
+        private ItemsDescriptor _itemsDescriptor = null!;
         [Inject]
         private IPublisher<string, InventoryStatusEvent> _inventoryPublisher = null!;
 
@@ -51,7 +51,7 @@ namespace Game.Inventory.UI
 
         public async UniTask InitializeAsync()
         {
-            InventoryViewModel inventoryViewModel = new(_inventoryService, _descriptorService);
+            InventoryViewModel inventoryViewModel = new(_inventoryService, _itemsDescriptor);
             List<InventorySlotViewModel> slots = inventoryViewModel.GetCurrentSlotsViewModels();
 
             List<UniTask<InventorySlotView>> loadTasks = new(slots.Count);

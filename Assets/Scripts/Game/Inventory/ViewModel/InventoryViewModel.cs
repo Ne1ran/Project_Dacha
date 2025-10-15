@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Core.Descriptors.Service;
 using Game.Inventory.Model;
 using Game.Inventory.Service;
 using Game.Items.Descriptors;
@@ -9,18 +8,17 @@ namespace Game.Inventory.ViewModel
     public class InventoryViewModel
     {
         private readonly InventoryService _inventoryService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly ItemsDescriptor _itemsDescriptor;
 
-        public InventoryViewModel(InventoryService inventoryService, IDescriptorService descriptorService)
+        public InventoryViewModel(InventoryService inventoryService, ItemsDescriptor itemsDescriptor)
         {
             _inventoryService = inventoryService;
-            _descriptorService = descriptorService;
+            _itemsDescriptor = itemsDescriptor;
         }
 
         public List<InventorySlotViewModel> GetCurrentSlotsViewModels()
         {
             List<InventorySlotViewModel> list = new();
-            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
             InventoryModel inventory = _inventoryService.Inventory;
             foreach (InventorySlot inventorySlot in inventory.InventorySlots) {
                 InventoryItem? inventoryItem = inventorySlot.InventoryItem;
@@ -28,8 +26,8 @@ namespace Game.Inventory.ViewModel
                     list.Add(new());
                     continue;
                 }
-                
-                ItemDescriptorModel toolDescriptor = itemsDescriptor.Require(inventoryItem.Id);
+
+                ItemDescriptorModel toolDescriptor = _itemsDescriptor.Require(inventoryItem.Id);
                 list.Add(new(inventoryItem.Id, ItemType.TOOL, toolDescriptor.Icon?.AssetGUID, inventoryItem.HotkeyNumber));
             }
 

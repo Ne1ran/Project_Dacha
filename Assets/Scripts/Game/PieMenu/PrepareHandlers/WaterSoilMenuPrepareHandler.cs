@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
@@ -24,7 +23,9 @@ namespace Game.PieMenu.PrepareHandlers
         [Inject]
         private readonly InventoryService _inventoryService = null!;
         [Inject]
-        private readonly IDescriptorService _descriptorService = null!;
+        private readonly ItemsDescriptor _itemsDescriptor = null!;
+        [Inject]
+        private readonly ToolsDescriptor _toolsDescriptor = null!;
         [Inject]
         private readonly IResourceService _resourceService = null!;
 
@@ -41,17 +42,15 @@ namespace Game.PieMenu.PrepareHandlers
             List<UniTask<PieMenuItemSelectionModel>> result = new();
 
             List<InventoryItem> tools = _inventoryService.GetItemsByType(ItemType.TOOL);
-            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
 
             foreach (InventoryItem tool in tools) {
                 string toolId = tool.Id;
-                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.Get(toolId);
+                ItemDescriptorModel? itemDescriptorModel = _itemsDescriptor.Get(toolId);
                 if (itemDescriptorModel == null) {
                     continue;
                 }
 
-                ToolsDescriptorModel? toolsDescriptorModel = toolsDescriptor.Get(toolId);
+                ToolsDescriptorModel? toolsDescriptorModel = _toolsDescriptor.Get(toolId);
                 if (toolsDescriptorModel == null) {
                     continue;
                 }

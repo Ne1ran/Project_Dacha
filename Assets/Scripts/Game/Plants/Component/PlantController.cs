@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Descriptors.Service;
 using Core.Parameters;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
@@ -21,7 +20,9 @@ namespace Game.Plants.Component
     public class PlantController : MonoBehaviour, IInteractableComponent
     {
         [Inject]
-        private readonly IDescriptorService _descriptorService = null!;
+        private readonly MapDescriptor _mapDescriptor = null!;
+        [Inject]
+        private readonly PlantsDescriptor _plantsDescriptor = null!;
         [Inject]
         private readonly IResourceService _resourceService = null!;
         [Inject]
@@ -43,8 +44,7 @@ namespace Game.Plants.Component
 
         private async UniTask PlaceAllPlantsAsync(PlantModel plantModel)
         {
-            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
-            PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.Require(plantModel.PlantId);
+            PlantsDescriptorModel plantsDescriptorModel = _plantsDescriptor.Require(plantModel.PlantId);
             string visualPrefabPath;
             if (plantModel.CurrentStage == PlantGrowStage.DEAD) {
                 visualPrefabPath = plantsDescriptorModel.Visualization.DeadPrefab.AssetGUID;
@@ -57,8 +57,7 @@ namespace Game.Plants.Component
                 return;
             }
 
-            MapDescriptor mapDescriptor = _descriptorService.Require<MapDescriptor>();
-            MapModelDescriptor mapModelDescriptor = mapDescriptor.Require(DachaPlaceType.Middle);
+            MapModelDescriptor mapModelDescriptor = _mapDescriptor.Require(DachaPlaceType.Middle);
             
             int tileLength = mapModelDescriptor.TileLength;
             int plantsCount = plantsDescriptorModel.PlantsCount;

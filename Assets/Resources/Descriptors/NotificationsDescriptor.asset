@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NotificationsDescriptor
   m_EditorClassIdentifier: 
   _items:
-    m_Keys: 0000000001000000050000000a0000000f00000014000000
+    m_Keys: 0000000001000000050000000a0000000f0000001400000019000000
     m_Values:
     - <Title>k__BackingField: Fertilizer not found
       <Message>k__BackingField: There is no fertilizer in your inventory
@@ -72,6 +72,17 @@ MonoBehaviour:
       <Priority>k__BackingField: 100
     - <Title>k__BackingField: Inventory is full
       <Message>k__BackingField: Your inventory is full!
+      <Icon>k__BackingField:
+        m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_SubObjectGUID: 
+        m_EditorAssetChanged: 1
+      <Alignment>k__BackingField: 0
+      <ShowTimeSeconds>k__BackingField: 2
+      <Priority>k__BackingField: 100
+    - <Title>k__BackingField: Can't harvest plant
+      <Message>k__BackingField: Can't harvest plant
       <Icon>k__BackingField:
         m_AssetGUID: 321d8291ab2c6cb4b81d3dda37a91ef6
         m_SubObjectName: 

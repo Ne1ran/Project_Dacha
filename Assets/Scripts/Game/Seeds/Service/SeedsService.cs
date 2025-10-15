@@ -1,5 +1,4 @@
 ﻿using Core.Attributes;
-using Core.Descriptors.Service;
 using Core.Parameters;
 using Cysharp.Threading.Tasks;
 using Game.Seeds.Descriptors;
@@ -10,18 +9,17 @@ namespace Game.Seeds.Service
     public class SeedsService
     {
         private readonly SowSeedHandlerFactory _sowSeedHandlerFactory;
-        private readonly IDescriptorService _descriptorService;
+        private readonly SeedsDescriptor _seedsDescriptor;
 
-        public SeedsService(IDescriptorService descriptorService, SowSeedHandlerFactory sowSeedHandlerFactory)
+        public SeedsService(SowSeedHandlerFactory sowSeedHandlerFactory, SeedsDescriptor seedsDescriptor)
         {
-            _descriptorService = descriptorService;
             _sowSeedHandlerFactory = sowSeedHandlerFactory;
+            _seedsDescriptor = seedsDescriptor;
         }
 
         public async UniTask SowSeedAsync(string seedId, Parameters parameters)
         {
-            SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
-            SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Require(seedId);
+            SeedsDescriptorModel seedsDescriptorModel = _seedsDescriptor.Require(seedId);
             await _sowSeedHandlerFactory.Create(seedsDescriptorModel.UseHandler).SowSeedAsync(seedId, parameters);
         }
     }

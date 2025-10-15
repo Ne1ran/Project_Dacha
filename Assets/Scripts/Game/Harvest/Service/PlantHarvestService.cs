@@ -2,7 +2,6 @@
 using System.Linq;
 using Core.Attributes;
 using Core.Common.Descriptor;
-using Core.Descriptors.Service;
 using Game.Harvest.Descriptor;
 using Game.Harvest.Model;
 using Game.Harvest.PlantHarvest;
@@ -16,14 +15,13 @@ namespace Game.Harvest.Service
     [Service]
     public class PlantHarvestService
     {
-        private readonly IDescriptorService _descriptorService;
+        private readonly PlantHarvestDescriptor _plantHarvestDescriptor;
         private readonly PlantHarvestHandlerFactory _plantHarvestHandlerFactory;
 
-        public PlantHarvestService(IDescriptorService descriptorService,
-                                   PlantHarvestHandlerFactory plantHarvestHandlerFactory)
+        public PlantHarvestService(PlantHarvestHandlerFactory plantHarvestHandlerFactory, PlantHarvestDescriptor plantHarvestDescriptor)
         {
-            _descriptorService = descriptorService;
             _plantHarvestHandlerFactory = plantHarvestHandlerFactory;
+            _plantHarvestDescriptor = plantHarvestDescriptor;
         }
 
         public void SimulateHarvestGrowth(ref PlantModel plantModel,
@@ -32,8 +30,8 @@ namespace Game.Harvest.Service
                                           int dayDifference)
         {
             string harvestDescriptorId = plantsDescriptorModel.HarvestDescriptorId;
-            PlantHarvestDescriptor harvestDescriptor = _descriptorService.Require<PlantHarvestDescriptor>();
-            PlantHarvestDescriptorModel harvestDescriptorModel = harvestDescriptor.Require(harvestDescriptorId);
+
+            PlantHarvestDescriptorModel harvestDescriptorModel = _plantHarvestDescriptor.Require(harvestDescriptorId);
 
             if (!growModel.BlockHarvestGrowth) {
                 TryGrowHarvest(plantModel, harvestDescriptorModel, growModel.GrowMultiplier, dayDifference);
@@ -48,15 +46,12 @@ namespace Game.Harvest.Service
             }
         }
 
-        public SoilConsumptionModel GetHarvestConsumption(PlantModel plantModel,
-                                                          float growMultiplier,
-                                                          int dayDifference)
+        public SoilConsumptionModel GetHarvestConsumption(PlantModel plantModel, float growMultiplier, int dayDifference)
         {
             SoilConsumptionModel soilConsumptionModel = new();
-            PlantHarvestDescriptor harvestDescriptor = _descriptorService.Require<PlantHarvestDescriptor>();
 
             foreach (PlantHarvestModel harvest in plantModel.Harvest) {
-                PlantHarvestDescriptorModel harvestDescriptorModel = harvestDescriptor.Require(harvest.HarvestId);
+                PlantHarvestDescriptorModel harvestDescriptorModel = _plantHarvestDescriptor.Require(harvest.HarvestId);
                 HarvestGrowStage currentStage = harvest.Stage;
                 PlantHarvestGrowDescriptor harvestStageDescriptor = harvestDescriptorModel.HarvestGrowStages[currentStage];
                 float neededProgress = harvestStageDescriptor.NextStageGrowDays;
@@ -77,17 +72,16 @@ namespace Game.Harvest.Service
         public List<HarvestModel> GetAllHarvestFromPlant(PlantModel plantModel)
         {
             List<HarvestModel> harvest = new();
-            PlantHarvestDescriptor harvestDescriptor = _descriptorService.Require<PlantHarvestDescriptor>();
 
             foreach (PlantHarvestModel harvestModel in plantModel.Harvest) {
-                PlantHarvestDescriptorModel plantHarvestDescriptorModel = harvestDescriptor.Require(harvestModel.HarvestId);
+                PlantHarvestDescriptorModel plantHarvestDescriptorModel = _plantHarvestDescriptor.Require(harvestModel.HarvestId);
                 PlantHarvestGrowDescriptor harvestGrowStage = plantHarvestDescriptorModel.HarvestGrowStages[harvestModel.Stage];
                 HarvestQuality currentQuality = harvestGrowStage.CurrentQuality;
                 if (currentQuality != HarvestQuality.None) {
                     harvest.Add(new(plantHarvestDescriptorModel.HarvestItemId, currentQuality, 1));
                 }
             }
-            
+
             return harvest;
         }
 

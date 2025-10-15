@@ -1,5 +1,4 @@
 ﻿using Core.Attributes;
-using Core.Descriptors.Service;
 using Game.Calendar.Descriptor;
 using Game.Calendar.Model;
 using Game.Calendar.Service;
@@ -26,21 +25,21 @@ namespace Game.Evaporation.Service
         private readonly AirHumidityService _airHumidityService;
         private readonly TimeService _timeService;
         private readonly CalendarService _calendarService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly CalendarDescriptor _calendarDescriptor;
 
         public SoilWaterService(SunlightService sunlightService,
                                 TemperatureService temperatureService,
                                 AirHumidityService airHumidityService,
-                                IDescriptorService descriptorService,
                                 TimeService timeService,
-                                CalendarService calendarService)
+                                CalendarService calendarService,
+                                CalendarDescriptor calendarDescriptor)
         {
             _sunlightService = sunlightService;
             _temperatureService = temperatureService;
             _airHumidityService = airHumidityService;
-            _descriptorService = descriptorService;
             _timeService = timeService;
             _calendarService = calendarService;
+            _calendarDescriptor = calendarDescriptor;
         }
 
         public float CalculatePrecipitations()
@@ -52,9 +51,8 @@ namespace Game.Evaporation.Service
 
         public float CalculateEvaporation(float soilWater)
         {
-            CalendarDescriptor calendarDescriptor = _descriptorService.Require<CalendarDescriptor>();
             MonthType currentMonth = (MonthType) _timeService.GetToday().CurrentMonth;
-            CalendarMonthModel calendarMonthModel = calendarDescriptor.FindByType(DachaPlaceType.Middle, currentMonth);
+            CalendarMonthModel calendarMonthModel = _calendarDescriptor.FindByType(DachaPlaceType.Middle, currentMonth);
             WaterEvaporationSettings waterEvaporationSettings = calendarMonthModel.EvaporationSettings;
 
             float dailySunAmount = _sunlightService.GetDailySunAmount();

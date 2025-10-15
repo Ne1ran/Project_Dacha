@@ -1,5 +1,4 @@
 ﻿using Core.Attributes;
-using Core.Descriptors.Service;
 using Core.Parameters;
 using Cysharp.Threading.Tasks;
 using Game.Tools.Descriptors;
@@ -10,18 +9,17 @@ namespace Game.Tools.Service
     public class ToolsService
     {
         private readonly ToolUseHandlerFactory _toolUseHandlerFactory;
-        private readonly IDescriptorService _descriptorService;
+        private readonly ToolsDescriptor _toolsDescriptor;
 
-        public ToolsService(ToolUseHandlerFactory toolUseHandlerFactory, IDescriptorService descriptorService)
+        public ToolsService(ToolUseHandlerFactory toolUseHandlerFactory, ToolsDescriptor toolsDescriptor)
         {
             _toolUseHandlerFactory = toolUseHandlerFactory;
-            _descriptorService = descriptorService;
+            _toolsDescriptor = toolsDescriptor;
         }
 
         public async UniTask UseToolAsync(string toolId, Parameters parameters)
         {
-            ToolsDescriptor toolsDescriptor = _descriptorService.Require<ToolsDescriptor>();
-            await _toolUseHandlerFactory.Create(toolsDescriptor.Require(toolId).UseHandler).UseAsync(parameters);
+            await _toolUseHandlerFactory.Create(_toolsDescriptor.Require(toolId).UseHandler).UseAsync(parameters);
         }
     }
 }

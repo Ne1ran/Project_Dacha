@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Core.Descriptors.Service;
 using Core.Resources.Binding.Attributes;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Equipment.Service;
 using Game.Inventory.Event;
 using Game.Inventory.Service;
+using Game.Items.Descriptors;
 using Game.PlayMode.UI.Component;
 using Game.PlayMode.UI.Model;
 using Game.PlayMode.UI.ViewModel;
@@ -28,7 +28,7 @@ namespace Game.PlayMode.UI.Screen
         [Inject]
         private IResourceService _resourceService = null!;
         [Inject]
-        private IDescriptorService _descriptorService = null!;
+        private ItemsDescriptor _itemsDescriptor = null!;
         [Inject]
         private InventoryService _inventoryService = null!;
         [Inject]
@@ -48,7 +48,7 @@ namespace Game.PlayMode.UI.Screen
         public async UniTask InitializeAsync()
         {
             FadeCrosshair(true).Forget();
-            _viewModel = new(_inventoryService, _descriptorService, _equipmentService, _inventoryChangedSubscriber, _hotkeyChangedSubscriber);
+            _viewModel = new(_inventoryService, _itemsDescriptor, _equipmentService, _inventoryChangedSubscriber, _hotkeyChangedSubscriber);
             await CreateBaseHotkeysAsync();
 
             _viewModel.Hotkeys.ItemAdded += OnHotkeyAdded;

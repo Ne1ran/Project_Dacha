@@ -36,7 +36,7 @@ MonoBehaviour:
             <PotassiumUsage>k__BackingField: 5
             <PhosphorusUsage>k__BackingField: 5
             <WaterUsage>k__BackingField: 5
-          <NextStageGrowDays>k__BackingField: 7
+          <NextStageGrowDays>k__BackingField: 4
         - <CurrentQuality>k__BackingField: 5
           <HarvestConsumption>k__BackingField:
             <NitrogenUsage>k__BackingField: 5

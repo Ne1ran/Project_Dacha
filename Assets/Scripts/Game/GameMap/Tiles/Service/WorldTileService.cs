@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Core.GameWorld.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
@@ -21,7 +20,7 @@ namespace Game.GameMap.Tiles.Service
     {
         private readonly IResourceService _resourceService;
         private readonly GameWorldService _gameWorldService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly MapDescriptor _mapDescriptor;
 
         private readonly List<SingleTileModel> _mapTilesModels = new();
         private readonly Dictionary<string, TileController> _mapTilesControllers = new();
@@ -30,13 +29,13 @@ namespace Game.GameMap.Tiles.Service
 
         public WorldTileService(IResourceService resourceService,
                                 GameWorldService gameWorldService,
-                                IDescriptorService descriptorService,
                                 ISubscriber<string, SoilControllerCreatedEvent> soilCreatedSubscriber,
-                                ISubscriber<string, PlantControllerCreatedEvent> plantCreatedSubscriber)
+                                ISubscriber<string, PlantControllerCreatedEvent> plantCreatedSubscriber,
+                                MapDescriptor mapDescriptor)
         {
             _resourceService = resourceService;
             _gameWorldService = gameWorldService;
-            _descriptorService = descriptorService;
+            _mapDescriptor = mapDescriptor;
 
             DisposableBagBuilder? disposableBag = DisposableBag.CreateBuilder();
             disposableBag.Add(soilCreatedSubscriber.Subscribe(SoilControllerCreatedEvent.SoilCreated, OnSoilCreated));
@@ -69,8 +68,7 @@ namespace Game.GameMap.Tiles.Service
             Dictionary<string, int> result = new();
 
             SingleTileModel centerTileModel = _mapTilesModels.Find(tile => tile.Id == centerTileId);
-            MapDescriptor mapDescriptor = _descriptorService.Require<MapDescriptor>();
-            MapModelDescriptor mapModelDescriptor = mapDescriptor.Require(DachaPlaceType.Middle);
+            MapModelDescriptor mapModelDescriptor = _mapDescriptor.Require(DachaPlaceType.Middle);
             int centerTileIndex = _mapTilesModels.IndexOf(centerTileModel);
             int length = mapModelDescriptor.Length;
             int width = mapModelDescriptor.Width;

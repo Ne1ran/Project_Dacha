@@ -1,5 +1,4 @@
-﻿using Core.Descriptors.Service;
-using Core.Notifications.Model;
+﻿using Core.Notifications.Model;
 using Core.Notifications.Service;
 using Core.Scopes;
 using Cysharp.Threading.Tasks;
@@ -52,10 +51,8 @@ namespace Core.Console
         {
             WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
-            IDescriptorService descriptorService = Container.Resolve<IDescriptorService>();
-
             Vector3 spawnPosition = playerService.Player.transform.position + new Vector3(x, y, z);
-            ToolsDescriptor toolsDescriptor = descriptorService.Require<ToolsDescriptor>();
+            ToolsDescriptor toolsDescriptor = Container.Resolve<ToolsDescriptor>();
             foreach (string toolId in toolsDescriptor.Items.Keys) {
                 worldItemService.CreateItemInWorldAsync<ToolController>(toolId, spawnPosition).Forget();
             }
@@ -66,10 +63,8 @@ namespace Core.Console
         {
             WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
-            IDescriptorService descriptorService = Container.Resolve<IDescriptorService>();
-
             Vector3 spawnPosition = playerService.Player.transform.position + new Vector3(x, y, z);
-            SeedsDescriptor seedsDescriptor = descriptorService.Require<SeedsDescriptor>();
+            SeedsDescriptor seedsDescriptor = Container.Resolve<SeedsDescriptor>();
             foreach (string toolId in seedsDescriptor.Items.Keys) {
                 worldItemService.CreateItemInWorldAsync<SeedBagController>(toolId, spawnPosition).Forget();
             }
@@ -89,8 +84,7 @@ namespace Core.Console
         {
             WorldItemService worldItemService = Container.Resolve<WorldItemService>();
             PlayerService playerService = Container.Resolve<PlayerService>();
-            IDescriptorService descriptorService = Container.Resolve<IDescriptorService>();
-            ItemsDescriptor itemsDescriptor = descriptorService.Require<ItemsDescriptor>();
+            ItemsDescriptor itemsDescriptor = Container.Resolve<ItemsDescriptor>();
             Vector3 position = playerService.Player.transform.position + new Vector3(x, y, z);
             foreach (string id in itemsDescriptor.Items.Keys) {
                 worldItemService.CreateItemInWorldAsync(id, position).Forget();

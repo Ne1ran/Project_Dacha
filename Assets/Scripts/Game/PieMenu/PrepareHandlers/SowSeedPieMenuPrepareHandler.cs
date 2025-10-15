@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using Core.Conditions.Service;
-using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Common.Handlers;
@@ -23,7 +22,7 @@ namespace Game.PieMenu.PrepareHandlers
         [Inject]
         private readonly InventoryService _inventoryService = null!;
         [Inject]
-        private readonly IDescriptorService _descriptorService = null!;
+        private readonly ItemsDescriptor _itemsDescriptor = null!;
         [Inject]
         private readonly ConditionService _conditionService = null!;
         [Inject]
@@ -42,10 +41,9 @@ namespace Game.PieMenu.PrepareHandlers
             List<UniTask<PieMenuItemSelectionModel>> result = new();
 
             List<InventoryItem> seeds = _inventoryService.GetItemsByType(ItemType.SEED);
-            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
 
             foreach (InventoryItem seedItem in seeds) {
-                ItemDescriptorModel? itemDescriptorModel = itemsDescriptor.Get(seedItem.Id);
+                ItemDescriptorModel? itemDescriptorModel = _itemsDescriptor.Get(seedItem.Id);
                 if (itemDescriptorModel == null) {
                     continue;
                 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Descriptors.Service;
 using Core.Reactive;
 using Game.Equipment.Service;
 using Game.Inventory.Event;
@@ -17,7 +16,7 @@ namespace Game.PlayMode.UI.ViewModel
     public class PlayModeScreenViewModel : IDisposable
     {
         private readonly InventoryService _inventoryService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly ItemsDescriptor _itemsDescriptor;
         private readonly EquipmentService _equipmentService;
 
         private IDisposable? _disposable;
@@ -27,14 +26,14 @@ namespace Game.PlayMode.UI.ViewModel
         public ReactiveProperty<int> HighlightedHotkey { get; } = new(-1);
 
         public PlayModeScreenViewModel(InventoryService inventoryService,
-                                       IDescriptorService descriptorService,
+                                       ItemsDescriptor itemsDescriptor,
                                        EquipmentService equipmentService,
                                        ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber,
                                        ISubscriber<string, HotkeyChangedEvent> hotkeyChangedSubscriber)
         {
             _inventoryService = inventoryService;
-            _descriptorService = descriptorService;
             _equipmentService = equipmentService;
+            _itemsDescriptor = itemsDescriptor;
 
             DisposableBagBuilder bag = DisposableBag.CreateBuilder();
 
@@ -165,8 +164,7 @@ namespace Game.PlayMode.UI.ViewModel
 
         private HotkeySlotViewModel CreateHotkeySlotViewModel(InventoryItem itemModel, int hotkeyNumber)
         {
-            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptor = itemsDescriptor.Require(itemModel.Id);
+            ItemDescriptorModel itemDescriptor = _itemsDescriptor.Require(itemModel.Id);
             return new(itemModel.Id, itemModel.ItemType, itemDescriptor.Icon?.AssetGUID, hotkeyNumber);
         }
     }

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Game.Calendar.Event;
 using Game.Diseases.Model;
 using Game.Diseases.Service;
-using Game.Harvest.Descriptor;
 using Game.Harvest.Model;
 using Game.Harvest.Service;
 using Game.Inventory.Model;
@@ -37,29 +35,38 @@ namespace Game.Plants.Service
         private readonly InventoryService _inventoryService;
         private readonly PlantDiseaseService _plantDiseaseService;
         private readonly PlantHarvestService _plantHarvestService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly PlantsDescriptor _plantsDescriptor;
+        private readonly SeedsDescriptor _seedsDescriptor;
+        private readonly StressDescriptor _stressDescriptor;
+        private readonly SymptomsDescriptor _symptomsDescriptor;
         private readonly IPublisher<string, PlantUpdatedEvent> _plantUpdatedEvent;
 
         private IDisposable? _disposable;
 
         public PlantsService(PlantsRepo plantsRepo,
-                             IDescriptorService descriptorService,
                              ISubscriber<string, DayChangedEvent> dayChangedSubscriber,
                              SoilService soilService,
                              PlantDiseaseService plantDiseaseService,
                              IPublisher<string, PlantUpdatedEvent> plantUpdatedEvent,
                              PlantsParametersHandlerFactory plantsParametersHandlerFactory,
                              InventoryService inventoryService,
-                             PlantHarvestService plantHarvestService)
+                             PlantHarvestService plantHarvestService,
+                             PlantsDescriptor plantsDescriptor,
+                             SeedsDescriptor seedsDescriptor,
+                             StressDescriptor stressDescriptor,
+                             SymptomsDescriptor symptomsDescriptor)
         {
             _plantsRepo = plantsRepo;
-            _descriptorService = descriptorService;
             _soilService = soilService;
             _plantDiseaseService = plantDiseaseService;
             _plantUpdatedEvent = plantUpdatedEvent;
             _plantsParametersHandlerFactory = plantsParametersHandlerFactory;
             _inventoryService = inventoryService;
             _plantHarvestService = plantHarvestService;
+            _plantsDescriptor = plantsDescriptor;
+            _seedsDescriptor = seedsDescriptor;
+            _stressDescriptor = stressDescriptor;
+            _symptomsDescriptor = symptomsDescriptor;
 
             DisposableBagBuilder bag = DisposableBag.CreateBuilder();
 
@@ -132,15 +139,13 @@ namespace Game.Plants.Service
                 return;
             }
 
-            SeedsDescriptor seedsDescriptor = _descriptorService.Require<SeedsDescriptor>();
-            SeedsDescriptorModel seedsDescriptorModel = seedsDescriptor.Require(seedId);
+            SeedsDescriptorModel seedsDescriptorModel = _seedsDescriptor.Require(seedId);
             CreatePlant(seedsDescriptorModel.PlantId, tileId, seedsDescriptorModel.StartHealth, seedsDescriptorModel.StartImmunity);
         }
 
         public void CreatePlant(string plantId, string tileId, float startHealth, float startImmunity)
         {
-            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
-            PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.Require(plantId);
+            PlantsDescriptorModel plantsDescriptorModel = _plantsDescriptor.Require(plantId);
             PlantModel plantModel = new(plantId, plantsDescriptorModel.FamilyType, PlantGrowStage.SEED, startHealth, startImmunity);
             _plantUpdatedEvent.Publish(PlantUpdatedEvent.Created, new(tileId, plantModel));
             _plantsRepo.Save(tileId, plantModel);
@@ -165,6 +170,7 @@ namespace Game.Plants.Service
             }
 
             Debug.Log($"Harvested plant={plantModel.PlantId}");
+            // todo neiran add check if plant should be removed after harvest
             RemovePlant(tileId);
             return true;
         }
@@ -173,7 +179,6 @@ namespace Game.Plants.Service
         {
             Dictionary<string, PlantModel> plants = _plantsRepo.GetAll();
 
-            PlantsDescriptor plantsDescriptor = _descriptorService.Require<PlantsDescriptor>();
             foreach ((string tileId, PlantModel plant) in plants) {
                 if (plant.CurrentStage == PlantGrowStage.DEAD) {
                     return;
@@ -181,7 +186,7 @@ namespace Game.Plants.Service
 
                 try {
                     PlantModel plantModel = plant; // foreach and ref handle
-                    PlantsDescriptorModel plantsDescriptorModel = plantsDescriptor.Require(plantModel.PlantId);
+                    PlantsDescriptorModel plantsDescriptorModel = _plantsDescriptor.Require(plantModel.PlantId);
                     SimulatePlantLife(ref plantModel, tileId, plantsDescriptorModel, evt.DayDifference);
                     if (plantModel.CurrentStage != PlantGrowStage.DEAD) {
                         _plantDiseaseService.UpdatePlantDiseases(ref plantModel, plantsDescriptorModel, tileId);
@@ -460,10 +465,8 @@ namespace Game.Plants.Service
 
         private void CheckStressSymptoms(PlantModel plantModel)
         {
-            StressDescriptor stressDescriptor = _descriptorService.Require<StressDescriptor>();
-            SymptomsDescriptor symptomsDescriptor = _descriptorService.Require<SymptomsDescriptor>();
             foreach ((StressType stressType, StressModel stressModel) in plantModel.Stress) {
-                if (!stressDescriptor.Items.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
+                if (!_stressDescriptor.Items.TryGetValue(stressType, out StressModelDescriptor stressDescriptorItem)) {
                     continue;
                 }
 
@@ -481,7 +484,7 @@ namespace Game.Plants.Service
                     allSymptoms.AddRange(plantFamilySymptoms);
                 }
 
-                List<string> possibleSymptoms = GetPossibleSymptoms(ref allSymptoms, symptomsDescriptor, plantModel.FamilyType);
+                List<string> possibleSymptoms = GetPossibleSymptoms(ref allSymptoms, _symptomsDescriptor, plantModel.FamilyType);
                 if (possibleSymptoms.Count == 0) {
                     continue;
                 }

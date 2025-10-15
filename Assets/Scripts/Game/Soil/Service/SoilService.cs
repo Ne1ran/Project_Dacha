@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Game.Calendar.Event;
 using Game.Difficulty.Model;
 using Game.Diseases.Model;
@@ -27,20 +26,26 @@ namespace Game.Soil.Service
 
         private readonly SoilWaterService _soilWaterService;
         private readonly SoilRepo _soilRepo;
-        private readonly IDescriptorService _descriptorService;
+        private readonly SoilDescriptor _soilDescriptor;
+        private readonly MapDescriptor _mapDescriptor;
+        private readonly FertilizersDescriptor _fertilizersDescriptor;
         private readonly IPublisher<string, SoilUpdatedEvent> _soilUpdatedPublisher;
         private IDisposable? _disposable;
 
-        public SoilService(IDescriptorService descriptorService,
-                           IPublisher<string, SoilUpdatedEvent> soilUpdatedPublisher,
+        public SoilService(IPublisher<string, SoilUpdatedEvent> soilUpdatedPublisher,
                            ISubscriber<string, DayChangedEvent> dayFinishedSubscriber,
                            SoilRepo soilRepo,
-                           SoilWaterService soilWaterService)
+                           SoilWaterService soilWaterService,
+                           SoilDescriptor soilDescriptor,
+                           MapDescriptor mapDescriptor,
+                           FertilizersDescriptor fertilizersDescriptor)
         {
-            _descriptorService = descriptorService;
             _soilUpdatedPublisher = soilUpdatedPublisher;
             _soilRepo = soilRepo;
             _soilWaterService = soilWaterService;
+            _soilDescriptor = soilDescriptor;
+            _mapDescriptor = mapDescriptor;
+            _fertilizersDescriptor = fertilizersDescriptor;
 
             DisposableBagBuilder bagBuilder = DisposableBag.CreateBuilder();
             bagBuilder.Add(dayFinishedSubscriber.Subscribe(DayChangedEvent.DAY_FINISHED, OnDayFinished));
@@ -61,8 +66,8 @@ namespace Game.Soil.Service
 
         public SoilModel CreateSoil()
         {
-            SoilType mapSoilType = _descriptorService.Require<MapDescriptor>().Require(DachaPlaceType.Middle).SoilType;
-            SoilDescriptorModel soilDesc = RequireModelByType(mapSoilType);
+            SoilType mapSoilType = _mapDescriptor.Require(DachaPlaceType.Middle).SoilType;
+            SoilDescriptorModel soilDesc = _soilDescriptor.Require(mapSoilType);
             SoilElementsDescriptorModel elementsDescriptor = soilDesc.ElementsDescriptorModel;
             ElementsModel elementsModel = new(elementsDescriptor.StartNitrogen,
                                               elementsDescriptor.StartPotassium, elementsDescriptor.StartPhosphorus);
@@ -89,8 +94,7 @@ namespace Game.Soil.Service
                 return false;
             }
 
-            SoilDescriptor soilDescriptor = _descriptorService.Require<SoilDescriptor>();
-            SoilDescriptorModel soilDescriptorModel = soilDescriptor.Require(soilModel.Type);
+            SoilDescriptorModel soilDescriptorModel = _soilDescriptor.Require(soilModel.Type);
 
             float minWaterAmount = soilDescriptorModel.StartWaterAmount / 2f;
             float minBreathability = soilDescriptorModel.Breathability;
@@ -161,7 +165,6 @@ namespace Game.Soil.Service
                 return soilModel;
             }
 
-            FertilizersDescriptor fertilizersDescriptor = _descriptorService.Require<FertilizersDescriptor>();
 
             for (int i = 0; i < soilModel.UsedFertilizers.Count; i++) {
                 SoilFertilizationModel usedFertilizer = soilModel.UsedFertilizers[i];
@@ -169,7 +172,7 @@ namespace Game.Soil.Service
                     continue;
                 }
 
-                FertilizerDescriptorModel fertModel = fertilizersDescriptor.Require(usedFertilizer.FertilizerId);
+                FertilizerDescriptorModel fertModel = _fertilizersDescriptor.Require(usedFertilizer.FertilizerId);
                 FertilizerSoilModel fertilizerSoilModel = CalculateSoilFertilizerModel(usedFertilizer, fertModel);
                 soilModel.ApplyFertilizer(fertilizerSoilModel);
                 if (usedFertilizer.CurrentDecomposeDay >= fertModel.DecomposeTime) {
@@ -297,7 +300,7 @@ namespace Game.Soil.Service
         public SoilModel TryRecoverSoil(SoilModel soil, int daysPassed)
         {
             RecoverFromDiseases(soil, daysPassed);
-            SoilDescriptorModel soilDesc = RequireModelByType(soil.Type);
+            SoilDescriptorModel soilDesc = _soilDescriptor.Require(soil.Type);
             return RecoverBaseSoilParams(soil, soilDesc, daysPassed);
         }
 
@@ -375,11 +378,6 @@ namespace Game.Soil.Service
             }
 
             return soil;
-        }
-
-        private SoilDescriptorModel RequireModelByType(SoilType soilType)
-        {
-            return _descriptorService.Require<SoilDescriptor>().Require(soilType);
         }
 
         private SoilModel GerOrCreate(string key)

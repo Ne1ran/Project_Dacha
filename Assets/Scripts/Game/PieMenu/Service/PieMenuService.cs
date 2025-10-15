@@ -5,7 +5,6 @@ using System.Threading;
 using Core.Attributes;
 using Core.Conditions.Checker;
 using Core.Conditions.Service;
-using Core.Descriptors.Service;
 using Core.Parameters;
 using Core.UI.Service;
 using Cysharp.Threading.Tasks;
@@ -22,7 +21,7 @@ namespace Game.PieMenu.Service
     public class PieMenuService
     {
         private readonly UIService _uiService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly InteractionDescriptor _interactionDescriptor;
         private readonly PieMenuPrepareFactory _pieMenuPrepareFactory;
         private readonly ConditionService _conditionService;
 
@@ -30,14 +29,14 @@ namespace Game.PieMenu.Service
         private CancellationTokenSource? _cts;
 
         public PieMenuService(UIService uiService,
-                              IDescriptorService descriptorService,
                               PieMenuPrepareFactory pieMenuPrepareFactory,
-                              ConditionService conditionService)
+                              ConditionService conditionService,
+                              InteractionDescriptor interactionDescriptor)
         {
             _uiService = uiService;
-            _descriptorService = descriptorService;
             _pieMenuPrepareFactory = pieMenuPrepareFactory;
             _conditionService = conditionService;
+            _interactionDescriptor = interactionDescriptor;
         }
 
         public async UniTask<PieMenuController> CreatePieMenuAsync(InteractableType interactableType, Parameters parameters)
@@ -105,8 +104,7 @@ namespace Game.PieMenu.Service
         {
             List<UniTask<PieMenuItemModel>> items = new();
 
-            InteractionDescriptor interactionDescriptor = _descriptorService.Require<InteractionDescriptor>();
-            InteractionDescriptorModel interactionDescriptorModel = interactionDescriptor.Require(interactableType);
+            InteractionDescriptorModel interactionDescriptorModel = _interactionDescriptor.Require(interactableType);
 
             // todo neiran also add checker or descriptor to check if item persists or so! For now show everything, just check for item before use!
 

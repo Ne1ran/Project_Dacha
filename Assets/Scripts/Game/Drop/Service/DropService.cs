@@ -1,6 +1,5 @@
 ﻿using System;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Core.Resources.Service;
 using Cysharp.Threading.Tasks;
 using Game.Inventory.Event;
@@ -20,7 +19,7 @@ namespace Game.Drop.Service
     {
         private readonly PlayerService _playerService;
         private readonly IResourceService _resourceService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly ItemsDescriptor _itemsDescriptor;
         private readonly ISubscriber<string, InventoryChangedEvent> _inventoryChangedSubscriber;
 
         private IDisposable? _disposable;
@@ -29,13 +28,13 @@ namespace Game.Drop.Service
 
         public DropService(PlayerService playerService,
                            IResourceService resourceService,
-                           IDescriptorService descriptorService,
-                           ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber)
+                           ISubscriber<string, InventoryChangedEvent> inventoryChangedSubscriber,
+                           ItemsDescriptor itemsDescriptor)
         {
             _inventoryChangedSubscriber = inventoryChangedSubscriber;
+            _itemsDescriptor = itemsDescriptor;
             _playerService = playerService;
             _resourceService = resourceService;
-            _descriptorService = descriptorService;
             _layerMask = LayerMask.GetMask("Default", "Ground"); // todo neiran to combined layer mask to workaround
         }
 
@@ -58,8 +57,7 @@ namespace Game.Drop.Service
         private async UniTask<ItemController> CreateItemInWorldAsync(InventoryItem inventoryItem)
         {
             PlayerController player = _playerService.Player;
-            ItemsDescriptor itemsDescriptor = _descriptorService.Require<ItemsDescriptor>();
-            ItemDescriptorModel itemDescriptorModel = itemsDescriptor.Require(inventoryItem.Id);
+            ItemDescriptorModel itemDescriptorModel = _itemsDescriptor.Require(inventoryItem.Id);
             Vector3 dropPosition = GetDropPosition(player.transform.position, player.Forward, itemDescriptorModel.DropOffsetMultiplier);
             ItemController itemController =
                     await _resourceService.InstantiateAsync<ItemController>(itemDescriptorModel.WorldPrefab.AssetGUID, dropPosition);

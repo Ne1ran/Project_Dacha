@@ -17,7 +17,7 @@ namespace Core.Notifications.Descriptor
         [field: SerializeField]
         public NotificationAlignment Alignment { get; set; } = NotificationAlignment.LOWER_RIGHT;
         [field: SerializeField]
-        public int ShowTimeSeconds { get; set; } = 2;
+        public float ShowTimeSeconds { get; set; } = 2f;
         [field: SerializeField]
         public int Priority { get; set; } = 100;
     }

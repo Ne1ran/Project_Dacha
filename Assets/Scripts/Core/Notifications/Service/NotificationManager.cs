@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Attributes;
-using Core.Descriptors.Service;
 using Core.Notifications.Component;
 using Core.Notifications.Descriptor;
 using Core.Notifications.Model;
@@ -14,13 +13,13 @@ namespace Core.Notifications.Service
     public class NotificationManager : IDisposable
     {
         private readonly UIService _uiService;
-        private readonly IDescriptorService _descriptorService;
+        private readonly NotificationsDescriptor _notificationsDescriptor;
         private readonly Dictionary<NotificationModel, NotificationController> _notifications = new();
 
-        public NotificationManager(UIService uiService, IDescriptorService descriptorService)
+        public NotificationManager(UIService uiService, NotificationsDescriptor notificationsDescriptor)
         {
             _uiService = uiService;
-            _descriptorService = descriptorService;
+            _notificationsDescriptor = notificationsDescriptor;
         }
 
         public void Dispose()
@@ -51,13 +50,9 @@ namespace Core.Notifications.Service
 
         private NotificationModel CreateNotificationModel(NotificationType notificationType)
         {
-            NotificationsDescriptor notificationsDescriptor = _descriptorService.Require<NotificationsDescriptor>();
-            NotificationModelDescriptor modelDescriptor = notificationsDescriptor.Require(notificationType);
-            if (modelDescriptor == null) {
-                throw new KeyNotFoundException($"Notification not found with type={notificationType.ToString()}");
-            }
-            
-            return new(modelDescriptor, notificationType);
+            NotificationModelDescriptor modelDescriptor = _notificationsDescriptor.Require(notificationType);
+            return new(notificationType, modelDescriptor.Message, modelDescriptor.Title, modelDescriptor.Icon?.AssetGUID, modelDescriptor.Alignment,
+                       modelDescriptor.ShowTimeSeconds, modelDescriptor.Priority);
         }
     }
 }
